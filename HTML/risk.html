@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report At-Risk - Urithi Majengo</title>
+    <meta name="description" content="Report a heritage building at risk in Dar es Salaam.">
+    
+    <!-- ===== FAVICON ===== -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
+    
+    <!-- ===== GOOGLE FONTS ===== -->
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    
+    <!-- ===== CUSTOM CSS ===== -->
+    <link rel="stylesheet" href="../CSS/style.css" type="text/css">
+</head>
+<body>
+    <div id="app">
+        <!-- ===== HEADER ===== -->
+        <header class="main-header">
+            <div class="logo">UM</div>
+            <nav class="nav-container" id="nav-menu" role="navigation">
+                <ul class="nav-links">
+                    <li><a href="../HTML/index.html">Map & Records</a></li>
+                    <li><a href="../HTML/buildings.html">All Buildings</a></li>
+                    <li><a href="risk.html" class="active">Report At-Risk</a></li>
+                    <li><a href="../HTML/community.html">Community</a></li>
+                    <li><a href="#/login">Sign In</a></li>
+                    <li><a href="#/officer" style="color:var(--gold) !important;">Officers</a></li>
+                </ul>
+            </nav>
+            <button class="hamburger" id="menu-toggle" aria-label="Toggle navigation">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+        </header>
+
+        <!-- ===== MAIN CONTENT ===== -->
+        <main id="main-content">
+            <div class="risk-page">
+                <!-- ===== HERO ===== -->
+                <div class="risk-hero">
+                    <span class="risk-badge">⚑ Citizen Reporting</span>
+                    <h1>Report an At-Risk Structure</h1>
+                    <p>Observed a heritage building under threat? Report it to the Antiquities Department for urgent review.</p>
+                </div>
+
+                <!-- ===== FORM ===== -->
+                <div class="risk-form-card">
+                    <h2 class="form-title"> Submit Flag Report</h2>
+                    <p class="form-subtitle">Fill in the details below to report a building at risk.</p>
+
+                    <form class="risk-form" id="risk-form" onsubmit="handleRiskSubmit(event)">
+                        <!-- Building -->
+                        <div class="form-group">
+                            <label>Heritage Building <span class="required">*</span></label>
+                            <select required id="building-select">
+                                <option value="">Select a building...</option>
+                                <option value="1">German Administrative Boma</option>
+                                <option value="2">St. Joseph Metropolitan Cathedral</option>
+                                <option value="3">Azania Front Lutheran Church</option>
+                                <option value="4">Old Harbour Master's Office</option>
+                                <option value="5">Dar es Salaam Railway Station</option>
+                                <option value="6">Dar es Salaam City Hall</option>
+                                <option value="7">Mnazi Mmoja Hospital Original</option>
+                                <option value="8">General Post Office</option>
+                                <option value="other">Other / Not Listed</option>
+                            </select>
+                        </div>
+
+                        <!-- Risk Type -->
+                        <div class="form-group">
+                            <label>Nature of Risk <span class="required">*</span></label>
+                            <select required id="risk-type">
+                                <option value="">Select risk type...</option>
+                                <option value="structural">Structural Damage / Collapse Risk</option>
+                                <option value="demolition">Threat of Demolition</option>
+                                <option value="neglect">Neglect / Deterioration</option>
+                                <option value="fire">Fire Damage</option>
+                                <option value="vandalism">Vandalism / Graffiti</option>
+                                <option value="development">Development Pressure</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="form-group">
+                            <label>Description <span class="required">*</span></label>
+                            <textarea 
+                                required 
+                                id="risk-description"
+                                placeholder="Describe what you observed... Include details about the location, current condition, and any immediate threats."
+                            ></textarea>
+                        </div>
+
+                        <!-- Name -->
+                        <div class="form-group">
+                            <label>Name (optional)</label>
+                            <input type="text" id="reporter-name" placeholder="Name or organisation">
+                        </div>
+
+                        <!-- Email -->
+                        <div class="form-group">
+                            <label>Email (optional)</label>
+                            <input type="email" id="reporter-email" placeholder="For follow-up">
+                            <span class="helper-text">We'll only use this to contact you about this report.</span>
+                        </div>
+
+                        <!-- Photo -->
+                        <div class="form-group">
+                            <label>Photo (optional)</label>
+                            <input type="file" id="risk-photo" accept="image/*">
+                            <span class="helper-text">Upload a photo of the building or the issue you're reporting.</span>
+                        </div>
+
+                        <!-- Consent -->
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="consent-checkbox" required>
+                            <label for="consent-checkbox">
+                                I confirm this information is accurate and consent to it being reviewed by the Antiquities Department of Tanzania.
+                            </label>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="submit-row">
+                            <button type="submit" class="btn-accent">
+                                ⚑ Submit Flag Report
+                            </button>
+                            <button type="reset" class="btn-secondary">
+                                Clear Form
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- ===== SUCCESS ===== -->
+                <div id="success-message" style="display:none;">
+                    <div class="risk-success">
+                        <div class="success-icon">✅</div>
+                        <h3>Report Submitted Successfully</h3>
+                        <p>Thank you for helping preserve Dar es Salaam's heritage. The Antiquities Department will review your report.</p>
+                        <button class="btn-primary" onclick="resetForm()">Submit Another Report</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- ===== FOOTER ===== -->
+        <footer class="main-footer">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo-wrapper">
+                        <span class="footer-logo-circle">UM</span>
+                        <span class="footer-logo-text">Urithi Majengo</span>
+                    </div>
+                    <p>Digital Inventory &amp; Virtual-Tour System</p>
+                    <p style="font-size:12px;opacity:0.6;margin-top:4px;">Dar es Salaam, Tanzania</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#/about">About</a>
+                    <a href="#/contact">Contact</a>
+                    <a href="#/privacy">Privacy</a>
+                    <a href="#/terms">Terms</a>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2026 <span class="gold-text">Urithi Majengo</span>. All rights reserved.</p>
+                    <p class="footer-credit">Built for the Antiquities Department</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script>
+        // ========================================
+        // HAMBURGER MENU
+        // ========================================
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.getElementById('menu-toggle');
+            const menu = document.getElementById('nav-menu');
+
+            if (menuToggle && menu) {
+                menuToggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    menu.classList.toggle('open');
+                });
+            }
+
+            document.addEventListener('click', function(e) {
+                if (menu && menu.classList.contains('open')) {
+                    if (!menu.contains(e.target) && !menuToggle.contains(e.target)) {
+                        menu.classList.remove('open');
+                    }
+                }
+            });
+        });
+
+        // ========================================
+        // FORM HANDLING
+        // ========================================
+
+        function handleRiskSubmit(event) {
+            event.preventDefault();
+            
+            const building = document.getElementById('building-select').value;
+            const riskType = document.getElementById('risk-type').value;
+            const description = document.getElementById('risk-description').value;
+            const consent = document.getElementById('consent-checkbox').checked;
+
+            if (!building || !riskType || !description || !consent) {
+                alert('Please fill in all required fields and accept the terms.');
+                return;
+            }
+
+            console.log('Risk Report Submitted:', {
+                building: building,
+                riskType: riskType,
+                description: description,
+                name: document.getElementById('reporter-name').value || 'Anonymous',
+                email: document.getElementById('reporter-email').value || 'Not provided',
+                date: new Date().toISOString()
+            });
+
+            document.getElementById('risk-form').style.display = 'none';
+            document.getElementById('success-message').style.display = 'block';
+            document.getElementById('success-message').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function resetForm() {
+            document.getElementById('risk-form').reset();
+            document.getElementById('risk-form').style.display = 'flex';
+            document.getElementById('success-message').style.display = 'none';
+            document.getElementById('risk-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function navigate(path) {
+            window.location.hash = path;
+        }
+
+        console.log('✅ risk.html loaded');
+    </script>
+</body>
+</html>

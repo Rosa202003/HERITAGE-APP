@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community - Urithi Majengo</title>
+    <meta name="description" content="Share your experiences and reviews of Dar es Salaam's heritage buildings.">
+    
+    <!-- ===== FAVICON ===== -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
+    
+    <!-- ===== GOOGLE FONTS ===== -->
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    
+    <!-- ===== CUSTOM CSS ===== -->
+    <link rel="stylesheet" href="../CSS/style.css" type="text/css">
+    
+    <style>
+        /* ========================================
+           COMMUNITY PAGE - SPECIFIC STYLES
+           ======================================== */
+        .community-page {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* ===== PAGE HEADER ===== */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .page-header h1 {
+            font-family: var(--font-display);
+            font-size: 32px;
+            color: var(--text);
+        }
+
+        .page-header .subtitle {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        .page-header .review-count {
+            background: var(--muted);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary);
+            white-space: nowrap;
+        }
+
+        /* ===== REVIEW FORM ===== */
+        .review-form-section {
+            background: var(--card);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            padding: 24px 28px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow);
+        }
+
+        .review-form-section h2 {
+            font-family: var(--font-display);
+            font-size: 22px;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+
+        .review-form-section .form-subtitle {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        .review-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .form-group label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .form-group label .required {
+            color: var(--accent);
+        }
+
+        .form-group select,
+        .form-group input,
+        .form-group textarea {
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--text);
+            transition: all 0.3s ease;
+        }
+
+        .form-group select:focus,
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(11, 122, 105, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        /* ===== STAR RATING ===== */
+        .star-rating {
+            display: flex;
+            gap: 6px;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        .star-rating .star {
+            color: #ddd;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .star-rating .star.active {
+            color: var(--gold);
+        }
+
+        .star-rating .star:hover {
+            transform: scale(1.15);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 4px;
+        }
+
+        .form-actions .btn-primary {
+            padding: 10px 32px;
+        }
+
+        /* ===== REVIEWS LIST ===== */
+        .reviews-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .review-card {
+            background: var(--card);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            padding: 20px 24px;
+            transition: all 0.3s ease;
+        }
+
+        .review-card:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow);
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .review-user {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .review-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+
+        .review-user-info .reviewer-name {
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--text);
+        }
+
+        .review-user-info .review-date {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .review-building {
+            font-size: 14px;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .review-rating {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 18px;
+            color: var(--gold);
+        }
+
+        .review-rating .rating-number {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-left: 4px;
+        }
+
+        .review-content {
+            color: var(--text);
+            line-height: 1.7;
+            margin: 8px 0 12px;
+            padding-left: 4px;
+        }
+
+        .review-footer {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+        }
+
+        .review-helpful {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 4px 12px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            background: transparent;
+            transition: all 0.2s ease;
+            font-family: var(--font-body);
+        }
+
+        .review-helpful:hover {
+            background: var(--muted);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .review-helpful .helpful-icon {
+            font-size: 14px;
+        }
+
+        .review-helpful .helpful-count {
+            font-weight: 600;
+        }
+
+        /* ===== SIGN IN PROMPT ===== */
+        .sign-in-prompt {
+            background: var(--muted);
+            border-radius: var(--radius-sm);
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .sign-in-prompt .prompt-text {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .sign-in-prompt .btn-secondary {
+            padding: 6px 20px;
+            font-size: 13px;
+        }
+
+        /* ========================================
+           RESPONSIVE
+           ======================================== */
+
+        @media (max-width: 768px) {
+            .community-page {
+                padding: 12px;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .page-header h1 {
+                font-size: 26px;
+            }
+
+            .review-form-section {
+                padding: 16px 18px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .review-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .review-card {
+                padding: 16px 18px;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .form-actions button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .review-form-section h2 {
+                font-size: 19px;
+            }
+
+            .star-rating {
+                font-size: 24px;
+            }
+
+            .review-user {
+                flex-wrap: wrap;
+            }
+
+            .review-footer {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- ===== HEADER ===== -->
+        <header class="main-header">
+            <div class="logo">UM</div>
+
+            <!-- Navigation Bar -->
+             <nav class="nav-container" id="nav-menu" role="navigation" aria-label="Main Navigation">
+                <ul class="nav-links">
+                    <li><a href="#/" onclick="navigate('/')">Map & Records</a></li>
+                    <li><a href="../HTML/buildings.html" onclick="navigate('/buildings')">All Buildings</a></li>
+                    <li><a href="../HTML/risk.html" onclick="navigate('/risk')">Report At-Risk</a></li>
+                    <li><a href="../HTML/community.html" onclick="navigate('/community')">Community</a></li>
+                    <li><a href="#/services" onclick="navigate('/services')">Officer</a></li>
+                </ul>
+            </nav>
+
+            <button class="hamburger" id="menu-toggle" aria-label="Toggle navigation">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+        </header>
+
+        <!-- ===== MAIN CONTENT ===== -->
+        <main id="main-content">
+            <div class="community-page">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <div>
+                        <h1>Community</h1>
+                        <p class="subtitle">Share your experiences and reviews of Dar es Salaam's heritage buildings.</p>
+                    </div>
+                    <div class="review-count" id="review-count">12 reviews</div>
+                </div>
+
+                <!-- ===== REVIEW FORM ===== -->
+                <div class="review-form-section">
+                    <h2>Leave Your Review</h2>
+                    <p class="form-subtitle">Share your experience visiting a heritage building.</p>
+
+                    <!-- Sign In Prompt -->
+                    <div class="sign-in-prompt">
+                        <span class="prompt-text">🔒 Sign in to leave a review</span>
+                        <button class="btn-secondary" onclick="navigate('/login')">Sign In</button>
+                    </div>
+
+                    <form class="review-form" id="review-form" style="opacity:0.6;pointer-events:none;">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Building <span class="required">*</span></label>
+                                <select disabled>
+                                    <option value="">Select a building...</option>
+                                    <option>German Administrative Boma</option>
+                                    <option>St. Joseph Metropolitan Cathedral</option>
+                                    <option>Azania Front Lutheran Church</option>
+                                    <option>Old Harbour Master's Office</option>
+                                    <option>Dar es Salaam Railway Station</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Rating <span class="required">*</span></label>
+                                <div class="star-rating" id="star-rating">
+                                    <span class="star" data-value="1">★</span>
+                                    <span class="star" data-value="2">★</span>
+                                    <span class="star" data-value="3">★</span>
+                                    <span class="star" data-value="4">★</span>
+                                    <span class="star" data-value="5">★</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Your Experience <span class="required">*</span></label>
+                            <textarea placeholder="Describe your visit..." disabled></textarea>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn-primary" disabled>Submit Review</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- ===== REVIEWS LIST ===== -->
+                <div class="reviews-section" id="reviews-list">
+                    <!-- Review 1 -->
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="review-user">
+                                <div class="review-avatar">AR</div>
+                                <div class="review-user-info">
+                                    <div class="reviewer-name">Amina Rashid</div>
+                                    <div class="review-date">September 10, 2024</div>
+                                </div>
+                            </div>
+                            <div class="review-building">St. Joseph Metropolitan Cathedral</div>
+                        </div>
+                        <div class="review-rating">
+                            <span>★★★★★</span>
+                            <span class="rating-number">5.0</span>
+                        </div>
+                        <div class="review-content">
+                            Absolutely breathtaking — the twin towers are unlike anything else in East Africa. The stained glass at golden hour is magnificent. Every Tanzanian should visit!
+                        </div>
+                        <div class="review-footer">
+                            <button class="review-helpful" onclick="toggleHelpful(this)">
+                                <span class="helpful-icon">👍</span>
+                                <span class="helpful-count">14</span>
+                                <span>helpful</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Review 2 -->
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="review-user">
+                                <div class="review-avatar">JM</div>
+                                <div class="review-user-info">
+                                    <div class="reviewer-name">James Mwangi</div>
+                                    <div class="review-date">August 28, 2024</div>
+                                </div>
+                            </div>
+                            <div class="review-building">Dar es Salaam Railway Station</div>
+                        </div>
+                        <div class="review-rating">
+                            <span>★★★★☆</span>
+                            <span class="rating-number">4.0</span>
+                        </div>
+                        <div class="review-content">
+                            A hidden gem in the city. The original ceramic tiles are still beautiful despite years of neglect. The Baroque facade is incredible — needs serious restoration though.
+                        </div>
+                        <div class="review-footer">
+                            <button class="review-helpful" onclick="toggleHelpful(this)">
+                                <span class="helpful-icon">👍</span>
+                                <span class="helpful-count">9</span>
+                                <span>helpful</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Review 3 -->
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="review-user">
+                                <div class="review-avatar">FA</div>
+                                <div class="review-user-info">
+                                    <div class="reviewer-name">Fatuma Ally</div>
+                                    <div class="review-date">September 5, 2024</div>
+                                </div>
+                            </div>
+                            <div class="review-building">Azania Front Lutheran Church</div>
+                        </div>
+                        <div class="review-rating">
+                            <span>★★★★★</span>
+                            <span class="rating-number">5.0</span>
+                        </div>
+                        <div class="review-content">
+                            The clock tower is iconic. The virtual tour made me appreciate the interior details I never noticed before. Amazing resource!
+                        </div>
+                        <div class="review-footer">
+                            <button class="review-helpful" onclick="toggleHelpful(this)">
+                                <span class="helpful-icon">👍</span>
+                                <span class="helpful-count">22</span>
+                                <span>helpful</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Review 4 -->
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="review-user">
+                                <div class="review-avatar">DK</div>
+                                <div class="review-user-info">
+                                    <div class="reviewer-name">Prof. D. Kimaro</div>
+                                    <div class="review-date">August 15, 2024</div>
+                                </div>
+                            </div>
+                            <div class="review-building">German Administrative Boma</div>
+                        </div>
+                        <div class="review-rating">
+                            <span>★★★★★</span>
+                            <span class="rating-number">5.0</span>
+                        </div>
+                        <div class="review-content">
+                            Invaluable for my research into colonial urban planning. The archive quality of this database is exceptional.
+                        </div>
+                        <div class="review-footer">
+                            <button class="review-helpful" onclick="toggleHelpful(this)">
+                                <span class="helpful-icon">👍</span>
+                                <span class="helpful-count">7</span>
+                                <span>helpful</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- ===== FOOTER ===== -->
+        <footer class="main-footer">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo-wrapper">
+                        <span class="footer-logo-circle">UM</span>
+                        <span class="footer-logo-text">Urithi Majengo</span>
+                    </div>
+                    <p>Digital Inventory &amp; Virtual-Tour System</p>
+                    <p style="font-size:12px;opacity:0.6;margin-top:4px;">Dar es Salaam, Tanzania</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#/about">About</a>
+                    <a href="#/contact">Contact</a>
+                    <a href="#/privacy">Privacy</a>
+                    <a href="#/terms">Terms</a>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2026 <span class="gold-text">Urithi Majengo</span>. All rights reserved.</p>
+                    <p class="footer-credit">Built for the Antiquities Department</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script>
+        // ========================================
+        // HAMBURGER MENU
+        // ========================================
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.getElementById('menu-toggle');
+            const menu = document.getElementById('nav-menu');
+
+            if (menuToggle && menu) {
+                menuToggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    menu.classList.toggle('open');
+                });
+            }
+
+            document.addEventListener('click', function(e) {
+                if (menu && menu.classList.contains('open')) {
+                    if (!menu.contains(e.target) && !menuToggle.contains(e.target)) {
+                        menu.classList.remove('open');
+                    }
+                }
+            });
+
+            // ===== STAR RATING =====
+            const stars = document.querySelectorAll('.star-rating .star');
+            let selectedRating = 0;
+
+            stars.forEach(star => {
+                star.addEventListener('click', function() {
+                    selectedRating = parseInt(this.dataset.value);
+                    updateStars(selectedRating);
+                });
+
+                star.addEventListener('mouseenter', function() {
+                    const val = parseInt(this.dataset.value);
+                    updateStars(val);
+                });
+
+                star.addEventListener('mouseleave', function() {
+                    updateStars(selectedRating);
+                });
+            });
+
+            function updateStars(rating) {
+                stars.forEach(star => {
+                    const val = parseInt(star.dataset.value);
+                    star.classList.toggle('active', val <= rating);
+                });
+            }
+
+            // ===== HELPFUL BUTTON =====
+            window.toggleHelpful = function(button) {
+                const countSpan = button.querySelector('.helpful-count');
+                let count = parseInt(countSpan.textContent);
+                
+                if (button.classList.contains('active')) {
+                    count--;
+                    button.classList.remove('active');
+                } else {
+                    count++;
+                    button.classList.add('active');
+                }
+                
+                countSpan.textContent = count;
+            };
+
+            // ===== NAVIGATION =====
+            window.navigate = function(path) {
+                window.location.hash = path;
+            };
+        });
+
+        console.log('✅ community.html loaded');
+    </script>
+</body>
+</html>
