@@ -5,29 +5,38 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Urithi Majengo</title>
+
+     <!-- 1. Google Fonts (for nice typography) -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- 2. Leaflet CSS (for the map) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <!-- 3. Custom CSS (for styling) -->
     <link rel="stylesheet" href="..\CSS\style.css" type="text/css">
     <script src="..\JS\app.js" type="text/javascript"></script>
 </head>
 <body>
+    <div id="app">
         <header class="main-header">
             <!-- Logo Section-->
              <div class="logo">
-             <a href="#">UM</a>
+                UM
             </div>
 
-            <!-- Search Area -->
+            <!-- Search Area 
              <div class="search-box">
                 <input type="text" placeholder="Search..." aria-label="Search through site content">
                 <button>Search</button>
             </div>
-
+-->
             <!-- Navigation Bar -->
              <nav class="nav-container" id="nav-menu" role="navigation" aria-label="Main Navigation">
                 <ul class="nav-links">
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                    <li><a href="#services">Services</a></li>
+                    <li><a href="#/" onclick="scrollToSection('/')">Home</a></li>
+                    <li><a href="#/map" onclick="scrollToSection('/map')">Map</a></li>
+                    <li><a href="#/contact" onclick="scrollToSection('/contact')">Contact</a></li>
+                    <li><a href="#/services" onclick="scrollToSection('/services')">Officer</a></li>
                 </ul>
             </nav>
 
@@ -42,5 +51,27 @@
         </header>
 
         <!-- Main Content -->
-        <main>
+        <main id="main-content">
+            <p>LOADING...</p>
+        </main>
+
+        <!-- Footer Section -->
+        <footer class="main-footer">
+            <p>&copy; 2026 Urithi Majengo. Dar es Salaam. All rights reserved.</p>     
+        </footer>
+ </div>
+
+         <!-- Libraries -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css" />
+  
+  <!-- Our JS -->
+  <script src="js/data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/pages.js"></script>
+  <script src="js/app.js"></script>
+
+    </body>
+</html>
            
