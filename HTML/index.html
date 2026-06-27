@@ -19,7 +19,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css" />
 
     <!-- 3. Custom CSS (for styling) -->
-    <link rel="stylesheet" href="..\CSS\style.css" type="text/css">
+    <link rel="stylesheet" href="../CSS/style.css" type="text/css">
+    <link rel="stylesheet" href="../CSS/grid-view.css" type="text/css">
 </head>
 <body>
     <div id="app">
@@ -137,6 +138,15 @@
         <!-- LEFT: Map -->
         <div class="map-wrapper">
             <div id="heritage-map" class="map-container"></div>
+            <!-- Map View Toggle -->
+            <div class="map-view-toggle">
+                <button class="toggle-btn active" data-view="map" onclick="switchMapView('map')">
+                    🗺️ Map View
+                </button>
+                <button class="toggle-btn" data-view="grid" onclick="switchMapView('grid')">
+                    ⊞ Grid View
+                </button>
+            </div>
             <div class="map-legend">
                 <div class="legend-item">
                     <span class="legend-dot" style="background: #34D5B8;"></span>
@@ -187,13 +197,31 @@
     </div>
 </section>
 
+            <!-- BUILDING OVERVIEW SECTION -->
+            <section id="building-overview" class="building-overview">
+                <div class="section-header">
+                    <div class="section-header-left">
+                        <h2 class="section-title">Featured Buildings</h2>
+                    </div>
+                    <div class="section-header-right">
+                        <a class="view-all-link" href="#/buildings" onclick="navigate('/buildings')">View all buildings →</a>
+                    </div>
+                </div>
+
+                <p class="section-subtitle">A quick snapshot of featured heritage buildings and key stats.</p>
+
+                <div id="building-grid" class="grid-3 building-grid" style="padding: 0; margin-top: 12px;">
+                    <!-- Populated by loadFeaturedBuildings() in JS -->
+                </div>
+            </section>
+
             <!-- FEATURED BUILDINGS SECTION-->
             <!-- ===== VIDEO LIBRARY SECTION ===== -->
 <section class="video-library">
     <div class="video-library-container">
         <div class="section-header">
         <div class="section-header-left">
-             <h2 class="section-title" style="color:var(--card);">Featured Buildings Tour 
+             <h2 class="section-title" style="color:var(--card);">See the City Come Alive 
              </h2>
         </div>
         <a href="#/videos" class="view-all-link" onclick="navigate('/videos')">
@@ -206,10 +234,10 @@
     </p>
     
     <div class="video-grid">
-        <!-- Video Card 1: Aerial Tour -->
-        <div class="video-card video-card-large">
+        <!-- Video Card 1: Featured (spans 2 columns) -->
+        <div class="video-card video-card-large" onclick="openVideoLightbox('featured', 'Dar es Salaam — A City of History', 'https://www.youtube.com/embed/0H__kJ2QcJI')">
             <div class="video-thumbnail">
-                <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800&h=450&fit=crop" alt="Aerial view of Dar es Salaam">
+                <img src="https://images.unsplash.com/photo-1611339555312-e607c90352fd?w=1200&h=675&fit=crop" alt="Aerial view of Dar es Salaam">
                 <div class="video-duration">8:24</div>
                 <div class="video-play-btn">▶</div>
                 <div class="video-badge">Aerial</div>
@@ -219,49 +247,83 @@
                 <p>Aerial Heritage Tour</p>
             </div>
         </div>
-        
-        <!-- Video Card 2: Documentary -->
-        <div class="video-card video-card-large">
+
+        <!-- Video Card 2 -->
+        <div class="video-card" onclick="openVideoLightbox('colonial', 'German Colonial Architecture', 'https://www.youtube.com/embed/D5NKKQwRBXg')">
             <div class="video-thumbnail">
-                <img src="https://images.unsplash.com/photo-1596178060671-7a80dc8059ea?w=800&h=450&fit=crop" alt="German colonial architecture">
+                <img src="https://images.unsplash.com/photo-1585399364911-ba6ca0a58146?w=1200&h=675&fit=crop" alt="German colonial architecture">
                 <div class="video-duration">22:10</div>
                 <div class="video-play-btn">▶</div>
-                <div class="video-badge" style="background:var(--primary);">Documentary</div>
+                <div class="video-badge">Documentary</div>
             </div>
             <div class="video-info">
                 <h3>German Colonial Architecture in East Africa</h3>
                 <p>Documentary Feature</p>
             </div>
         </div>
-    </div>
-    
-    <div class="video-grid-small">
-        <!-- Video Card 3: Walking Tour -->
-        <div class="video-card video-card-small">
-            <div class="video-thumbnail-small">
-                <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=400&h=225&fit=crop" alt="Walking tour">
-                <div class="video-duration-sm">15:30</div>
-                <div class="video-play-btn-sm">▶</div>
-                <div class="video-badge-sm">Walking Tour</div>
+
+        <!-- Video Card 3 -->
+        <div class="video-card" onclick="openVideoLightbox('oldtown', 'Old Town Heritage Walk', 'https://www.youtube.com/embed/pRpeEdMmmQ0')">
+            <div class="video-thumbnail">
+                <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1200&h=675&fit=crop" alt="Walking tour">
+                <div class="video-duration">15:30</div>
+                <div class="video-play-btn">▶</div>
+                <div class="video-badge">Walking Tour</div>
             </div>
-            <div class="video-info-small">
-                <h4>Old Town Heritage Walk</h4>
+            <div class="video-info">
+                <h3>Old Town Heritage Walk</h3>
                 <p>Walking Tour</p>
             </div>
         </div>
-        
-        <!-- Video Card 4: Virtual Tour -->
-        <div class="video-card video-card-small">
-            <div class="video-thumbnail-small">
-                <img src="https://images.unsplash.com/photo-1596178060671-7a80dc8059ea?w=400&h=225&fit=crop" alt="360 virtual tour">
-                <div class="video-duration-sm">360°</div>
-                <div class="video-play-btn-sm">▶</div>
-                <div class="video-badge-sm" style="background:var(--teal-lt);color:var(--dark);">Virtual Tour</div>
+
+        <!-- Video Card 4 -->
+        <div class="video-card" onclick="openVideoLightbox('cathedral', 'St. Joseph\'s Cathedral', 'https://www.youtube.com/embed/WIrWyr3HFEs')">
+            <div class="video-thumbnail">
+                <img src="https://images.unsplash.com/photo-1464207687429-7505649dae38?w=1200&h=675&fit=crop" alt="Virtual tour">
+                <div class="video-duration">12:15</div>
+                <div class="video-play-btn">▶</div>
+                <div class="video-badge">Virtual Tour</div>
             </div>
-            <div class="video-info-small">
-                <h4>St. Joseph's Cathedral</h4>
+            <div class="video-info">
+                <h3>St. Joseph's Cathedral</h3>
                 <p>360° Virtual Tour</p>
             </div>
+        </div>
+
+        <!-- Video Card 5 -->
+        <div class="video-card" onclick="openVideoLightbox('colonial2', 'Colonial Streets', 'https://www.youtube.com/embed/xvbNZRh0Pz0')">
+            <div class="video-thumbnail">
+                <img src="https://images.unsplash.com/photo-1494672491387-22ecc956a86e?w=1200&h=675&fit=crop" alt="Heritage documentary">
+                <div class="video-duration">12:05</div>
+                <div class="video-play-btn">▶</div>
+                <div class="video-badge">Documentary</div>
+            </div>
+            <div class="video-info">
+                <h3>Colonial Streets of the City</h3>
+                <p>Short Documentary</p>
+            </div>
+        </div>
+
+        <!-- Video Card 6 -->
+        <div class="video-card" onclick="openVideoLightbox('coastal', 'Coastal Heritage Walk', 'https://www.youtube.com/embed/mKXw-X2Kkfk')">
+            <div class="video-thumbnail">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1200&h=675&fit=crop" alt="Walking tour 2">
+                <div class="video-duration">9:48</div>
+                <div class="video-play-btn">▶</div>
+                <div class="video-badge">Walking Tour</div>
+            </div>
+            <div class="video-info">
+                <h3>Coastal Heritage Walk</h3>
+                <p>Walking Tour</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Lightbox Modal -->
+    <div id="video-lightbox" class="video-lightbox">
+        <div class="video-lightbox-content">
+            <button class="video-lightbox-close" onclick="closeVideoLightbox()">×</button>
+            <iframe id="video-lightbox-player" class="video-lightbox-player" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
     </div>
 </section>
@@ -269,18 +331,20 @@
             <!--QUICK STATS / CALL TO ACTION -->
             <section class="cta-section">
                 <div class="cta-content">
-                    <h3>Help Preserve Dar es Salaam's Heritage</h3>
-                    <p>
-                        Report at-risk buildings, contribute information, or volunteer with 
-                        the Antiquities Department.
-                    </p>
-                    <div class="cta-buttons">
-                        <button class="btn-accent" onclick="navigate('/report')">
-                            ⚑ Report At-Risk Building
-          </button>
-                        <button class="btn-secondary" onclick="navigate('/community')">
-                             Get Involved
-                        </button>
+                    <div class="cta-left">
+                        <h3>Have you visited? Tell us.</h3>
+                        <p>Your feedback helps document living heritage. Sign in and leave a review.</p>
+                        <div class="cta-buttons">
+                            <button class="btn-accent" onclick="navigate('/report')">⚑ Report At-Risk Building</button>
+                            <button class="btn-secondary" onclick="navigate('/community')">Get Involved</button>
+                        </div>
+                    </div>
+
+                    <div class="cta-right">
+                        <div class="cta-hero-image">
+                            <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&h=600&fit=crop" alt="Heritage preview">
+                        </div>
+                        <button class="cta-signin" onclick="navigate('/login')">Sign In to Review</button>
                     </div>
                 </div>
             </section>
@@ -310,10 +374,10 @@
     <script src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
     
     <!--OUR JAVASCRIPT -->
-    <script src="JS/data.js"></script>
-    <script src="JS/api.js"></script>
-    <script src="JS/pages.js"></script>
-    <script src="JS/app.js"></script>
+    <script src="../JS/data.js"></script>
+    <script src="../JS/api.js"></script>
+    <script src="../JS/pages.js"></script>
+    <script src="../JS/app.js"></script>
 </body>
 </html>
            

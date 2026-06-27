@@ -632,6 +632,170 @@ function renderContactPage(container) {
 }
 
 // ========================================
+// MAP VIEW TOGGLE
+// ========================================
+function switchMapView(view) {
+    const mapWrapper = document.querySelector('.map-wrapper');
+    const mapContainer = document.getElementById('heritage-map');
+    const sidebar = document.querySelector('.map-sidebar');
+    const toggleBtns = document.querySelectorAll('.toggle-btn');
+    
+    // Update active button
+    toggleBtns.forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-view') === view);
+    });
+    
+    if (view === 'map') {
+        // Show map, hide sidebar
+        mapContainer.style.display = 'block';
+        // Show the sidebar for map view
+        if (sidebar) sidebar.style.display = '';
+        // Hide any grid overlay if present
+        const gridContainer = document.getElementById('grid-view-container');
+        if (gridContainer) gridContainer.style.display = 'none';
+        // Invalidate Leaflet map size so tiles render correctly after showing
+        [250, 700].forEach(delay => {
+            setTimeout(() => {
+                if (window._heritageMap && typeof window._heritageMap.invalidateSize === 'function') {
+                    try { window._heritageMap.invalidateSize(); } catch (e) { console.warn('invalidateSize error', e); }
+                }
+            }, delay);
+        });
+        // ensure sidebar visible (if present)
+        // (kept above for safety) 
+        console.log('📍 Switched to Map View');
+    } else if (view === 'grid') {
+        // Hide map, show grid view
+        mapContainer.style.display = 'none';
+        // Keep sidebar visible in grid view
+        if (sidebar) sidebar.style.display = '';
+        const gridContainer = document.getElementById('grid-view-container');
+        if (!gridContainer) {
+            createGridView();
+        } else {
+            gridContainer.style.display = 'block';
+        }
+        console.log('⊞ Switched to Grid View');
+    }
+}
+
+// ========================================
+// CREATE GRID VIEW WITH DOTS
+// ========================================
+function createGridView() {
+    const mapWrapper = document.querySelector('.map-wrapper');
+    
+    // Check if already exists
+    if (document.getElementById('grid-view-container')) {
+        document.getElementById('grid-view-container').style.display = 'block';
+        return;
+    }
+    
+    const gridHTML = `
+        <div id="grid-view-container" class="grid-view-container">
+            <svg class="grid-canvas" id="grid-canvas" width="100%" height="450" viewBox="0 0 800 450" preserveAspectRatio="xMidYMid slice">
+                <!-- Background gradient -->
+                <defs>
+                    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#0f3d35;stop-opacity:1" />
+                        <stop offset="50%" style="stop-color:#1a4f47;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#0a2e2a;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                
+                <!-- Background -->
+                <rect width="800" height="450" fill="url(#bgGradient)" />
+                
+                <!-- Grid lines -->
+                <g stroke="#2a6b63" stroke-width="1" opacity="0.3">
+                    <line x1="0" y1="75" x2="800" y2="75" />
+                    <line x1="0" y1="150" x2="800" y2="150" />
+                    <line x1="0" y1="225" x2="800" y2="225" />
+                    <line x1="0" y1="300" x2="800" y2="300" />
+                    <line x1="0" y1="375" x2="800" y2="375" />
+                    <line x1="160" y1="0" x2="160" y2="450" />
+                    <line x1="320" y1="0" x2="320" y2="450" />
+                    <line x1="480" y1="0" x2="480" y2="450" />
+                    <line x1="640" y1="0" x2="640" y2="450" />
+                </g>
+                
+                <!-- Region labels -->
+                <text x="80" y="80" font-size="14" fill="#3d7b75" opacity="0.6" font-weight="500">UPANGA</text>
+                <text x="380" y="110" font-size="14" fill="#3d7b75" opacity="0.6" font-weight="500">CITY CENTRE</text>
+                <text x="100" y="200" font-size="14" fill="#3d7b75" opacity="0.6" font-weight="500">KARIAKOO</text>
+                <text x="360" y="280" font-size="14" fill="#3d7b75" opacity="0.6" font-weight="500">KIVUKONI</text>
+                <text x="620" y="180" font-size="14" fill="#3d7b75" opacity="0.6" font-weight="500">Indian Ocean</text>
+                
+                <!-- Building dots will be inserted here -->
+                <g id="dots-container"></g>
+            </svg>
+            
+            <!-- Legend removed: using the single map legend in the main layout -->
+        </div>
+    `;
+    
+    mapWrapper.insertAdjacentHTML('afterbegin', gridHTML);
+    
+    // Add building dots
+    renderGridDots();
+}
+
+// ========================================
+// RENDER BUILDING DOTS ON GRID
+// ========================================
+function renderGridDots() {
+    const dotsContainer = document.getElementById('dots-container');
+    if (!dotsContainer || !MOCK_BUILDINGS) return;
+    
+    // Normalize building coordinates to SVG viewBox (0-800, 0-450)
+    const minLat = -6.82, maxLat = -6.79, minLng = 39.25, maxLng = 39.31;
+    
+    MOCK_BUILDINGS.forEach(b => {
+        // Map lat/lng to SVG coordinates
+        const x = ((b.lng - minLng) / (maxLng - minLng)) * 800;
+        const y = ((maxLat - b.lat) / (maxLat - minLat)) * 450;
+        
+        // Determine color based on condition
+        let color = '#34D5B8'; // Good/Excellent - teal
+        if (b.condition === 'Fair') color = '#F0B429'; // Yellow/gold
+        if (b.condition === 'Poor') color = '#F5611D'; // Orange
+        if (b.condition === 'Critical') color = '#E63946'; // Red
+        
+        // Create circle marker
+        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        circle.setAttribute('cx', x);
+        circle.setAttribute('cy', y);
+        circle.setAttribute('r', '10');
+        circle.setAttribute('fill', color);
+        circle.setAttribute('stroke', 'white');
+        circle.setAttribute('stroke-width', '2');
+        circle.setAttribute('opacity', '0.85');
+        circle.setAttribute('class', 'grid-dot');
+        circle.setAttribute('data-id', b.id);
+        circle.setAttribute('data-name', b.name);
+        
+        // Add hover effect
+        circle.style.cursor = 'pointer';
+        circle.style.transition = 'all 0.3s ease';
+        
+        circle.addEventListener('mouseenter', function() {
+            circle.setAttribute('r', '14');
+            circle.setAttribute('opacity', '1');
+        });
+        
+        circle.addEventListener('mouseleave', function() {
+            circle.setAttribute('r', '10');
+            circle.setAttribute('opacity', '0.85');
+        });
+        
+        circle.addEventListener('click', function() {
+            navigate(`/buildings?id=${b.id}`);
+        });
+        
+        dotsContainer.appendChild(circle);
+    });
+}
+// ========================================
 // MAP INITIALIZATION
 // ========================================
 function initHeritageMap() {
@@ -749,6 +913,46 @@ async function loadBuildingList() {
         list.innerHTML = `<p style="color:var(--text-muted);padding:20px;">Error loading buildings</p>`;
     }
 }
+
+// ========================================
+// VIDEO LIGHTBOX FUNCTIONS
+// ========================================
+function openVideoLightbox(videoId, title, embedUrl) {
+    const lightbox = document.getElementById('video-lightbox');
+    const player = document.getElementById('video-lightbox-player');
+    
+    if (lightbox && player) {
+        player.src = embedUrl + '?autoplay=1';
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeVideoLightbox() {
+    const lightbox = document.getElementById('video-lightbox');
+    const player = document.getElementById('video-lightbox-player');
+    
+    if (lightbox && player) {
+        lightbox.classList.remove('active');
+        player.src = '';
+        document.body.style.overflow = '';
+    }
+}
+
+// Close lightbox on Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeVideoLightbox();
+    }
+});
+
+// Close lightbox on background click
+document.addEventListener('click', function(e) {
+    const lightbox = document.getElementById('video-lightbox');
+    if (e.target === lightbox) {
+        closeVideoLightbox();
+    }
+});
 
 // ========================================
 // LOAD FEATURED BUILDINGS
