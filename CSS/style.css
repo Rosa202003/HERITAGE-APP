@@ -136,10 +136,11 @@ nav ul li a.active {
 }
 
 /* ===== HAMBURGER MENU ===== */
+/* ===== HAMBURGER MENU - 5 LINES ===== */
 .hamburger {
     display: none;
     flex-direction: column;
-    gap: 5px;
+    gap: 4px;
     background: transparent;
     border: none;
     cursor: pointer;
@@ -149,8 +150,8 @@ nav ul li a.active {
 .hamburger-line {
     width: 28px;
     height: 3px;
-    background: rgba(255,255,255,0.8);
-    border-radius: 3px;
+    background: rgba(255,255,255,0.9);
+    border-radius: 2px;
     transition: all 0.3s ease;
 }
 
@@ -158,6 +159,26 @@ nav ul li a.active {
     background: var(--gold);
 }
 
+/* Hamburger animation when open */
+.hamburger.open .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.open .hamburger-line:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.open .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+.hamburger.open .hamburger-line:nth-child(4) {
+    opacity: 0;
+}
+
+.hamburger.open .hamburger-line:nth-child(5) {
+    transform: rotate(45deg) translate(-5px, 5px);
+}
 /* ========================================
    MAIN CONTENT - FULL WIDTH
    ======================================== */
@@ -501,6 +522,49 @@ nav ul li a.active {
     
     .stat-label {
         font-size: 11px;
+    }
+}
+
+@media (max-width: 768px) {
+    .hamburger {
+        display: flex;
+    }
+    
+    .nav-container {
+        display: none;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        right: 0;
+        background: var(--dark);
+        padding: 16px 20px;
+        flex-direction: column;
+        box-shadow: var(--shadow-lg);
+        border-bottom: 1px solid var(--border);
+    }
+    
+    .nav-container.open {
+        display: flex !important;
+    }
+    
+    nav ul {
+        flex-direction: column;
+        gap: 4px;
+        width: 100%;
+    }
+    
+    nav ul li a {
+        display: block;
+        padding: 12px 16px;
+        width: 100%;
+        text-align: center;
+        border-bottom: none;
+        border-radius: var(--radius-sm);
+    }
+    
+    nav ul li a:hover {
+        background: rgba(240, 180, 41, 0.08);
+        color: var(--gold) !important;
     }
 }
 /* ========================================

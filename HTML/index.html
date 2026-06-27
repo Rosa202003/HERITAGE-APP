@@ -372,7 +372,78 @@
     <!--LIBRARIES -->
      <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
-    
+    <!-- At the bottom of index.html -->
+<script>
+    // ========================================
+    // MAP INITIALIZATION WITH BUILDINGS
+    // ========================================
+    function initHeritageMap() {
+        const mapContainer = document.getElementById('heritage-map');
+        if (!mapContainer) return;
+        
+        // Force height
+        mapContainer.style.height = '450px';
+        mapContainer.style.minHeight = '450px';
+        mapContainer.style.width = '100%';
+        
+        if (typeof L === 'undefined') {
+            console.log('❌ Leaflet not loaded');
+            return;
+        }
+        
+        if (typeof MOCK_BUILDINGS === 'undefined' || MOCK_BUILDINGS.length === 0) {
+            console.log('❌ MOCK_BUILDINGS not defined');
+            return;
+        }
+        
+        console.log('🗺️ Initializing map with', MOCK_BUILDINGS.length, 'buildings');
+        
+        try {
+            const map = L.map(mapContainer).setView([-6.8, 39.28], 13);
+            
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap'
+            }).addTo(map);
+            
+            MOCK_BUILDINGS.forEach(b => {
+                let color = b.condition === 'Good' ? '#34D5B8' : 
+                           b.condition === 'Fair' ? '#F0B429' : '#F5611D';
+                
+                L.circleMarker([b.lat, b.lng], {
+                    radius: 9,
+                    fillColor: color,
+                    color: '#fff',
+                    weight: 2,
+                    fillOpacity: 0.85
+                })
+                .bindPopup(`
+                    <div style="min-width:160px;">
+                        <strong>${b.name}</strong><br>
+                        <span style="font-size:12px;color:#666;">${b.era} · ${b.year}</span><br>
+                        <span class="badge badge-${b.condition.toLowerCase()}">${b.condition}</span><br>
+                        <button onclick="navigate('/buildings?id=${b.id}')" 
+                                style="margin-top:6px;padding:4px 12px;background:#0B7A69;color:white;border:none;border-radius:4px;cursor:pointer;font-size:12px;">
+                            View Details
+                        </button>
+                    </div>
+                `)
+                .addTo(map);
+            });
+            
+            setTimeout(() => map.invalidateSize(), 400);
+            window._heritageMap = map;
+            console.log('✅ Map initialized successfully');
+            
+        } catch (error) {
+            console.error('❌ Map error:', error);
+        }
+    }
+
+    // Load map when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(initHeritageMap, 500);
+    });
+</script>
     <!--OUR JAVASCRIPT -->
     <script src="../JS/data.js"></script>
     <script src="../JS/api.js"></script>
