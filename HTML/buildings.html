@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Buildings - Urithi Majengo</title>
+    <meta name="description" content="Complete georeferenced records of all listed and proposed heritage structures in Dar es Salaam.">
+    
+    <!-- ===== FAVICON ===== -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
+    
+    <!-- ===== GOOGLE FONTS ===== -->
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    
+    <!-- ===== LEAFLET CSS ===== -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- ===== CUSTOM CSS ===== -->
+    <link rel="stylesheet" href="../CSS/style.css" type="text/css">
+</head>
+<body>
+    <div id="app">
+        <!-- ===== HEADER ===== -->
+        <header class="main-header">
+            <div class="logo">UM</div>
+            <nav class="nav-container" id="nav-menu" role="navigation">
+               <!-- In buildings.html - nav links -->
+<ul class="nav-links">
+    <li><a href="index.html">Map & Records</a></li>
+    <li><a href="buildings.html" class="active">All Buildings</a></li>
+    <li><a href="#/report" onclick="navigate('/report')">Report At-Risk</a></li>
+    <li><a href="#/community" onclick="navigate('/community')">Community</a></li>
+    <li><a href="#/login" onclick="navigate('/login')">Sign In</a></li>
+    <li><a href="#/officer" style="color:var(--gold) !important;">Officers</a></li>
+</ul>
+            </nav>
+            <button class="hamburger" id="menu-toggle" aria-label="Toggle navigation">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+        </header>
+
+        <!-- ===== MAIN CONTENT ===== -->
+        <main id="main-content">
+            <div class="buildings-page">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <div>
+                        <h1> Heritage Building Inventory</h1>
+                        <p class="subtitle">Complete georeferenced records of all listed and proposed heritage structures.</p>
+                    </div>
+                    <div class="results-count" id="results-count">8 results</div>
+                </div>
+
+                <!-- Filter Bar -->
+                <div class="filter-bar">
+                    <input 
+                        type="text" 
+                        class="search-input" 
+                        id="search-input"
+                        placeholder="Search buildings by name, era, or location..."
+                        oninput="filterBuildings()"
+                    >
+                    <div class="filter-group">
+                        <button class="filter-btn active" data-filter="all" onclick="setFilter('all')">All</button>
+                        <button class="filter-btn" data-filter="good" onclick="setFilter('good')">Good</button>
+                        <button class="filter-btn" data-filter="fair" onclick="setFilter('fair')">Fair</button>
+                        <button class="filter-btn" data-filter="poor" onclick="setFilter('poor')">Poor</button>
+                        <button class="filter-btn" data-filter="at-risk" onclick="setFilter('at-risk')">At Risk</button>
+                    </div>
+                    <div class="filter-group">
+                        <button class="filter-btn" data-filter="german" onclick="setFilter('german')">German</button>
+                        <button class="filter-btn" data-filter="british" onclick="setFilter('british')">British</button>
+                        <button class="filter-btn" data-filter="independence" onclick="setFilter('independence')">Independence</button>
+                    </div>
+                </div>
+
+                <!-- Building Grid -->
+                <div class="building-grid" id="building-grid">
+                    <!-- Dynamically loaded -->
+                </div>
+            </div>
+        </main>
+
+        <!-- ===== FOOTER ===== -->
+        <footer class="main-footer">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo-wrapper">
+                        <span class="footer-logo-circle">UM</span>
+                        <span class="footer-logo-text">Urithi Majengo</span>
+                    </div>
+                    <p>Digital Inventory &amp; Virtual-Tour System</p>
+                    <p style="font-size:12px;opacity:0.6;margin-top:4px;">Dar es Salaam, Tanzania</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#/about">About</a>
+                    <a href="#/contact">Contact</a>
+                    <a href="#/privacy">Privacy</a>
+                    <a href="#/terms">Terms</a>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2026 <span class="gold-text">Urithi Majengo</span>. All rights reserved.</p>
+                    <p class="footer-credit">Built for the Antiquities Department</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script src="JS/buildings.js"></script>
+</body>
+</html>

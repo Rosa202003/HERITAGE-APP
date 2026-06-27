@@ -34,7 +34,7 @@
              <nav class="nav-container" id="nav-menu" role="navigation" aria-label="Main Navigation">
                 <ul class="nav-links">
                     <li><a href="#/" onclick="navigate('/')">Map & Records</a></li>
-                    <li><a href="#/buildings" onclick="navigate('/buildings')">All Buildings</a></li>
+                    <li><a href="../HTML/buildings.html" onclick="navigate('/buildings')">All Buildings</a></li>
                     <li><a href="#/risk" onclick="navigate('/risk')">Report At-Risk</a></li>
                     <li><a href="#/community" onclick="navigate('/community')">Community</a></li>
                     <li><a href="#/services" onclick="navigate('/services')">Officer</a></li>
@@ -188,30 +188,83 @@
 </section>
 
             <!-- FEATURED BUILDINGS SECTION-->
-            <section id="featured" class="featured-section">
-                <div class="section-header">
-                    <div class="section-header-left">
-                        <h2 class="section-title">Featured Heritage Buildings</h2>
-                    </div>
-                    <a href="#/buildings" class="view-all-link" onclick="navigate('/buildings')">
-                        View all →
-                    </a>
-                </div>
-                
-                <p class="section-subtitle">
-                    Discover the most significant heritage buildings in Dar es Salaam. Explore their history, architecture, and cultural significance.
-                </p>
-                
-                <div id="building-grid" class="grid-3">
-                    <!-- Cards loaded dynamically by JavaScript -->
-                    <div class="card loading-card">
-                        <div class="loading-placeholder"></div>
-                        <p style="color: var(--text-muted); text-align: center; padding: 20px;">
-                            Loading buildings...
-                        </p>
-                    </div>
-                </div>
-            </section>
+            <!-- ===== VIDEO LIBRARY SECTION ===== -->
+<section class="video-library">
+    <div class="video-library-container">
+        <div class="section-header">
+        <div class="section-header-left">
+             <h2 class="section-title" style="color:var(--card);">Featured Buildings Tour 
+             </h2>
+        </div>
+        <a href="#/videos" class="view-all-link" onclick="navigate('/videos')">
+            View all →
+        </a>
+    </div>
+    
+    <p class="section-subtitle">
+        See the City Come Alive — Aerial tours, heritage documentaries, and 360° building previews. Dar es Salaam's history in motion.
+    </p>
+    
+    <div class="video-grid">
+        <!-- Video Card 1: Aerial Tour -->
+        <div class="video-card video-card-large">
+            <div class="video-thumbnail">
+                <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800&h=450&fit=crop" alt="Aerial view of Dar es Salaam">
+                <div class="video-duration">8:24</div>
+                <div class="video-play-btn">▶</div>
+                <div class="video-badge">Aerial</div>
+            </div>
+            <div class="video-info">
+                <h3>Dar es Salaam — A City of History</h3>
+                <p>Aerial Heritage Tour</p>
+            </div>
+        </div>
+        
+        <!-- Video Card 2: Documentary -->
+        <div class="video-card video-card-large">
+            <div class="video-thumbnail">
+                <img src="https://images.unsplash.com/photo-1596178060671-7a80dc8059ea?w=800&h=450&fit=crop" alt="German colonial architecture">
+                <div class="video-duration">22:10</div>
+                <div class="video-play-btn">▶</div>
+                <div class="video-badge" style="background:var(--primary);">Documentary</div>
+            </div>
+            <div class="video-info">
+                <h3>German Colonial Architecture in East Africa</h3>
+                <p>Documentary Feature</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="video-grid-small">
+        <!-- Video Card 3: Walking Tour -->
+        <div class="video-card video-card-small">
+            <div class="video-thumbnail-small">
+                <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=400&h=225&fit=crop" alt="Walking tour">
+                <div class="video-duration-sm">15:30</div>
+                <div class="video-play-btn-sm">▶</div>
+                <div class="video-badge-sm">Walking Tour</div>
+            </div>
+            <div class="video-info-small">
+                <h4>Old Town Heritage Walk</h4>
+                <p>Walking Tour</p>
+            </div>
+        </div>
+        
+        <!-- Video Card 4: Virtual Tour -->
+        <div class="video-card video-card-small">
+            <div class="video-thumbnail-small">
+                <img src="https://images.unsplash.com/photo-1596178060671-7a80dc8059ea?w=400&h=225&fit=crop" alt="360 virtual tour">
+                <div class="video-duration-sm">360°</div>
+                <div class="video-play-btn-sm">▶</div>
+                <div class="video-badge-sm" style="background:var(--teal-lt);color:var(--dark);">Virtual Tour</div>
+            </div>
+            <div class="video-info-small">
+                <h4>St. Joseph's Cathedral</h4>
+                <p>360° Virtual Tour</p>
+            </div>
+        </div>
+    </div>
+</section>
 
             <!--QUICK STATS / CALL TO ACTION -->
             <section class="cta-section">

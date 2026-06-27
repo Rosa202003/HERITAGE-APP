@@ -57,7 +57,7 @@ function renderPage(path) {
             if (id) {
                 renderBuildingDetail(container, id);
             } else {
-                renderAllBuildings(container);
+                renderAllBuildings(container);  // ← Uses the new function
             }
             break;
         case 'login':
@@ -67,20 +67,7 @@ function renderPage(path) {
             const query = getQueryParam('q');
             renderSearchResults(container, query);
             break;
-        case 'report':
-            renderReportPage(container);
-            break;
-        case 'community':
-            renderCommunityPage(container);
-            break;
-        case 'about':
-            renderAboutPage(container);
-            break;
-        case 'contact':
-            renderContactPage(container);
-            break;
         default:
-            // 404 - show home
             break;
     }
     
