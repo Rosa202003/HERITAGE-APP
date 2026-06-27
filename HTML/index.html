@@ -20,8 +20,6 @@
 
     <!-- 3. Custom CSS (for styling) -->
     <link rel="stylesheet" href="..\CSS\style.css" type="text/css">
-
-    <script src="..\JS\app.js" type="text/javascript"></script>
 </head>
 <body>
     <div id="app">
@@ -96,80 +94,103 @@
                     </div>
                 </div>
 
-    <!-- Stats strip at bottom -->
-    <div class="hero-stats">
-        <div class="stat-item">
-            <span class="stat-number">48</span>
-            <span class="stat-label">Buildings Listed</span>
-        </div>
-        <div class="stat-item">
-            <span class="stat-number">12</span>
-            <span class="stat-label">Virtual Tours</span>
-        </div>
-        <div class="stat-item">
-            <span class="stat-number">4</span>
-            <span class="stat-label">Eras</span>
-        </div>
-        <div class="stat-item">
-            <span class="stat-number">8</span>
-            <span class="stat-label">Officers</span>
-        </div>
+   <!-- Stats strip -->
+<div class="hero-stats">
+    <div class="stat-item">
+        <span class="stat-number">48</span>
+        <span class="stat-label">Buildings Documented</span>
     </div>
+    <div class="stat-item">
+        <span class="stat-number">5</span>
+        <span class="stat-label">360° Virtual Tours</span>
+    </div>
+    <div class="stat-item">
+        <span class="stat-number">6</span>
+        <span class="stat-label">Heritage Districts</span>
+    </div>
+    <div class="stat-item">
+        <span class="stat-number">3</span>
+        <span class="stat-label">Active Risk Alerts</span>
+    </div>
+</div>
 </section>
 
  <!-- DAR ES SALAAM MAP SECTION -->
-            <section id="map-section" class="map-section">
-                <div class="section-header">
-                    <div class="section-header-left">
-                        <span class="section-icon"></span>
-                        <h2 class="section-title">Dar es Salaam Heritage Map</h2>
-                    </div>
-                    <div class="section-header-right">
-                        <span class="map-badge">Interactive</span>
-                        <span class="map-badge">48 Locations</span>
-                    </div>
+<section id="map-section" class="map-section">
+    <div class="section-header">
+        <div class="section-header-left">
+            <h2 class="section-title">Heritage Sites Map</h2>
+        </div>
+        <div class="section-header-right">
+            <span class="map-badge">Interactive</span>
+            <span class="map-badge">8 Locations</span>
+        </div>
+    </div>
+    
+    
+    <p class="section-subtitle">
+        Explore heritage buildings across Dar es Salaam. Click on any pin to learn more.
+    </p>
+    
+    <!-- Map + Sidebar Layout -->
+    <div class="map-layout">
+        <!-- LEFT: Map -->
+        <div class="map-wrapper">
+            <div id="heritage-map" class="map-container"></div>
+            <div class="map-legend">
+                <div class="legend-item">
+                    <span class="legend-dot" style="background: #34D5B8;"></span>
+                    <span class="legend-label">Good Condition</span>
                 </div>
-                
-                <p class="section-subtitle">
-                    Explore heritage buildings across Dar es Salaam. Click on any pin to learn more.
-                </p>
-                 <div class="map-wrapper">
-                    <div id="heritage-map" class="map-container"></div>
-                    <div class="map-legend">
-                        <div class="legend-item">
-                            <span class="legend-dot" style="background: #34D5B8;"></span>
-                            <span class="legend-label">Good Condition</span>
-                        </div>
-                        <div class="legend-item">
-                            <span class="legend-dot" style="background: #F0B429;"></span>
-                            <span class="legend-label">Fair Condition</span>
-                        </div>
-                        <div class="legend-item">
-                            <span class="legend-dot" style="background: #F5611D;"></span>
-                            <span class="legend-label">Poor Condition</span>
-                        </div>
-                        <div class="legend-item">
-                            <span class="legend-dot" style="background: #0B7A69;"></span>
-                            <span class="legend-label">Protected Status</span>
-                        </div>
-                    </div>
+                <div class="legend-item">
+                    <span class="legend-dot" style="background: #F0B429;"></span>
+                    <span class="legend-label">Fair Condition</span>
                 </div>
-                
-                <div class="map-actions">
-                    <button class="btn-primary" onclick="navigate('/map')">
-                        Open Full Map
-                    </button>
-                    <button class="btn-secondary" onclick="navigate('/buildings')">
-                         View All Buildings
-                    </button>
+                <div class="legend-item">
+                    <span class="legend-dot" style="background: #F5611D;"></span>
+                    <span class="legend-label">Poor Condition</span>
                 </div>
-            </section>
+                <div class="legend-item">
+                    <span class="legend-dot" style="background: #0B7A69;"></span>
+                    <span class="legend-label">Protected Status</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- RIGHT: Building List Sidebar -->
+        <div class="map-sidebar">
+            <div class="sidebar-header">
+                <h3>INVENTORY HIGHLIGHTS</h3>
+                <span class="building-count">8 Buildings</span>
+            </div>
+            
+            <div class="building-list" id="building-list">
+                <!-- Buildings loaded dynamically by JavaScript -->
+                <div class="building-list-item loading-item">
+                    <div class="building-list-loading"></div>
+                    <p style="color: var(--text-muted); font-size: 13px; text-align: center; padding: 20px;">
+                        Loading buildings...
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+     
+    <div class="sidebar-footer">    
+       <div class="map-actions">
+        <button class="btn-primary" onclick="navigate('/map')">
+             Open Full Map
+        </button>
+        <button class="btn-secondary" onclick="navigate('/buildings')">
+             View All Buildings →
+        </button>
+    </div>
+</section>
 
             <!-- FEATURED BUILDINGS SECTION-->
             <section id="featured" class="featured-section">
                 <div class="section-header">
                     <div class="section-header-left">
-                        <span class="section-icon"></span>
                         <h2 class="section-title">Featured Heritage Buildings</h2>
                     </div>
                     <a href="#/buildings" class="view-all-link" onclick="navigate('/buildings')">
@@ -192,9 +213,7 @@
                 </div>
             </section>
 
-            <!-- ========================================
-            QUICK STATS / CALL TO ACTION
-            ======================================== -->
+            <!--QUICK STATS / CALL TO ACTION -->
             <section class="cta-section">
                 <div class="cta-content">
                     <h3>Help Preserve Dar es Salaam's Heritage</h3>
@@ -212,16 +231,15 @@
                     </div>
                 </div>
             </section>
-
+            <p>LOADING...</p>
         </main>
-
-        <!-- 
+   <!-- footer
          -->
         <footer class="main-footer">
             <div class="footer-content">
                 <div class="footer-brand">
                     <span class="footer-logo">Urithi Majengo</span>
-                    <p>Digital Inventory & Virtual-Tour System</p>
+                <p>&copy; 2026 <span class="gold-text">Urithi Majengo</span>. Dar es Salaam, Tanzania.</p>   
                 </div>
                 <div class="footer-links">
                     <a href="#/about" onclick="navigate('/about')">About</a>
@@ -229,23 +247,13 @@
                     <a href="#/privacy" onclick="navigate('/privacy')">Privacy</a>
                     <a href="#/terms" onclick="navigate('/terms')">Terms</a>
                 </div>
-                <div class="footer-bottom">                   
-                            
-
-            <p>LOADING...</p>
-        </main>
-
-        <!-- Footer Section -->
-        <footer class="main-footer">
-            <p>&copy; 2026 <span class="gold-text">Urithi Majengo</span>. Dar es Salaam, Tanzania.</p>
-                    <p class="footer-credit">Built for the Antiquities Department. All rights reserved.</p>
-                </div>
-            </div>
+                <div class="footer-bottom">                  
         </footer>
     </div>
+      
 
     <!--LIBRARIES -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
     
     <!--OUR JAVASCRIPT -->
