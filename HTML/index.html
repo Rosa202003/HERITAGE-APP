@@ -314,7 +314,7 @@
                         <h3>Have you visited? Tell us.</h3>
                         <p>Your feedback helps document living heritage. Sign in and leave a review.</p>
                         <div class="cta-buttons">
-                            <button class="btn-accent" onclick="navigate('/report')">⚑ Report At-Risk Building</button>
+                            <button class="btn-accent" onclick="navigate('../HTML/risk.html')">⚑ Report At-Risk Building</button>
                             <button class="btn-secondary" onclick="navigate('/community')">Get Involved</button>
                         </div>
                     </div>
@@ -336,10 +336,10 @@
                 <p>&copy; 2026 <span class="gold-text">Urithi Majengo</span>. Dar es Salaam, Tanzania.</p>   
                 </div>
                 <div class="footer-links">
-                    <a href="#/about" onclick="navigate('/about')">About</a>
-                    <a href="#/contact" onclick="navigate('/contact')">Contact</a>
-                    <a href="#/privacy" onclick="navigate('/privacy')">Privacy</a>
-                    <a href="#/terms" onclick="navigate('/terms')">Terms</a>
+                    <a href="#../HTML/index.html" onclick="navigate('/about')">Map & Records</a>
+                    <a href="#../HTML/buildings.html" onclick="navigate('/buildings')">All Buildings</a>
+                    <a href="#../HTML/risk.html" onclick="navigate('/risk')">Report At-Risk</a>
+                    <a href="#../HTML/community.html" onclick="navigate('/community')">Community</a>
                 </div>
             </div>             
         </footer>
@@ -349,7 +349,7 @@
     <!--LIBRARIES -->
      <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
-    <!-- At the bottom of index.html -->
+    
 <script>
     // ========================================
     // MAP INITIALIZATION WITH BUILDINGS
@@ -364,16 +364,16 @@
         mapContainer.style.width = '100%';
         
         if (typeof L === 'undefined') {
-            console.log('❌ Leaflet not loaded');
+            console.log(' Leaflet not loaded');
             return;
         }
         
         if (typeof MOCK_BUILDINGS === 'undefined' || MOCK_BUILDINGS.length === 0) {
-            console.log('❌ MOCK_BUILDINGS not defined');
+            console.log(' MOCK_BUILDINGS not defined');
             return;
         }
         
-        console.log('🗺️ Initializing map with', MOCK_BUILDINGS.length, 'buildings');
+        console.log('Initializing map with', MOCK_BUILDINGS.length, 'buildings');
         
         try {
             const map = L.map(mapContainer).setView([-6.8, 39.28], 13);
@@ -409,10 +409,10 @@
             
             setTimeout(() => map.invalidateSize(), 400);
             window._heritageMap = map;
-            console.log('✅ Map initialized successfully');
+            console.log(' Map initialized successfully');
             
         } catch (error) {
-            console.error('❌ Map error:', error);
+            console.error(' Map error:', error);
         }
     }
 
