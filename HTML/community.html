@@ -604,28 +604,7 @@
 
     <!-- ===== SCRIPTS ===== -->
     <script>
-        // ========================================
-        // HAMBURGER MENU
-        // ========================================
         document.addEventListener('DOMContentLoaded', function() {
-            const menuToggle = document.getElementById('menu-toggle');
-            const menu = document.getElementById('nav-menu');
-
-            if (menuToggle && menu) {
-                menuToggle.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    menu.classList.toggle('open');
-                });
-            }
-
-            document.addEventListener('click', function(e) {
-                if (menu && menu.classList.contains('open')) {
-                    if (!menu.contains(e.target) && !menuToggle.contains(e.target)) {
-                        menu.classList.remove('open');
-                    }
-                }
-            });
-
             // ===== STAR RATING =====
             const stars = document.querySelectorAll('.star-rating .star');
             let selectedRating = 0;
@@ -668,14 +647,10 @@
                 
                 countSpan.textContent = count;
             };
-
-            // ===== NAVIGATION =====
-            window.navigate = function(path) {
-                window.location.hash = path;
-            };
         });
 
         console.log('✅ community.html loaded');
     </script>
+    <script src="../JS/app.js"></script>
 </body>
 </html>

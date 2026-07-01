@@ -39,6 +39,7 @@
                     <li><a href="../HTML/risk.html" onclick="navigate('/risk')">Report At-Risk</a></li>
                     <li><a href="../HTML/community.html" onclick="navigate('/community')">Community</a></li>
                     <li><a href="#/services" onclick="navigate('/services')">Officer</a></li>
+                    <li><a href="#" onclick="showCitizenModal(); return false;" style="font-weight: 600; color: var(--accent) !important;">Sign In</a></li>
                 </ul>
             </nav>
 
@@ -192,26 +193,29 @@
              Open Full Map
         </button>
         <button class="btn-secondary" onclick="navigate('/buildings')">
-             View All Buildings →
+             View All Buildings &rarr;
         </button>
+    </div>
     </div>
 </section>
 
             <!-- BUILDING OVERVIEW SECTION -->
             <section id="building-overview" class="building-overview">
+                <div style="max-width:1200px; margin:0 auto; padding: 0 20px;">
                 <div class="section-header">
                     <div class="section-header-left">
                         <h2 class="section-title">Featured Buildings</h2>
                     </div>
                     <div class="section-header-right">
-                        <a class="view-all-link" href="#/buildings" onclick="navigate('/buildings')">View all buildings →</a>
+                        <a class="view-all-link" href="#/buildings" onclick="navigate('/buildings')">View all buildings &rarr;</a>
                     </div>
                 </div>
 
                 <p class="section-subtitle">A quick snapshot of featured heritage buildings and key stats.</p>
 
-                <div id="building-grid" class="grid-3 building-grid" style="padding: 0; margin-top: 12px;">
+                <div id="building-grid" class="grid-3 building-grid" style="margin-top: 16px;">
                     <!-- Populated by loadFeaturedBuildings() in JS -->
+                </div>
                 </div>
             </section>
 
@@ -221,26 +225,28 @@
     <div class="video-library-container">
         <div class="section-header">
         <div class="section-header-left">
-             <h2 class="section-title" style="color:var(--card);">See the City Come Alive 
+            <span style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.25em;color:#34D5B8;">Video Library</span>
+             <h2 class="section-title" style="color:var(--card); margin-top:4px;">See the City <em style="font-weight:400;">Come Alive</em>
              </h2>
         </div>
-        <a href="#/videos" class="view-all-link" onclick="navigate('/videos')">
-            View all →
+        <a href="#/videos" class="view-all-link" onclick="navigate('/videos')" style="color:rgba(255,255,255,0.6);">
+            View all &rarr;
         </a>
     </div>
     
-    <p class="section-subtitle">
-        See the City Come Alive — Aerial tours, heritage documentaries, and 360° building previews. Dar es Salaam's history in motion.
+    <p class="section-subtitle" style="color:rgba(255,255,255,0.5); font-size:13px; margin-bottom:20px; max-width:560px;">
+        Aerial tours, heritage documentaries, and 360° building previews — Dar es Salaam's history in motion.
     </p>
     
+    <!-- VIDEO GRID: 4 cards -->
     <div class="video-grid">
-        <!-- Video Card 1: Featured (spans 2 columns) -->
-        <div class="video-card video-card-large" onclick="openVideoLightbox('featured', 'Dar es Salaam — A City of History', 'https://www.youtube.com/embed/0H__kJ2QcJI')">
+        <!-- Video 1: Aerial -->
+        <div class="video-card" onclick="openVideoLightbox('v1', 'Dar es Salaam — A City of History', 'https://www.youtube.com/embed/UfYLZV0F9HU')">
             <div class="video-thumbnail">
-                <img src="https://images.unsplash.com/photo-1611339555312-e607c90352fd?w=1200&h=675&fit=crop" alt="Aerial view of Dar es Salaam">
+                <img src="https://images.unsplash.com/photo-1589177900326-900782f88a55?w=640&h=360&fit=crop&auto=format" alt="Aerial view of Dar es Salaam">
                 <div class="video-duration">8:24</div>
-                <div class="video-play-btn">▶</div>
-                <div class="video-badge">Aerial</div>
+                <div class="video-play-btn">&#9654;</div>
+                <div class="video-badge" style="background:#F5611D;">Aerial</div>
             </div>
             <div class="video-info">
                 <h3>Dar es Salaam — A City of History</h3>
@@ -248,13 +254,13 @@
             </div>
         </div>
 
-        <!-- Video Card 2 -->
-        <div class="video-card" onclick="openVideoLightbox('colonial', 'German Colonial Architecture', '	https://www.youtube.com/watch?v=y24HGzKmD7I')">
+        <!-- Video 2: Documentary -->
+        <div class="video-card" onclick="openVideoLightbox('v2', 'German Colonial Architecture in East Africa', 'https://www.youtube.com/embed/y24HGzKmD7I')">
             <div class="video-thumbnail">
-                <img src="	https://www.youtube.com/watch?v=y24HGzKmD7I" alt="German colonial architecture">
+                <img src="https://images.unsplash.com/photo-1674334264912-704cb2a24b37?w=640&h=360&fit=crop&auto=format" alt="German colonial architecture">
                 <div class="video-duration">22:10</div>
-                <div class="video-play-btn">▶</div>
-                <div class="video-badge">Documentary</div>
+                <div class="video-play-btn">&#9654;</div>
+                <div class="video-badge" style="background:#0B7A69;">Documentary</div>
             </div>
             <div class="video-info">
                 <h3>German Colonial Architecture in East Africa</h3>
@@ -262,59 +268,31 @@
             </div>
         </div>
 
-        <!-- Video Card 3 -->
-        <div class="video-card" onclick="openVideoLightbox('oldtown', 'Old Town Heritage Walk', 'https://www.youtube.com/embed/pRpeEdMmmQ0')">
+        <!-- Video 3: Walking Tour -->
+        <div class="video-card" onclick="openVideoLightbox('v3', 'Walking Tour — Kivukoni Heritage District', 'https://www.youtube.com/embed/v3a1RH-xkFI')">
             <div class="video-thumbnail">
-                <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1200&h=675&fit=crop" alt="Walking tour">
-                <div class="video-duration">15:30</div>
-                <div class="video-play-btn">▶</div>
-                <div class="video-badge">Walking Tour</div>
+                <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=640&h=360&fit=crop&auto=format" alt="Walking tour of heritage district">
+                <div class="video-duration">14:38</div>
+                <div class="video-play-btn">&#9654;</div>
+                <div class="video-badge" style="background:#F0B429;">Walking Tour</div>
             </div>
             <div class="video-info">
-                <h3>Old Town Heritage Walk</h3>
-                <p>Walking Tour</p>
+                <h3>Walking Tour — Kivukoni Heritage District</h3>
+                <p>Street-Level Exploration</p>
             </div>
         </div>
 
-        <!-- Video Card 4 -->
-        <div class="video-card" onclick="openVideoLightbox('cathedral', 'St. Joseph\'s Cathedral', 'https://www.youtube.com/embed/WIrWyr3HFEs')">
+        <!-- Video 4: Virtual Tour -->
+        <div class="video-card" onclick="openVideoLightbox('v4', 'Inside the Railway Station — 360° Preview', 'https://www.youtube.com/embed/Z0qhcFxHw_k')">
             <div class="video-thumbnail">
-                <img src="https://images.unsplash.com/photo-1464207687429-7505649dae38?w=1200&h=675&fit=crop" alt="Virtual tour">
-                <div class="video-duration">12:15</div>
-                <div class="video-play-btn">▶</div>
-                <div class="video-badge">Virtual Tour</div>
+                <img src="https://images.unsplash.com/photo-1464207687429-7505649dae38?w=640&h=360&fit=crop&auto=format" alt="Railway station virtual tour">
+                <div class="video-duration">5:12</div>
+                <div class="video-play-btn">&#9654;</div>
+                <div class="video-badge" style="background:#6366F1;">Virtual Tour</div>
             </div>
             <div class="video-info">
-                <h3>St. Joseph's Cathedral</h3>
-                <p>360° Virtual Tour</p>
-            </div>
-        </div>
-
-        <!-- Video Card 5 -->
-        <div class="video-card" onclick="openVideoLightbox('colonial2', 'Colonial Streets', 'https://www.youtube.com/embed/xvbNZRh0Pz0')">
-            <div class="video-thumbnail">
-                <img src="https://images.unsplash.com/photo-1494672491387-22ecc956a86e?w=1200&h=675&fit=crop" alt="Heritage documentary">
-                <div class="video-duration">12:05</div>
-                <div class="video-play-btn">▶</div>
-                <div class="video-badge">Documentary</div>
-            </div>
-            <div class="video-info">
-                <h3>Colonial Streets of the City</h3>
-                <p>Short Documentary</p>
-            </div>
-        </div>
-
-        <!-- Video Card 6 -->
-        <div class="video-card" onclick="openVideoLightbox('coastal', 'Coastal Heritage Walk', 'https://www.youtube.com/embed/mKXw-X2Kkfk')">
-            <div class="video-thumbnail">
-                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1200&h=675&fit=crop" alt="Walking tour 2">
-                <div class="video-duration">9:48</div>
-                <div class="video-play-btn">▶</div>
-                <div class="video-badge">Walking Tour</div>
-            </div>
-            <div class="video-info">
-                <h3>Coastal Heritage Walk</h3>
-                <p>Walking Tour</p>
+                <h3>Inside the Railway Station — 360° Preview</h3>
+                <p>Virtual Tour Sample</p>
             </div>
         </div>
     </div>
@@ -322,7 +300,7 @@
     <!-- Video Lightbox Modal -->
     <div id="video-lightbox" class="video-lightbox">
         <div class="video-lightbox-content">
-            <button class="video-lightbox-close" onclick="closeVideoLightbox()">×</button>
+            <button class="video-lightbox-close" onclick="closeVideoLightbox()">&#215;</button>
             <iframe id="video-lightbox-player" class="video-lightbox-player" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
     </div>
@@ -348,10 +326,8 @@
                     </div>
                 </div>
             </section>
-            <p>LOADING...</p>
         </main>
-   <!-- footer
-         -->
+   <!-- footer -->
         <footer class="main-footer">
             <div class="footer-content">
                 <div class="footer-brand">
@@ -364,7 +340,7 @@
                     <a href="#/privacy" onclick="navigate('/privacy')">Privacy</a>
                     <a href="#/terms" onclick="navigate('/terms')">Terms</a>
                 </div>
-                <div class="footer-bottom">                  
+            </div>             
         </footer>
     </div>
       
@@ -441,9 +417,34 @@
 
     // Load map when page loads
     document.addEventListener('DOMContentLoaded', function() {
-        setTimeout(initHeritageMap, 500);
+        // Use layered timeouts to ensure DOM + scripts are fully ready
+        setTimeout(function() {
+            requestAnimationFrame(function() {
+                initHeritageMap();
+            });
+        }, 600);
     });
 </script>
+    <!-- CITIZEN MODAL -->
+    <div id="citizen-modal" class="citizen-modal" style="display:none;">
+        <div class="citizen-modal-content">
+            <button class="citizen-modal-close" onclick="closeCitizenModal()">×</button>
+            <h2 style="font-family:var(--font-display); margin-bottom: 16px;">Citizen Sign In</h2>
+            <p style="color:var(--text-muted); font-size:14px; margin-bottom: 24px;">Please sign in to continue viewing virtual tours or to report at-risk structures.</p>
+            <form onsubmit="handleCitizenLogin(event)" style="display:flex;flex-direction:column;gap:16px;">
+                <div>
+                    <label style="display:block;font-weight:500;font-size:13px;margin-bottom:4px;">Email or Phone</label>
+                    <input type="text" required style="width:100%;padding:12px;border:1px solid var(--border);border-radius:var(--radius-sm);">
+                </div>
+                <div>
+                    <label style="display:block;font-weight:500;font-size:13px;margin-bottom:4px;">Password</label>
+                    <input type="password" required style="width:100%;padding:12px;border:1px solid var(--border);border-radius:var(--radius-sm);">
+                </div>
+                <button type="submit" class="btn-primary" style="padding:12px; margin-top: 8px;">Sign In</button>
+            </form>
+        </div>
+    </div>
+
     <!--OUR JAVASCRIPT -->
     <script src="../JS/data.js"></script>
     <script src="../JS/api.js"></script>

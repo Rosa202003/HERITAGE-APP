@@ -12,7 +12,8 @@ const MOCK_BUILDINGS = [
         condition: 'Good',
         status: 'Grade I Listed',
         location: 'City Centre',
-        image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Dar_es_Salaam_Old_Boma.jpg/400px-Dar_es_Salaam_Old_Boma.jpg',
+        // You can use an online link (http://...) OR a local file path (../assets/buildings/boma.jpg)
+        image: 'https://images.unsplash.com/photo-1674334264912-704cb2a24b37?w=600&h=400&fit=crop',
         description: 'Historic German administrative building with characteristic red brick architecture.',
         tags: ['Protected', 'Grade I', '360°'],
         lat: -6.805,
@@ -27,7 +28,9 @@ const MOCK_BUILDINGS = [
         condition: 'Excellent',
         status: 'Grade I Listed',
         location: 'City Centre',
-        image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/St_Joseph%27s_Cathedral_Dar_es_Salaam.jpg/400px-St_Joseph%27s_Cathedral_Dar_es_Salaam.jpg',
+        // Example of a local uploaded file path:
+        // image: '../assets/buildings/cathedral.jpg',
+        image: 'https://images.unsplash.com/photo-1464207687429-7505649dae38?w=600&h=400&fit=crop',
         description: 'Neo-Gothic Catholic cathedral with twin towers.',
         tags: ['Protected', 'Grade I', '360°'],
         lat: -6.812,
@@ -42,7 +45,8 @@ const MOCK_BUILDINGS = [
         condition: 'Good',
         status: 'Grade II Listed',
         location: 'Kivukoni',
-        image: 'https://via.placeholder.com/600x400/cc9966/fff?text=Azania+Front+Church',
+        // You can use an online link (http://...) OR a local file path (../assets/buildings/boma.jpg)
+        image: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=600&h=400&fit=crop',
         description: 'Historic Lutheran church with distinctive architecture.',
         tags: ['Protected', 'Grade II'],
         lat: -6.814,
@@ -57,8 +61,9 @@ const MOCK_BUILDINGS = [
         condition: 'Fair',
         status: 'Grade II Listed',
         location: 'Kivukoni',
-        image: 'https://via.placeholder.com/600x400/66cc99/fff?text=Old+Harbour+Master',
-        description: 'Historic harbour master\'s office building.',
+        // You can use an online link (http://...) OR a local file path (../assets/buildings/boma.jpg)
+        image: 'https://images.unsplash.com/photo-1589177900326-900782f88a55?w=600&h=400&fit=crop',
+        description: 'Former harbour master office, now part of the port authority.',
         tags: ['Protected', 'Grade II'],
         lat: -6.816,
         lng: 39.285
@@ -72,7 +77,7 @@ const MOCK_BUILDINGS = [
         condition: 'Poor',
         status: 'Grade II Listed',
         location: 'City Centre',
-        image: 'https://via.placeholder.com/600x400/ff9966/fff?text=General+Post+Office',
+        image: 'https://placehold.co/600x400/eeeeee/666666?text=Building+Placeholder',
         description: 'Historic post office building in need of restoration.',
         tags: ['Protected', 'Grade II', 'At Risk'],
         lat: -6.810,
@@ -87,7 +92,7 @@ const MOCK_BUILDINGS = [
         condition: 'Good',
         status: 'Grade II Listed',
         location: 'City Centre',
-        image: 'https://via.placeholder.com/600x400/cc6666/fff?text=City+Hall',
+        image: 'https://placehold.co/600x400/eeeeee/666666?text=Building+Placeholder',
         description: 'Historic city hall building with colonial architecture.',
         tags: ['Protected', 'Grade II'],
         lat: -6.808,
@@ -102,7 +107,7 @@ const MOCK_BUILDINGS = [
         condition: 'At Risk',
         status: 'Proposed',
         location: 'Mnazi Mmoja',
-        image: 'https://via.placeholder.com/600x400/ff6666/fff?text=Mnazi+Mmoja+Hospital',
+        image: 'https://placehold.co/600x400/eeeeee/666666?text=Building+Placeholder',
         description: 'Original hospital building currently at risk of demolition.',
         tags: ['At Risk', 'Proposed', 'Urgent'],
         lat: -6.802,
@@ -117,7 +122,7 @@ const MOCK_BUILDINGS = [
         condition: 'Fair',
         status: 'Grade II Listed',
         location: 'Kariakoo',
-        image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Dar_es_Salaam_railway_station.jpg/400px-Dar_es_Salaam_railway_station.jpg',
+        image: 'https://placehold.co/600x400/eeeeee/666666?text=Building+Placeholder',
         description: 'Historic railway station with distinctive colonial architecture.',
         tags: ['Protected', 'Grade II', '360°'],
         lat: -6.815,
@@ -125,4 +130,4 @@ const MOCK_BUILDINGS = [
     }
 ];
 
-console.log('✅ MOCK_BUILDINGS loaded:', MOCK_BUILDINGS.length, 'buildings');
+console.log(' MOCK_BUILDINGS loaded:', MOCK_BUILDINGS.length, 'buildings');

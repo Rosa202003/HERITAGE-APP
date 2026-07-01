@@ -1,26 +1,40 @@
-// ========================================
-// TOGGLE NAVIGATION MENU
-// ========================================
-document.addEventListener('DOMContentLoaded', function() {
+// 
+// NAVIGATION MENU
+// 
+function initHamburgerMenu() {
     const menuToggle = document.getElementById('menu-toggle');
     const menu = document.getElementById('nav-menu');
-    
-    if (menuToggle && menu) {
-        menuToggle.addEventListener('click', function(e) {
-            e.stopPropagation();
-            menu.classList.toggle('open');
-        });
+
+    if (!menuToggle || !menu) {
+        return;
     }
-    
-    // Close menu when clicking outside
+
+    menuToggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const isOpen = menu.classList.toggle('open');
+        menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+
+    menu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            menu.classList.remove('open');
+            menuToggle.setAttribute('aria-expanded', 'false');
+        });
+    });
+
     document.addEventListener('click', function(e) {
-        if (menu && menu.classList.contains('open')) {
-            if (!menu.contains(e.target) && !menuToggle.contains(e.target)) {
-                menu.classList.remove('open');
-            }
+        if (menu.classList.contains('open') && !menu.contains(e.target) && !menuToggle.contains(e.target)) {
+            menu.classList.remove('open');
+            menuToggle.setAttribute('aria-expanded', 'false');
         }
     });
-});
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHamburgerMenu);
+} else {
+    initHamburgerMenu();
+}
 
 // ========================================
 // APP STATE
@@ -101,7 +115,7 @@ function handleHeroSearch() {
         navigate(`/search?q=${encodeURIComponent(query)}`);
     } else if (input) {
         input.style.borderColor = '#F5611D';
-        input.placeholder = '⚠️ Please enter a search term';
+        input.placeholder = 'Please enter a search term';
         setTimeout(() => {
             input.style.borderColor = '';
             input.placeholder = 'Search buildings or districts...';
@@ -161,7 +175,7 @@ function renderMapPage(container) {
 // ALL BUILDINGS PAGE
 // ========================================
 async function renderAllBuildings(container) {
-    console.log('📋 Loading all buildings...');
+    console.log('Loading all buildings...');
     
     try {
         let buildings = [];
@@ -174,7 +188,7 @@ async function renderAllBuildings(container) {
         if (!buildings || buildings.length === 0) {
             container.innerHTML = `
                 <div style="max-width:800px;margin:40px auto;text-align:center;padding:40px;">
-                    <h2 style="font-family:var(--font-display);">📋 No Buildings Found</h2>
+                    <h2 style="font-family:var(--font-display);"> No Buildings Found</h2>
                     <p style="color:var(--text-muted);margin:16px 0;">Add some buildings to get started.</p>
                     <button class="btn-primary" onclick="navigate('/')">← Back to Home</button>
                 </div>
@@ -185,17 +199,17 @@ async function renderAllBuildings(container) {
         container.innerHTML = `
             <div style="max-width:1200px;margin:0 auto;padding:20px;">
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
-                    <h2 style="font-family:var(--font-display);font-size:28px;">🏛️ All Heritage Buildings</h2>
+                    <h2 style="font-family:var(--font-display);font-size:28px;">All Heritage Buildings</h2>
                     <span style="color:var(--text-muted);font-size:14px;">${buildings.length} buildings found</span>
                 </div>
                 
                 <div class="grid-3">
                     ${buildings.map(b => `
                         <div class="card" onclick="navigate('/buildings?id=${b.id}')" style="cursor:pointer;">
-                            <img src="${b.image || 'https://via.placeholder.com/600x400/cccccc/666?text=Heritage+Building'}" 
+                            <img src="${b.image || 'https://placehold.co/600x400/eeeeee/666666?text=Building+Placeholder'}" 
                                  alt="${b.name}" 
                                  style="width:100%;height:180px;object-fit:cover;border-radius:8px;margin-bottom:12px;"
-                                 onerror="this.src='https://via.placeholder.com/600x400/cccccc/666?text=No+Image'">
+                                 onerror="this.src='https://placehold.co/600x400/eeeeee/666666?text=No+Image'">
                             <h3 style="font-size:17px;font-weight:600;color:var(--text);">${b.name}</h3>
                             <p style="font-size:13px;color:var(--text-muted);">${b.era} · ${b.year}</p>
                             <div style="margin-top:8px;">
@@ -212,13 +226,13 @@ async function renderAllBuildings(container) {
             </div>
         `;
         
-        console.log('✅ All buildings loaded:', buildings.length);
+        console.log(' All buildings loaded:', buildings.length);
         
     } catch (error) {
-        console.error('❌ Error loading buildings:', error);
+        console.error('Error loading buildings:', error);
         container.innerHTML = `
             <div style="max-width:800px;margin:40px auto;text-align:center;padding:40px;">
-                <h2 style="font-family:var(--font-display);">❌ Error Loading Buildings</h2>
+                <h2 style="font-family:var(--font-display);">Error Loading Buildings</h2>
                 <p style="color:var(--text-muted);margin:16px 0;">Please try again later.</p>
                 <button class="btn-primary" onclick="navigate('/')">← Back to Home</button>
             </div>
@@ -230,7 +244,7 @@ async function renderAllBuildings(container) {
 // BUILDING DETAIL PAGE
 // ========================================
 async function renderBuildingDetail(container, id) {
-    console.log('🏛️ Loading building detail for ID:', id);
+    console.log('Loading building detail for ID:', id);
     
     try {
         let building = null;
@@ -243,7 +257,7 @@ async function renderBuildingDetail(container, id) {
         if (!building) {
             container.innerHTML = `
                 <div style="max-width:800px;margin:40px auto;text-align:center;padding:40px;">
-                    <h2 style="font-family:var(--font-display);">🏛️ Building Not Found</h2>
+                    <h2 style="font-family:var(--font-display);"> Building Not Found</h2>
                     <p style="color:var(--text-muted);margin:16px 0;">The building you're looking for doesn't exist.</p>
                     <button class="btn-primary" onclick="navigate('/')">← Back to Home</button>
                 </div>
@@ -262,10 +276,10 @@ async function renderBuildingDetail(container, id) {
                 <div style="display:grid;grid-template-columns:2fr 1fr;gap:24px;margin-bottom:24px;">
                     <!-- Image -->
                     <div style="background:var(--muted);border-radius:var(--radius);overflow:hidden;">
-                        <img src="${building.image || 'https://via.placeholder.com/800x500/cccccc/666?text=No+Image'}" 
+                        <img src="${building.image || 'https://placehold.co/800x500/eeeeee/666666?text=No+Image'}" 
                              alt="${building.name}" 
                              style="width:100%;height:350px;object-fit:cover;"
-                             onerror="this.src='https://via.placeholder.com/800x500/cccccc/666?text=No+Image'">
+                             onerror="this.src='https://placehold.co/800x500/eeeeee/666666?text=No+Image'">
                     </div>
                     
                     <!-- Info Panel -->
@@ -287,7 +301,7 @@ async function renderBuildingDetail(container, id) {
                         </div>
                         
                         <button class="btn-primary" onclick="navigate('/map')" style="margin-top:16px;width:100%;">
-                            🗺️ View on Map
+                             View on Map
                         </button>
                     </div>
                 </div>
@@ -303,7 +317,7 @@ async function renderBuildingDetail(container, id) {
                     <h3 style="font-family:var(--font-display);font-size:20px;margin-bottom:8px;">🔄 360° Virtual Tour</h3>
                     <p style="color:var(--text-muted);font-size:14px;margin-bottom:12px;">Coming soon - immersive tour experience.</p>
                     <div style="background:var(--muted);border-radius:var(--radius);height:200px;display:flex;align-items:center;justify-content:center;color:var(--text-muted);">
-                        🏛️ Virtual Tour Coming Soon
+                         Virtual Tour Coming Soon
                     </div>
                 </div>
                 
@@ -316,13 +330,13 @@ async function renderBuildingDetail(container, id) {
             </div>
         `;
         
-        console.log('✅ Building detail loaded for:', building.name);
+        console.log(' Building detail loaded for:', building.name);
         
     } catch (error) {
-        console.error('❌ Error loading building detail:', error);
+        console.error('Error loading building detail:', error);
         container.innerHTML = `
             <div style="max-width:800px;margin:40px auto;text-align:center;padding:40px;">
-                <h2 style="font-family:var(--font-display);">❌ Error Loading Building</h2>
+                <h2 style="font-family:var(--font-display);">Error Loading Building</h2>
                 <p style="color:var(--text-muted);margin:16px 0;">Something went wrong. Please try again.</p>
                 <button class="btn-primary" onclick="navigate('/')">← Back to Home</button>
             </div>
@@ -393,10 +407,10 @@ async function handleLogin(e) {
             localStorage.setItem('user', JSON.stringify({ name: 'Admin', role: 'officer' }));
             navigate('/');
         } else {
-            errorEl.textContent = '❌ Invalid credentials. Try admin@heritage.go.tz / password';
+            errorEl.textContent = ' Invalid credentials. Try admin@heritage.go.tz / password';
         }
     } catch (err) {
-        errorEl.textContent = '❌ Login error. Please try again.';
+        errorEl.textContent = 'Login error. Please try again.';
     }
 }
 
@@ -409,7 +423,7 @@ async function renderSearchResults(container, query) {
         return;
     }
     
-    console.log('🔍 Searching for:', query);
+    console.log('Searching for:', query);
     
     try {
         let buildings = [];
@@ -443,10 +457,10 @@ async function renderSearchResults(container, query) {
                     <div class="grid-3">
                         ${results.map(b => `
                             <div class="card" onclick="navigate('/buildings?id=${b.id}')" style="cursor:pointer;">
-                                <img src="${b.image || 'https://via.placeholder.com/600x400/cccccc/666?text=Heritage+Building'}" 
+                                <img src="${b.image || 'https://placehold.co/600x400/eeeeee/666666?text=Building+Placeholder'}" 
                                      alt="${b.name}" 
                                      style="width:100%;height:180px;object-fit:cover;border-radius:8px;margin-bottom:12px;"
-                                     onerror="this.src='https://via.placeholder.com/600x400/cccccc/666?text=No+Image'">
+                                     onerror="this.src='https://placehold.co/600x400/eeeeee/666666?text=No+Image'">
                                 <h3 style="font-size:17px;font-weight:600;color:var(--text);">${b.name}</h3>
                                 <p style="font-size:13px;color:var(--text-muted);">${b.era} · ${b.year}</p>
                                 <div style="margin-top:8px;">
@@ -464,10 +478,10 @@ async function renderSearchResults(container, query) {
         `;
         
     } catch (error) {
-        console.error('❌ Search error:', error);
+        console.error(' Search error:', error);
         container.innerHTML = `
             <div style="max-width:800px;margin:40px auto;text-align:center;padding:40px;">
-                <h2 style="font-family:var(--font-display);">❌ Search Error</h2>
+                <h2 style="font-family:var(--font-display);"> Search Error</h2>
                 <p style="color:var(--text-muted);margin:16px 0;">Please try again.</p>
                 <button class="btn-primary" onclick="navigate('/')">← Back to Home</button>
             </div>
@@ -675,7 +689,7 @@ function switchMapView(view) {
         } else {
             gridContainer.style.display = 'block';
         }
-        console.log('⊞ Switched to Grid View');
+        console.log(' Switched to Grid View');
     }
 }
 
@@ -802,7 +816,7 @@ function initHeritageMap() {
     const mapContainer = document.getElementById('heritage-map');
     
     if (!mapContainer) {
-        console.log('❌ Map container #heritage-map not found');
+        console.log(' Map container #heritage-map not found');
         return;
     }
     
@@ -812,16 +826,16 @@ function initHeritageMap() {
     mapContainer.style.width = '100%';
     
     if (typeof L === 'undefined') {
-        console.log('❌ Leaflet not loaded');
+        console.log(' Leaflet not loaded');
         return;
     }
     
     if (typeof MOCK_BUILDINGS === 'undefined' || MOCK_BUILDINGS.length === 0) {
-        console.log('❌ MOCK_BUILDINGS not defined');
+        console.log('MOCK_BUILDINGS not defined');
         return;
     }
     
-    console.log('🗺️ Initializing map with', MOCK_BUILDINGS.length, 'buildings');
+    console.log(' Initializing map with', MOCK_BUILDINGS.length, 'buildings');
     
     try {
         const map = L.map(mapContainer).setView([-6.8, 39.28], 13);
@@ -855,10 +869,10 @@ function initHeritageMap() {
         
         setTimeout(() => map.invalidateSize(), 400);
         window._heritageMap = map;
-        console.log('✅ Map initialized successfully');
+        console.log(' Map initialized successfully');
         
     } catch (error) {
-        console.error('❌ Map error:', error);
+        console.error('Map error:', error);
     }
 }
 
@@ -868,11 +882,11 @@ function initHeritageMap() {
 async function loadBuildingList() {
     const list = document.getElementById('building-list');
     if (!list) {
-        console.log('⚠️ building-list not found');
+        console.log('building-list not found');
         return;
     }
     
-    console.log('📋 Loading building list...');
+    console.log('Loading building list...');
     
     try {
         let buildings = [];
@@ -906,11 +920,41 @@ async function loadBuildingList() {
         const countBadge = document.querySelector('.building-count');
         if (countBadge) countBadge.textContent = `${sorted.length} Buildings`;
         
-        console.log('✅ Building list loaded:', sorted.length);
+        console.log('Building list loaded:', sorted.length);
         
     } catch (error) {
-        console.error('❌ Error loading building list:', error);
+        console.error('Error loading building list:', error);
         list.innerHTML = `<p style="color:var(--text-muted);padding:20px;">Error loading buildings</p>`;
+    }
+}
+
+// ========================================
+// CITIZEN AUTHENTICATION MODAL
+// ========================================
+function showCitizenModal() {
+    let modal = document.getElementById('citizen-modal');
+    if (modal) {
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeCitizenModal() {
+    let modal = document.getElementById('citizen-modal');
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+}
+
+function handleCitizenLogin(e) {
+    e.preventDefault();
+    localStorage.setItem('citizen_auth', 'true');
+    closeCitizenModal();
+    
+    // Check if we are on risk page, refresh to show form
+    if (window.location.hash.includes('/risk') || window.location.pathname.includes('risk.html')) {
+        window.location.reload();
     }
 }
 
@@ -918,11 +962,22 @@ async function loadBuildingList() {
 // VIDEO LIGHTBOX FUNCTIONS
 // ========================================
 function openVideoLightbox(videoId, title, embedUrl) {
+    const isCitizenAuthenticated = localStorage.getItem('citizen_auth') === 'true';
+    let watchCount = parseInt(localStorage.getItem('video_watch_count') || '0');
+
+    if (!isCitizenAuthenticated && watchCount >= 3) {
+        showCitizenModal();
+        return; // Prevent opening video
+    }
+
     const lightbox = document.getElementById('video-lightbox');
     const player = document.getElementById('video-lightbox-player');
     
     if (lightbox && player) {
-        player.src = embedUrl + '?autoplay=1';
+        if (!isCitizenAuthenticated) {
+            localStorage.setItem('video_watch_count', (watchCount + 1).toString());
+        }
+        player.src = embedUrl + (embedUrl.includes('?') ? '&' : '?') + 'autoplay=1';
         lightbox.classList.add('active');
         document.body.style.overflow = 'hidden';
     }
@@ -961,7 +1016,7 @@ async function loadFeaturedBuildings() {
     const grid = document.getElementById('building-grid');
     if (!grid) return;
     
-    console.log('🏛️ Loading featured buildings...');
+    console.log('Loading featured buildings...');
     
     try {
         let buildings = [];
@@ -979,10 +1034,10 @@ async function loadFeaturedBuildings() {
         const featured = buildings.slice(0, 3);
         grid.innerHTML = featured.map(b => `
             <div class="card" onclick="navigate('/buildings?id=${b.id}')" style="cursor:pointer;">
-                <img src="${b.image || 'https://via.placeholder.com/600x400/cccccc/666?text=Heritage+Building'}" 
+                <img src="${b.image || 'https://images.unsplash.com/photo-1759837107238-7637c2446e6c'}" 
                      alt="${b.name}" 
                      style="width:100%;height:180px;object-fit:cover;border-radius:8px;margin-bottom:12px;"
-                     onerror="this.src='https://via.placeholder.com/600x400/cccccc/666?text=No+Image'">
+                     onerror="this.src='https://placehold.co/600x400/eeeeee/666666?text=No+Image'">
                 <h3 style="font-size:17px;font-weight:600;color:var(--text);">${b.name}</h3>
                 <p style="font-size:13px;color:var(--text-muted);">${b.era} · ${b.year}</p>
                 <div style="margin-top:8px;">
@@ -992,10 +1047,10 @@ async function loadFeaturedBuildings() {
             </div>
         `).join('');
         
-        console.log('✅ Featured buildings loaded:', featured.length);
+        console.log(' Featured buildings loaded:', featured.length);
         
     } catch (error) {
-        console.error('❌ Error loading featured buildings:', error);
+        console.error('Error loading featured buildings:', error);
         grid.innerHTML = `<p style="color:var(--text-muted);padding:40px;text-align:center;">Error loading buildings</p>`;
     }
 }
@@ -1012,7 +1067,7 @@ window.addEventListener('hashchange', function() {
 // INITIALIZE EVERYTHING ON PAGE LOAD
 // ========================================
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('🚀 DOM fully loaded - Starting app...');
+    console.log('DOM fully loaded - Starting app...');
     
     const path = window.location.hash.slice(1) || '/';
     renderPage(path);
@@ -1023,6 +1078,12 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(function() {
         initHeritageMap();
     }, 500);
+    // Ensure page starts at top (fixes stray initial scroll position in some previews)
+    try {
+        window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    } catch (e) {
+        window.scrollTo(0, 0);
+    }
 });
 
-console.log('✅ app.js loaded successfully');
+console.log('app.js loaded successfully');

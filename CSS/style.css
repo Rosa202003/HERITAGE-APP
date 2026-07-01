@@ -187,6 +187,7 @@ nav ul li a.active {
     max-width: 100%;
     margin: 0;
     padding: 0;
+    /* NO padding-top here — hero is full-bleed, header is sticky */
     min-height: 70vh;
 }
 
@@ -202,11 +203,11 @@ nav ul li a.active {
     );
     width: 100%;
     border-radius: 0;
-    padding: 80px 40px 50px;
+    padding: 100px 24px 60px; /* top pad accounts for sticky header */
     margin: 0;
     position: relative;
     overflow: hidden;
-    min-height: 550px;
+    min-height: 520px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -282,7 +283,7 @@ nav ul li a.active {
 /* ===== HERO TITLE ===== */
 .hero-title {
     font-family: var(--font-display);
-    font-size: 52px;
+    font-size: clamp(28px, 5vw, 48px);
     font-weight: 700;
     line-height: 1.15;
     margin-bottom: 12px;
@@ -299,10 +300,10 @@ nav ul li a.active {
 
 /* ===== HERO SUBTITLE ===== */
 .hero-subtitle {
-    font-size: 18px;
+    font-size: clamp(14px, 2vw, 17px);
     color: rgba(255,255,255,0.85);
-    max-width: 600px;
-    margin: 0 auto 32px;
+    max-width: 560px;
+    margin: 0 auto 24px;
     line-height: 1.7;
 }
 
@@ -340,13 +341,13 @@ nav ul li a.active {
 }
 
 .hero-search-btn {
-    padding: 14px 32px;
+    padding: 11px 24px;
     background: var(--gold);
     border: none;
     border-radius: 50px;
     color: var(--dark);
     font-weight: 600;
-    font-size: 15px;
+    font-size: 14px;
     cursor: pointer;
     transition: all 0.3s ease;
     white-space: nowrap;
@@ -361,22 +362,23 @@ nav ul li a.active {
 /* ===== ACTION BUTTONS ===== */
 .hero-actions {
     display: flex;
-    gap: 12px;
+    gap: 10px;
     justify-content: center;
-    margin-bottom: 40px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
 }
 
 .hero-btn {
-    padding: 12px 32px;
+    padding: 10px 24px;
     border-radius: 50px;
     font-weight: 600;
-    font-size: 15px;
+    font-size: 14px;
     cursor: pointer;
     transition: all 0.3s ease;
     border: none;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
 }
 
 /* Primary Button - Gold */
@@ -615,18 +617,19 @@ nav ul li a.active {
 }
 
 /* ========================================
-   BUTTONS
+   BUTTONS — compact sizing
    ======================================== */
 .btn-primary {
     background: var(--primary);
     color: var(--card);
     border: none;
-    padding: 10px 24px;
+    padding: 9px 18px;
     border-radius: var(--radius-sm);
     font-weight: 500;
-    font-size: 14px;
+    font-size: 13px;
     cursor: pointer;
     transition: all 0.2s ease;
+    white-space: nowrap;
 }
 
 .btn-primary:hover {
@@ -638,11 +641,13 @@ nav ul li a.active {
     background: var(--muted);
     color: var(--text);
     border: 1px solid var(--border);
-    padding: 10px 24px;
+    padding: 9px 18px;
     border-radius: var(--radius-sm);
     font-weight: 500;
+    font-size: 13px;
     cursor: pointer;
     transition: all 0.2s ease;
+    white-space: nowrap;
 }
 
 .btn-secondary:hover {
@@ -654,11 +659,13 @@ nav ul li a.active {
     background: var(--accent);
     color: var(--card);
     border: none;
-    padding: 10px 24px;
+    padding: 9px 18px;
     border-radius: var(--radius-sm);
     font-weight: 500;
+    font-size: 13px;
     cursor: pointer;
     transition: all 0.2s ease;
+    white-space: nowrap;
 }
 
 .btn-accent:hover {
@@ -698,29 +705,41 @@ nav ul li a.active {
 .grid-2 {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    gap: 16px;
 }
 
 .grid-3 {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    gap: 16px;
 }
 
 .grid-4 {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+    gap: 16px;
+}
+
+@media (max-width: 1024px) {
+    .grid-4 { grid-template-columns: repeat(2, 1fr); }
+    .grid-3 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+    .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; }
 }
 
 /* ========================================
    MAP CONTAINER
    ======================================== */
 .map-container {
-    height: 400px;
+    height: 420px;
+    min-height: 300px;
     border-radius: var(--radius);
     overflow: hidden;
     border: 1px solid var(--border);
+    position: relative;
+    z-index: 1;
 }
 
 /* ========================================
@@ -753,10 +772,9 @@ nav ul li a.active {
 
 .video-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
     align-items: start;
-    grid-auto-rows: 1fr;
 }
 
 .video-card {
@@ -847,7 +865,7 @@ nav ul li a.active {
 .video-card { min-height: 0; cursor: pointer; }
 .video-card-large { min-height: 0; }
 .video-card-small { min-height: 0; }
-.video-card:first-child { grid-column: span 2; }
+/* No forced span — all cards equal */
 
 .video-info-small { padding: 10px 12px; }
 
@@ -932,12 +950,12 @@ nav ul li a.active {
     cursor: pointer;
 }
 
-@media (max-width: 1200px) {
-    .video-grid { grid-template-columns: repeat(2, 1fr); }
+@media (max-width: 1100px) {
+    .video-grid { grid-template-columns: repeat(2, 1fr) !important; }
 }
 
-@media (max-width: 768px) {
-    .video-grid { grid-template-columns: 1fr; }
+@media (max-width: 600px) {
+    .video-grid { grid-template-columns: 1fr !important; }
     .cta-content { grid-template-columns: 1fr; text-align: left; }
     .cta-right { justify-content: flex-start; }
 }
@@ -947,12 +965,12 @@ nav ul li a.active {
    ======================================== */
 .building-overview {
     background: transparent;
-    padding: 36px 20px;
+    padding: 36px 0;
     color: var(--text);
 }
 
 .building-overview .section-title {
-    font-size: 28px;
+    font-size: 26px;
     color: var(--text);
 }
 
@@ -3607,15 +3625,7 @@ nav ul li a.active {
         font-size: 13px;
     }
 }
-body{
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background: #f4f4f4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
+/* Removed rogue body block that broke global scrolling */
 .login-container{
     background: white;
     padding: 30px;
@@ -3659,3 +3669,96 @@ button:hover{
 a:hover{
     text-decoration: underline;
 } */
+
+/* =========================================
+   RESPONSIVE OVERRIDES
+   ========================================= */
+@media (max-width: 768px) {
+    .hero {
+        padding: 90px 16px 50px;
+        min-height: auto;
+    }
+    .hero-stats {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 100%;
+    }
+    .map-layout {
+        flex-direction: column !important;
+    }
+    .map-sidebar {
+        max-height: 300px !important;
+        overflow-y: auto;
+    }
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    .cta-content {
+        flex-direction: column !important;
+    }
+    .video-grid {
+        grid-template-columns: 1fr 1fr !important;
+    }
+    .building-grid .card {
+        padding: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        padding: 80px 12px 40px;
+    }
+    .hero-search {
+        flex-direction: column;
+        border-radius: var(--radius);
+    }
+    .hero-search-input {
+        border-radius: var(--radius-sm);
+    }
+    .hero-search-btn {
+        border-radius: var(--radius-sm);
+        width: 100%;
+    }
+    .video-grid {
+        grid-template-columns: 1fr !important;
+    }
+    nav ul {
+        flex-wrap: wrap;
+    }
+}
+
+/* =========================================
+   CITIZEN MODAL
+   ========================================= */
+.citizen-modal {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    backdrop-filter: blur(4px);
+}
+
+.citizen-modal-content {
+    background: var(--card);
+    padding: 40px;
+    border-radius: var(--radius);
+    width: 90%;
+    max-width: 400px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.citizen-modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--text-muted);
+}
