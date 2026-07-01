@@ -315,7 +315,6 @@
                         <p>Your feedback helps document living heritage. Sign in and leave a review.</p>
                         <div class="cta-buttons">
                             <button class="btn-accent" onclick="navigate('../HTML/risk.html')">⚑ Report At-Risk Building</button>
-                            <button class="btn-secondary" onclick="navigate('/community')">Get Involved</button>
                         </div>
                     </div>
 
@@ -329,20 +328,59 @@
             </section>
         </main>
    <!-- footer -->
-        <footer class="main-footer">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <span class="footer-logo">Urithi Majengo</span>
-                <p>&copy; 2026 <span class="gold-text">Urithi Majengo</span>. Dar es Salaam, Tanzania.</p>   
+       <!-- footer -->
+<footer class="main-footer">
+    <div class="footer-content" style="max-width:1200px;margin:0 auto;padding:20px 0;">
+        <!-- Top Row: Brand + Links -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:30px;text-align:left;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.06);">
+            
+            <!-- Brand Column -->
+            <div>
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+                    <span style="font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--gold);">Urithi Majengo</span>
                 </div>
-                <div class="footer-links">
-                    <a href="#../HTML/index.html" onclick="navigate('/about')">Map & Records</a>
-                    <a href="#../HTML/buildings.html" onclick="navigate('/buildings')">All Buildings</a>
-                    <a href="#../HTML/risk.html" onclick="navigate('/risk')">Report At-Risk</a>
-                    <a href="#../HTML/community.html" onclick="navigate('/community')">Community</a>
-                </div>
-            </div>             
-        </footer>
+                <p style="color:var(--text-muted);font-size:13px;line-height:1.6;max-width:280px;">
+                    A digital heritage inventory managed by the Antiquities Department of Tanzania.
+                </p>
+                <p style="color:var(--text-muted);font-size:12px;margin-top:8px;opacity:0.6;">
+                    © 2026 Antiquities Department - United Republic of Tanzania
+                </p>
+            </div>
+            
+            <!-- Explore Column -->
+            <div>
+                <h4 style="color:rgba(255,255,255,0.4);font-size:11px;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">Explore</h4>
+                <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:4px;">
+                    <li><a href="../HTML/index.html" style="color:var(--text-muted);text-decoration:none;font-size:13px;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''">Map & Records</a></li>
+                    <li><a href="../HTML/buildings.html" style="color:var(--text-muted);text-decoration:none;font-size:13px;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''"> All Buildings</a></li>
+                    <li><a href="../HTML/community.html" style="color:var(--text-muted);text-decoration:none;font-size:13px;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''"> Community</a></li>
+                    <li><a href="../HTML/risk.html" style="color:var(--text-muted);text-decoration:none;font-size:13px;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''">Report At-Risk</a></li>
+                </ul>
+            </div>
+            
+            <!-- Partners Column -->
+            <div>
+                <h4 style="color:rgba(255,255,255,0.4);font-size:11px;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">Partners</h4>
+                <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:4px;">
+                    <li style="color:var(--text-muted);font-size:13px;">Antiquities Dept</li>
+                    <li style="color:var(--text-muted);font-size:13px;">DARCH</li>
+                    <li style="color:var(--text-muted);font-size:13px;">ARU Architecture Dept</li>
+                    <li style="color:var(--text-muted);font-size:13px;">Nat'l College Tourism</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Bottom Row -->
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;padding-top:16px;">
+            <p style="color:var(--text-muted);font-size:12px;opacity:0.6;margin:0;">
+                © 2026 <span class="gold-text">Urithi Majengo</span>. All rights reserved.
+            </p>
+            <p style="color:var(--text-muted);font-size:11px;opacity:0.4;margin:0;">
+                Built for the Antiquities Department · Tanzania
+            </p>
+        </div>
+    </div>             
+</footer>
     </div>
       
 
@@ -382,31 +420,8 @@
                 attribution: '© OpenStreetMap'
             }).addTo(map);
             
-            MOCK_BUILDINGS.forEach(b => {
-                let color = b.condition === 'Good' ? '#34D5B8' : 
-                           b.condition === 'Fair' ? '#F0B429' : '#F5611D';
-                
-                L.circleMarker([b.lat, b.lng], {
-                    radius: 9,
-                    fillColor: color,
-                    color: '#fff',
-                    weight: 2,
-                    fillOpacity: 0.85
-                })
-                .bindPopup(`
-                    <div style="min-width:160px;">
-                        <strong>${b.name}</strong><br>
-                        <span style="font-size:12px;color:#666;">${b.era} · ${b.year}</span><br>
-                        <span class="badge badge-${b.condition.toLowerCase()}">${b.condition}</span><br>
-                        <button onclick="navigate('/buildings?id=${b.id}')" 
-                                style="margin-top:6px;padding:4px 12px;background:#0B7A69;color:white;border:none;border-radius:4px;cursor:pointer;font-size:12px;">
-                            View Details
-                        </button>
-                    </div>
-                `)
-                .addTo(map);
-            });
-            
+          // Find this code block:
+
             setTimeout(() => map.invalidateSize(), 400);
             window._heritageMap = map;
             console.log(' Map initialized successfully');
@@ -415,7 +430,116 @@
             console.error(' Map error:', error);
         }
     }
-
+    MOCK_BUILDINGS.forEach(b => {
+    let color = b.condition === 'Good' ? '#34D5B8' : 
+               b.condition === 'Fair' ? '#F0B429' : '#F5611D';
+    
+    // Get condition emoji
+    let condEmoji = b.condition === 'Good' ? '✅' : 
+                    b.condition === 'Fair' ? '⚠️' : '🚨';
+    
+    // Get status badge color
+    let statusColor = b.status === 'Grade I Listed' ? '#D4A547' : 
+                      b.status === 'Grade II Listed' ? '#34D5B8' : '#F5611D';
+    
+    // Get rating stars
+    let rating = b.rating || 4.0;
+    let fullStars = Math.round(rating);
+    let stars = '★'.repeat(Math.min(fullStars, 5)) + '☆'.repeat(Math.max(0, 5 - fullStars));
+    
+    L.circleMarker([b.lat, b.lng], {
+        radius: 10,
+        fillColor: color,
+        color: '#fff',
+        weight: 2.5,
+        fillOpacity: 0.9
+    })
+    .bindPopup(`
+        <div style="min-width:320px;max-width:380px;padding:4px 0;font-family:'Plus Jakarta Sans',sans-serif;">
+            <!-- Image -->
+            <div style="margin:-4px -4px 12px -4px;border-radius:8px 8px 0 0;overflow:hidden;height:160px;background:#e8ecea;">
+                <img src="${b.image || 'https://via.placeholder.com/600x300/cccccc/666?text=Heritage+Building'}" 
+                     alt="${b.name}" 
+                     style="width:100%;height:160px;object-fit:cover;"
+                     onerror="this.src='https://via.placeholder.com/600x300/cccccc/666?text=No+Image'">
+            </div>
+            
+            <!-- Building Name & Code -->
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2px;">
+                <strong style="font-size:18px;color:#0C1E1A;font-family:'Fraunces',serif;">${b.name}</strong>
+                <span style="font-family:monospace;font-size:10px;color:#577A74;background:#E4F2EF;padding:2px 10px;border-radius:12px;">${b.code || 'DSH-00'+b.id}</span>
+            </div>
+            
+            <!-- Rating -->
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+                <span style="color:#F0B429;font-size:15px;letter-spacing:1px;">${stars}</span>
+                <span style="font-size:12px;color:#577A74;">${rating} (1)</span>
+                <span style="background:${color};color:#fff;padding:2px 14px;border-radius:12px;font-size:11px;font-weight:600;">${condEmoji} ${b.condition}</span>
+            </div>
+            
+            <!-- Detail Grid -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px 16px;padding:8px 0;border-top:1px solid #E4F2EF;border-bottom:1px solid #E4F2EF;margin-bottom:10px;">
+                <div style="display:flex;justify-content:space-between;padding:2px 0;">
+                    <span style="font-size:11px;color:#577A74;font-weight:500;">DISTRICT</span>
+                    <span style="font-size:12px;color:#0C1E1A;font-weight:600;">${b.location || 'Dar es Salaam'}</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;padding:2px 0;">
+                    <span style="font-size:11px;color:#577A74;font-weight:500;">BUILT</span>
+                    <span style="font-size:12px;color:#0C1E1A;font-weight:600;">${b.year}</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;padding:2px 0;">
+                    <span style="font-size:11px;color:#577A74;font-weight:500;">AREA</span>
+                    <span style="font-size:12px;color:#0C1E1A;font-weight:600;">${b.area || '2,840 m²'}</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;padding:2px 0;">
+                    <span style="font-size:11px;color:#577A74;font-weight:500;">STATUS</span>
+                    <span style="font-size:12px;color:${statusColor};font-weight:600;">${b.status || 'Listed'}</span>
+                </div>
+            </div>
+            
+            <!-- Description Snippet -->
+            <p style="font-size:13px;color:#577A74;line-height:1.6;margin:0 0 10px 0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">
+                ${b.description || 'A significant heritage building in Dar es Salaam.'}
+            </p>
+            
+            <!-- Tags -->
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;">
+                ${b.tags && b.tags.includes('360°') ? '<span style="background:#6366F1;color:#fff;padding:2px 10px;border-radius:12px;font-size:10px;">🔄 360° Tour</span>' : ''}
+                ${b.tags && b.tags.includes('At Risk') ? '<span style="background:#F5611D;color:#fff;padding:2px 10px;border-radius:12px;font-size:10px;animation:pulse-risk 1.5s infinite;">⚑ AT RISK</span>' : ''}
+                ${b.tags && b.tags.includes('Protected') ? '<span style="background:#0B7A69;color:#fff;padding:2px 10px;border-radius:12px;font-size:10px;">🛡️ Protected</span>' : ''}
+            </div>
+            
+            <!-- Metadata -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px 16px;padding:8px 0;border-top:1px solid #E4F2EF;margin-bottom:10px;">
+                <div>
+                    <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.06em;color:#577A74;font-weight:600;">ARCHITECT</div>
+                    <div style="font-size:12px;color:#0C1E1A;font-weight:500;">${b.architect || 'Unknown'}</div>
+                </div>
+                <div>
+                    <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.06em;color:#577A74;font-weight:600;">OWNERSHIP</div>
+                    <div style="font-size:12px;color:#0C1E1A;font-weight:500;">${b.ownership || 'Unknown'}</div>
+                </div>
+                <div>
+                    <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.06em;color:#577A74;font-weight:600;">STYLE</div>
+                    <div style="font-size:12px;color:#0C1E1A;font-weight:500;">${b.style || 'Colonial'}</div>
+                </div>
+                <div>
+                    <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.06em;color:#577A74;font-weight:600;">INSPECTED</div>
+                    <div style="font-size:12px;color:#0C1E1A;font-weight:500;">${b.inspected || '2024-03-15'}</div>
+                </div>
+            </div>
+            
+            <!-- Report Button -->
+            <button onclick="navigate('/risk')" 
+                    style="width:100%;padding:8px;background:transparent;border:2px solid #F5611D;border-radius:6px;color:#F5611D;font-weight:600;font-size:13px;cursor:pointer;transition:all 0.2s;margin-top:4px;"
+                    onmouseover="this.style.background='#F5611D';this.style.color='white';"
+                    onmouseout="this.style.background='transparent';this.style.color='#F5611D';">
+                ⚑ Report This Building At Risk
+            </button>
+        </div>
+    `, { maxWidth: 400, className: 'custom-popup' })
+    .addTo(map);
+});
     // Load map when page loads
     document.addEventListener('DOMContentLoaded', function() {
         // Use layered timeouts to ensure DOM + scripts are fully ready
@@ -425,6 +549,87 @@
             });
         }, 600);
     });
+
+
+    <!-- ADD THIS AFTER THE MAP INITIALIZATION SCRIPT -->
+<script>
+    // ========================================
+    // LOAD FEATURED BUILDINGS WITH MORE INFO
+    // ========================================
+    function loadFeaturedBuildings() {
+        const grid = document.getElementById('building-grid');
+        if (!grid) return;
+        
+        console.log('🏛️ Loading featured buildings...');
+        
+        try {
+            let buildings = [];
+            if (typeof API !== 'undefined' && API.getBuildings) {
+                API.getBuildings().then(data => {
+                    buildings = data;
+                    renderFeaturedCards(buildings, grid);
+                });
+            } else if (typeof MOCK_BUILDINGS !== 'undefined') {
+                buildings = MOCK_BUILDINGS;
+                renderFeaturedCards(buildings, grid);
+            }
+        } catch (error) {
+            console.error('❌ Error loading featured buildings:', error);
+            grid.innerHTML = `<p style="color:var(--text-muted);padding:40px;text-align:center;">Error loading buildings</p>`;
+        }
+    }
+    
+    function renderFeaturedCards(buildings, grid) {
+        if (!buildings || buildings.length === 0) {
+            grid.innerHTML = `<p style="color:var(--text-muted);padding:40px;text-align:center;">No buildings found</p>`;
+            return;
+        }
+        
+        const featured = buildings.slice(0, 3);
+        grid.innerHTML = featured.map(b => `
+            <div class="card" onclick="navigate('/buildings?id=${b.id}')" style="cursor:pointer;overflow:hidden;transition:all 0.3s ease;">
+                <img src="${b.image || 'https://via.placeholder.com/600x400/cccccc/666?text=Heritage+Building'}" 
+                     alt="${b.name}" 
+                     style="width:100%;height:200px;object-fit:cover;border-radius:8px 8px 0 0;transition:transform 0.3s ease;"
+                     onerror="this.src='https://via.placeholder.com/600x400/cccccc/666?text=No+Image'">
+                <div style="padding:16px 18px 18px;">
+                    <!-- Name & Code -->
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;">
+                        <h3 style="font-size:17px;font-weight:600;color:var(--text);margin:0;">${b.name}</h3>
+                        <span style="font-family:monospace;font-size:10px;color:var(--text-muted);background:var(--muted);padding:2px 10px;border-radius:12px;">${b.code || 'DSH-00'+b.id}</span>
+                    </div>
+                    
+                    <!-- Meta Info -->
+                    <div style="display:flex;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--text-muted);margin:4px 0 8px;">
+                        <span>🏛️ ${b.era}</span>
+                        <span>📅 ${b.year}</span>
+                        <span>📍 ${b.location || 'Dar es Salaam'}</span>
+                    </div>
+                    
+                    <!-- Condition & Status -->
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+                        <span class="badge badge-${b.condition.toLowerCase()}">${b.condition}</span>
+                        <span style="background:var(--muted);color:var(--text-muted);padding:2px 12px;border-radius:12px;font-size:11px;font-weight:500;">${b.status || 'Listed'}</span>
+                        ${b.tags && b.tags.includes('360°') ? '<span style="background:#6366F1;color:#fff;padding:2px 10px;border-radius:12px;font-size:10px;">🔄 360°</span>' : ''}
+                        ${b.tags && b.tags.includes('At Risk') ? '<span style="background:#F5611D;color:#fff;padding:2px 10px;border-radius:12px;font-size:10px;animation:pulse-risk 1.5s infinite;">⚑ AT RISK</span>' : ''}
+                    </div>
+                    
+                    <!-- Description Snippet -->
+                    <p style="font-size:13px;color:var(--text-muted);margin:6px 0 0;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">
+                        ${b.description || 'A significant heritage building in Dar es Salaam.'}
+                    </p>
+                    
+                    <!-- Click to view -->
+                    <div style="margin-top:10px;font-size:12px;color:var(--primary);font-weight:600;text-align:right;">
+                        View Details →
+                    </div>
+                </div>
+            </div>
+        `).join('');
+        
+        console.log('✅ Featured buildings loaded:', featured.length);
+    }
+</script>
 </script>
     <!-- CITIZEN MODAL -->
     <div id="citizen-modal" class="citizen-modal" style="display:none;">
