@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Buildings - Urithi Majengo</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Buildings - Urithi Majengo</title>
     <meta name="description" content="Complete georeferenced records of all listed and proposed heritage structures in Dar es Salaam.">
     
     <!-- ===== FAVICON ===== -->
@@ -14,30 +14,31 @@
     
     <!-- ===== LEAFLET CSS ===== -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    
-    <!-- ===== CUSTOM CSS ===== -->
-    <link rel="stylesheet" href="../CSS/style.css" type="text/css">
+
+  <link rel="stylesheet" href="../CSS/styles.css">
+  <link rel="stylesheet" href="../CSS/style.css">
 </head>
 <body>
-    <div id="app">
-        <!-- ===== HEADER ===== -->
-        <header class="main-header">
-            <div class="logo">UM</div>
-            
-           <!-- Navigation Bar -->
-             <nav class="nav-container" id="nav-menu" role="navigation" aria-label="Main Navigation">
-                <ul class="nav-links">
-                    <li><a href="../HTML/index.html" onclick="navigate('/index')">Map & Records</a></li>
-                    <li><a href="../HTML/buildings.html" onclick="navigate('/buildings')">All Buildings</a></li>
-                    <li><a href="../HTML/risk.html" onclick="navigate('/risk')">Report At-Risk</a></li>
-                    <li><a href="../HTML/community.html" onclick="navigate('/community')">Community</a></li>
-                    <li><a href="../HTML/login.html" onclick="navigate('/login')">Login</a></li>
-                    <li><a href="../HTML/officer.html" onclick="navigate('/officer')">Officer</a></li>
-                </ul>
-            </nav>
+  <div id="app"></div>
+  <header class="main-header">
+    <div class="logo">UM</div>
+      <!-- <div class="logo-container">
+        <div class="logo-icon"></div>
+        <span class="logo-text">Urithi</span>
+      </div> -->
 
+      <nav class="nav-container" id="nav-menu" role="navigation" aria-label="Main Navigation"></nav>
+      <ul class="nav-links">
+        <li><a href="../HTML/index.html" onclick="navigate('/')">Map & Records</a></li>
+        <li><a href="../HTML/buildings.html" onclick="navigate('/buildings')">All Buildings</a></li>
+        <li><a href="../HTML/risk.html" onclick="navigate('/risk')">Report At-Risk</a></li>
+        <li><a href="../HTML/community.html" onclick="navigate('/community')">Community</a></li>
+        <li><a href="../HTML/officer.html" onclick="navigate('/officer')">Officer</a></li>
+        </ul>
+      </nav>
+
+      <!-- Hamburger Menu for Mobile -->
             <button class="hamburger" id="menu-toggle" aria-label="Toggle navigation">
-                <span class="hamburger-line"></span>
                 <span class="hamburger-line"></span>
                 <span class="hamburger-line"></span>
                 <span class="hamburger-line"></span>
@@ -45,78 +46,107 @@
                 <span class="hamburger-line"></span>
             </button>
 
-        </header>
+  </header>
 
-        <!-- ===== MAIN CONTENT ===== -->
-        <main id="main-content">
-            <div class="buildings-page">
-                <!-- Page Header -->
-                <div class="page-header">
-                    <div>
-                        <h1> Heritage Building Inventory</h1>
-                        <p class="subtitle">Complete georeferenced records of all listed and proposed heritage structures.</p>
-                    </div>
-                    <div class="results-count" id="results-count">8 results</div>
-                </div>
-
-                <!-- Filter Bar -->
-                <div class="filter-bar">
-                    <input 
-                        type="text" 
-                        class="search-input" 
-                        id="search-input"
-                        placeholder="Search buildings by name, era, or location..."
-                        oninput="filterBuildings()"
-                    >
-                    <div class="filter-group">
-                        <button class="filter-btn active" data-filter="all" onclick="setFilter('all')">All</button>
-                        <button class="filter-btn" data-filter="good" onclick="setFilter('good')">Good</button>
-                        <button class="filter-btn" data-filter="fair" onclick="setFilter('fair')">Fair</button>
-                        <button class="filter-btn" data-filter="poor" onclick="setFilter('poor')">Poor</button>
-                        <button class="filter-btn" data-filter="at-risk" onclick="setFilter('at-risk')">At Risk</button>
-                    </div>
-                    <div class="filter-group">
-                        <button class="filter-btn" data-filter="german" onclick="setFilter('german')">German</button>
-                        <button class="filter-btn" data-filter="british" onclick="setFilter('british')">British</button>
-                        <button class="filter-btn" data-filter="independence" onclick="setFilter('independence')">Independence</button>
-                    </div>
-                </div>
-
-                <!-- Building Grid -->
-                <div class="building-grid" id="building-grid">
-                    <!-- Dynamically loaded -->
-                </div>
-            </div>
-        </main>
-
-        <!-- ===== FOOTER ===== -->
-        <footer class="main-footer">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <div class="footer-logo-wrapper">
-                        <span class="footer-logo-circle">UM</span>
-                        <span class="footer-logo-text">Urithi Majengo</span>
-                    </div>
-                    <p>Digital Inventory &amp; Virtual-Tour System</p>
-                    <p style="font-size:12px;opacity:0.6;margin-top:4px;">Dar es Salaam, Tanzania</p>
-                </div>
-                <div class="footer-links">
-                    <a href="#../HTML/index.html">About</a>
-                    <a href="#../HTML/buildings.html">Contact</a>
-                    <a href="#../HTML/community.html">Privacy</a>
-                    <a href="#../HTML/risk.html">Terms</a>
-                </div>
-                <div class="footer-bottom">
-                    <p>&copy; 2026 <span class="gold-text">Urithi Majengo</span>. All rights reserved.</p>
-                    <p class="footer-credit">Built for the Antiquities Department</p>
-                </div>
-            </div>
-        </footer>
+  <main class="main-content">
+    <div class="hero-section">
+      <h1>Heritage Building Inventory</h1>
+      <p>Complete georeferenced records of all listed and proposed heritage structures.</p>
+    </div>
+    
+    <div class="search-container">
+      <div class="search-wrapper">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="Search buildings...">
+      </div>
+      <span class="results-count" id="resultsCount">0 results</span>
+    </div>
+    
+    <div class="building-grid" id="buildingGrid"></div>
+  </main>
+<!-- modals are here -->
+  <script src="../JS/app.js" type="module"></script>
+  <div class="modal-overlay" id="detailModal">
+  <div class="modal-container">
+    <button class="modal-close-btn" id="closeModalBtn">&times;</button>
+    
+    <div class="modal-hero" id="modalHero">
+      <div class="modal-hero-badges">
+        <span class="badge era-badge" id="modalEra"></span>
+        <span class="status-tag" id="modalCondition"></span>
+      </div>
+      <h2 id="modalTitle"></h2>
     </div>
 
-    <!-- ===== SCRIPTS ===== -->
-    <script src="../JS/app.js">
-        
-    </script>
+    <div class="modal-stats-grid">
+      <div class="stat-box"><strong>DISTRICT</strong><span id="modalDistrict"></span></div>
+      <div class="stat-box"><strong>BUILT</strong><span id="modalBuilt"></span></div>
+      <div class="stat-box"><strong>AREA</strong><span id="modalArea"></span></div>
+      <div class="stat-box"><strong>STATUS</strong><span id="modalStatus"></span></div>
+    </div>
+
+    <div class="modal-tabs">
+      <span class="tab-item active">Overview</span>
+      <span class="tab-item">360° Tour</span>
+      <span class="tab-item">Reviews (0)</span>
+    </div>
+
+    <div class="modal-body">
+        <div class="modal-panels">
+            <div class="modal-panel active" id="panel-overview">
+      <p id="modalDescription" class="modal-description"></p>
+      
+      <div class="significance-box">
+        <span class="box-label">HISTORICAL SIGNIFICANCE</span>
+        <p id="modalSignificance"></p>
+      </div>
+
+      <div class="info-tiles-grid">
+        <div class="info-tile"><strong>ARCHITECT</strong><span id="modalArchitect"></span></div>
+        <div class="info-tile"><strong>OWNERSHIP</strong><span id="modalOwnership"></span></div>
+        <div class="info-tile"><strong>STYLE</strong><span id="modalStyle"></span></div>
+        <div class="info-tile"><strong>LAST INSPECTED</strong><span id="modalInspected"></span></div>
+      </div>
+      </div>
+      <div class="modal-panel" id="panel-tour">
+      <div class="tour-placeholder">
+        <div class="tour-icon">🔄</div>
+        <h3>Virtual Heritage Tour</h3>
+        <p>Interactive 360° panoramic view of the structure. Drag to look around.</p>
+        <div class="mock-iframe" id="modalTourContainer">
+          <div class="panorama-preview"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-panel" id="panel-reviews">
+      <div class="reviews-container">
+        <h3>Community Inspections & Reviews</h3>
+        <div class="empty-reviews">
+          <p>No community logs submitted yet for this building.</p>
+          <button class="btn-review">✍️ Write a Review</button>
+        </div>
+      </div>
+    </div>
+    </div>
+      <button class="btn-report-atrisk">⚠️ Report This Building At Risk</button>
+    </div>
+  </div>
+</div>
+<footer class="main-footer">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="footer-logo">Urithi Majengo</span>
+                <p>&copy; 2026 <span class="gold-text">Urithi Majengo</span>. Dar es Salaam, Tanzania.</p>   
+                </div>
+                <div class="footer-links">
+                    <a href="#../HTML/index.html" onclick="navigate('/about')">Map & Records</a>
+                    <a href="#../HTML/buildings.html" onclick="navigate('/buildings')">All Buildings</a>
+                    <a href="#../HTML/risk.html" onclick="navigate('/risk')">Report At-Risk</a>
+                    <a href="#../HTML/community.html" onclick="navigate('/community')">Community</a>
+                </div>
+            </div>             
+        </footer>
+  <script src="../JS/app.js"></script>
 </body>
 </html>
