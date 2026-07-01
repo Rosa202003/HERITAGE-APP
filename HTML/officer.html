@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Officer Portal - Urithi Majengo</title>
+    <meta name="description" content="Antiquities Department officer portal for managing heritage buildings.">
+    
+    <!-- ===== FAVICON ===== -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
+    
+    <!-- ===== GOOGLE FONTS ===== -->
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    
+    <!-- ===== CUSTOM CSS ===== -->
+    <link rel="stylesheet" href="../CSS/style.css" type="text/css">
+    
+    <style>
+        /* ========================================
+           OFFICER PORTAL - SPECIFIC STYLES
+           ======================================== */
+        
+        /* ===== LAYOUT ===== */
+        .officer-layout {
+            display: flex;
+            min-height: calc(100vh - 64px);
+            background: var(--bg);
+        }
+
+        /* ===== SIDEBAR ===== */
+        .officer-sidebar {
+            width: 240px;
+            background: var(--dark);
+            border-right: 1px solid var(--border);
+            padding: 20px 0;
+            flex-shrink: 0;
+            position: sticky;
+            top: 64px;
+            height: calc(100vh - 64px);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .officer-sidebar .sidebar-brand {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            margin-bottom: 16px;
+        }
+
+        .officer-sidebar .sidebar-brand h1 {
+            font-family: var(--font-display);
+            font-size: 18px;
+            color: var(--gold);
+            font-weight: 700;
+        }
+
+        .officer-sidebar .sidebar-brand p {
+            font-size: 12px;
+            color: rgba(255,255,255,0.4);
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            padding: 0 12px;
+            flex: 1;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 16px;
+            border-radius: var(--radius-sm);
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-nav a:hover {
+            background: rgba(255,255,255,0.05);
+            color: var(--card);
+        }
+
+        .sidebar-nav a.active {
+            background: rgba(240, 180, 41, 0.12);
+            color: var(--gold);
+        }
+
+        .sidebar-nav a .nav-icon {
+            font-size: 18px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .sidebar-nav a .nav-badge {
+            margin-left: auto;
+            background: var(--accent);
+            color: white;
+            font-size: 11px;
+            padding: 1px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+
+        /* ===== SIDEBAR FOOTER ===== */
+        .sidebar-footer {
+            padding: 16px 20px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            margin-top: auto;
+        }
+
+        .sidebar-footer .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sidebar-footer .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--gold);
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .sidebar-footer .user-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--card);
+        }
+
+        .sidebar-footer .user-role {
+            font-size: 11px;
+            color: rgba(255,255,255,0.4);
+        }
+
+        .sidebar-footer .logout-btn {
+            margin-top: 8px;
+            padding: 8px;
+            width: 100%;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: var(--radius-sm);
+            color: rgba(255,255,255,0.5);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-footer .logout-btn:hover {
+            background: rgba(245, 97, 29, 0.1);
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .officer-main {
+            flex: 1;
+            padding: 24px 32px;
+            overflow-y: auto;
+        }
+
+        .officer-main .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .officer-main .page-header h2 {
+            font-family: var(--font-display);
+            font-size: 28px;
+            color: var(--text);
+        }
+
+        .officer-main .page-header .header-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        /* ===== STATS CARDS ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            background: var(--card);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            padding: 20px 24px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stat-card .stat-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text);
+            font-family: var(--font-display);
+        }
+
+        .stat-card .stat-label {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .stat-card .stat-icon {
+            font-size: 24px;
+            opacity: 0.3;
+        }
+
+        .stat-card.stat-primary .stat-number { color: var(--primary); }
+        .stat-card.stat-gold .stat-number { color: var(--gold); }
+        .stat-card.stat-accent .stat-number { color: var(--accent); }
+        .stat-card.stat-teal .stat-number { color: var(--teal-lt); }
+
+        /* ===== TABLE ===== */
+        .table-container {
+            background: var(--card);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            margin-bottom: 24px;
+        }
+
+        .table-header {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .table-header h3 {
+            font-family: var(--font-display);
+            font-size: 18px;
+            color: var(--text);
+        }
+
+        .table-header .table-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            padding: 0 4px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        table thead {
+            background: var(--muted);
+        }
+
+        table th {
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-muted);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text);
+        }
+
+        table tbody tr:hover {
+            background: var(--bg);
+        }
+
+        table .condition-badge {
+            padding: 2px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        table .condition-badge.good {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        table .condition-badge.excellent {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        table .condition-badge.fair {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        table .condition-badge.poor {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        table .status-badge {
+            padding: 2px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        table .status-badge.listed {
+            background: var(--muted);
+            color: var(--text-muted);
+        }
+
+        table .status-badge.protected {
+            background: rgba(11,122,105,0.12);
+            color: var(--primary);
+        }
+
+        table .era-tag {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            background: var(--muted);
+            color: var(--text-muted);
+        }
+
+        table .era-tag.german { background: #e8e0d0; color: #6b5a3a; }
+        table .era-tag.british { background: #d0d8e8; color: #2a4a7a; }
+        table .era-tag.independence { background: #d0e8d8; color: #1a6a4a; }
+
+        table .action-btn {
+            padding: 4px 12px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xs);
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        table .action-btn:hover {
+            background: var(--primary);
+            color: var(--card);
+            border-color: var(--primary);
+        }
+
+        /* ===== FLAG REPORTS ===== */
+        .flag-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .flag-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 14px 20px;
+            background: var(--card);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .flag-item:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow);
+        }
+
+        .flag-item .flag-priority {
+            width: 4px;
+            height: 40px;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+
+        .flag-item .flag-priority.high { background: var(--accent); }
+        .flag-item .flag-priority.medium { background: var(--gold); }
+        .flag-item .flag-priority.low { background: var(--teal-lt); }
+
+        .flag-item .flag-info {
+            flex: 1;
+        }
+
+        .flag-item .flag-info .flag-title {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text);
+        }
+
+        .flag-item .flag-info .flag-meta {
+            font-size: 12px;
+            color: var(--text-muted);
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .flag-item .flag-status {
+            padding: 2px 14px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .flag-item .flag-status.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .flag-item .flag-status.reviewing {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .flag-item .flag-status.resolved {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        /* ========================================
+           RESPONSIVE
+           ======================================== */
+
+        @media (max-width: 1024px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .officer-layout {
+                flex-direction: column;
+            }
+
+            .officer-sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                top: 0;
+                padding: 12px 0;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .officer-sidebar .sidebar-brand {
+                padding: 0 16px 12px;
+            }
+
+            .sidebar-nav {
+                flex-direction: row;
+                overflow-x: auto;
+                padding: 0 12px;
+                gap: 4px;
+            }
+
+            .sidebar-nav a {
+                padding: 8px 14px;
+                font-size: 13px;
+                white-space: nowrap;
+            }
+
+            .sidebar-nav a .nav-badge {
+                display: none;
+            }
+
+            .sidebar-footer {
+                display: none;
+            }
+
+            .officer-main {
+                padding: 16px;
+            }
+
+            .officer-main .page-header h2 {
+                font-size: 22px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+
+            .stat-card {
+                padding: 16px;
+            }
+
+            .stat-card .stat-number {
+                font-size: 24px;
+            }
+
+            .table-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .flag-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .officer-main {
+                padding: 12px;
+            }
+
+            .officer-main .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- ===== HEADER ===== -->
+        <header class="main-header">
+            <div class="logo">UM</div>
+            
+            <nav class="nav-container" id="nav-menu" role="navigation" aria-label="Main Navigation">
+                <ul class="nav-links">
+                    <li><a href="../HTML/index.html">Public Site</a></li>
+                    <li><a href="../HTML/officer.html" class="active">Officer Portal</a></li>
+                    <li><a href="javascript:void(0)" onclick="openLoginModal()">Sign In</a></li>
+                </ul>
+            </nav>
+
+            <button class="hamburger" id="menu-toggle" aria-label="Toggle navigation">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+        </header>
+
+        <!-- ===== OFFICER LAYOUT ===== -->
+        <div class="officer-layout">
+            <!-- ===== SIDEBAR ===== -->
+            <aside class="officer-sidebar">
+                <div class="sidebar-brand">
+                    <h1> Officer Portal</h1>
+                    <p>Antiquities Department · Tanzania</p>
+                </div>
+
+                <nav class="sidebar-nav">
+                    <a href="#/officer/dashboard" class="active" onclick="showOfficerPage('dashboard')">
+                         Dashboard
+                    </a>
+                    <a href="#/officer/buildings" onclick="showOfficerPage('buildings')">
+                        Buildings
+                    </a>
+                    <a href="#/officer/flags" onclick="showOfficerPage('flags')">
+                        Flag Reports
+                        <span class="nav-badge">3</span>
+                    </a>
+                </nav>
+
+                <div class="sidebar-footer">
+                    <div class="user-info">
+                        <div class="user-avatar">FM</div>
+                        <div>
+                            <div class="user-name">F. Mwamburi</div>
+                            <div class="user-role">Antiquities Officer</div>
+                        </div>
+                    </div>
+                    <button class="logout-btn" onclick="logout()">Sign Out</button>
+                </div>
+            </aside>
+
+            <!-- ===== MAIN CONTENT ===== -->
+            <main class="officer-main" id="officer-content">
+                <!-- ===== DASHBOARD ===== -->
+                <div id="dashboard-page">
+                    <div class="page-header">
+                        <div>
+                            <h2>Dashboard</h2>
+                            <p style="color:var(--text-muted);font-size:14px;">Overview of the heritage inventory</p>
+                        </div>
+                        <div class="header-actions">
+                            <button class="btn-primary" onclick="showOfficerPage('buildings')">+ Add Record</button>
+                        </div>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="stats-grid">
+                        <div class="stat-card stat-primary">
+                            <div class="stat-number">8</div>
+                            <div class="stat-label">Buildings in inventory</div>
+                        </div>
+                        <div class="stat-card stat-gold">
+                            <div class="stat-number">3</div>
+                            <div class="stat-label"> Flag reports require review</div>
+                        </div>
+                        <div class="stat-card stat-teal">
+                            <div class="stat-number">5</div>
+                            <div class="stat-label"> Buildings documented</div>
+                        </div>
+                        <div class="stat-card stat-accent">
+                            <div class="stat-number">8</div>
+                            <div class="stat-label">Nationally listed</div>
+                        </div>
+                    </div>
+
+                    <!-- Active Flags -->
+                    <div class="table-container">
+                        <div class="table-header">
+                            <h3>Active Flags</h3>
+                            <a href="#/officer/flags" class="view-all-link" onclick="showOfficerPage('flags')">View all →</a>
+                        </div>
+                        <div class="flag-list" style="padding: 8px 16px 16px;">
+                            <div class="flag-item">
+                                <div class="flag-priority high"></div>
+                                <div class="flag-info">
+                                    <div class="flag-title">Mnazi Mmoja Hospital Original Block</div>
+                                    <div class="flag-meta">
+                                        <span> Demolition Threat</span>
+                                        <span>2024-09-18</span>
+                                        <span> DARCH Watch</span>
+                                    </div>
+                                </div>
+                                <span class="flag-status pending">Pending</span>
+                            </div>
+                            <div class="flag-item">
+                                <div class="flag-priority high"></div>
+                                <div class="flag-info">
+                                    <div class="flag-title">General Post Office</div>
+                                    <div class="flag-meta">
+                                        <span> Structural Collapse</span>
+                                        <span>2024-09-14</span>
+                                        <span> M. Khamisi</span>
+                                    </div>
+                                </div>
+                                <span class="flag-status reviewing">Under Review</span>
+                            </div>
+                            <div class="flag-item">
+                                <div class="flag-priority medium"></div>
+                                <div class="flag-info">
+                                    <div class="flag-title">Old Harbour Master's Office</div>
+                                    <div class="flag-meta">
+                                        <span> Unauthorised Modification</span>
+                                        <span>2024-08-30</span>
+                                        <span> Anonymous</span>
+                                    </div>
+                                </div>
+                                <span class="flag-status pending">Pending</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== BUILDINGS PAGE ===== -->
+                <div id="buildings-page" style="display:none;">
+                    <div class="page-header">
+                        <div>
+                            <h2>Building Records</h2>
+                            <p style="color:var(--text-muted);font-size:14px;">Manage all heritage buildings in the inventory</p>
+                        </div>
+                        <div class="header-actions">
+                            <button class="btn-primary" onclick="alert('Add new building form')">+ Add Record</button>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <div class="table-header">
+                            <h3>All Buildings</h3>
+                            <div class="table-actions">
+                                <input type="text" placeholder="Search buildings..." style="padding:6px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:13px;background:var(--bg);">
+                            </div>
+                        </div>
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Building</th>
+                                        <th>Era</th>
+                                        <th>Condition</th>
+                                        <th>Status</th>
+                                        <th>Tour</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>DSH-001</strong></td>
+                                        <td>German Administrative Boma</td>
+                                        <td><span class="era-tag german">German</span></td>
+                                        <td><span class="condition-badge good">Good</span></td>
+                                        <td><span class="status-badge protected">Grade I Listed</span></td>
+                                        <td></td>
+                                        <td><button class="action-btn">Edit</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>DSH-002</strong></td>
+                                        <td>St. Joseph Metropolitan Cathedral</td>
+                                        <td><span class="era-tag german">German</span></td>
+                                        <td><span class="condition-badge excellent">Excellent</span></td>
+                                        <td><span class="status-badge protected">Grade I Listed</span></td>
+                                        <td><button class="action-btn">Edit</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>DSH-003</strong></td>
+                                        <td>Azania Front Lutheran Church</td>
+                                        <td><span class="era-tag german">German</span></td>
+                                        <td><span class="condition-badge good">Good</span></td>
+                                        <td><span class="status-badge protected">Grade I Listed</span></td>
+                                        <td>—</td>
+                                        <td><button class="action-btn">Edit</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>DSH-004</strong></td>
+                                        <td>Old Harbour Master's Office</td>
+                                        <td><span class="era-tag german">German</span></td>
+                                        <td><span class="condition-badge fair">Fair</span></td>
+                                        <td><span class="status-badge listed">Grade II Listed</span></td>
+                                        <td>—</td>
+                                        <td><button class="action-btn">Edit</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>DSH-005</strong></td>
+                                        <td>General Post Office</td>
+                                        <td><span class="era-tag british">British</span></td>
+                                        <td><span class="condition-badge poor">Poor</span></td>
+                                        <td><span class="status-badge listed">Grade II Listed</span></td>
+                                        <td>—</td>
+                                        <td><button class="action-btn">Edit</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>DSH-006</strong></td>
+                                        <td>Dar es Salaam City Hall</td>
+                                        <td><span class="era-tag independence">Independence</span></td>
+                                        <td><span class="condition-badge good">Good</span></td>
+                                        <td><span class="status-badge listed">Grade II Listed</span></td>
+                                        <td>—</td>
+                                        <td><button class="action-btn">Edit</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>DSH-007</strong></td>
+                                        <td>Mnazi Mmoja Hospital Original</td>
+                                        <td><span class="era-tag british">British</span></td>
+                                        <td><span class="condition-badge poor">At Risk</span></td>
+                                        <td><span class="status-badge listed">Proposed</span></td>
+                                        <td>—</td>
+                                        <td><button class="action-btn">Edit</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>DSH-008</strong></td>
+                                        <td>Dar es Salaam Railway Station</td>
+                                        <td><span class="era-tag british">British</span></td>
+                                        <td><span class="condition-badge fair">Fair</span></td>
+                                        <td><span class="status-badge listed">Grade II Listed</span></td>
+                                        
+                                        <td><button class="action-btn">Edit</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== FLAG REPORTS PAGE ===== -->
+                <div id="flags-page" style="display:none;">
+                    <div class="page-header">
+                        <div>
+                            <h2>Flag Reports</h2>
+                            <p style="color:var(--text-muted);font-size:14px;">Review and respond to citizen flag reports</p>
+                        </div>
+                        <div class="header-actions">
+                            <span class="map-badge">3 Pending</span>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <div class="table-header">
+                            <h3>All Flag Reports</h3>
+                            <div class="table-actions">
+                                <select style="padding:6px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:13px;background:var(--bg);">
+                                    <option>All Status</option>
+                                    <option>Pending</option>
+                                    <option>Under Review</option>
+                                    <option>Resolved</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="flag-list" style="padding:8px 16px 16px;">
+                            <div class="flag-item">
+                                <div class="flag-priority high"></div>
+                                <div class="flag-info">
+                                    <div class="flag-title">FLAG-2024-091 · Mnazi Mmoja Hospital Original Block</div>
+                                    <div class="flag-meta">
+                                        <span> Demolition Threat</span>
+                                        <span>2024-09-18</span>
+                                        <span>DARCH Watch</span>
+                                    </div>
+                                </div>
+                                <span class="flag-status pending">Pending</span>
+                            </div>
+                            <div class="flag-item">
+                                <div class="flag-priority high"></div>
+                                <div class="flag-info">
+                                    <div class="flag-title">FLAG-2024-089 · General Post Office</div>
+                                    <div class="flag-meta">
+                                        <span> Structural Collapse</span>
+                                        <span> 2024-09-14</span>
+                                        <span> M. Khamisi</span>
+                                    </div>
+                                </div>
+                                <span class="flag-status reviewing">Under Review</span>
+                            </div>
+                            <div class="flag-item">
+                                <div class="flag-priority medium"></div>
+                                <div class="flag-info">
+                                    <div class="flag-title">FLAG-2024-076 · Old Harbour Master's Office</div>
+                                    <div class="flag-meta">
+                                        <span>Unauthorised Modification</span>
+                                        <span> 2024-08-30</span>
+                                        <span> Anonymous</span>
+                                    </div>
+                                </div>
+                                <span class="flag-status pending">Pending</span>
+                            </div>
+                            <div class="flag-item">
+                                <div class="flag-priority medium"></div>
+                                <div class="flag-info">
+                                    <div class="flag-title">FLAG-2024-062 · Dar es Salaam Railway Station</div>
+                                    <div class="flag-meta">
+                                        <span> Water Ingress</span>
+                                        <span> 2024-07-22</span>
+                                        <span> T. Nyerere</span>
+                                    </div>
+                                </div>
+                                <span class="flag-status resolved">Resolved</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- ===== FOOTER ===== -->
+        <footer class="main-footer">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo-wrapper">
+                        <span class="footer-logo-circle">UM</span>
+                        <span class="footer-logo-text">Urithi Majengo</span>
+                    </div>
+                    <p>Digital Inventory &amp; Virtual-Tour System</p>
+                    <p style="font-size:12px;opacity:0.6;margin-top:4px;">Dar es Salaam, Tanzania</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#/about">About</a>
+                    <a href="#/contact">Contact</a>
+                    <a href="#/privacy">Privacy</a>
+                    <a href="#/terms">Terms</a>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2026 <span class="gold-text">Urithi Majengo</span>. All rights reserved.</p>
+                    <p class="footer-credit">Built for the Antiquities Department</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script>
+        // ========================================
+        // HAMBURGER MENU
+        // ========================================
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.getElementById('menu-toggle');
+            const menu = document.getElementById('nav-menu');
+
+            if (menuToggle && menu) {
+                menuToggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    menu.classList.toggle('open');
+                    menuToggle.classList.toggle('open');
+                });
+            }
+
+            document.addEventListener('click', function(e) {
+                if (menu && menu.classList.contains('open')) {
+                    if (!menu.contains(e.target) && !menuToggle.contains(e.target)) {
+                        menu.classList.remove('open');
+                        menuToggle.classList.remove('open');
+                    }
+                }
+            });
+        });
+
+        // ========================================
+        // OFFICER PAGE NAVIGATION
+        // ========================================
+        function showOfficerPage(page) {
+            // Hide all pages
+            document.getElementById('dashboard-page').style.display = 'none';
+            document.getElementById('buildings-page').style.display = 'none';
+            document.getElementById('flags-page').style.display = 'none';
+
+            // Show selected page
+            if (page === 'dashboard') {
+                document.getElementById('dashboard-page').style.display = 'block';
+            } else if (page === 'buildings') {
+                document.getElementById('buildings-page').style.display = 'block';
+            } else if (page === 'flags') {
+                document.getElementById('flags-page').style.display = 'block';
+            }
+
+            // Update sidebar active state
+            document.querySelectorAll('.sidebar-nav a').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(page)) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // ========================================
+        // NAVIGATION
+        // ========================================
+        function navigate(path) {
+            window.location.hash = path;
+        }
+
+        // ========================================
+        // LOGIN MODAL
+        // ========================================
+        function openLoginModal() {
+            // For demo purposes - redirect to login page
+            window.location.href = 'login.html';
+        }
+
+        // ========================================
+        // LOGOUT
+        // ========================================
+        function logout() {
+            if (confirm('Are you sure you want to sign out?')) {
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                window.location.href = 'index.html';
+            }
+        }
+
+        console.log('officer.html loaded');
+    </script>
+</body>
+</html>
