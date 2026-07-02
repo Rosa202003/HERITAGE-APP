@@ -136,7 +136,7 @@ function scrollToSection(sectionId) {
 function renderMapPage(container) {
     container.innerHTML = `
         <div style="max-width:1200px;margin:0 auto;padding:20px;">
-            <h2 style="font-family:var(--font-display);font-size:28px;margin-bottom:16px;">🗺️ Full Map View</h2>
+            <h2 style="font-family:var(--font-display);font-size:28px;margin-bottom:16px;">Full Map View</h2>
             <p style="color:var(--text-muted);margin-bottom:20px;">Interactive map of all heritage buildings in Dar es Salaam.</p>
             <div id="full-map" style="height:600px;width:100%;border-radius:var(--radius);border:1px solid var(--border);background:#e8ecea;"></div>
             <div style="margin-top:16px;">
@@ -308,13 +308,13 @@ async function renderBuildingDetail(container, id) {
                 
                 <!-- Description -->
                 <div style="background:var(--card);border-radius:var(--radius);padding:24px;border:1px solid var(--border);margin-bottom:24px;">
-                    <h3 style="font-family:var(--font-display);font-size:20px;margin-bottom:8px;">📖 About This Building</h3>
+                    <h3 style="font-family:var(--font-display);font-size:20px;margin-bottom:8px;">About This Building</h3>
                     <p style="color:var(--text-muted);line-height:1.8;">${building.description || 'No description available.'}</p>
                 </div>
                 
                 <!-- 360° Tour Section -->
                 <div style="background:var(--card);border-radius:var(--radius);padding:24px;border:1px solid var(--border);">
-                    <h3 style="font-family:var(--font-display);font-size:20px;margin-bottom:8px;">🔄 360° Virtual Tour</h3>
+                    <h3 style="font-family:var(--font-display);font-size:20px;margin-bottom:8px;">360° Virtual Tour</h3>
                     <p style="color:var(--text-muted);font-size:14px;margin-bottom:12px;">Coming soon - immersive tour experience.</p>
                     <div style="background:var(--muted);border-radius:var(--radius);height:200px;display:flex;align-items:center;justify-content:center;color:var(--text-muted);">
                          Virtual Tour Coming Soon
@@ -351,7 +351,7 @@ function renderLoginPage(container) {
     container.innerHTML = `
         <div style="max-width:420px;margin:40px auto;">
             <div class="card" style="padding:32px;">
-                <h2 style="font-family:var(--font-display);text-align:center;font-size:24px;">🔐 Officer Login</h2>
+                <h2 style="font-family:var(--font-display);text-align:center;font-size:24px;">Officer Login</h2>
                 <p style="text-align:center;color:var(--text-muted);font-size:14px;margin-bottom:20px;">
                     Antiquities Department Access
                 </p>
@@ -442,13 +442,13 @@ async function renderSearchResults(container, query) {
         container.innerHTML = `
             <div style="max-width:1200px;margin:0 auto;padding:20px;">
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
-                    <h2 style="font-family:var(--font-display);font-size:28px;">🔍 Search Results</h2>
+                    <h2 style="font-family:var(--font-display);font-size:28px;">Search Results</h2>
                     <span style="color:var(--text-muted);font-size:14px;">${results.length} results for "${query}"</span>
                 </div>
                 
                 ${results.length === 0 ? `
                     <div style="text-align:center;padding:60px 20px;">
-                        <p style="font-size:48px;margin-bottom:16px;">🔍</p>
+                        <p style="font-size:48px;margin-bottom:16px;"></p>
                         <h3 style="font-family:var(--font-display);font-size:24px;">No buildings found</h3>
                         <p style="color:var(--text-muted);margin:8px 0 20px;">Try searching for a different term.</p>
                         <button class="btn-primary" onclick="navigate('/')">← Back to Home</button>
@@ -538,27 +538,27 @@ function renderReportPage(container) {
 function renderCommunityPage(container) {
     container.innerHTML = `
         <div style="max-width:800px;margin:40px auto;padding:20px;">
-            <h2 style="font-family:var(--font-display);font-size:28px;">🤝 Get Involved</h2>
+            <h2 style="font-family:var(--font-display);font-size:28px;">Get Involved</h2>
             <p style="color:var(--text-muted);margin-bottom:20px;">Help preserve Dar es Salaam's heritage buildings.</p>
             
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
                 <div class="card">
-                    <h3 style="font-family:var(--font-display);font-size:18px;">📚 Volunteer</h3>
+                    <h3 style="font-family:var(--font-display);font-size:18px;"> Volunteer</h3>
                     <p style="color:var(--text-muted);font-size:14px;margin:8px 0;">Join our team of heritage volunteers.</p>
                     <button class="btn-secondary" onclick="navigate('/contact')">Learn More</button>
                 </div>
                 <div class="card">
-                    <h3 style="font-family:var(--font-display);font-size:18px;">📸 Contribute Photos</h3>
+                    <h3 style="font-family:var(--font-display);font-size:18px;">Contribute Photos</h3>
                     <p style="color:var(--text-muted);font-size:14px;margin:8px 0;">Share photos of heritage buildings.</p>
                     <button class="btn-secondary" onclick="navigate('/contact')">Submit Photos</button>
                 </div>
                 <div class="card">
-                    <h3 style="font-family:var(--font-display);font-size:18px;">📖 Research</h3>
+                    <h3 style="font-family:var(--font-display);font-size:18px;">Research</h3>
                     <p style="color:var(--text-muted);font-size:14px;margin:8px 0;">Access our research database.</p>
                     <button class="btn-secondary" onclick="navigate('/about')">Learn More</button>
                 </div>
                 <div class="card">
-                    <h3 style="font-family:var(--font-display);font-size:18px;">💬 Share Stories</h3>
+                    <h3 style="font-family:var(--font-display);font-size:18px;">Share Stories</h3>
                     <p style="color:var(--text-muted);font-size:14px;margin:8px 0;">Share your memories of these buildings.</p>
                     <button class="btn-secondary" onclick="navigate('/contact')">Share Story</button>
                 </div>
@@ -577,7 +577,7 @@ function renderCommunityPage(container) {
 function renderAboutPage(container) {
     container.innerHTML = `
         <div style="max-width:800px;margin:40px auto;padding:20px;">
-            <h2 style="font-family:var(--font-display);font-size:28px;">🏛️ About Urithi Majengo</h2>
+            <h2 style="font-family:var(--font-display);font-size:28px;">About Urithi Majengo</h2>
             <p style="color:var(--text-muted);margin-bottom:20px;">Preserving Dar es Salaam's architectural heritage.</p>
             
             <div class="card" style="padding:24px;margin-bottom:20px;">
@@ -587,15 +587,15 @@ function renderAboutPage(container) {
             
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
                 <div class="card">
-                    <h4 style="font-family:var(--font-display);font-size:16px;">📊 48+ Buildings</h4>
+                    <h4 style="font-family:var(--font-display);font-size:16px;"> 48+ Buildings</h4>
                     <p style="color:var(--text-muted);font-size:14px;">Documented and mapped</p>
                 </div>
                 <div class="card">
-                    <h4 style="font-family:var(--font-display);font-size:16px;">🔄 5 Virtual Tours</h4>
+                    <h4 style="font-family:var(--font-display);font-size:16px;"> 5 Virtual Tours</h4>
                     <p style="color:var(--text-muted);font-size:14px;">Immersive 360° experiences</p>
                 </div>
                 <div class="card">
-                    <h4 style="font-family:var(--font-display);font-size:16px;">🏛️ 6 Districts</h4>
+                    <h4 style="font-family:var(--font-display);font-size:16px;">6 Districts</h4>
                     <p style="color:var(--text-muted);font-size:14px;">Across Dar es Salaam</p>
                 </div>
                 <div class="card">
@@ -617,7 +617,7 @@ function renderAboutPage(container) {
 function renderContactPage(container) {
     container.innerHTML = `
         <div style="max-width:600px;margin:40px auto;padding:20px;">
-            <h2 style="font-family:var(--font-display);font-size:28px;">📧 Contact Us</h2>
+            <h2 style="font-family:var(--font-display);font-size:28px;">Contact Us</h2>
             <p style="color:var(--text-muted);margin-bottom:20px;">Get in touch with the Urithi Majengo team.</p>
             
             <div class="card" style="padding:24px;">
@@ -677,7 +677,7 @@ function switchMapView(view) {
         });
         // ensure sidebar visible (if present)
         // (kept above for safety) 
-        console.log('📍 Switched to Map View');
+        console.log(' Switched to Map View');
     } else if (view === 'grid') {
         // Hide map, show grid view
         mapContainer.style.display = 'none';
@@ -1257,7 +1257,7 @@ function renderGrid(data) {
         <img src="${building.image}" alt="${building.title}" class="card-image">
         <span class="badge era-badge era-${formatClassString(building.era)}">${building.era}</span>
         ${building.has360 ? '<span class="badge badge-360">360°</span>' : ''}
-        ${building.atRisk ? '<span class="badge at-risk-badge">⚠️ AT RISK</span>' : ''}
+        ${building.atRisk ? '<span class="badge at-risk-badge">AT RISK</span>' : ''}
       </div>
       <div class="card-content">
         <h3 class="card-title">${building.title}</h3>
@@ -1266,7 +1266,7 @@ function renderGrid(data) {
           <span class="status-tag grade-${formatClassString(building.grade)}">${building.grade}</span>
         </div>
         <div class="card-footer">
-          <span class="location-tag">📍 ${building.location}</span>
+          <span class="location-tag">${building.location}</span>
           <span class="year-tag">${building.year}</span>
         </div>
       </div>
