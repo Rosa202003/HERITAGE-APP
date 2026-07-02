@@ -15,29 +15,30 @@
     <!-- ===== LEAFLET CSS ===== -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
-  <link rel="stylesheet" href="../CSS/styles.css">
+    <!-- ===== CUSTOM CSS ===== -->
   <link rel="stylesheet" href="../CSS/style.css">
+  <link rel="stylesheet" href="../CSS/styles.css">
+  <link rel="stylesheet" href="../CSS/grid-view.css">
 </head>
 <body>
   <div id="app"></div>
   <header class="main-header">
-    <div class="logo">UM</div>
-      <!-- <div class="logo-container">
-        <div class="logo-icon"></div>
-        <span class="logo-text">Urithi</span>
-      </div> -->
+    <a class="logo" href="../HTML/index.html" aria-label="Urithi Majengo home">UM</a>
 
-      <nav class="nav-container" id="nav-menu" role="navigation" aria-label="Main Navigation"></nav>
-      <ul class="nav-links">
-        <li><a href="../HTML/index.html" onclick="navigate('/')">Map & Records</a></li>
-        <li><a href="../HTML/buildings.html" onclick="navigate('/buildings')">All Buildings</a></li>
-        <li><a href="../HTML/risk.html" onclick="navigate('/risk')">Report At-Risk</a></li>
-        <li><a href="../HTML/community.html" onclick="navigate('/community')">Community</a></li>
-        <li><a href="../HTML/officer.html" onclick="navigate('/officer')">Officer</a></li>
-        </ul>
-      </nav>
+<!-- Navigation Bar -->
+             <nav class="nav-container" id="nav-menu" role="navigation" aria-label="Main Navigation">
+                <ul class="nav-links">
+                    <li><a href="../HTML/index.html" onclick="navigate('map')">Map & Records</a></li>
+                    <li><a href="../HTML/buildings.html" onclick="navigate('/')">All Buildings</a></li>
+                    <li><a href="../HTML/risk.html" onclick="navigate('/risk')">Report At-Risk</a></li>
+                    <li><a href="../HTML/community.html" onclick="navigate('/community')">Community</a></li>
+                    <li><a href="../HTML/officer.html" onclick="navigate('/officer')">Officer</a></li>
 
-      <!-- Hamburger Menu for Mobile -->
+                    <li><a href="#" onclick="showCitizenModal(); return false;" style="font-weight: 600; color: var(--accent) !important;">Sign In</a></li>
+                </ul>
+            </nav>
+
+            <!-- Hamburger Menu for Mobile -->
             <button class="hamburger" id="menu-toggle" aria-label="Toggle navigation">
                 <span class="hamburger-line"></span>
                 <span class="hamburger-line"></span>
@@ -45,10 +46,8 @@
                 <span class="hamburger-line"></span>
                 <span class="hamburger-line"></span>
             </button>
-
   </header>
 
-<<<<<<< HEAD
   <main class="main-content">
     <div class="hero-section">
       <h1>Heritage Building Inventory</h1>
@@ -57,13 +56,14 @@
     
     <div class="search-container">
       <div class="search-wrapper">
-        <span class="search-icon">🔍</span>
         <input type="text" id="searchInput" placeholder="Search buildings...">
       </div>
-      <span class="results-count" id="resultsCount">0 results</span>
+      <span class="results-count" id="resultsCount">8 results</span>
     </div>
     
-    <div class="building-grid" id="buildingGrid"></div>
+    <div class="building-grid" id="buildingGrid">
+      <!-- Building cards will be dynamically inserted here -->
+    </div>
   </main>
 <!-- modals are here -->
   <script src="../JS/app.js" type="module"></script>
@@ -77,51 +77,63 @@
         <span class="status-tag" id="modalCondition"></span>
       </div>
       <h2 id="modalTitle"></h2>
-=======
-        <!-- ===== MAIN CONTENT ===== -->
-        <main id="main-content">
-            <div class="buildings-page">
-                <!-- Page Header -->
-                <div class="page-header">
-                    <div>
-                        <h1> Heritage Building Inventory</h1>
-                        <p class="subtitle">Complete georeferenced records of all listed and proposed heritage structures.</p>
-                    </div>
-                    <div class="results-count" id="results-count">8 results</div>
-                </div>
+    </div>
 
-                <!-- Filter Bar -->
-                <div class="filter-bar">
-                    <input 
-                        type="text" 
-                        class="search-input" 
-                        id="search-input"
-                        placeholder="Search buildings by name, era, or location..."
-                        oninput="filterBuildings()"
-                    >
-                    <div class="filter-group">
-                        <button class="filter-btn active" data-filter="all" onclick="setFilter('all')">All</button>
-                        <button class="filter-btn" data-filter="good" onclick="setFilter('good')">Good</button>
-                        <button class="filter-btn" data-filter="fair" onclick="setFilter('fair')">Fair</button>
-                        <button class="filter-btn" data-filter="poor" onclick="setFilter('poor')">Poor</button>
-                        <button class="filter-btn" data-filter="at-risk" onclick="setFilter('at-risk')">At Risk</button>
-                    </div>
-                    <div class="filter-group">
-                        <button class="filter-btn" data-filter="german" onclick="setFilter('german')">German</button>
-                        <button class="filter-btn" data-filter="british" onclick="setFilter('british')">British</button>
-                        <button class="filter-btn" data-filter="independence" onclick="setFilter('independence')">Independence</button>
-                    </div>
-                </div>
+    <div class="modal-stats-grid">
+      <div class="stat-box"><strong>DISTRICT</strong><span id="modalDistrict"></span></div>
+      <div class="stat-box"><strong>BUILT</strong><span id="modalBuilt"></span></div>
+      <div class="stat-box"><strong>AREA</strong><span id="modalArea"></span></div>
+      <div class="stat-box"><strong>STATUS</strong><span id="modalStatus"></span></div>
+    </div>
 
-                <!-- Building Grid -->
-                <div class="building-grid" id="building-grid">
-                    <!-- Dynamically loaded -->
-                </div>
-            </div>
-        </main>
+    <div class="modal-tabs">
+      <span class="tab-item active">Overview</span>
+      <span class="tab-item">360° Tour</span>
+      <span class="tab-item">Reviews (0)</span>
+    </div>
 
-        <!-- ===== FOOTER ===== -->
-        <footer class="main-footer">
+    <div class="modal-body">
+        <div class="modal-panels">
+            <div class="modal-panel active" id="panel-overview">
+      <p id="modalDescription" class="modal-description"></p>
+      
+      <div class="significance-box">
+        <span class="box-label">HISTORICAL SIGNIFICANCE</span>
+        <p id="modalSignificance"></p>
+      </div>
+
+      <div class="info-tiles-grid">
+        <div class="info-tile"><strong>ARCHITECT</strong><span id="modalArchitect"></span></div>
+        <div class="info-tile"><strong>OWNERSHIP</strong><span id="modalOwnership"></span></div>
+        <div class="info-tile"><strong>STYLE</strong><span id="modalStyle"></span></div>
+        <div class="info-tile"><strong>LAST INSPECTED</strong><span id="modalInspected"></span></div>
+      </div>
+      </div>
+      <div class="modal-panel" id="panel-tour">
+      <div class="tour-placeholder">
+        <h3>Virtual Heritage Tour</h3>
+        <p>Interactive 360° panoramic view of the structure. Drag to look around.</p>
+        <div class="mock-iframe" id="modalTourContainer">
+          <div class="panorama-preview"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-panel" id="panel-reviews">
+      <div class="reviews-container">
+        <h3>Community Inspections & Reviews</h3>
+        <div class="empty-reviews">
+          <p>No community logs submitted yet for this building.</p>
+          <button class="btn-review"> Write a Review</button>
+        </div>
+      </div>
+    </div>
+    </div>
+      <button class="btn-report-atrisk"  onclick="window.location.href='../HTML/risk.html'">Report This Building At Risk</button>
+    </div>
+  </div>
+</div>
+ <footer class="main-footer">
     <div class="footer-content" style="max-width:1200px;margin:0 auto;padding:20px 0;">
         <!-- Top Row: Brand + Links -->
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:30px;text-align:left;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.06);">
@@ -173,79 +185,110 @@
         </div>
     </div>             
 </footer>
+    </div>
+
+    <!-- ===== SCRIPTS ===== -->
+ <script src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
+  
+ <script>
+  // ========================================
+// LOAD BUILDINGS - WITH FALLBACK
+// ========================================
+
+async function loadBuildings() {
+    const grid = document.getElementById('building-grid');
+    if (!grid) return;
+    
+    try {
+        let buildings = [];
         
->>>>>>> 05ae45dbb2d3b18a4b985d49a8ff96a4449fe250
-    </div>
-
-    <div class="modal-stats-grid">
-      <div class="stat-box"><strong>DISTRICT</strong><span id="modalDistrict"></span></div>
-      <div class="stat-box"><strong>BUILT</strong><span id="modalBuilt"></span></div>
-      <div class="stat-box"><strong>AREA</strong><span id="modalArea"></span></div>
-      <div class="stat-box"><strong>STATUS</strong><span id="modalStatus"></span></div>
-    </div>
-
-    <div class="modal-tabs">
-      <span class="tab-item active">Overview</span>
-      <span class="tab-item">360° Tour</span>
-      <span class="tab-item">Reviews (0)</span>
-    </div>
-
-    <div class="modal-body">
-        <div class="modal-panels">
-            <div class="modal-panel active" id="panel-overview">
-      <p id="modalDescription" class="modal-description"></p>
-      
-      <div class="significance-box">
-        <span class="box-label">HISTORICAL SIGNIFICANCE</span>
-        <p id="modalSignificance"></p>
-      </div>
-
-      <div class="info-tiles-grid">
-        <div class="info-tile"><strong>ARCHITECT</strong><span id="modalArchitect"></span></div>
-        <div class="info-tile"><strong>OWNERSHIP</strong><span id="modalOwnership"></span></div>
-        <div class="info-tile"><strong>STYLE</strong><span id="modalStyle"></span></div>
-        <div class="info-tile"><strong>LAST INSPECTED</strong><span id="modalInspected"></span></div>
-      </div>
-      </div>
-      <div class="modal-panel" id="panel-tour">
-      <div class="tour-placeholder">
-        <div class="tour-icon">🔄</div>
-        <h3>Virtual Heritage Tour</h3>
-        <p>Interactive 360° panoramic view of the structure. Drag to look around.</p>
-        <div class="mock-iframe" id="modalTourContainer">
-          <div class="panorama-preview"></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="modal-panel" id="panel-reviews">
-      <div class="reviews-container">
-        <h3>Community Inspections & Reviews</h3>
-        <div class="empty-reviews">
-          <p>No community logs submitted yet for this building.</p>
-          <button class="btn-review">✍️ Write a Review</button>
-        </div>
-      </div>
-    </div>
-    </div>
-      <button class="btn-report-atrisk">⚠️ Report This Building At Risk</button>
-    </div>
-  </div>
-</div>
-<footer class="main-footer">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <span class="footer-logo">Urithi Majengo</span>
-                <p>&copy; 2026 <span class="gold-text">Urithi Majengo</span>. Dar es Salaam, Tanzania.</p>   
+        // Try API first
+        if (typeof API !== 'undefined' && API.getBuildings) {
+            try {
+                buildings = await API.getBuildings();
+                console.log(' Using API:', buildings.length);
+            } catch (apiError) {
+                console.log(' API failed, using fallback:', apiError.message);
+            }
+        }
+        
+        // If API failed or returned empty, use MOCK_BUILDINGS
+        if (!buildings || buildings.length === 0) {
+            if (typeof MOCK_BUILDINGS !== 'undefined') {
+                buildings = MOCK_BUILDINGS;
+                console.log(' Using MOCK_BUILDINGS:', buildings.length);
+            }
+        }
+        
+        // If still empty, show error
+        if (!buildings || buildings.length === 0) {
+            grid.innerHTML = `
+                <div style="text-align:center;padding:40px;color:var(--text-muted);grid-column:1/-1;">
+                    <p>No buildings found. Make sure the backend is running.</p>
+                    <button class="btn-primary" onclick="location.reload()">Reload</button>
                 </div>
-                <div class="footer-links">
-                    <a href="#../HTML/index.html" onclick="navigate('/about')">Map & Records</a>
-                    <a href="#../HTML/buildings.html" onclick="navigate('/buildings')">All Buildings</a>
-                    <a href="#../HTML/risk.html" onclick="navigate('/risk')">Report At-Risk</a>
-                    <a href="#../HTML/community.html" onclick="navigate('/community')">Community</a>
+            `;
+            return;
+        }
+        
+        // Render buildings
+        renderBuildingCards(buildings);
+        
+    } catch (error) {
+        console.error(' Error loading buildings:', error);
+        grid.innerHTML = `
+            <div style="text-align:center;padding:40px;color:var(--text-muted);grid-column:1/-1;">
+                <p>Error loading buildings. Please try again.</p>
+                <button class="btn-primary" onclick="location.reload()">Reload</button>
+            </div>
+        `;
+    }
+}
+
+function renderBuildingCards(buildings) {
+    const grid = document.getElementById('building-grid');
+    const countEl = document.getElementById('results-count');
+    
+    if (countEl) {
+        countEl.textContent = `${buildings.length} results`;
+    }
+    
+    grid.innerHTML = buildings.map(b => `
+        <div class="building-card" onclick="window.location.href='building-detail.html?id=${b.id}'">
+            <img src="${b.image || 'https://via.placeholder.com/600x400/cccccc/666?text=Heritage+Building'}" 
+                 alt="${b.name}" 
+                 class="card-image"
+                 onerror="this.src='https://via.placeholder.com/600x400/cccccc/666?text=No+Image'">
+            <div class="card-body">
+                <div class="card-header">
+                    <h3>${b.name}</h3>
+                    <span class="card-code">${b.code || 'DSH-00'+b.id}</span>
                 </div>
-            </div>             
-        </footer>
-  <script src="../JS/app.js"></script>
+                <div class="card-meta">
+                    <span> ${b.era}</span>
+                    <span> ${b.year}</span>
+                    <span> ${b.location || 'Dar es Salaam'}</span>
+                </div>
+                <div class="card-tags">
+                    ${b.tags && b.tags.includes('360°') ? '<span class="tag tag-360"> 360°</span>' : ''}
+                    ${b.tags && b.tags.includes('At Risk') ? '<span class="tag tag-at-risk">⚑ AT RISK</span>' : ''}
+                </div>
+                <div class="card-footer">
+                    <span class="badge badge-${b.condition.toLowerCase()}">${b.condition}</span>
+                    <span style="font-size:12px;color:var(--text-muted);">${b.status || 'Listed'}</span>
+                    <span class="arrow">→</span>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Load buildings on page load
+document.addEventListener('DOMContentLoaded', function() {
+    loadBuildings();
+});
+</script>
+
+  <script src="../JS/app.js" type="module"></script>
 </body>
 </html>
