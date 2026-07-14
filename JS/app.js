@@ -1087,194 +1087,258 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 console.log('app.js loaded successfully');
-// Dataset mapping perfectly to the images and attributes in the screenshot
-const buildings = [
-  {
-    id: 1,
-    title: "German Administrative Boma",
-    era: "German",
-    condition: "Good",
-    grade: "Grade I Listed",
-    location: "City Centre",
-    year: 1891,
-    image: "../ASSETS/images/oldboma.png", 
-    has360: true,
-    area: "740 m²",
-    description: "Late German colonial building overseeing the commercial harbour. Raised veranda, louvred shutters, and raised ground floor for coastal flooding.",
-    significance: "Documents the evolution of Dar es Salaam as a major East African port.",
-    architect: "Unknown",
-    ownership: "Tanzania Ports Authority",
-    style: "German Colonial Administrative",
-    inspected: "2023-11-08"
-  },
-  {
-    id: 2,
-    title: "St. Joseph Metropolitan Cathedral",
-    era: "German",
-    condition: "Excellent",
-    grade: "Grade I Listed",
-    location: "City Centre",
-    year: 1898,
-    image: "../ASSETS/images/stjosephcathedral.png",
-    area: "740 m²",
-    description: "Late German colonial building overseeing the commercial harbour. Raised veranda, louvred shutters, and raised ground floor for coastal flooding.",
-    significance: "Documents the evolution of Dar es Salaam as a major East African port.",
-    architect: "Unknown",
-    ownership: "Tanzania Ports Authority",
-    style: "German Colonial Administrative",
-    inspected: "2023-11-08"
-  },
-  {
-    id: 3,
-    title: "Azania Front Lutheran Church",
-    era: "German",
-    condition: "Good",
-    grade: "Grade I Listed",
-    location: "Kivukoni",
-    year: 1898,
-    image: "../ASSETS/images/azaniafront.png",
-    has360: true,
-    area: "740 m²",
-    description: "Late German colonial building overseeing the commercial harbour. Raised veranda, louvred shutters, and raised ground floor for coastal flooding.",
-    significance: "Documents the evolution of Dar es Salaam as a major East African port.",
-    architect: "Unknown",
-    ownership: "Tanzania Ports Authority",
-    style: "German Colonial Administrative",
-    inspected: "2023-11-08"
-  },
-  {
-    id: 4,
-    title: "Old Harbour Master's Office",
-    era: "German",
-    condition: "Fair",
-    grade: "Grade II Listed",
-    location: "Kivukoni",
-    year: 1915,
-    image: "../ASSETS/images/harbordsm.png",
-    has360: false,
-    area: "740 m²",
-    description: "Late German colonial building overseeing the commercial harbour. Raised veranda, louvred shutters, and raised ground floor for coastal flooding.",
-    significance: "Documents the evolution of Dar es Salaam as a major East African port.",
-    architect: "Unknown",
-    ownership: "Tanzania Ports Authority",
-    style: "German Colonial Administrative",
-    inspected: "2023-11-08"
-  },
-  {
-    id: 5,
-    title: "General Post Office",
-    era: "British",
-    condition: "Poor",
-    grade: "Grade II Listed",
-    location: "City Centre",
-    year: 1913,
-    image: "../ASSETS/images/postayazamani.png",
-    has360: false,
-    area: "740 m²",
-    description: "Late German colonial building overseeing the commercial harbour. Raised veranda, louvred shutters, and raised ground floor for coastal flooding.",
-    significance: "Documents the evolution of Dar es Salaam as a major East African port.",
-    architect: "Unknown",
-    ownership: "Tanzania Ports Authority",
-    style: "German Colonial Administrative",
-    inspected: "2023-11-08"
-  },
-  {
-    id: 6,
-    title: "Dar es Salaam City Hall",
-    era: "Independence",
-    condition: "Good",
-    grade: "Grade II Listed",
-    location: "City Centre",
-    year: 1956,
-    image: "../ASSETS/images/karimjeehall.png",
-    has360: true,
-    area: "740 m²",
-    description: "Late German colonial building overseeing the commercial harbour. Raised veranda, louvred shutters, and raised ground floor for coastal flooding.",
-    significance: "Documents the evolution of Dar es Salaam as a major East African port.",
-    architect: "Unknown",
-    ownership: "Tanzania Ports Authority",
-    style: "German Colonial Administrative",
-    inspected: "2023-11-08"
-  },
-  {
-    id: 7,
-    title: "Mnazi Mmoja Hospital Original Block",
-    era: "British",
-    condition: "Critical",
-    grade: "Proposed",
-    location: "Upanga",
-    year: 1918,
-    image: "",
-    has360: false,
-    atRisk: true,
-    area: "740 m²",
-    description: "Late German colonial building overseeing the commercial harbour. Raised veranda, louvred shutters, and raised ground floor for coastal flooding.",
-    significance: "Documents the evolution of Dar es Salaam as a major East African port.",
-    architect: "Unknown",
-    ownership: "Tanzania Ports Authority",
-    style: "German Colonial Administrative",
-    inspected: "2023-11-08"
-  },
-  {
-    id: 8,
-    title: "Dar es Salaam Railway Station",
-    era: "German",
-    condition: "Fair",
-    grade: "Grade I Listed",
-    location: "Kariakoo",
-    year: 1929,
-    image: "../ASSETS/images/tazara.png",
-    has360: true,
-    area: "740 m²",
-    description: "Late German colonial building overseeing the commercial harbour. Raised veranda, louvred shutters, and raised ground floor for coastal flooding.",
-    significance: "Documents the evolution of Dar es Salaam as a major East African port.",
-    architect: "Unknown",
-    ownership: "Tanzania Ports Authority",
-    style: "German Colonial Administrative",
-    inspected: "2023-11-08"
-  }
-];
+// ========================================
+// LOAD BUILDINGS FROM API
+// ========================================
 
-// DOM references
-const buildingGrid = document.getElementById('buildingGrid');
-const searchInput = document.getElementById('searchInput');
-const resultsCount = document.getElementById('resultsCount');
-const modal = document.getElementById('detailModal');
-const closeModalBtn = document.getElementById('closeModalBtn');
-const formatClassString = (str) => str.replace(/\s+/g, '-').toLowerCase();
+let buildings = [];
+
+async function loadBuildingsData() {
+    try {
+        // Try API first
+        if (typeof API !== 'undefined' && API.getBuildings) {
+            buildings = await API.getBuildings();
+            console.log(' Buildings loaded from API:', buildings.length);
+        } else {
+            // Fallback to MOCK_BUILDINGS
+            if (typeof MOCK_BUILDINGS !== 'undefined') {
+                buildings = MOCK_BUILDINGS;
+                console.log('Using MOCK_BUILDINGS as fallback');
+            }
+        }
+        
+        // If still empty, use hardcoded fallback
+        if (!buildings || buildings.length === 0) {
+            buildings = getFallbackBuildings();
+            console.log('Using hardcoded fallback data');
+        }
+        
+        // Render the grid
+        renderGrid(buildings);
+        
+    } catch (error) {
+        console.error(' Error loading buildings:', error);
+        // Fallback to hardcoded
+        buildings = getFallbackBuildings();
+        renderGrid(buildings);
+    }
+}
+
+// ========================================
+// FALLBACK BUILDINGS (Hardcoded)
+// ========================================
+
+function getFallbackBuildings() {
+    return [
+        {
+            id: 1,
+            title: "German Administrative Boma",
+            era: "German",
+            condition: "Good",
+            grade: "Grade I Listed",
+            location: "City Centre",
+            year: 1891,
+            image: "../ASSETS/images/oldboma.png",
+            has360: true,
+            area: "740 m²",
+            description: "Late German colonial building overseeing the commercial harbour.",
+            significance: "Documents the evolution of Dar es Salaam as a major East African port.",
+            architect: "Unknown",
+            ownership: "Tanzania Ports Authority",
+            style: "German Colonial Administrative",
+            inspected: "2023-11-08"
+        },
+        {
+            id: 2,
+            title: "St. Joseph Metropolitan Cathedral",
+            era: "German",
+            condition: "Excellent",
+            grade: "Grade I Listed",
+            location: "City Centre",
+            year: 1898,
+            image: "../ASSETS/images/stjosephcathedral.png",
+            area: "740 m²",
+            description: "Neo-Gothic Catholic cathedral with twin towers.",
+            significance: "One of the oldest religious buildings in Dar es Salaam.",
+            architect: "Unknown",
+            ownership: "Catholic Archdiocese",
+            style: "Neo-Gothic",
+            inspected: "2023-11-08"
+        },
+        {
+            id: 3,
+            title: "Azania Front Lutheran Church",
+            era: "German",
+            condition: "Good",
+            grade: "Grade I Listed",
+            location: "Kivukoni",
+            year: 1898,
+            image: "../ASSETS/images/azaniafront.png",
+            has360: true,
+            area: "740 m²",
+            description: "Historic Lutheran church with distinctive architecture.",
+            significance: "A landmark on the Dar es Salaam waterfront.",
+            architect: "Unknown",
+            ownership: "Lutheran Church of Tanzania",
+            style: "Romanesque Revival",
+            inspected: "2023-11-08"
+        },
+        {
+            id: 4,
+            title: "Old Harbour Master's Office",
+            era: "German",
+            condition: "Fair",
+            grade: "Grade II Listed",
+            location: "Kivukoni",
+            year: 1915,
+            image: "../ASSETS/images/harbordsm.png",
+            has360: false,
+            area: "740 m²",
+            description: "Historic harbour master's office building.",
+            significance: "Represents British colonial maritime administration.",
+            architect: "Unknown",
+            ownership: "Tanzania Ports Authority",
+            style: "Colonial Maritime",
+            inspected: "2023-11-08"
+        },
+        {
+            id: 5,
+            title: "General Post Office",
+            era: "British",
+            condition: "Poor",
+            grade: "Grade II Listed",
+            location: "City Centre",
+            year: 1913,
+            image: "../ASSETS/images/postayazamani.png",
+            has360: false,
+            area: "740 m²",
+            description: "Historic post office building in need of restoration.",
+            significance: "A key example of British colonial public architecture.",
+            architect: "Unknown",
+            ownership: "Government of Tanzania",
+            style: "Edwardian Colonial",
+            inspected: "2023-11-08"
+        },
+        {
+            id: 6,
+            title: "Dar es Salaam City Hall",
+            era: "Independence",
+            condition: "Good",
+            grade: "Grade II Listed",
+            location: "City Centre",
+            year: 1956,
+            image: "../ASSETS/images/karimjeehall.png",
+            has360: true,
+            area: "740 m²",
+            description: "Historic city hall building with colonial architecture.",
+            significance: "Represents the transition from colonial to independent governance.",
+            architect: "Unknown",
+            ownership: "Dar es Salaam City Council",
+            style: "Modern Colonial",
+            inspected: "2023-11-08"
+        },
+        {
+            id: 7,
+            title: "Mnazi Mmoja Hospital Original Block",
+            era: "British",
+            condition: "Critical",
+            grade: "Proposed",
+            location: "Upanga",
+            year: 1918,
+            image: "",
+            has360: false,
+            atRisk: true,
+            area: "740 m²",
+            description: "Original hospital building currently at risk of demolition.",
+            significance: "Represents the development of healthcare infrastructure.",
+            architect: "Unknown",
+            ownership: "Government of Tanzania",
+            style: "Colonial Medical",
+            inspected: "2023-11-08"
+        },
+        {
+            id: 8,
+            title: "Dar es Salaam Railway Station",
+            era: "German",
+            condition: "Fair",
+            grade: "Grade I Listed",
+            location: "Kariakoo",
+            year: 1929,
+            image: "../ASSETS/images/tazara.png",
+            has360: true,
+            area: "740 m²",
+            description: "Historic railway station with distinctive colonial architecture.",
+            significance: "A major gateway to Dar es Salaam.",
+            architect: "Unknown",
+            ownership: "Tanzania Railways Corporation",
+            style: "Colonial Railway",
+            inspected: "2023-11-08"
+        }
+    ];
+}
+
+// ========================================
+// RENDER GRID FUNCTION
+// ========================================
 
 function renderGrid(data) {
-  buildingGrid.innerHTML = '';
-  resultsCount.textContent = `${data.length} results`;
+    const buildingGrid = document.getElementById('buildingGrid');
+    const resultsCount = document.getElementById('resultsCount');
+    
+    if (!buildingGrid) return;
+    
+    if (resultsCount) {
+        resultsCount.textContent = `${data.length} results`;
+    }
 
-  data.forEach(building => {
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.dataset.id = building.id;
+    buildingGrid.innerHTML = '';
 
-    card.innerHTML = `
-      <div class="card-image-wrapper">
-        <img src="${building.image}" alt="${building.title}" class="card-image">
-        <span class="badge era-badge era-${formatClassString(building.era)}">${building.era}</span>
-        ${building.has360 ? '<span class="badge badge-360">360°</span>' : ''}
-        ${building.atRisk ? '<span class="badge at-risk-badge">AT RISK</span>' : ''}
-      </div>
-      <div class="card-content">
-        <h3 class="card-title">${building.title}</h3>
-        <div class="badge-row">
-          <span class="status-tag cond-${formatClassString(building.condition)}">${building.condition}</span>
-          <span class="status-tag grade-${formatClassString(building.grade)}">${building.grade}</span>
-        </div>
-        <div class="card-footer">
-          <span class="location-tag">${building.location}</span>
-          <span class="year-tag">${building.year}</span>
-        </div>
-      </div>
-    `;
-    card.addEventListener('click', () => openModal(building.id));
-    buildingGrid.appendChild(card);
-  });
+    data.forEach(building => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.dataset.id = building.id;
+
+        const imageSrc = building.image || 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&h=400&fit=crop';
+        const eraClass = building.era ? building.era.toLowerCase().replace(/\s+/g, '-') : 'unknown';
+        const conditionClass = building.condition ? building.condition.toLowerCase().replace(/\s+/g, '-') : 'unknown';
+        const gradeClass = building.grade ? building.grade.toLowerCase().replace(/\s+/g, '-') : 'unknown';
+
+        card.innerHTML = `
+            <div class="card-image-wrapper">
+                <img src="${imageSrc}" alt="${building.title}" class="card-image" onerror="this.src='https://via.placeholder.com/600x400/cccccc/666?text=No+Image'">
+                <span class="badge era-badge era-${eraClass}">${building.era || 'Unknown'}</span>
+                ${building.has360 ? '<span class="badge badge-360">360°</span>' : ''}
+                ${building.atRisk ? '<span class="badge at-risk-badge">⚑ AT RISK</span>' : ''}
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">${building.title || building.name || 'Unnamed Building'}</h3>
+                <div class="badge-row">
+                    <span class="status-tag cond-${conditionClass}">${building.condition || 'Unknown'}</span>
+                    <span class="status-tag grade-${gradeClass}">${building.grade || 'Listed'}</span>
+                </div>
+                <div class="card-footer">
+                    <span class="location-tag"> ${building.location || 'Dar es Salaam'}</span>
+                    <span class="year-tag"> ${building.year || 'N/A'}</span>
+                </div>
+            </div>
+        `;
+        card.addEventListener('click', () => openModal(building.id));
+        buildingGrid.appendChild(card);
+    });
 }
+
+// ========================================
+// INITIALIZE ON PAGE LOAD
+// ========================================
+
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Loading buildings from API...');
+    loadBuildingsData();
+});
+
+// ========================================
+// OPEN MODAL FUNCTION
+
 function openModal(id) {
   const building = buildings.find(b => b.id === id);
   if (!building) return;
