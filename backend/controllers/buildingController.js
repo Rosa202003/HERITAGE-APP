@@ -58,20 +58,79 @@ const getBuilding = async (req, res) => {
 // Create new building
 const createBuilding = async (req, res) => {
   try {
-    const { name, era, year, condition, status, location, lat, lng, description, image, tags } = req.body;
+    const {
+      name,
+      code,
+      era,
+      year,
+      condition,
+      status,
+      location,
+      area,
+      architect,
+      ownership,
+      style,
+      inspected,
+      rating,
+      image,
+      description,
+      significance,
+      tags,
+      lat,
+      lng
+    } = req.body;
+
+    // Validate required fields
+    if (!name || !era || !year || !condition) {
+      return res.status(400).json({
+        message: "Missing required fields: name, era, year, condition"
+      });
+    }
 
     const { data, error } = await supabase
       .from("buildings")
-      .insert([{ name, era, year, condition, status, location, lat, lng, description, image, tags }])
+      .insert([{
+        name,
+        code: code || `DSH-${Date.now()}`,
+        era,
+        year,
+        condition,
+        status: status || "Listed",
+        location: location || "Dar es Salaam",
+        area: area || "N/A",
+        architect: architect || "Unknown",
+        ownership: ownership || "Unknown",
+        style: style || "Colonial",
+        inspected: inspected || new Date().toISOString().split('T')[0],
+        rating: rating || 0,
+        image: image || "https://via.placeholder.com/600x400/cccccc/666?text=Heritage+Building",
+        description: description || "No description available.",
+        significance: significance || "Historical significance pending.",
+        tags: tags || [],
+        lat: lat || 0,
+        lng: lng || 0,
+        created_at: new Date(),
+        updated_at: new Date()
+      }])
       .select();
 
     if (error) {
-      return res.status(400).json({ message: error.message });
+      console.error("Supabase error:", error);
+      return res.status(400).json({
+        message: error.message
+      });
     }
 
-    res.status(201).json({ message: "Building created", building: data });
+    res.status(201).json({
+      message: "Building created successfully",
+      building: data[0]
+    });
+
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.error("Create building error:", err);
+    res.status(500).json({
+      message: "Server error: " + err.message
+    });
   }
 };
 
