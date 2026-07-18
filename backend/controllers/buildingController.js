@@ -1,25 +1,22 @@
 const supabase = require("../config/supabase");
-const mockBuildings = require("../data/mockBuildings.json");
 
 // Get all buildings
 const getBuildings = async (req, res) => {
   try {
-    // Try Supabase first
     const { data, error } = await supabase
       .from("buildings")
-      .select("*");
+      .select("*")
+      .order("id", { ascending: true });
 
     if (error) {
-      // Fallback to mock data if Supabase fails
-      console.log(" Using mock building data");
-      return res.json(mockBuildings);
+      console.error("Supabase error (getBuildings):", error);
+      return res.status(500).json({ message: error.message });
     }
 
-    res.json(data);
+    res.json(data || []);
   } catch (err) {
-    // Fallback to mock data on error
-    console.log(" Using mock building data (error fallback)");
-    res.json(mockBuildings);
+    console.error("getBuildings error:", err);
+    res.status(500).json({ message: err.message });
   }
 };
 
@@ -28,7 +25,6 @@ const getBuilding = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Try Supabase first
     const { data, error } = await supabase
       .from("buildings")
       .select("*")
@@ -36,24 +32,15 @@ const getBuilding = async (req, res) => {
       .single();
 
     if (error) {
-      // Fallback to mock data
-      const building = mockBuildings.find(b => b.id === parseInt(id));
-      if (building) {
-        return res.json(building);
-      }
       return res.status(404).json({ message: "Building not found" });
     }
 
     res.json(data);
   } catch (err) {
-    // Fallback to mock data
-    const building = mockBuildings.find(b => b.id === parseInt(id));
-    if (building) {
-      return res.json(building);
-    }
-    res.status(404).json({ message: "Building not found" });
+    res.status(500).json({ message: err.message });
   }
 };
+
 
 // Create new building
 const createBuilding = async (req, res) => {

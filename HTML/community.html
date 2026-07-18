@@ -413,31 +413,27 @@
                         <h1>Community</h1>
                         <p class="subtitle">Share your experiences and reviews of Dar es Salaam's heritage buildings.</p>
                     </div>
-                    <div class="review-count" id="review-count">12 reviews</div>
+                    <div class="review-count" id="review-count">Loading…</div>
                 </div>
 
                 <!-- ===== REVIEW FORM ===== -->
-                <div class="review-form-section">
+                <div class="review-form-section" id="review-form-section">
                     <h2>Leave Your Review</h2>
                     <p class="form-subtitle">Share your experience visiting a heritage building.</p>
 
-                    <!-- Sign In Prompt -->
-                    <div class="sign-in-prompt">
-                        <span class="prompt-text"> Sign in to leave a review</span>
-                        <button class="btn-secondary" onclick="navigate('/login')">Sign In</button>
+                    <!-- Sign In Prompt (shown when logged out) -->
+                    <div class="sign-in-prompt" id="sign-in-prompt" style="display:none;">
+                        <span class="prompt-text">Sign in to leave a review</span>
+                        <button class="btn-secondary" onclick="window.location.href='../HTML/login.html'">Sign In</button>
                     </div>
 
-                    <form class="review-form" id="review-form" style="opacity:0.6;pointer-events:none;">
+                    <!-- Review Form (shown when logged in) -->
+                    <form class="review-form" id="review-form" onsubmit="handleReviewSubmit(event)" style="display:none;">
                         <div class="form-row">
                             <div class="form-group">
                                 <label>Building <span class="required">*</span></label>
-                                <select disabled>
-                                    <option value="">Select a building...</option>
-                                    <option>German Administrative Boma</option>
-                                    <option>St. Joseph Metropolitan Cathedral</option>
-                                    <option>Azania Front Lutheran Church</option>
-                                    <option>Old Harbour Master's Office</option>
-                                    <option>Dar es Salaam Railway Station</option>
+                                <select id="review-building" required>
+                                    <option value="">Loading buildings…</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -449,131 +445,24 @@
                                     <span class="star" data-value="4">★</span>
                                     <span class="star" data-value="5">★</span>
                                 </div>
+                                <input type="hidden" id="review-rating" value="0">
                             </div>
                         </div>
                         <div class="form-group">
                             <label>Your Experience <span class="required">*</span></label>
-                            <textarea placeholder="Describe your visit..." disabled></textarea>
+                            <textarea id="review-comment" placeholder="Describe your visit…" required></textarea>
                         </div>
+                        <!-- Submission feedback -->
+                        <div id="review-msg" style="font-size:13px;padding:8px 12px;border-radius:6px;display:none;"></div>
                         <div class="form-actions">
-                            <button type="submit" class="btn-primary" disabled>Submit Review</button>
+                            <button type="submit" class="btn-primary" id="review-submit-btn">Submit Review</button>
                         </div>
                     </form>
                 </div>
 
                 <!-- ===== REVIEWS LIST ===== -->
                 <div class="reviews-section" id="reviews-list">
-                    <!-- Review 1 -->
-                    <div class="review-card">
-                        <div class="review-header">
-                            <div class="review-user">
-                                <div class="review-avatar">AR</div>
-                                <div class="review-user-info">
-                                    <div class="reviewer-name">Amina Rashid</div>
-                                    <div class="review-date">September 10, 2024</div>
-                                </div>
-                            </div>
-                            <div class="review-building">St. Joseph Metropolitan Cathedral</div>
-                        </div>
-                        <div class="review-rating">
-                            <span>★★★★★</span>
-                            <span class="rating-number">5.0</span>
-                        </div>
-                        <div class="review-content">
-                            Absolutely breathtaking — the twin towers are unlike anything else in East Africa. The stained glass at golden hour is magnificent. Every Tanzanian should visit!
-                        </div>
-                        <div class="review-footer">
-                            <button class="review-helpful" onclick="toggleHelpful(this)">
-                                <span class="helpful-icon">👍</span>
-                                <span class="helpful-count">14</span>
-                                <span>helpful</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Review 2 -->
-                    <div class="review-card">
-                        <div class="review-header">
-                            <div class="review-user">
-                                <div class="review-avatar">JM</div>
-                                <div class="review-user-info">
-                                    <div class="reviewer-name">James Mwangi</div>
-                                    <div class="review-date">August 28, 2024</div>
-                                </div>
-                            </div>
-                            <div class="review-building">Dar es Salaam Railway Station</div>
-                        </div>
-                        <div class="review-rating">
-                            <span>★★★★☆</span>
-                            <span class="rating-number">4.0</span>
-                        </div>
-                        <div class="review-content">
-                            A hidden gem in the city. The original ceramic tiles are still beautiful despite years of neglect. The Baroque facade is incredible — needs serious restoration though.
-                        </div>
-                        <div class="review-footer">
-                            <button class="review-helpful" onclick="toggleHelpful(this)">
-                                <span class="helpful-icon">👍</span>
-                                <span class="helpful-count">9</span>
-                                <span>helpful</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Review 3 -->
-                    <div class="review-card">
-                        <div class="review-header">
-                            <div class="review-user">
-                                <div class="review-avatar">FA</div>
-                                <div class="review-user-info">
-                                    <div class="reviewer-name">Fatuma Ally</div>
-                                    <div class="review-date">September 5, 2024</div>
-                                </div>
-                            </div>
-                            <div class="review-building">Azania Front Lutheran Church</div>
-                        </div>
-                        <div class="review-rating">
-                            <span>★★★★★</span>
-                            <span class="rating-number">5.0</span>
-                        </div>
-                        <div class="review-content">
-                            The clock tower is iconic. The virtual tour made me appreciate the interior details I never noticed before. Amazing resource!
-                        </div>
-                        <div class="review-footer">
-                            <button class="review-helpful" onclick="toggleHelpful(this)">
-                                <span class="helpful-icon">👍</span>
-                                <span class="helpful-count">22</span>
-                                <span>helpful</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Review 4 -->
-                    <div class="review-card">
-                        <div class="review-header">
-                            <div class="review-user">
-                                <div class="review-avatar">DK</div>
-                                <div class="review-user-info">
-                                    <div class="reviewer-name">Prof. D. Kimaro</div>
-                                    <div class="review-date">August 15, 2024</div>
-                                </div>
-                            </div>
-                            <div class="review-building">German Administrative Boma</div>
-                        </div>
-                        <div class="review-rating">
-                            <span>★★★★★</span>
-                            <span class="rating-number">5.0</span>
-                        </div>
-                        <div class="review-content">
-                            Invaluable for my research into colonial urban planning. The archive quality of this database is exceptional.
-                        </div>
-                        <div class="review-footer">
-                            <button class="review-helpful" onclick="toggleHelpful(this)">
-                                <span class="helpful-icon">👍</span>
-                                <span class="helpful-count">7</span>
-                                <span>helpful</span>
-                            </button>
-                        </div>
-                    </div>
+                    <p style="color:var(--text-muted);text-align:center;padding:40px 0;">Loading reviews…</p>
                 </div>
             </div>
         </main>
@@ -634,53 +523,223 @@
     </div>
 
     <!-- ===== SCRIPTS ===== -->
+    <script src="../JS/api.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // ===== STAR RATING =====
+        let selectedRating = 0;
+
+        // ========================================
+        // STAR RATING UI
+        // ========================================
+        function initStarRating() {
             const stars = document.querySelectorAll('.star-rating .star');
-            let selectedRating = 0;
 
             stars.forEach(star => {
                 star.addEventListener('click', function() {
                     selectedRating = parseInt(this.dataset.value);
+                    document.getElementById('review-rating').value = selectedRating;
                     updateStars(selectedRating);
                 });
-
-                star.addEventListener('mouseenter', function() {
-                    const val = parseInt(this.dataset.value);
-                    updateStars(val);
-                });
-
-                star.addEventListener('mouseleave', function() {
-                    updateStars(selectedRating);
-                });
+                star.addEventListener('mouseenter', function() { updateStars(parseInt(this.dataset.value)); });
+                star.addEventListener('mouseleave', function() { updateStars(selectedRating); });
             });
+        }
 
-            function updateStars(rating) {
-                stars.forEach(star => {
-                    const val = parseInt(star.dataset.value);
-                    star.classList.toggle('active', val <= rating);
+        function updateStars(rating) {
+            document.querySelectorAll('.star-rating .star').forEach(star => {
+                star.classList.toggle('active', parseInt(star.dataset.value) <= rating);
+            });
+        }
+
+        // ========================================
+        // LOAD BUILDINGS INTO FORM DROPDOWN
+        // ========================================
+        async function loadBuildingSelect() {
+            const select = document.getElementById('review-building');
+            if (!select) return;
+            try {
+                const buildings = await API.getBuildings();
+                select.innerHTML = '<option value="">Select a building…</option>';
+                buildings.forEach(b => {
+                    const opt = document.createElement('option');
+                    opt.value = b.id;
+                    opt.textContent = b.name || b.title || `Building #${b.id}`;
+                    select.appendChild(opt);
                 });
+            } catch (err) {
+                select.innerHTML = '<option value="">Could not load buildings</option>';
+            }
+        }
+
+        // ========================================
+        // RENDER REVIEW CARDS
+        // ========================================
+        function renderStars(rating) {
+            const n = Math.round(rating);
+            return '★'.repeat(n) + '☆'.repeat(5 - n);
+        }
+
+        function getInitials(name) {
+            if (!name) return '?';
+            return name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+        }
+
+        function formatDate(iso) {
+            if (!iso) return '';
+            return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+        }
+
+        function renderReviews(reviews) {
+            const list = document.getElementById('reviews-list');
+            document.getElementById('review-count').textContent = `${reviews.length} review${reviews.length !== 1 ? 's' : ''}`;
+
+            if (!reviews.length) {
+                list.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:40px 0;">No reviews yet — be the first to share your experience!</p>';
+                return;
             }
 
-            // ===== HELPFUL BUTTON =====
-            window.toggleHelpful = function(button) {
-                const countSpan = button.querySelector('.helpful-count');
-                let count = parseInt(countSpan.textContent);
-                
-                if (button.classList.contains('active')) {
-                    count--;
-                    button.classList.remove('active');
+            list.innerHTML = reviews.map(r => `
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="review-user">
+                            <div class="review-avatar">${getInitials(r.user_name)}</div>
+                            <div class="review-user-info">
+                                <div class="reviewer-name">${r.user_name || 'Anonymous'}</div>
+                                <div class="review-date">${formatDate(r.created_at)}</div>
+                            </div>
+                        </div>
+                        <div class="review-building">${r.building_name || (r.building_id ? `Building #${r.building_id}` : 'General')}</div>
+                    </div>
+                    <div class="review-rating">
+                        <span>${renderStars(r.rating)}</span>
+                        <span class="rating-number">${parseFloat(r.rating).toFixed(1)}</span>
+                    </div>
+                    <div class="review-content">${r.comment || ''}</div>
+                    <div class="review-footer">
+                        <button class="review-helpful" data-id="${r.id}" onclick="handleUpvote(this)">
+                            <span class="helpful-icon">👍</span>
+                            <span class="helpful-count">${r.helpful_count || 0}</span>
+                            <span>helpful</span>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ========================================
+        // LOAD REVIEWS FROM API
+        // ========================================
+        async function loadReviews() {
+            try {
+                const reviews = await API.getReviews();
+                renderReviews(reviews);
+            } catch (err) {
+                document.getElementById('reviews-list').innerHTML =
+                    '<p style="color:var(--text-muted);text-align:center;padding:40px 0;">Could not load reviews. Please try again later.</p>';
+                document.getElementById('review-count').textContent = '0 reviews';
+            }
+        }
+
+        // ========================================
+        // SUBMIT REVIEW
+        // ========================================
+        async function handleReviewSubmit(e) {
+            e.preventDefault();
+
+            const buildingId = document.getElementById('review-building').value;
+            const rating     = parseInt(document.getElementById('review-rating').value);
+            const comment    = document.getElementById('review-comment').value.trim();
+            const msg        = document.getElementById('review-msg');
+            const btn        = document.getElementById('review-submit-btn');
+
+            if (!buildingId) { showMsg(msg, 'error', '⚠️ Please select a building.'); return; }
+            if (!rating)     { showMsg(msg, 'error', '⚠️ Please select a star rating.'); return; }
+            if (!comment)    { showMsg(msg, 'error', '⚠️ Please write your experience.'); return; }
+
+            btn.disabled  = true;
+            btn.textContent = 'Submitting…';
+
+            try {
+                const result = await API.createReview({ building_id: parseInt(buildingId), rating, comment });
+
+                if (result.review || result.message === 'Review posted') {
+                    showMsg(msg, 'success', '✅ Thank you! Your review was posted.');
+                    document.getElementById('review-form').reset();
+                    selectedRating = 0;
+                    updateStars(0);
+                    setTimeout(loadReviews, 1000);
                 } else {
-                    count++;
-                    button.classList.add('active');
+                    showMsg(msg, 'error', '❌ ' + (result.message || 'Could not post review.'));
                 }
-                
-                countSpan.textContent = count;
-            };
+            } catch (err) {
+                showMsg(msg, 'error', '❌ Could not reach server.');
+            } finally {
+                btn.disabled    = false;
+                btn.textContent = 'Submit Review';
+            }
+        }
+
+        function showMsg(el, type, text) {
+            el.style.display = 'block';
+            el.style.background  = type === 'success' ? '#d4edda' : '#f8d7da';
+            el.style.color       = type === 'success' ? '#155724' : '#721c24';
+            el.style.border      = type === 'success' ? '1px solid #c3e6cb' : '1px solid #f5c6cb';
+            el.textContent = text;
+        }
+
+        // ========================================
+        // UPVOTE (helpful)
+        // ========================================
+        async function handleUpvote(btn) {
+            const reviewId = btn.dataset.id;
+            const countSpan = btn.querySelector('.helpful-count');
+
+            if (btn.classList.contains('active')) {
+                // Simple optimistic toggle-off (no API remove endpoint)
+                btn.classList.remove('active');
+                countSpan.textContent = Math.max(0, parseInt(countSpan.textContent) - 1);
+                return;
+            }
+
+            btn.disabled = true;
+            try {
+                await API.upvoteReview(reviewId);
+                btn.classList.add('active');
+                countSpan.textContent = parseInt(countSpan.textContent) + 1;
+            } catch (err) {
+                console.error('Upvote failed:', err);
+            } finally {
+                btn.disabled = false;
+            }
+        }
+
+        // ========================================
+        // AUTH GATE — show form only if logged in
+        // ========================================
+        function checkAuth() {
+            const token = localStorage.getItem('token');
+            const form  = document.getElementById('review-form');
+            const prompt = document.getElementById('sign-in-prompt');
+
+            if (token) {
+                form.style.display   = 'flex';
+                prompt.style.display = 'none';
+            } else {
+                form.style.display   = 'none';
+                prompt.style.display = 'flex';
+            }
+        }
+
+        // ========================================
+        // INIT
+        // ========================================
+        document.addEventListener('DOMContentLoaded', function() {
+            initStarRating();
+            checkAuth();
+            loadBuildingSelect();
+            loadReviews();
         });
 
-        console.log('community.html loaded');
+        console.log('✅ community.html loaded');
     </script>
     <script src="../JS/app.js"></script>
 </body>

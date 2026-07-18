@@ -195,19 +195,16 @@ nav ul li a.active {
    HERO SECTION - FULL WIDTH
    ======================================== */
 .hero {
-    background: linear-gradient(135deg, 
-        var(--dark) 0%, 
-        var(--dark-mid) 35%, 
-        var(--primary) 70%,
-        var(--primary-dk) 100%
-    );
+    background:
+        linear-gradient(115deg, rgba(5, 19, 17, 0.96) 0%, rgba(10, 90, 76, 0.72) 42%, rgba(7, 24, 22, 0.88) 100%),
+        url('https://images.unsplash.com/photo-1518998053901-5348d3961a04?auto=format&fit=crop&w=1600&q=80') center/cover;
     width: 100%;
     border-radius: 0;
-    padding: 100px 24px 60px; /* top pad accounts for sticky header */
+    padding: clamp(84px, 8vw, 120px) 24px 56px;
     margin: 0;
     position: relative;
     overflow: hidden;
-    min-height: 520px;
+    min-height: min(100svh, 760px);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -216,55 +213,33 @@ nav ul li a.active {
     border: none;
 }
 
-/* ===== HISTORICAL BUILDING BACKGROUND - BOTTOM RIGHT ===== */
 .hero::before {
     content: '';
     position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 60%;
-    height: 100%;
-    background-image: url('https://images.unsplash.com/photo-1674334264912-704cb2a24b37');
-    background-size: contain;
-    background-position: bottom right;
-    background-repeat: no-repeat;
-    opacity: 0.15;
+    inset: 0;
+    background: linear-gradient(130deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0) 40%, rgba(0,0,0,0.14) 100%);
     pointer-events: none;
-    border-radius: 0;
 }
 
-/* Fallback image */
-.hero::before {
-    background-image: 
-        url('https://images.unsplash.com/photo-1674334264912-704cb2a24b37'),
-        url('https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=1200&q=80');
-}
-
-/* ===== DECORATIVE PATTERN - BOTTOM RIGHT HUE ===== */
 .hero::after {
     content: '';
     position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 70%;
-    height: 100%;
-    background: 
-        radial-gradient(ellipse at bottom right, 
-            rgba(240, 180, 41, 0.06) 0%, 
-            rgba(52, 213, 184, 0.04) 30%,
-            transparent 70%
-        );
+    inset: 0;
+    background: radial-gradient(circle at top right, rgba(240, 180, 41, 0.14) 0%, rgba(52, 213, 184, 0.08) 28%, transparent 56%);
     pointer-events: none;
-    border-radius: 0;
 }
 
 /* ===== HERO CONTENT ===== */
 .hero-content {
-    max-width: 800px;
+    max-width: 900px;
+    width: 100%;
     position: relative;
     z-index: 2;
     color: var(--card);
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* ===== HERO ICON ===== */
@@ -310,26 +285,29 @@ nav ul li a.active {
 /* ===== SEARCH BAR ===== */
 .hero-search {
     display: flex;
+    align-items: center;
     gap: 8px;
-    max-width: 540px;
+    max-width: 580px;
+    width: 100%;
     margin: 0 auto 24px;
-    background: rgba(255,255,255,0.06);
-    border-radius: 50px;
-    padding: 4px;
-    backdrop-filter: blur(10px);
+    background: rgba(255,255,255,0.08);
+    border-radius: 999px;
+    padding: 5px;
     -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.08);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.12);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
 }
 
 .hero-search-input {
     flex: 1;
-    padding: 14px 24px;
+    padding: 14px 20px;
     border: none;
     background: transparent;
     color: var(--card);
     font-size: 15px;
     outline: none;
-    border-radius: 50px;
+    border-radius: 999px;
 }
 
 .hero-search-input::placeholder {
@@ -341,10 +319,11 @@ nav ul li a.active {
 }
 
 .hero-search-btn {
-    padding: 11px 24px;
+    padding: 11px 22px;
+    min-width: 108px;
     background: var(--gold);
     border: none;
-    border-radius: 50px;
+    border-radius: 999px;
     color: var(--dark);
     font-weight: 600;
     font-size: 14px;
@@ -369,8 +348,8 @@ nav ul li a.active {
 }
 
 .hero-btn {
-    padding: 10px 24px;
-    border-radius: 50px;
+    padding: 12px 24px;
+    border-radius: 999px;
     font-weight: 600;
     font-size: 14px;
     cursor: pointer;
@@ -378,7 +357,9 @@ nav ul li a.active {
     border: none;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 6px;
+    min-width: 150px;
 }
 
 /* Primary Button - Gold */
@@ -425,8 +406,8 @@ nav ul li a.active {
     padding: 18px 12px 16px;
     background: rgba(255,255,255,0.04);
     border-radius: var(--radius-sm);
-     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
     border: 1px solid rgba(255,255,255,0.05);
     transition: all 0.3s ease;
 }
@@ -488,6 +469,36 @@ nav ul li a.active {
 
 /* Tablet */
 @media (max-width: 768px) {
+    .hero {
+        min-height: 0;
+        padding: 84px 16px 48px;
+    }
+
+    .hero-search {
+        flex-direction: column;
+        border-radius: 20px;
+        padding: 6px;
+    }
+
+    .hero-search-input {
+        width: 100%;
+        padding: 12px 16px;
+    }
+
+    .hero-search-btn {
+        width: 100%;
+    }
+
+    .hero-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .hero-btn {
+        width: 100%;
+        min-width: 0;
+    }
+
     .hero-stats {
         grid-template-columns: repeat(2, 1fr);
         gap: 10px;
@@ -498,7 +509,7 @@ nav ul li a.active {
         padding: 14px 10px 12px;
     }
 
-    stat-number {
+    .stat-number {
         font-size: 28px;
     }
     
@@ -1275,8 +1286,8 @@ nav ul li a.active {
     bottom: 16px;
     right: 16px;
     background: rgba(255,255,255,0.92);
-    backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
     padding: 12px 16px;
     border-radius: var(--radius-sm);
     border: 1px solid var(--border);
@@ -1434,8 +1445,8 @@ nav ul li a.active {
     gap: 8px;
     z-index: 999;
     background: rgba(255,255,255,0.92);
-    backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
     padding: 6px;
     border-radius: var(--radius-sm);
     border: 1px solid var(--border);
@@ -1472,8 +1483,8 @@ nav ul li a.active {
     bottom: 16px;
     right: 16px;
     background: rgba(255,255,255,0.92);
-    backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
     padding: 12px 16px;
     border-radius: var(--radius-sm);
     border: 1px solid var(--border);
@@ -3676,7 +3687,7 @@ a:hover{
 @media (max-width: 768px) {
     .hero {
         padding: 90px 16px 50px;
-        min-height: auto;
+        min-height: 0;
     }
     .hero-stats {
         grid-template-columns: repeat(2, 1fr);
@@ -3733,13 +3744,24 @@ a:hover{
    ========================================= */
 .citizen-modal {
     position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
+    inset: 0;
     background: rgba(0, 0, 0, 0.7);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 9999;
+    -webkit-backdrop-filter: blur(4px);
     backdrop-filter: blur(4px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.citizen-modal.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
 }
 
 .citizen-modal-content {
@@ -3750,6 +3772,12 @@ a:hover{
     max-width: 400px;
     position: relative;
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    transform: translateY(8px);
+    transition: transform 0.2s ease;
+}
+
+.citizen-modal.active .citizen-modal-content {
+    transform: translateY(0);
 }
 
 .citizen-modal-close {

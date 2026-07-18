@@ -34,12 +34,11 @@
             <!-- Navigation Bar -->
              <nav class="nav-container" id="nav-menu" role="navigation" aria-label="Main Navigation">
                 <ul class="nav-links">
-                    <li><a href="#/" onclick="navigate('/')">Map & Records</a></li>
-                    <li><a href="../HTML/buildings.html" onclick="navigate('/buildings')">All Buildings</a></li>
-                    <li><a href="../HTML/risk.html" onclick="navigate('/risk')">Report At-Risk</a></li>
-                    <li><a href="../HTML/community.html" onclick="navigate('/community')">Community</a></li>
-                    <li><a href="../HTML/officer.html" onclick="navigate('/officer')">Officer</a></li>
-
+                    <li><a href="#/" onclick="navigate('/'); return false;">Map & Records</a></li>
+                    <li><a href="#/buildings" onclick="navigate('/buildings'); return false;">All Buildings</a></li>
+                    <li><a href="#/risk" onclick="navigate('/risk'); return false;">Report At-Risk</a></li>
+                    <li><a href="#/community" onclick="navigate('/community'); return false;">Community</a></li>
+                    <li><a href="#/officer" onclick="navigate('/officer'); return false;">Officer</a></li>
                     <li><a href="#" onclick="showCitizenModal(); return false;" style="font-weight: 600; color: var(--accent) !important;">Sign In</a></li>
                 </ul>
             </nav>
@@ -81,17 +80,17 @@
                      
                 >
 
-                <button class="hero-search-btn">
+                <button class="hero-search-btn" type="button" onclick="handleHeroSearch()">
                  Search
                 </button>
              </div>
             
             <!-- Action buttons -->
             <div class="hero-actions">
-                        <button class="btn-primary hero-btn" onclick="navigate('/map')">
+                        <button class="btn-primary hero-btn" type="button" onclick="navigate('/buildings'); return false;">
                              Explore All
                         </button>
-                        <button class="btn-secondary hero-btn" onclick="scrollToSection('map-section')">
+                        <button class="btn-secondary hero-btn" type="button" onclick="navigate('/map'); return false;">
                             View Map
                         </button>
                     </div>
@@ -646,9 +645,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
     <!-- CITIZEN MODAL -->
-    <div id="citizen-modal" class="citizen-modal" style="display:none;">
+    <div id="citizen-modal" class="citizen-modal" aria-hidden="true">
         <div class="citizen-modal-content">
-            <button class="citizen-modal-close" onclick="closeCitizenModal()">×</button>
+            <button class="citizen-modal-close" type="button" onclick="closeCitizenModal()" aria-label="Close sign in">×</button>
             <h2 style="font-family:var(--font-display); margin-bottom: 16px;">Citizen Sign In</h2>
             <p style="color:var(--text-muted); font-size:14px; margin-bottom: 24px;">Please sign in to continue viewing virtual tours or to report at-risk structures.</p>
             <form onsubmit="handleCitizenLogin(event)" style="display:flex;flex-direction:column;gap:16px;">

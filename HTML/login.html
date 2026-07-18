@@ -73,19 +73,25 @@
         .login-modal-close {
             position: absolute;
             top: 16px;
-            right: 20px;
-            background: none;
+            right: 16px;
+            width: 32px;
+            height: 32px;
+            background: var(--bg-hover, #f3f4f6);
             border: none;
-            font-size: 28px;
+            border-radius: 50%;
+            font-size: 20px;
             color: var(--text-muted);
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: var(--font-body);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             line-height: 1;
         }
 
         .login-modal-close:hover {
-            color: var(--accent);
+            background: #e5e7eb;
+            color: var(--text);
             transform: rotate(90deg);
         }
 
@@ -366,91 +372,91 @@
     </div>
 
     <!-- ===== SCRIPTS ===== -->
+    <script src="../JS/api.js"></script>
     <script>
         // ========================================
-        // LOGIN HANDLER
+        // LOGIN HANDLER — connected to real backend
         // ========================================
         async function handleLogin(e) {
             e.preventDefault();
-            
-            const email = document.getElementById('login-email').value.trim();
-            const password = document.getElementById('login-password').value.trim();
-            const message = document.getElementById('login-message');
-            const btn = document.getElementById('login-btn');
 
-            // Reset message
-            message.className = 'login-message';
+            const email    = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value.trim();
+            const message  = document.getElementById('login-message');
+            const btn      = document.getElementById('login-btn');
+
+            message.className   = 'login-message';
             message.textContent = '';
 
-            // Validate
             if (!email || !password) {
-                message.className = 'login-message error';
+                message.className   = 'login-message error';
                 message.textContent = '⚠️ Please fill in all fields.';
                 return;
             }
 
             if (!email.includes('@')) {
-                message.className = 'login-message error';
+                message.className   = 'login-message error';
                 message.textContent = '⚠️ Please enter a valid email address.';
                 return;
             }
 
-            // Simulate login
-            btn.disabled = true;
-            btn.innerHTML = 'Signing in...';
+            btn.disabled   = true;
+            btn.innerHTML  = 'Signing in…';
 
-            setTimeout(() => {
-                // Demo credentials
-                if (email === 'admin@heritage.go.tz' && password === 'password') {
-                    message.className = 'login-message success';
-                    message.textContent = '✅ Login successful!';
+            try {
+                const result = await API.login(email, password);
 
-                    localStorage.setItem('token', 'demo-token');
-                    localStorage.setItem('user', JSON.stringify({
-                        name: 'Admin',
-                        email: email,
-                        role: 'officer'
-                    }));
+                if (result.token) {
+                    // Save credentials
+                    localStorage.setItem('token', result.token);
+                    localStorage.setItem('user', JSON.stringify(result.user));
+
+                    message.className   = 'login-message success';
+                    message.textContent = '✅ Login successful! Redirecting…';
 
                     setTimeout(() => {
-                        // Redirect to officer portal
-                        window.location.href = 'officer.html';
-                    }, 1000);
+                        const role = result.user?.role || 'citizen';
+                        window.location.href = role === 'officer' ? 'officer.html' : '../HTML/index.html';
+                    }, 900);
                 } else {
-                    message.className = 'login-message error';
-                    message.textContent = '❌ Invalid credentials. Try admin@heritage.go.tz / password';
-                    btn.disabled = false;
-                    btn.innerHTML = 'Sign In <span aria-hidden="true">→</span>';
+                    // Backend returned an error message
+                    message.className   = 'login-message error';
+                    message.textContent = '❌ ' + (result.message || 'Invalid credentials.');
+                    btn.disabled   = false;
+                    btn.innerHTML  = 'Sign In <span aria-hidden="true">→</span>';
                 }
-            }, 1000);
+            } catch (err) {
+                message.className   = 'login-message error';
+                message.textContent = '❌ Could not reach server. Is the backend running?';
+                btn.disabled   = false;
+                btn.innerHTML  = 'Sign In <span aria-hidden="true">→</span>';
+            }
         }
 
         // ========================================
         // CLOSE LOGIN
         // ========================================
         function closeLogin() {
-            // Redirect back to the page you came from
-            window.location.href = 'index.html';
+            window.location.href = '../HTML/index.html';
         }
 
-        // ========================================
-        // CLOSE ON ESCAPE KEY
-        // ========================================
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closeLogin();
-            }
+            if (e.key === 'Escape') closeLogin();
         });
 
-        // ========================================
-        // CLOSE ON BACKGROUND CLICK
-        // ========================================
         document.addEventListener('click', function(e) {
             const overlay = document.getElementById('login-overlay');
-            if (e.target === overlay) {
-                closeLogin();
-            }
+            if (e.target === overlay) closeLogin();
         });
+
+        // Auto-redirect if already logged in
+        (function() {
+            const token = localStorage.getItem('token');
+            const user  = JSON.parse(localStorage.getItem('user') || 'null');
+            if (token && user) {
+                window.location.href = user.role === 'officer' ? 'officer.html' : '../HTML/index.html';
+            }
+        })();
 
         console.log('✅ login.html loaded');
     </script>

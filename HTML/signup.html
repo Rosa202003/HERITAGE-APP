@@ -67,22 +67,29 @@
             }
         }
 
+        /* Close Button */
         .signup-modal-close {
             position: absolute;
             top: 16px;
-            right: 20px;
-            background: none;
+            right: 16px;
+            width: 32px;
+            height: 32px;
+            background: var(--bg-hover, #f3f4f6);
             border: none;
-            font-size: 28px;
+            border-radius: 50%;
+            font-size: 20px;
             color: var(--text-muted);
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: var(--font-body);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             line-height: 1;
         }
 
         .signup-modal-close:hover {
-            color: var(--accent);
+            background: #e5e7eb;
+            color: var(--text);
             transform: rotate(90deg);
         }
 
@@ -336,6 +343,7 @@
     </div>
 
     <!-- ===== SCRIPTS ===== -->
+    <script src="../JS/api.js"></script>
     <script>
         // ========================================
         // CLOSE SIGNUP
@@ -345,66 +353,69 @@
         }
 
         // ========================================
-        // SIGNUP HANDLER
+        // SIGNUP HANDLER — connected to real backend
         // ========================================
         async function handleSignup(e) {
             e.preventDefault();
-            
-            const name = document.getElementById('signup-name').value.trim();
-            const email = document.getElementById('signup-email').value.trim();
-            const password = document.getElementById('signup-password').value.trim();
-            const message = document.getElementById('signup-message');
-            const btn = document.getElementById('signup-btn');
 
-            // Reset message
-            message.className = 'signup-message';
+            const name     = document.getElementById('signup-name').value.trim();
+            const email    = document.getElementById('signup-email').value.trim();
+            const password = document.getElementById('signup-password').value.trim();
+            const message  = document.getElementById('signup-message');
+            const btn      = document.getElementById('signup-btn');
+
+            message.className   = 'signup-message';
             message.textContent = '';
 
-            // Validate
             if (!name || !email || !password) {
-                message.className = 'signup-message error';
-                message.textContent = ' Please fill in all fields.';
+                message.className   = 'signup-message error';
+                message.textContent = '⚠️ Please fill in all fields.';
                 return;
             }
 
             if (!email.includes('@')) {
-                message.className = 'signup-message error';
-                message.textContent = ' Please enter a valid email address.';
+                message.className   = 'signup-message error';
+                message.textContent = '⚠️ Please enter a valid email address.';
                 return;
             }
 
             if (password.length < 6) {
-                message.className = 'signup-message error';
-                message.textContent = ' Password must be at least 6 characters.';
+                message.className   = 'signup-message error';
+                message.textContent = '⚠️ Password must be at least 6 characters.';
                 return;
             }
 
-            // Simulate signup
-            btn.disabled = true;
-            btn.innerHTML = 'Creating account...';
+            btn.disabled  = true;
+            btn.innerHTML = 'Creating account…';
 
-            setTimeout(() => {
-                // Demo: Always succeeds
-                message.className = 'signup-message success';
-                message.textContent = 'Account created successfully!';
+            try {
+                const result = await API.register(name, email, password);
 
-                setTimeout(() => {
-                    // Redirect to login page
-                    window.location.href = '../HTML/login.html';
-                }, 1500);
-            }, 1000);
+                if (result.user || result.message === 'User registered successfully') {
+                    message.className   = 'signup-message success';
+                    message.textContent = '✅ Account created! Redirecting to sign in…';
+                    setTimeout(() => {
+                        window.location.href = '../HTML/login.html';
+                    }, 1500);
+                } else {
+                    message.className   = 'signup-message error';
+                    message.textContent = '❌ ' + (result.message || 'Registration failed.');
+                    btn.disabled  = false;
+                    btn.innerHTML = 'Create Account →';
+                }
+            } catch (err) {
+                message.className   = 'signup-message error';
+                message.textContent = '❌ Could not reach server. Is the backend running?';
+                btn.disabled  = false;
+                btn.innerHTML = 'Create Account →';
+            }
         }
 
-        // ========================================
-        // CLOSE ON ESCAPE KEY
-        // ========================================
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closeSignup();
-            }
+            if (e.key === 'Escape') closeSignup();
         });
 
-        console.log('signup.html loaded');
+        console.log('✅ signup.html loaded');
     </script>
 </body>
 </html>

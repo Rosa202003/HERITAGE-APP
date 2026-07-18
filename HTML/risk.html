@@ -204,72 +204,6 @@
 </footer>
     </div>
 
-    <!-- ===== SCRIPTS ===== -->
-    <script>
-        // ========================================
-        // FORM HANDLING
-        // ========================================
-
-        function handleRiskSubmit(event) {
-            event.preventDefault();
-            
-            const building = document.getElementById('building-select').value;
-            const riskType = document.getElementById('risk-type').value;
-            const description = document.getElementById('risk-description').value.trim();
-            const consent = document.getElementById('consent-checkbox').checked;
-            const name = document.getElementById('reporter-name').value.trim();
-            const email = document.getElementById('reporter-email').value.trim();
-
-            if (!building || !riskType || !description || !consent || !name || !email) {
-                alert('Please fill in all required fields, including your name and email, and accept the terms.');
-                return;
-            }
-
-            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                alert('Please enter a valid email address.');
-                return;
-            }
-
-            console.log('Risk Report Submitted:', {
-                building: building,
-                riskType: riskType,
-                description: description,
-                name: name,
-                email: email,
-                date: new Date().toISOString()
-            });
-
-            document.getElementById('risk-form').style.display = 'none';
-            document.getElementById('success-message').style.display = 'block';
-            document.getElementById('success-message').scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-
-        function resetForm() {
-            document.getElementById('risk-form').reset();
-            document.getElementById('risk-form').style.display = 'flex';
-            document.getElementById('success-message').style.display = 'none';
-            document.getElementById('risk-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-
-        console.log('✅ risk.html loaded');
-        
-        // Auto-trigger Citizen Auth
-        document.addEventListener('DOMContentLoaded', function() {
-            const isCitizenAuthenticated = localStorage.getItem('citizen_auth') === 'true';
-            if (!isCitizenAuthenticated) {
-                // Ensure app.js functions are loaded
-                if (typeof showCitizenModal === 'function') {
-                    showCitizenModal();
-                } else {
-                    // Fallback if app.js loads late
-                    setTimeout(() => {
-                        if (typeof showCitizenModal === 'function') showCitizenModal();
-                    }, 500);
-                }
-            }
-        });
-    </script>
-
     <!-- CITIZEN MODAL -->
     <div id="citizen-modal" class="citizen-modal" style="display:none;">
         <div class="citizen-modal-content">
@@ -289,6 +223,133 @@
             </form>
         </div>
     </div>
+
+    <script src="../JS/api.js"></script>
+    <script>
+        // ========================================
+        // LOAD BUILDINGS INTO DROPDOWN
+        // ========================================
+        async function loadBuildingsDropdown() {
+            const select = document.getElementById('building-select');
+            try {
+                const buildings = await API.getBuildings();
+                // Clear existing hardcoded options (keep placeholder)
+                select.innerHTML = '<option value="">Select a building…</option>';
+
+                buildings.forEach(b => {
+                    const opt = document.createElement('option');
+                    opt.value = b.id;
+                    opt.textContent = b.name || b.title || `Building #${b.id}`;
+                    select.appendChild(opt);
+                });
+
+                // Keep "Other / Not Listed" at bottom
+                const other = document.createElement('option');
+                other.value = 'other';
+                other.textContent = 'Other / Not Listed';
+                select.appendChild(other);
+            } catch (err) {
+                console.error('Could not load buildings:', err);
+                // Leave hardcoded fallback options if API fails
+            }
+        }
+
+        // ========================================
+        // FORM SUBMISSION — connected to real API
+        // ========================================
+        async function handleRiskSubmit(event) {
+            event.preventDefault();
+
+            const buildingId   = document.getElementById('building-select').value;
+            const riskType     = document.getElementById('risk-type').value;
+            const description  = document.getElementById('risk-description').value.trim();
+            const consent      = document.getElementById('consent-checkbox').checked;
+            const name         = document.getElementById('reporter-name').value.trim();
+            const email        = document.getElementById('reporter-email').value.trim();
+            const photoFile    = document.getElementById('risk-photo').files[0];
+
+            if (!buildingId || !riskType || !description || !consent || !name || !email) {
+                alert('Please fill in all required fields, including your name and email, and accept the terms.');
+                return;
+            }
+
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+
+            // Disable submit button during upload
+            const submitBtn = event.target.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting…';
+
+            // Optional: upload photo
+            let photoUrl = null;
+            if (photoFile) {
+                try {
+                    photoUrl = await API.uploadFlagPhoto(photoFile);
+                } catch (err) {
+                    console.warn('Photo upload skipped:', err.message);
+                }
+            }
+
+            // Build payload
+            const payload = {
+                building_id:    buildingId === 'other' ? null : parseInt(buildingId),
+                risk_type:      riskType,
+                description:    description,
+                reporter_name:  name,
+                reporter_email: email,
+                photo_url:      photoUrl
+            };
+
+            try {
+                const result = await API.createFlag(payload);
+
+                if (result.flag || result.message === 'Flag report submitted') {
+                    // Show success state
+                    document.getElementById('risk-form').style.display = 'none';
+                    document.getElementById('success-message').style.display = 'block';
+                    document.getElementById('success-message').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else {
+                    alert('❌ ' + (result.message || 'Could not submit report. Please try again.'));
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = '⚑ Submit Flag Report';
+                }
+            } catch (err) {
+                alert('❌ Could not reach server. Is the backend running?');
+                submitBtn.disabled = false;
+                submitBtn.textContent = '⚑ Submit Flag Report';
+            }
+        }
+
+        function resetForm() {
+            document.getElementById('risk-form').reset();
+            document.getElementById('risk-form').style.display = 'flex';
+            document.getElementById('success-message').style.display = 'none';
+            document.getElementById('risk-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // ========================================
+        // INIT
+        // ========================================
+        document.addEventListener('DOMContentLoaded', function() {
+            loadBuildingsDropdown();
+
+            const isCitizenAuthenticated = localStorage.getItem('citizen_auth') === 'true';
+            if (!isCitizenAuthenticated) {
+                if (typeof showCitizenModal === 'function') {
+                    showCitizenModal();
+                } else {
+                    setTimeout(() => {
+                        if (typeof showCitizenModal === 'function') showCitizenModal();
+                    }, 500);
+                }
+            }
+        });
+
+        console.log('✅ risk.html loaded');
+    </script>
     <script src="../JS/app.js"></script>
 </body>
 </html>

@@ -595,10 +595,10 @@
 
                 <div class="sidebar-footer">
                     <div class="user-info">
-                        <div class="user-avatar">FM</div>
+                        <div class="user-avatar" id="sidebar-initials">??</div>
                         <div>
-                            <div class="user-name">F. Mwamburi</div>
-                            <div class="user-role">Antiquities Officer</div>
+                            <div class="user-name" id="sidebar-name">Officer</div>
+                            <div class="user-role" id="sidebar-role">Antiquities Officer</div>
                         </div>
                     </div>
                     <button class="logout-btn" onclick="logout()">Sign Out</button>
@@ -622,19 +622,19 @@
                     <!-- Stats -->
                     <div class="stats-grid">
                         <div class="stat-card stat-primary">
-                            <div class="stat-number">8</div>
+                            <div class="stat-number" id="stat-buildings">—</div>
                             <div class="stat-label">Buildings in inventory</div>
                         </div>
                         <div class="stat-card stat-gold">
-                            <div class="stat-number">3</div>
+                            <div class="stat-number" id="stat-pending-flags">—</div>
                             <div class="stat-label"> Flag reports require review</div>
                         </div>
                         <div class="stat-card stat-teal">
-                            <div class="stat-number">5</div>
-                            <div class="stat-label"> Buildings documented</div>
+                            <div class="stat-number" id="stat-reviews">—</div>
+                            <div class="stat-label">Community reviews</div>
                         </div>
                         <div class="stat-card stat-accent">
-                            <div class="stat-number">8</div>
+                            <div class="stat-number" id="stat-grade1">—</div>
                             <div class="stat-label">Nationally listed</div>
                         </div>
                     </div>
@@ -645,43 +645,8 @@
                             <h3>Active Flags</h3>
                             <a href="#/officer/flags" class="view-all-link" onclick="showOfficerPage('flags')">View all →</a>
                         </div>
-                        <div class="flag-list" style="padding: 8px 16px 16px;">
-                            <div class="flag-item">
-                                <div class="flag-priority high"></div>
-                                <div class="flag-info">
-                                    <div class="flag-title">Mnazi Mmoja Hospital Original Block</div>
-                                    <div class="flag-meta">
-                                        <span> Demolition Threat</span>
-                                        <span>2024-09-18</span>
-                                        <span> DARCH Watch</span>
-                                    </div>
-                                </div>
-                                <span class="flag-status pending">Pending</span>
-                            </div>
-                            <div class="flag-item">
-                                <div class="flag-priority high"></div>
-                                <div class="flag-info">
-                                    <div class="flag-title">General Post Office</div>
-                                    <div class="flag-meta">
-                                        <span> Structural Collapse</span>
-                                        <span>2024-09-14</span>
-                                        <span> M. Khamisi</span>
-                                    </div>
-                                </div>
-                                <span class="flag-status reviewing">Under Review</span>
-                            </div>
-                            <div class="flag-item">
-                                <div class="flag-priority medium"></div>
-                                <div class="flag-info">
-                                    <div class="flag-title">Old Harbour Master's Office</div>
-                                    <div class="flag-meta">
-                                        <span> Unauthorised Modification</span>
-                                        <span>2024-08-30</span>
-                                        <span> Anonymous</span>
-                                    </div>
-                                </div>
-                                <span class="flag-status pending">Pending</span>
-                            </div>
+                        <div class="flag-list" id="dashboard-flags" style="padding: 8px 16px 16px;">
+                            <p style="color:var(--text-muted);padding:20px;text-align:center;">Loading…</p>
                         </div>
                     </div>
                 </div>
@@ -709,87 +674,16 @@
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
+                                        <th>Code</th>
                                         <th>Building</th>
                                         <th>Era</th>
                                         <th>Condition</th>
                                         <th>Status</th>
-                                        <th>Tour</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><strong>DSH-001</strong></td>
-                                        <td>German Administrative Boma</td>
-                                        <td><span class="era-tag german">German</span></td>
-                                        <td><span class="condition-badge good">Good</span></td>
-                                        <td><span class="status-badge protected">Grade I Listed</span></td>
-                                        <td></td>
-                                        <td><button class="action-btn">Edit</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>DSH-002</strong></td>
-                                        <td>St. Joseph Metropolitan Cathedral</td>
-                                        <td><span class="era-tag german">German</span></td>
-                                        <td><span class="condition-badge excellent">Excellent</span></td>
-                                        <td><span class="status-badge protected">Grade I Listed</span></td>
-                                        <td><button class="action-btn">Edit</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>DSH-003</strong></td>
-                                        <td>Azania Front Lutheran Church</td>
-                                        <td><span class="era-tag german">German</span></td>
-                                        <td><span class="condition-badge good">Good</span></td>
-                                        <td><span class="status-badge protected">Grade I Listed</span></td>
-                                        <td>—</td>
-                                        <td><button class="action-btn">Edit</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>DSH-004</strong></td>
-                                        <td>Old Harbour Master's Office</td>
-                                        <td><span class="era-tag german">German</span></td>
-                                        <td><span class="condition-badge fair">Fair</span></td>
-                                        <td><span class="status-badge listed">Grade II Listed</span></td>
-                                        <td>—</td>
-                                        <td><button class="action-btn">Edit</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>DSH-005</strong></td>
-                                        <td>General Post Office</td>
-                                        <td><span class="era-tag british">British</span></td>
-                                        <td><span class="condition-badge poor">Poor</span></td>
-                                        <td><span class="status-badge listed">Grade II Listed</span></td>
-                                        <td>—</td>
-                                        <td><button class="action-btn">Edit</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>DSH-006</strong></td>
-                                        <td>Dar es Salaam City Hall</td>
-                                        <td><span class="era-tag independence">Independence</span></td>
-                                        <td><span class="condition-badge good">Good</span></td>
-                                        <td><span class="status-badge listed">Grade II Listed</span></td>
-                                        <td>—</td>
-                                        <td><button class="action-btn">Edit</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>DSH-007</strong></td>
-                                        <td>Mnazi Mmoja Hospital Original</td>
-                                        <td><span class="era-tag british">British</span></td>
-                                        <td><span class="condition-badge poor">At Risk</span></td>
-                                        <td><span class="status-badge listed">Proposed</span></td>
-                                        <td>—</td>
-                                        <td><button class="action-btn">Edit</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>DSH-008</strong></td>
-                                        <td>Dar es Salaam Railway Station</td>
-                                        <td><span class="era-tag british">British</span></td>
-                                        <td><span class="condition-badge fair">Fair</span></td>
-                                        <td><span class="status-badge listed">Grade II Listed</span></td>
-                                        
-                                        <td><button class="action-btn">Edit</button></td>
-                                    </tr>
+                                <tbody id="buildings-tbody">
+                                    <tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:24px;">Loading…</td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -812,64 +706,18 @@
                         <div class="table-header">
                             <h3>All Flag Reports</h3>
                             <div class="table-actions">
-                                <select style="padding:6px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:13px;background:var(--bg);">
-                                    <option>All Status</option>
-                                    <option>Pending</option>
-                                    <option>Under Review</option>
-                                    <option>Resolved</option>
+                                <select id="flag-status-filter" onchange="filterFlags()" style="padding:6px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:13px;background:var(--bg);">
+                                    <option value="">All Status</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="reviewing">Under Review</option>
+                                    <option value="resolved">Resolved</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="flag-list" style="padding:8px 16px 16px;">
-                            <div class="flag-item">
-                                <div class="flag-priority high"></div>
-                                <div class="flag-info">
-                                    <div class="flag-title">FLAG-2024-091 · Mnazi Mmoja Hospital Original Block</div>
-                                    <div class="flag-meta">
-                                        <span> Demolition Threat</span>
-                                        <span>2024-09-18</span>
-                                        <span>DARCH Watch</span>
-                                    </div>
-                                </div>
-                                <span class="flag-status pending">Pending</span>
-                            </div>
-                            <div class="flag-item">
-                                <div class="flag-priority high"></div>
-                                <div class="flag-info">
-                                    <div class="flag-title">FLAG-2024-089 · General Post Office</div>
-                                    <div class="flag-meta">
-                                        <span> Structural Collapse</span>
-                                        <span> 2024-09-14</span>
-                                        <span> M. Khamisi</span>
-                                    </div>
-                                </div>
-                                <span class="flag-status reviewing">Under Review</span>
-                            </div>
-                            <div class="flag-item">
-                                <div class="flag-priority medium"></div>
-                                <div class="flag-info">
-                                    <div class="flag-title">FLAG-2024-076 · Old Harbour Master's Office</div>
-                                    <div class="flag-meta">
-                                        <span>Unauthorised Modification</span>
-                                        <span> 2024-08-30</span>
-                                        <span> Anonymous</span>
-                                    </div>
-                                </div>
-                                <span class="flag-status pending">Pending</span>
-                            </div>
-                            <div class="flag-item">
-                                <div class="flag-priority medium"></div>
-                                <div class="flag-info">
-                                    <div class="flag-title">FLAG-2024-062 · Dar es Salaam Railway Station</div>
-                                    <div class="flag-meta">
-                                        <span> Water Ingress</span>
-                                        <span> 2024-07-22</span>
-                                        <span> T. Nyerere</span>
-                                    </div>
-                                </div>
-                                <span class="flag-status resolved">Resolved</span>
-                            </div>
+                        <div class="flag-list" id="flags-list" style="padding:8px 16px 16px;">
+                            <p style="color:var(--text-muted);padding:20px;text-align:center;">Loading…</p>
                         </div>
+                    </div>
                     </div>
                 </div>
             </main>
@@ -930,9 +778,8 @@
 </footer>
     </div>
 
-    
-
     <!-- ===== SCRIPTS ===== -->
+    <script src="../JS/api.js"></script>
     <script>
         // ========================================
         // HAMBURGER MENU
@@ -960,24 +807,200 @@
         });
 
         // ========================================
+        // AUTH GUARD
+        // ========================================
+        let allFlags = [];
+
+        (function authGuard() {
+            const token = localStorage.getItem('token');
+            const user  = JSON.parse(localStorage.getItem('user') || 'null');
+
+            if (!token || !user) {
+                // Not logged in — redirect to login
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Fill sidebar user info
+            const name = user.full_name || user.name || 'Officer';
+            const initials = name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+
+            document.getElementById('sidebar-initials').textContent = initials;
+            document.getElementById('sidebar-name').textContent     = name;
+            document.getElementById('sidebar-role').textContent     = user.role === 'officer' ? 'Antiquities Officer' : 'Citizen';
+        })();
+
+        // ========================================
+        // LOAD DASHBOARD DATA
+        // ========================================
+        async function loadDashboard() {
+            try {
+                const stats = await API.getStats();
+                document.getElementById('stat-buildings').textContent     = stats.totalBuildings;
+                document.getElementById('stat-pending-flags').textContent = stats.pendingFlags;
+                document.getElementById('stat-reviews').textContent       = stats.totalReviews;
+                document.getElementById('stat-grade1').textContent        = stats.gradeIBuildings;
+
+                // Update sidebar flag badge
+                const badge = document.querySelector('.nav-badge');
+                if (badge) badge.textContent = stats.pendingFlags;
+
+                // Load active flags for dashboard widget
+                const flags = await API.getFlags();
+                allFlags = flags;
+                renderDashboardFlags(flags.filter(f => f.status === 'pending').slice(0, 3));
+            } catch (err) {
+                console.error('Dashboard load error:', err);
+            }
+        }
+
+        // ========================================
+        // LOAD BUILDINGS TABLE
+        // ========================================
+        async function loadBuildingsTable() {
+            const tbody = document.getElementById('buildings-tbody');
+            try {
+                const buildings = await API.getBuildings();
+                if (!buildings.length) {
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:24px;">No buildings found.</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = buildings.map(b => `
+                    <tr>
+                        <td><strong>${b.code || b.id}</strong></td>
+                        <td>${b.name || b.title || 'Unknown'}</td>
+                        <td><span class="era-tag ${(b.era || '').toLowerCase()}">${b.era || '—'}</span></td>
+                        <td><span class="condition-badge ${(b.condition || '').toLowerCase()}">${b.condition || '—'}</span></td>
+                        <td><span class="status-badge">${b.status || '—'}</span></td>
+                        <td><button class="action-btn" onclick="alert('Edit building: ${b.name || b.id}')">Edit</button></td>
+                    </tr>
+                `).join('');
+            } catch (err) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:24px;">Could not load buildings.</td></tr>';
+            }
+        }
+
+        // ========================================
+        // RENDER FLAGS
+        // ========================================
+        function priorityClass(riskType) {
+            const high = ['structural', 'demolition', 'fire'];
+            const medium = ['neglect', 'vandalism', 'development'];
+            if (high.includes(riskType)) return 'high';
+            if (medium.includes(riskType)) return 'medium';
+            return 'low';
+        }
+
+        function statusLabel(status) {
+            if (status === 'pending')   return '<span class="flag-status pending">Pending</span>';
+            if (status === 'reviewing') return '<span class="flag-status reviewing">Under Review</span>';
+            if (status === 'resolved')  return '<span class="flag-status resolved">Resolved</span>';
+            return `<span class="flag-status">${status}</span>`;
+        }
+
+        function formatDate(iso) {
+            if (!iso) return '—';
+            return new Date(iso).toLocaleDateString('en-GB');
+        }
+
+        function renderDashboardFlags(flags) {
+            const container = document.getElementById('dashboard-flags');
+            if (!flags.length) {
+                container.innerHTML = '<p style="color:var(--text-muted);padding:20px;text-align:center;">No active flags.</p>';
+                return;
+            }
+            container.innerHTML = flags.map(f => `
+                <div class="flag-item">
+                    <div class="flag-priority ${priorityClass(f.risk_type)}"></div>
+                    <div class="flag-info">
+                        <div class="flag-title">${f.reporter_name || 'Anonymous'} · ${f.risk_type || 'Unknown risk'}</div>
+                        <div class="flag-meta">
+                            <span>${formatDate(f.created_at)}</span>
+                        </div>
+                    </div>
+                    ${statusLabel(f.status)}
+                </div>
+            `).join('');
+        }
+
+        function renderAllFlags(flags) {
+            const container = document.getElementById('flags-list');
+            if (!flags.length) {
+                container.innerHTML = '<p style="color:var(--text-muted);padding:20px;text-align:center;">No flag reports found.</p>';
+                return;
+            }
+            container.innerHTML = flags.map(f => `
+                <div class="flag-item">
+                    <div class="flag-priority ${priorityClass(f.risk_type)}"></div>
+                    <div class="flag-info">
+                        <div class="flag-title">FLAG-${f.id} · ${f.risk_type || 'Unknown'}</div>
+                        <div class="flag-meta">
+                            <span>${f.description ? f.description.slice(0, 60) + (f.description.length > 60 ? '…' : '') : '—'}</span>
+                            <span>${formatDate(f.created_at)}</span>
+                            <span>${f.reporter_name || 'Anonymous'}</span>
+                        </div>
+                    </div>
+                    <div style="display:flex;gap:8px;align-items:center;">
+                        ${statusLabel(f.status)}
+                        <select onchange="updateFlagStatus(${f.id}, this.value)" style="font-size:11px;padding:2px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg);">
+                            <option value="">Update…</option>
+                            <option value="pending">Pending</option>
+                            <option value="reviewing">Under Review</option>
+                            <option value="resolved">Resolved</option>
+                        </select>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function loadAllFlags() {
+            try {
+                const flags = await API.getFlags();
+                allFlags = flags;
+                renderAllFlags(flags);
+            } catch (err) {
+                document.getElementById('flags-list').innerHTML =
+                    '<p style="color:var(--text-muted);padding:20px;text-align:center;">Could not load flags.</p>';
+            }
+        }
+
+        function filterFlags() {
+            const val = document.getElementById('flag-status-filter').value;
+            const filtered = val ? allFlags.filter(f => f.status === val) : allFlags;
+            renderAllFlags(filtered);
+        }
+
+        async function updateFlagStatus(id, newStatus) {
+            if (!newStatus) return;
+            try {
+                await API.updateFlag(id, { status: newStatus });
+                await loadAllFlags();
+                await loadDashboard();
+            } catch (err) {
+                alert('Could not update flag status.');
+            }
+        }
+
+        // ========================================
         // OFFICER PAGE NAVIGATION
         // ========================================
         function showOfficerPage(page) {
-            // Hide all pages
-            document.getElementById('dashboard-page').style.display = 'none';
-            document.getElementById('buildings-page').style.display = 'none';
-            document.getElementById('flags-page').style.display = 'none';
+            document.getElementById('dashboard-page').style.display  = 'none';
+            document.getElementById('buildings-page').style.display  = 'none';
+            document.getElementById('flags-page').style.display      = 'none';
 
-            // Show selected page
             if (page === 'dashboard') {
                 document.getElementById('dashboard-page').style.display = 'block';
+                loadDashboard();
             } else if (page === 'buildings') {
                 document.getElementById('buildings-page').style.display = 'block';
+                loadBuildingsTable();
             } else if (page === 'flags') {
                 document.getElementById('flags-page').style.display = 'block';
+                loadAllFlags();
             }
 
-            // Update sidebar active state
             document.querySelectorAll('.sidebar-nav a').forEach(link => {
                 link.classList.remove('active');
                 if (link.getAttribute('href').includes(page)) {
@@ -986,33 +1009,30 @@
             });
         }
 
-        // ========================================
-        // NAVIGATION
-        // ========================================
         function navigate(path) {
             window.location.hash = path;
         }
 
-        // ========================================
-        // LOGIN MODAL
-        // ========================================
         function openLoginModal() {
-            // For demo purposes - redirect to login page
             window.location.href = 'login.html';
         }
 
-        // ========================================
-        // LOGOUT
-        // ========================================
         function logout() {
             if (confirm('Are you sure you want to sign out?')) {
                 localStorage.removeItem('token');
                 localStorage.removeItem('user');
-                window.location.href = 'index.html';
+                window.location.href = 'login.html';
             }
         }
 
-        console.log('officer.html loaded');
+        // ========================================
+        // INIT
+        // ========================================
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDashboard();
+        });
+
+        console.log('✅ officer.html loaded');
     </script>
 </body>
 </html>

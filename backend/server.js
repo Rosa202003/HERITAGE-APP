@@ -5,6 +5,8 @@ require("dotenv").config();
 const authRoutes = require("./routes/authRoutes");
 const buildingRoutes = require("./routes/buildingRoutes");
 const flagRoutes = require("./routes/flagRoutes"); 
+const reviewRoutes = require("./routes/reviewRoutes"); 
+const uploadRoutes = require("./routes/uploadRoutes");
 
 const app = express();
 
@@ -16,6 +18,8 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/buildings", buildingRoutes);
 app.use("/api/flags", flagRoutes);
+app.use("/api/reviews", reviewRoutes);
+app.use("/api/upload", uploadRoutes);
 
 // Health check
 app.get("/", (req, res) => {
@@ -24,7 +28,8 @@ app.get("/", (req, res) => {
     endpoints: {
       auth: "/api/auth",
       buildings: "/api/buildings",
-      flags: "/api/flags"
+      flags: "/api/flags",
+      reviews: "/api/reviews"
     }
   });
 });

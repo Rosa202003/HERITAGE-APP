@@ -45,41 +45,85 @@ const STATE = {
     user: null
 };
 
+let homeContentSnapshot = '';
+
+function restoreHomePage() {
+    const container = document.getElementById('main-content');
+    if (!container) return;
+
+    if (homeContentSnapshot) {
+        container.innerHTML = homeContentSnapshot;
+    } else {
+        container.innerHTML = '';
+    }
+
+    loadBuildingList();
+    loadFeaturedBuildings();
+    setTimeout(() => {
+        initHeritageMap();
+    }, 250);
+}
+
 // ========================================
 // ROUTER
 // ========================================
 function navigate(path) {
-    window.location.hash = path;
-    renderPage(path);
+    const nextPath = path && path.startsWith('/') ? path : `/${path || ''}`;
+    window.location.hash = nextPath;
+    renderPage(nextPath);
+}
+
+function getRouteFromPath(path) {
+    const normalized = (path || '/').replace(/^\/+/, '');
+    const [routePart] = normalized.split('?');
+    return routePart || 'home';
+}
+
+function getQueryParam(key, source = window.location.hash) {
+    const hash = source || '';
+    const queryIndex = hash.indexOf('?');
+    const queryString = queryIndex >= 0 ? hash.slice(queryIndex + 1) : '';
+    const params = new URLSearchParams(queryString);
+    return params.get(key);
 }
 
 function renderPage(path) {
-    STATE.currentPage = path;
+    const normalizedPath = path && path.startsWith('/') ? path : `/${path || '/'}`;
+    STATE.currentPage = normalizedPath;
     const container = document.getElementById('main-content');
-    const route = path.replace(/^\//, '') || 'home';
+    const route = getRouteFromPath(normalizedPath);
     
     switch(route) {
         case 'home':
         case '':
-            // Hero is already in HTML - keep it
+            restoreHomePage();
             break;
         case 'map':
             renderMapPage(container);
             break;
         case 'buildings':
-            const id = getQueryParam('id');
+            const id = getQueryParam('id', normalizedPath);
             if (id) {
                 renderBuildingDetail(container, id);
             } else {
-                renderAllBuildings(container);  // ← Uses the new function
+                renderAllBuildings(container);
             }
             break;
         case 'login':
             renderLoginPage(container);
             break;
         case 'search':
-            const query = getQueryParam('q');
+            const query = getQueryParam('q', normalizedPath);
             renderSearchResults(container, query);
+            break;
+        case 'risk':
+            renderRiskPage(container);
+            break;
+        case 'community':
+            renderCommunityPage(container);
+            break;
+        case 'officer':
+            renderOfficerPage(container);
             break;
         default:
             break;
@@ -91,24 +135,29 @@ function renderPage(path) {
 // ========================================
 // HELPER FUNCTIONS
 // ========================================
-function getQueryParam(key) {
-    const params = new URLSearchParams(window.location.search);
-    return params.get(key);
+function updateActiveNav() {
+    const currentPath = STATE.currentPage || '/';
+    const currentRoute = getRouteFromPath(currentPath);
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        const href = link.getAttribute('href') || '';
+        const targetRoute = href.replace(/^#\//, '').split('?')[0];
+        link.classList.toggle('active', targetRoute === currentRoute || (currentRoute === 'home' && targetRoute === ''));
+    });
 }
 
-function updateActiveNav() {
-    const currentPath = STATE.currentPage;
-    document.querySelectorAll('.nav-links a').forEach(link => {
-        const href = link.getAttribute('href');
-        link.classList.toggle('active', href === `#${currentPath}`);
-    });
+function renderRiskPage(container) {
+    renderReportPage(container);
+}
+
+function renderOfficerPage(container) {
+    renderLoginPage(container);
 }
 
 // ========================================
 // HERO FUNCTIONS
 // ========================================
 function handleHeroSearch() {
-    const input = document.getElementById('hero-search');
+    const input = document.getElementById('hero-search') || document.getElementById('hero-search-input');
     const query = input ? input.value.trim() : '';
     
     if (query) {
@@ -934,7 +983,8 @@ async function loadBuildingList() {
 function showCitizenModal() {
     let modal = document.getElementById('citizen-modal');
     if (modal) {
-        modal.style.display = 'flex';
+        modal.classList.add('active');
+        modal.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
     }
 }
@@ -942,7 +992,8 @@ function showCitizenModal() {
 function closeCitizenModal() {
     let modal = document.getElementById('citizen-modal');
     if (modal) {
-        modal.style.display = 'none';
+        modal.classList.remove('active');
+        modal.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
     }
 }
@@ -1007,6 +1058,11 @@ document.addEventListener('click', function(e) {
     if (e.target === lightbox) {
         closeVideoLightbox();
     }
+
+    const modal = document.getElementById('citizen-modal');
+    if (modal && e.target === modal) {
+        closeCitizenModal();
+    }
 });
 
 // ========================================
@@ -1068,6 +1124,10 @@ window.addEventListener('hashchange', function() {
 // ========================================
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM fully loaded - Starting app...');
+    const mainContent = document.getElementById('main-content');
+    if (mainContent) {
+        homeContentSnapshot = mainContent.innerHTML;
+    }
     
     const path = window.location.hash.slice(1) || '/';
     renderPage(path);
