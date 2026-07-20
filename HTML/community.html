@@ -386,12 +386,11 @@
             <!-- Navigation Bar -->
              <nav class="nav-container" id="nav-menu" role="navigation" aria-label="Main Navigation">
                 <ul class="nav-links">
-                    <li><a href="#/" onclick="navigate('/')">Map & Records</a></li>
-                    <li><a href="../HTML/buildings.html" onclick="navigate('/buildings')">All Buildings</a></li>
-                    <li><a href="../HTML/risk.html" onclick="navigate('/risk')">Report At-Risk</a></li>
-                    <li><a href="../HTML/community.html" onclick="navigate('/community')">Community</a></li>
-                    <li><a href="../HTML/login.html" onclick="navigate('/login')">Sign In</a></li>
-                    <li><a href="../HTML/officer.html">Officer</a></li>
+                    <li><a href="../HTML/index.html">Map & Records</a></li>
+                    <li><a href="../HTML/buildings.html">All Buildings</a></li>
+                    <li><a href="../HTML/risk.html">Report At-Risk</a></li>
+                    <li><a href="../HTML/community.html">Community</a></li>
+                    <li id="nav-auth-container"><a href="#" onclick="showCitizenModal(); return false;" style="font-weight: 600; color: var(--accent) !important;">Sign In</a></li>
                 </ul>
             </nav>
 
@@ -490,10 +489,10 @@
             <div>
                 <h4 style="color:rgba(255,255,255,0.4);font-size:11px;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">Explore</h4>
                 <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:4px;">
-                    <li><a href="../HTML/index.html" style="color:var(--text-muted);text-decoration:none;font-size:13px;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''">Map & Records</a></li>
-                    <li><a href="../HTML/buildings.html" style="color:var(--text-muted);text-decoration:none;font-size:13px;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''"> All Buildings</a></li>
-                    <li><a href="../HTML/community.html" style="color:var(--text-muted);text-decoration:none;font-size:13px;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''"> Community</a></li>
-                    <li><a href="../HTML/risk.html" style="color:var(--text-muted);text-decoration:none;font-size:13px;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''">Report At-Risk</a></li>
+                    <li><a href="index.html" style="color:var(--text-muted);text-decoration:none;font-size:13px;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''">Map & Records</a></li>
+                    <li><a href="buildings.html" style="color:var(--text-muted);text-decoration:none;font-size:13px;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''"> All Buildings</a></li>
+                    <li><a href="community.html" style="color:var(--text-muted);text-decoration:none;font-size:13px;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''"> Community</a></li>
+                    <li><a href="risk.html" style="color:var(--text-muted);text-decoration:none;font-size:13px;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''">Report At-Risk</a></li>
                 </ul>
             </div>
             
@@ -505,6 +504,9 @@
                     <li style="color:var(--text-muted);font-size:13px;">DARCH</li>
                     <li style="color:var(--text-muted);font-size:13px;">ARU Architecture Dept</li>
                     <li style="color:var(--text-muted);font-size:13px;">Nat'l College Tourism</li>
+                    <li style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06);">
+                        <a href="login.html" style="color:rgba(255,255,255,0.25);text-decoration:none;font-size:11px;letter-spacing:0.04em;transition:color 0.2s;" onmouseover="this.style.color='rgba(255,255,255,0.5)'" onmouseout="this.style.color='rgba(255,255,255,0.25)'">Officer Portal</a>
+                    </li>
                 </ul>
             </div>
         </div>

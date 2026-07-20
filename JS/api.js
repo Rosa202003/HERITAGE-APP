@@ -26,15 +26,68 @@ const API = {
     // ========================================
 
     async getBuildings() {
-        const response = await fetch(`${this.baseUrl}/buildings`);
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        return await response.json();
+        try {
+            const response = await fetch(`${this.baseUrl}/buildings`, { cache: 'no-store' });
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            return await response.json();
+        } catch (e) {
+            console.warn('API getBuildings failed, using MOCK_BUILDINGS fallback');
+            if (typeof MOCK_BUILDINGS !== 'undefined') return MOCK_BUILDINGS;
+            throw e;
+        }
     },
 
     async getBuilding(id) {
-        const response = await fetch(`${this.baseUrl}/buildings/${id}`);
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        return await response.json();
+        try {
+            const response = await fetch(`${this.baseUrl}/buildings/${id}`);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            return await response.json();
+        } catch (e) {
+            console.warn('API getBuilding failed, using MOCK_BUILDINGS fallback');
+            if (typeof MOCK_BUILDINGS !== 'undefined') {
+                const b = MOCK_BUILDINGS.find(b => b.id === parseInt(id));
+                if (b) return b;
+            }
+            throw e;
+        }
+    },
+
+    async createBuilding(data) {
+        const response = await fetch(`${this.baseUrl}/buildings`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                ...this.authHeader()
+            },
+            body: JSON.stringify(data)
+        });
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.message || 'Failed to create building');
+        return result;
+    },
+
+    async updateBuilding(id, data) {
+        const response = await fetch(`${this.baseUrl}/buildings/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                ...this.authHeader()
+            },
+            body: JSON.stringify(data)
+        });
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.message || 'Failed to update building');
+        return result;
+    },
+
+    async deleteBuilding(id) {
+        const response = await fetch(`${this.baseUrl}/buildings/${id}`, {
+            method: 'DELETE',
+            headers: { ...this.authHeader() }
+        });
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.message || 'Failed to delete building');
+        return result;
     },
 
     // ========================================
@@ -47,7 +100,10 @@ const API = {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ full_name, email, password })
         });
-        return await response.json();
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.message || 'Registration failed');
+        if (data.token) localStorage.setItem('token', data.token);
+        return data;
     },
 
     async login(email, password) {
@@ -56,7 +112,18 @@ const API = {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password })
         });
-        return await response.json();
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.message || 'Login failed');
+        // Store token and full user info
+        if (data.token) localStorage.setItem('token', data.token);
+        if (data.user) localStorage.setItem('user', JSON.stringify(data.user));
+        // Legacy key for other pages
+        if (data.user) localStorage.setItem('citizen_user', JSON.stringify({
+            name: data.user.full_name || email.split('@')[0],
+            email: data.user.email,
+            role: data.user.role
+        }));
+        return data;
     },
 
     async getMe() {
@@ -71,13 +138,23 @@ const API = {
     // ========================================
 
     async getFlags(params = {}) {
-        const qs = new URLSearchParams(params).toString();
-        const url = qs ? `${this.baseUrl}/flags?${qs}` : `${this.baseUrl}/flags`;
-        const response = await fetch(url, {
-            headers: { ...this.authHeader() }
-        });
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        return await response.json();
+        try {
+            const qs = new URLSearchParams(params).toString();
+            const url = qs ? `${this.baseUrl}/flags?${qs}` : `${this.baseUrl}/flags`;
+            const response = await fetch(url, {
+                headers: { ...this.authHeader() },
+                cache: 'no-store'
+            });
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            return await response.json();
+        } catch (e) {
+            console.warn('API getFlags failed, returning mock flags');
+            return [
+                { id: 1, building_id: 5, risk_type: 'structural', status: 'pending', reporter_name: 'Citizen A', created_at: new Date().toISOString() },
+                { id: 2, building_id: 7, risk_type: 'neglect', status: 'reviewing', reporter_name: 'Citizen B', created_at: new Date().toISOString() },
+                { id: 3, building_id: 11, risk_type: 'development', status: 'pending', reporter_name: 'Citizen C', created_at: new Date().toISOString() }
+            ];
+        }
     },
 
     async createFlag(data) {
@@ -106,11 +183,16 @@ const API = {
     // ========================================
 
     async getReviews(params = {}) {
-        const qs = new URLSearchParams(params).toString();
-        const url = qs ? `${this.baseUrl}/reviews?${qs}` : `${this.baseUrl}/reviews`;
-        const response = await fetch(url);
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        return await response.json();
+        try {
+            const qs = new URLSearchParams(params).toString();
+            const url = qs ? `${this.baseUrl}/reviews?${qs}` : `${this.baseUrl}/reviews`;
+            const response = await fetch(url);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            return await response.json();
+        } catch (e) {
+            console.warn('API getReviews failed, returning empty reviews');
+            return [];
+        }
     },
 
     async createReview(data) {
@@ -134,16 +216,55 @@ const API = {
     },
 
     // ========================================
+    // OFFICERS (super-officer only)
+    // ========================================
+
+    async getOfficers() {
+        const response = await fetch(`${this.baseUrl}/officers`, {
+            headers: { ...this.authHeader() }
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.message || 'Failed to load officers');
+        return data;
+    },
+
+    async getCitizens() {
+        const response = await fetch(`${this.baseUrl}/officers/citizens`, {
+            headers: { ...this.authHeader() }
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.message || 'Failed to load citizens');
+        return data;
+    },
+
+    async inviteOfficer(email) {
+        const response = await fetch(`${this.baseUrl}/officers/invite`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                ...this.authHeader()
+            },
+            body: JSON.stringify({ email })
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.message || 'Failed to add officer');
+        return data;
+    },
+
+    async removeOfficer(userId) {
+        const response = await fetch(`${this.baseUrl}/officers/${userId}`, {
+            method: 'DELETE',
+            headers: { ...this.authHeader() }
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.message || 'Failed to remove officer');
+        return data;
+    },
+
+    // ========================================
     // PHOTO UPLOAD (to backend / Supabase Storage)
     // ========================================
 
-    /**
-     * Upload a photo file.
-     * The backend should accept multipart/form-data and return { url }
-     * For now we POST to /api/upload (add that route if needed),
-     * or send base64 embedded in the JSON body.
-     * This method returns the public URL string.
-     */
     async uploadFlagPhoto(file) {
         const formData = new FormData();
         formData.append('photo', file);

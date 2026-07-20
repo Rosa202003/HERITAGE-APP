@@ -34,12 +34,11 @@
             <!-- Navigation Bar -->
              <nav class="nav-container" id="nav-menu" role="navigation" aria-label="Main Navigation">
                 <ul class="nav-links">
-                    <li><a href="#/" onclick="navigate('/'); return false;">Map & Records</a></li>
-                    <li><a href="#/buildings" onclick="navigate('/buildings'); return false;">All Buildings</a></li>
-                    <li><a href="#/risk" onclick="navigate('/risk'); return false;">Report At-Risk</a></li>
-                    <li><a href="#/community" onclick="navigate('/community'); return false;">Community</a></li>
-                    <li><a href="#/officer" onclick="navigate('/officer'); return false;">Officer</a></li>
-                    <li><a href="#" onclick="showCitizenModal(); return false;" style="font-weight: 600; color: var(--accent) !important;">Sign In</a></li>
+                    <li><a href="index.html">Map & Records</a></li>
+                    <li><a href="buildings.html">All Buildings</a></li>
+                    <li><a href="risk.html">Report At-Risk</a></li>
+                    <li><a href="community.html">Community</a></li>
+                    <li id="nav-auth-container"><a href="#" onclick="showCitizenModal(); return false;" style="font-weight: 600; color: var(--accent) !important;">Sign In</a></li>
                 </ul>
             </nav>
 
@@ -323,13 +322,12 @@
                         <div class="cta-hero-image">
                             <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&h=600&fit=crop" alt="Heritage preview">
                         </div>
-                        <button class="cta-signin" onclick="navigate('/login')">Sign In to Review</button>
+                        <button class="cta-signin" onclick="showCitizenModal()">Sign In to Review</button>
                     </div>
                 </div>
             </section>
         </main>
    <!-- footer -->
-       <!-- footer -->
 <footer class="main-footer">
     <div class="footer-content" style="max-width:1200px;margin:0 auto;padding:20px 0;">
         <!-- Top Row: Brand + Links -->
@@ -352,10 +350,10 @@
             <div>
                 <h4 style="color:rgba(255,255,255,0.4);font-size:11px;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">Explore</h4>
                 <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:4px;">
-                    <li><a href="../HTML/index.html" style="color:var(--text-muted);text-decoration:none;font-size:13px;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''">Map & Records</a></li>
-                    <li><a href="../HTML/buildings.html" style="color:var(--text-muted);text-decoration:none;font-size:13px;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''"> All Buildings</a></li>
-                    <li><a href="../HTML/community.html" style="color:var(--text-muted);text-decoration:none;font-size:13px;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''"> Community</a></li>
-                    <li><a href="../HTML/risk.html" style="color:var(--text-muted);text-decoration:none;font-size:13px;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''">Report At-Risk</a></li>
+                    <li><a href="index.html" style="color:var(--text-muted);text-decoration:none;font-size:13px;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''">Map & Records</a></li>
+                    <li><a href="buildings.html" style="color:var(--text-muted);text-decoration:none;font-size:13px;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''"> All Buildings</a></li>
+                    <li><a href="community.html" style="color:var(--text-muted);text-decoration:none;font-size:13px;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''"> Community</a></li>
+                    <li><a href="risk.html" style="color:var(--text-muted);text-decoration:none;font-size:13px;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''">Report At-Risk</a></li>
                 </ul>
             </div>
             
@@ -367,6 +365,9 @@
                     <li style="color:var(--text-muted);font-size:13px;">DARCH</li>
                     <li style="color:var(--text-muted);font-size:13px;">ARU Architecture Dept</li>
                     <li style="color:var(--text-muted);font-size:13px;">Nat'l College Tourism</li>
+                    <li style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06);">
+                        <a href="login.html" style="color:rgba(255,255,255,0.25);text-decoration:none;font-size:11px;letter-spacing:0.04em;transition:color 0.2s;" onmouseover="this.style.color='rgba(255,255,255,0.5)'" onmouseout="this.style.color='rgba(255,255,255,0.25)'">Officer Portal</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -646,24 +647,122 @@ document.addEventListener('DOMContentLoaded', function() {
 
     <!-- CITIZEN MODAL -->
     <div id="citizen-modal" class="citizen-modal" aria-hidden="true">
-        <div class="citizen-modal-content">
-            <button class="citizen-modal-close" type="button" onclick="closeCitizenModal()" aria-label="Close sign in">×</button>
-            <h2 style="font-family:var(--font-display); margin-bottom: 16px;">Citizen Sign In</h2>
-            <p style="color:var(--text-muted); font-size:14px; margin-bottom: 24px;">Please sign in to continue viewing virtual tours or to report at-risk structures.</p>
-            <form onsubmit="handleCitizenLogin(event)" style="display:flex;flex-direction:column;gap:16px;">
-                <div>
-                    <label style="display:block;font-weight:500;font-size:13px;margin-bottom:4px;">Email or Phone</label>
-                    <input type="text" required style="width:100%;padding:12px;border:1px solid var(--border);border-radius:var(--radius-sm);">
+        <div class="citizen-modal-content" style="position: relative; max-width: 420px; width: 100%; background: var(--card); border-radius: var(--radius); padding: 40px 36px 36px; box-shadow: var(--shadow-lg);">
+            <button class="citizen-modal-close" type="button" onclick="closeCitizenModal()" aria-label="Close sign in" style="position:absolute; top:16px; right:16px; border:none; background:transparent; font-size:24px; cursor:pointer; color:var(--text-muted); transition: transform 0.2s ease;">×</button>
+            
+            <!-- Login Form -->
+            <div id="modal-login-view">
+                <h2 style="font-family:var(--font-display); margin-bottom: 16px;">Citizen Sign In</h2>
+                <p style="color:var(--text-muted); font-size:14px; margin-bottom: 24px;">Please sign in to continue viewing virtual tours or to report at-risk structures.</p>
+                <form onsubmit="handleCitizenLogin(event)" style="display:flex;flex-direction:column;gap:16px;">
+                    <div>
+                        <label style="display:block;font-weight:500;font-size:13px;margin-bottom:4px;">Email</label>
+                        <input type="email" id="citizen-login-email" required style="width:100%;padding:12px;border:1px solid var(--border);border-radius:var(--radius-sm);">
+                    </div>
+                    <div>
+                        <label style="display:block;font-weight:500;font-size:13px;margin-bottom:4px;">Password</label>
+                        <input type="password" id="citizen-login-password" required style="width:100%;padding:12px;border:1px solid var(--border);border-radius:var(--radius-sm);">
+                    </div>
+                    <button type="submit" class="btn-primary" id="citizen-login-btn" style="padding:12px; margin-top: 8px;">Sign In</button>
+                    <div id="citizen-login-msg" style="color:var(--accent);font-size:13px;text-align:center;"></div>
+                </form>
+                <div style="text-align:center; margin-top: 20px; font-size: 14px; color: var(--text-muted);">
+                    Don't have an account? <a href="#" onclick="toggleCitizenModalView('signup'); return false;" style="color: var(--primary); font-weight: 600;">Get Started</a>
                 </div>
-                <div>
-                    <label style="display:block;font-weight:500;font-size:13px;margin-bottom:4px;">Password</label>
-                    <input type="password" required style="width:100%;padding:12px;border:1px solid var(--border);border-radius:var(--radius-sm);">
+            </div>
+            
+            <!-- Signup Form -->
+            <div id="modal-signup-view" style="display: none;">
+                <h2 style="font-family:var(--font-display); margin-bottom: 16px;">Create Account</h2>
+                <p style="color:var(--text-muted); font-size:14px; margin-bottom: 24px;">Register to save virtual tours, leave reviews, and report issues.</p>
+                <form onsubmit="handleCitizenSignup(event)" style="display:flex;flex-direction:column;gap:16px;">
+                    <div>
+                        <label style="display:block;font-weight:500;font-size:13px;margin-bottom:4px;">Full Name</label>
+                        <input type="text" id="citizen-signup-name" required style="width:100%;padding:12px;border:1px solid var(--border);border-radius:var(--radius-sm);">
+                    </div>
+                    <div>
+                        <label style="display:block;font-weight:500;font-size:13px;margin-bottom:4px;">Email</label>
+                        <input type="email" id="citizen-signup-email" required style="width:100%;padding:12px;border:1px solid var(--border);border-radius:var(--radius-sm);">
+                    </div>
+                    <div>
+                        <label style="display:block;font-weight:500;font-size:13px;margin-bottom:4px;">Password</label>
+                        <input type="password" id="citizen-signup-password" required style="width:100%;padding:12px;border:1px solid var(--border);border-radius:var(--radius-sm);">
+                    </div>
+                    <button type="submit" class="btn-primary" id="citizen-signup-btn" style="padding:12px; margin-top: 8px; background: var(--gold); color: var(--dark);">Create Account</button>
+                    <div id="citizen-signup-msg" style="color:var(--accent);font-size:13px;text-align:center;"></div>
+                </form>
+                <div style="text-align:center; margin-top: 20px; font-size: 14px; color: var(--text-muted);">
+                    Already have an account? <a href="#" onclick="toggleCitizenModalView('login'); return false;" style="color: var(--primary); font-weight: 600;">Sign In</a>
                 </div>
-                <button type="submit" class="btn-primary" style="padding:12px; margin-top: 8px;">Sign In</button>
-            </form>
+            </div>
         </div>
     </div>
 
+<style>
+    /* Add hover scale for citizen modal close button to match fix */
+    .citizen-modal-close:hover {
+        transform: scale(1.2);
+        color: var(--text);
+    }
+    
+    /* Avatar Dropdown Styles */
+    .nav-avatar-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: var(--gold);
+        color: var(--dark);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        position: relative;
+    }
+    
+    .nav-avatar-btn:hover {
+        transform: scale(1.05);
+    }
+    
+    .avatar-dropdown {
+        position: absolute;
+        top: 48px;
+        right: 0;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        box-shadow: var(--shadow-lg);
+        width: 180px;
+        display: none;
+        flex-direction: column;
+        z-index: 1001;
+        overflow: hidden;
+    }
+    
+    .avatar-dropdown.active {
+        display: flex;
+    }
+    
+    .avatar-dropdown a {
+        padding: 12px 16px;
+        color: var(--text) !important;
+        text-decoration: none;
+        font-size: 14px;
+        border-bottom: 1px solid var(--border);
+        transition: background 0.2s;
+    }
+    
+    .avatar-dropdown a:hover {
+        background: var(--muted);
+    }
+    
+    .avatar-dropdown a:last-child {
+        border-bottom: none;
+        color: var(--accent) !important;
+    }
+</style>
   
 </body>
 </html>

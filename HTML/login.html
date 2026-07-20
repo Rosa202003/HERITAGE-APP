@@ -4,29 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign In - Urithi Majengo</title>
-    <meta name="description" content="Sign in to leave feedback on heritage buildings in Dar es Salaam.">
+    <meta name="description" content="Sign in to Urithi Majengo — heritage building platform.">
     
-    <!-- ===== FAVICON ===== -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
-    
-    <!-- ===== GOOGLE FONTS ===== -->
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
-    
-    <!-- ===== CUSTOM CSS ===== -->
     <link rel="stylesheet" href="../CSS/style.css" type="text/css">
     
     <style>
-        /* ========================================
-           LOGIN PAGE - MODAL STYLE
-           ======================================== */
-        
-        /* Full page overlay */
         .login-page-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             background: rgba(12, 30, 26, 0.85);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
@@ -38,12 +26,8 @@
             animation: overlayFadeIn 0.3s ease-out;
         }
 
-        @keyframes overlayFadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
+        @keyframes overlayFadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* Login Modal */
         .login-modal {
             max-width: 420px;
             width: 100%;
@@ -59,23 +43,14 @@
         }
 
         @keyframes modalSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px) scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
+            from { opacity: 0; transform: translateY(30px) scale(0.95); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        /* Close Button */
         .login-modal-close {
             position: absolute;
-            top: 16px;
-            right: 16px;
-            width: 32px;
-            height: 32px;
+            top: 16px; right: 16px;
+            width: 32px; height: 32px;
             background: var(--bg-hover, #f3f4f6);
             border: none;
             border-radius: 50%;
@@ -86,20 +61,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            line-height: 1;
         }
 
-        .login-modal-close:hover {
-            background: #e5e7eb;
-            color: var(--text);
-            transform: rotate(90deg);
-        }
+        .login-modal-close:hover { background: #e5e7eb; color: var(--text); transform: scale(1.1); }
 
-        /* Logo */
-        .login-modal .login-logo {
-            text-align: center;
-            margin-bottom: 24px;
-        }
+        .login-modal .login-logo { text-align: center; margin-bottom: 24px; }
 
         .login-modal .login-logo .logo-icon {
             font-family: var(--font-display);
@@ -109,55 +75,23 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 60px;
-            height: 60px;
+            width: 60px; height: 60px;
             border-radius: 50%;
             border: 2px solid var(--gold);
             background: transparent;
             transition: all 0.3s ease;
         }
 
-        .login-modal .login-logo .logo-icon:hover {
-            background: rgba(240, 180, 41, 0.08);
-            transform: scale(1.05);
-        }
+        .login-modal .login-logo .logo-icon:hover { background: rgba(240,180,41,0.08); transform: scale(1.05); }
 
-        /* Header */
-        .login-modal .login-header {
-            text-align: center;
-            margin-bottom: 28px;
-        }
+        .login-modal .login-header { text-align: center; margin-bottom: 28px; }
+        .login-modal .login-header h1 { font-family: var(--font-display); font-size: 28px; color: var(--text); margin-bottom: 4px; }
+        .login-modal .login-header p { color: var(--text-muted); font-size: 14px; }
 
-        .login-modal .login-header h1 {
-            font-family: var(--font-display);
-            font-size: 28px;
-            color: var(--text);
-            margin-bottom: 4px;
-        }
+        .login-modal .login-form { display: flex; flex-direction: column; gap: 16px; }
 
-        .login-modal .login-header p {
-            color: var(--text-muted);
-            font-size: 14px;
-        }
-
-        /* Form */
-        .login-modal .login-form {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .login-modal .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .login-modal .form-group label {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text);
-        }
+        .login-modal .form-group { display: flex; flex-direction: column; gap: 4px; }
+        .login-modal .form-group label { font-size: 13px; font-weight: 600; color: var(--text); }
 
         .login-modal .form-group input {
             padding: 12px 16px;
@@ -171,38 +105,13 @@
             width: 100%;
         }
 
-        .login-modal .form-group input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(11, 122, 105, 0.1);
-        }
+        .login-modal .form-group input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(11,122,105,0.1); }
+        .login-modal .form-group input::placeholder { color: var(--text-muted); opacity: 0.6; }
 
-        .login-modal .form-group input::placeholder {
-            color: var(--text-muted);
-            opacity: 0.6;
-        }
+        .login-modal .password-row { display: flex; justify-content: space-between; align-items: center; }
+        .login-modal .password-row .forgot-link { font-size: 12px; color: var(--primary); text-decoration: none; font-weight: 500; }
+        .login-modal .password-row .forgot-link:hover { text-decoration: underline; }
 
-        /* Password Row */
-        .login-modal .password-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .login-modal .password-row .forgot-link {
-            font-size: 12px;
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.2s ease;
-        }
-
-        .login-modal .password-row .forgot-link:hover {
-            color: var(--primary-dk);
-            text-decoration: underline;
-        }
-
-        /* Submit Button */
         .login-modal .btn-submit {
             background: var(--gold);
             color: var(--dark);
@@ -221,19 +130,9 @@
             width: 100%;
         }
 
-        .login-modal .btn-submit:hover {
-            background: #dba31f;
-            transform: scale(1.01);
-            box-shadow: 0 4px 20px rgba(240, 180, 41, 0.25);
-        }
+        .login-modal .btn-submit:hover { background: #dba31f; transform: scale(1.01); box-shadow: 0 4px 20px rgba(240,180,41,0.25); }
+        .login-modal .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
-        .login-modal .btn-submit:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* Message */
         .login-modal .login-message {
             text-align: center;
             font-size: 13px;
@@ -243,139 +142,82 @@
             display: none;
         }
 
-        .login-modal .login-message.error {
-            display: block;
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
+        .login-modal .login-message.error   { display: block; background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .login-modal .login-message.success { display: block; background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
 
-        .login-modal .login-message.success {
-            display: block;
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-
-        /* Footer */
-        .login-modal .login-footer {
-            text-align: center;
-            margin-top: 20px;
-            padding-top: 16px;
-            border-top: 1px solid var(--border);
-        }
-
-        .login-modal .login-footer p {
-            font-size: 14px;
-            color: var(--text-muted);
-        }
-
-        .login-modal .login-footer a {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.2s ease;
-        }
-
-        .login-modal .login-footer a:hover {
-            color: var(--primary-dk);
-            text-decoration: underline;
-        }
-
-        /* ========================================
-           RESPONSIVE
-           ======================================== */
+        .login-modal .login-footer { text-align: center; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); }
+        .login-modal .login-footer p { font-size: 14px; color: var(--text-muted); }
+        .login-modal .login-footer a { color: var(--primary); text-decoration: none; font-weight: 600; }
+        .login-modal .login-footer a:hover { text-decoration: underline; }
 
         @media (max-width: 480px) {
-            .login-modal {
-                padding: 28px 20px 24px;
-                margin: 10px;
-            }
-
-            .login-modal .login-header h1 {
-                font-size: 24px;
-            }
-
-            .login-modal .login-logo .logo-icon {
-                width: 50px;
-                height: 50px;
-                font-size: 22px;
-            }
+            .login-modal { padding: 28px 20px 24px; margin: 10px; }
+            .login-modal .login-header h1 { font-size: 24px; }
+            .login-modal .login-logo .logo-icon { width: 50px; height: 50px; font-size: 22px; }
         }
     </style>
 </head>
 <body>
-    <!-- ===== LOGIN OVERLAY ===== -->
     <div class="login-page-overlay" id="login-overlay">
         <div class="login-modal">
-            <!-- Close Button -->
             <button class="login-modal-close" onclick="closeLogin()" aria-label="Close login">✕</button>
 
-            <!-- Logo -->
             <div class="login-logo">
                 <span class="logo-icon" aria-hidden="true">UM</span>
             </div>
 
-            <!-- Header -->
             <div class="login-header">
-                <h1>Welcome back</h1>
-                <p>Sign in to leave feedback on heritage buildings</p>
+                <h1>Officer Portal</h1>
+                <p>Sign in with your Antiquities Department account</p>
             </div>
 
-            <!-- Form -->
             <form class="login-form" id="loginForm" onsubmit="handleLogin(event)" novalidate>
-                <!-- Email -->
                 <div class="form-group">
                     <label for="login-email">Email</label>
-                    <input 
-                        type="email" 
-                        id="login-email" 
-                        name="email"
-                        placeholder="you@example.com" 
-                        required 
-                        autocomplete="email"
-                        aria-required="true"
-                    >
+                    <input type="email" id="login-email" name="email"
+                        placeholder="you@example.com" required autocomplete="email" aria-required="true">
                 </div>
 
-                <!-- Password -->
                 <div class="form-group">
                     <div class="password-row">
                         <label for="login-password">Password</label>
                         <a href="#/forgot-password" class="forgot-link">Forgot password?</a>
                     </div>
-                    <input 
-                        type="password" 
-                        id="login-password" 
-                        name="password"
-                        placeholder="•••••••••" 
-                        required 
-                        autocomplete="current-password"
-                        aria-required="true"
-                    >
+                    <input type="password" id="login-password" name="password"
+                        placeholder="•••••••••" required autocomplete="current-password" aria-required="true">
                 </div>
 
-                <!-- Submit -->
                 <button type="submit" class="btn-submit" id="login-btn">
                     Sign In <span aria-hidden="true">→</span>
                 </button>
 
-                <!-- Message -->
                 <div class="login-message" id="login-message" role="alert"></div>
             </form>
 
-            <!-- Footer -->
             <div class="login-footer">
-                <p>No account? <a href="../HTML/signup.html">Register free</a></p>
+                <p><a href="index.html">Return to Public Site</a></p>
             </div>
         </div>
     </div>
 
-    <!-- ===== SCRIPTS ===== -->
     <script src="../JS/api.js"></script>
     <script>
         // ========================================
-        // LOGIN HANDLER — connected to real backend
+        // AUTO-REDIRECT if already logged in
+        // ========================================
+        (function() {
+            const token = localStorage.getItem('token');
+            const user  = JSON.parse(localStorage.getItem('user') || 'null');
+            if (token && user) {
+                if (user.role === 'officer') {
+                    window.location.href = 'officer.html';
+                }
+                // Removed the else block that was forcing non-officers back to index.html
+            }
+        })();
+
+        // ========================================
+        // LOGIN HANDLER
         // ========================================
         async function handleLogin(e) {
             e.preventDefault();
@@ -400,63 +242,53 @@
                 return;
             }
 
-            btn.disabled   = true;
-            btn.innerHTML  = 'Signing in…';
+            btn.disabled  = true;
+            btn.innerHTML = 'Signing in…';
 
             try {
                 const result = await API.login(email, password);
 
                 if (result.token) {
-                    // Save credentials
-                    localStorage.setItem('token', result.token);
-                    localStorage.setItem('user', JSON.stringify(result.user));
+                    const role = result.user?.role || 'citizen';
 
                     message.className   = 'login-message success';
-                    message.textContent = '✅ Login successful! Redirecting…';
+                    message.textContent = role === 'officer'
+                        ? '✅ Welcome, Officer! Redirecting to your portal…'
+                        : '✅ Login successful! Redirecting…';
 
                     setTimeout(() => {
-                        const role = result.user?.role || 'citizen';
-                        window.location.href = role === 'officer' ? 'officer.html' : '../HTML/index.html';
+                        if (role === 'officer') {
+                            window.location.href = 'officer.html';
+                        } else {
+                            window.location.href = 'index.html';
+                        }
                     }, 900);
+
                 } else {
-                    // Backend returned an error message
                     message.className   = 'login-message error';
                     message.textContent = '❌ ' + (result.message || 'Invalid credentials.');
-                    btn.disabled   = false;
-                    btn.innerHTML  = 'Sign In <span aria-hidden="true">→</span>';
+                    btn.disabled  = false;
+                    btn.innerHTML = 'Sign In <span aria-hidden="true">→</span>';
                 }
             } catch (err) {
                 message.className   = 'login-message error';
                 message.textContent = '❌ Could not reach server. Is the backend running?';
-                btn.disabled   = false;
-                btn.innerHTML  = 'Sign In <span aria-hidden="true">→</span>';
+                btn.disabled  = false;
+                btn.innerHTML = 'Sign In <span aria-hidden="true">→</span>';
             }
         }
 
         // ========================================
-        // CLOSE LOGIN
+        // CLOSE
         // ========================================
         function closeLogin() {
-            window.location.href = '../HTML/index.html';
+            window.location.href = 'index.html';
         }
 
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') closeLogin();
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLogin(); });
+        document.addEventListener('click', e => {
+            if (e.target.id === 'login-overlay') closeLogin();
         });
-
-        document.addEventListener('click', function(e) {
-            const overlay = document.getElementById('login-overlay');
-            if (e.target === overlay) closeLogin();
-        });
-
-        // Auto-redirect if already logged in
-        (function() {
-            const token = localStorage.getItem('token');
-            const user  = JSON.parse(localStorage.getItem('user') || 'null');
-            if (token && user) {
-                window.location.href = user.role === 'officer' ? 'officer.html' : '../HTML/index.html';
-            }
-        })();
 
         console.log('✅ login.html loaded');
     </script>

@@ -125,6 +125,9 @@ function renderPage(path) {
         case 'officer':
             renderOfficerPage(container);
             break;
+        case 'dashboard':
+            renderDashboardPage(container);
+            break;
         default:
             break;
     }
@@ -151,6 +154,102 @@ function renderRiskPage(container) {
 
 function renderOfficerPage(container) {
     renderLoginPage(container);
+}
+
+function renderDashboardPage(container) {
+    let userData = { name: 'Citizen' };
+    try {
+        const stored = localStorage.getItem('citizen_user');
+        if (stored) userData = JSON.parse(stored);
+    } catch(e) {}
+
+    container.innerHTML = `
+        <div style="max-width: 1000px; margin: 40px auto; padding: 0 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 32px; border-bottom: 1px solid var(--border); padding-bottom: 16px;">
+                <div>
+                    <h1 style="font-family: var(--font-display); font-size: 28px; margin: 0 0 8px 0; color: var(--text);">Welcome back, ${userData.name}</h1>
+                    <p style="color: var(--text-muted); margin: 0;">Manage your heritage profile, virtual tours, and reports.</p>
+                </div>
+                <div style="width: 64px; height: 64px; border-radius: 50%; background: var(--gold); color: var(--dark); display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: bold;">
+                    ${userData.name.charAt(0).toUpperCase()}
+                </div>
+            </div>
+            
+            <div class="grid-2" style="gap: 24px;">
+                <!-- Recommendations -->
+                <div style="background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px;">
+                    <h3 style="margin: 0 0 16px 0; font-size: 16px; border-bottom: 1px solid var(--border); padding-bottom: 8px; display: flex; justify-content: space-between;">
+                        <span>Recommended Places</span>
+                        <span style="font-size: 12px; color: var(--primary); cursor: pointer;" onclick="navigate('/map')">View Map</span>
+                    </h3>
+                    <div style="display: flex; gap: 12px; margin-bottom: 16px;">
+                        <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=200&h=150&fit=crop" style="width: 80px; height: 60px; border-radius: 6px; object-fit: cover;">
+                        <div>
+                            <div style="font-weight: 600; font-size: 14px;">Azania Front Cathedral</div>
+                            <div style="font-size: 12px; color: var(--text-muted);">Kivukoni District</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 12px;">
+                        <img src="https://images.unsplash.com/photo-1464207687429-7505649dae38?w=200&h=150&fit=crop" style="width: 80px; height: 60px; border-radius: 6px; object-fit: cover;">
+                        <div>
+                            <div style="font-weight: 600; font-size: 14px;">Old Boma</div>
+                            <div style="font-size: 12px; color: var(--text-muted);">City Centre</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Subscriptions / Virtual Tours -->
+                <div style="background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px;">
+                    <h3 style="margin: 0 0 16px 0; font-size: 16px; border-bottom: 1px solid var(--border); padding-bottom: 8px; display: flex; justify-content: space-between;">
+                        <span>Virtual Tours History</span>
+                        <span style="font-size: 12px; background: var(--muted); padding: 2px 8px; border-radius: 12px;">Active</span>
+                    </h3>
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                        <div style="font-size: 14px; font-weight: 500;">Inside the Railway Station</div>
+                        <div style="font-size: 12px; color: var(--text-muted);">Watched 2 days ago</div>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                        <div style="font-size: 14px; font-weight: 500;">St. Joseph's Cathedral 360°</div>
+                        <div style="font-size: 12px; color: var(--text-muted);">Watched 1 week ago</div>
+                    </div>
+                    <button class="btn-secondary" style="width: 100%; padding: 8px; font-size: 13px; margin-top: 8px;" onclick="navigate('/videos')">Explore More Tours</button>
+                </div>
+
+                <!-- Reviews -->
+                <div style="background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px;">
+                    <h3 style="margin: 0 0 16px 0; font-size: 16px; border-bottom: 1px solid var(--border); padding-bottom: 8px;">My Reviews</h3>
+                    <div style="margin-bottom: 16px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                            <span style="font-weight: 600; font-size: 13px;">Askari Monument</span>
+                            <span style="color: var(--gold); font-size: 12px;">★★★★★</span>
+                        </div>
+                        <div style="font-size: 13px; color: var(--text-muted); line-height: 1.4;">"Beautifully maintained. A great piece of history right in the roundabout."</div>
+                    </div>
+                    <div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                            <span style="font-weight: 600; font-size: 13px;">Ocean Road Hospital</span>
+                            <span style="color: var(--gold); font-size: 12px;">★★★★☆</span>
+                        </div>
+                        <div style="font-size: 13px; color: var(--text-muted); line-height: 1.4;">"Impressive architecture but needs some restoration work on the exterior."</div>
+                    </div>
+                </div>
+
+                <!-- Risk Reporting -->
+                <div style="background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px;">
+                    <h3 style="margin: 0 0 16px 0; font-size: 16px; border-bottom: 1px solid var(--border); padding-bottom: 8px;">Risk Reporting History</h3>
+                    <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px;">
+                        <div style="width: 8px; height: 8px; border-radius: 50%; background: #F0B429; margin-top: 6px;"></div>
+                        <div>
+                            <div style="font-weight: 600; font-size: 13px;">Water Damage Report</div>
+                            <div style="font-size: 12px; color: var(--text-muted);">Karimjee Hall • Reported Oct 12</div>
+                            <div style="font-size: 11px; background: rgba(240, 180, 41, 0.1); color: #F0B429; padding: 2px 6px; border-radius: 4px; display: inline-block; margin-top: 4px;">Under Review</div>
+                        </div>
+                    </div>
+                    <button class="btn-primary" style="width: 100%; padding: 8px; font-size: 13px; margin-top: 8px;" onclick="navigate('/risk')">Submit New Report</button>
+                </div>
+            </div>
+        </div>
+    `;
 }
 
 // ========================================
@@ -218,40 +317,6 @@ function renderMapPage(container) {
             setTimeout(() => map.invalidateSize(), 300);
         }
     }, 500);
-}
-
-// ========================================
-// ALL BUILDINGS PAGE
-// ========================================
-async function renderAllBuildings(container) {
-    console.log('Loading all buildings...');
-    
-    try {
-        let buildings = [];
-        if (typeof API !== 'undefined' && API.getBuildings) {
-            buildings = await API.getBuildings();
-        } else if (typeof MOCK_BUILDINGS !== 'undefined') {
-            buildings = MOCK_BUILDINGS;
-        }
-        
-        if (!buildings || buildings.length === 0) {
-            container.innerHTML = `
-                <div style="max-width:800px;margin:40px auto;text-align:center;padding:40px;">
-                    <h2 style="font-family:var(--font-display);"> No Buildings Found</h2>
-                    <p style="color:var(--text-muted);margin:16px 0;">Add some buildings to get started.</p>
-                    <button class="btn-primary" onclick="navigate('/')">← Back to Home</button>
-                </div>
-            `;
-            return;
-        }
-        
-        container.innerHTML = `
-            <div style="max-width:1200px;margin:0 auto;padding:20px;">
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
-                    <h2 style="font-family:var(--font-display);font-size:28px;">All Heritage Buildings</h2>
-                    <span style="color:var(--text-muted);font-size:14px;">${buildings.length} buildings found</span>
-                </div>
-                
                 <div class="grid-3">
                     ${buildings.map(b => `
                         <div class="card" onclick="navigate('/buildings?id=${b.id}')" style="cursor:pointer;">
@@ -314,72 +379,260 @@ async function renderBuildingDetail(container, id) {
             return;
         }
         
+        // Fetch reviews from API or fallback to mock
+        let reviews = [];
+        try {
+            if (typeof API !== 'undefined' && API.getReviews) {
+                reviews = await API.getReviews({ building_id: building.id });
+            }
+        } catch(e) { /* fallback */ }
+        if (!reviews || reviews.length === 0) reviews = building.reviews || [];
+        
+        // Build full images array
+        const allImages = [];
+        if (building.image) allImages.push(building.image);
+        const extraImages = Array.isArray(building.images) ? building.images : [];
+        extraImages.forEach(img => { if (img && img !== building.image) allImages.push(img); });
+        
+        const visits = building.visits ? Number(building.visits).toLocaleString() : '—';
+        const avgRating = reviews.length
+            ? (reviews.reduce((s, r) => s + (r.rating || 0), 0) / reviews.length).toFixed(1)
+            : (building.rating || '—');
+        const condClass = (building.condition || '').toLowerCase().replace(/\s/g, '-');
+        const panoramaUrl = building.panorama_url || null;
+        const tags = Array.isArray(building.tags) ? building.tags : [];
+        const has360 = tags.includes('360°') || !!panoramaUrl;
+        const isAtRisk = tags.includes('At Risk') || ['at risk','critical'].includes((building.condition||'').toLowerCase());
+        
         container.innerHTML = `
-            <div style="max-width:1000px;margin:0 auto;padding:20px;">
-                <!-- Back Button -->
-                <button class="btn-secondary" onclick="navigate('/buildings')" style="margin-bottom:20px;">
-                    ← Back to All Buildings
-                </button>
-                
-                <!-- Building Header -->
-                <div style="display:grid;grid-template-columns:2fr 1fr;gap:24px;margin-bottom:24px;">
-                    <!-- Image -->
-                    <div style="background:var(--muted);border-radius:var(--radius);overflow:hidden;">
-                        <img src="${building.image || 'https://placehold.co/800x500/eeeeee/666666?text=No+Image'}" 
-                             alt="${building.name}" 
-                             style="width:100%;height:350px;object-fit:cover;"
-                             onerror="this.src='https://placehold.co/800x500/eeeeee/666666?text=No+Image'">
-                    </div>
-                    
-                    <!-- Info Panel -->
-                    <div style="background:var(--card);border-radius:var(--radius);padding:24px;border:1px solid var(--border);">
-                        <h1 style="font-family:var(--font-display);font-size:28px;color:var(--text);">${building.name}</h1>
-                        <p style="color:var(--text-muted);font-size:14px;">${building.era} · ${building.year}</p>
-                        
-                        <div style="margin:12px 0;">
-                            <span class="badge badge-${building.condition.toLowerCase()}">${building.condition}</span>
-                            <span style="margin-left:8px;font-size:13px;color:var(--text-muted);">${building.status || 'Listed'}</span>
-                        </div>
-                        
-                        <hr style="border-color:var(--border);margin:12px 0;">
-                        
-                        <div style="font-size:14px;color:var(--text-muted);">
-                            <p><strong style="color:var(--text);">Architect:</strong> ${building.architect || 'Unknown'}</p>
-                            <p><strong style="color:var(--text);">Ownership:</strong> ${building.ownership || 'Unknown'}</p>
-                            <p><strong style="color:var(--text);">Coordinates:</strong> ${building.lat}, ${building.lng}</p>
-                        </div>
-                        
-                        <button class="btn-primary" onclick="navigate('/map')" style="margin-top:16px;width:100%;">
-                             View on Map
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Description -->
-                <div style="background:var(--card);border-radius:var(--radius);padding:24px;border:1px solid var(--border);margin-bottom:24px;">
-                    <h3 style="font-family:var(--font-display);font-size:20px;margin-bottom:8px;">About This Building</h3>
-                    <p style="color:var(--text-muted);line-height:1.8;">${building.description || 'No description available.'}</p>
-                </div>
-                
-                <!-- 360° Tour Section -->
-                <div style="background:var(--card);border-radius:var(--radius);padding:24px;border:1px solid var(--border);">
-                    <h3 style="font-family:var(--font-display);font-size:20px;margin-bottom:8px;">360° Virtual Tour</h3>
-                    <p style="color:var(--text-muted);font-size:14px;margin-bottom:12px;">Coming soon - immersive tour experience.</p>
-                    <div style="background:var(--muted);border-radius:var(--radius);height:200px;display:flex;align-items:center;justify-content:center;color:var(--text-muted);">
-                         Virtual Tour Coming Soon
-                    </div>
-                </div>
-                
-                <!-- Report Button -->
-                <div style="margin-top:24px;text-align:center;">
-                    <button class="btn-accent" onclick="navigate('/report')" style="background:transparent;border:2px solid var(--accent);color:var(--accent);padding:12px 32px;border-radius:var(--radius-sm);cursor:pointer;font-weight:600;">
-                        ⚑ Report Concern About This Building
-                    </button>
+        <div class="bdetail-page">
+            <div class="bdetail-topbar">
+                <button class="bdetail-back-btn" onclick="navigate('/buildings')">← All Buildings</button>
+                <div class="bdetail-topbar-right">
+                    ${isAtRisk ? '<span class="bdetail-risk-pill">⚑ At Risk</span>' : ''}
+                    <span class="bdetail-code-pill">${building.code || 'DSH-000'}</span>
                 </div>
             </div>
+
+            <div class="bdetail-hero" id="bdetail-hero">
+                <div class="bdetail-hero-img-wrap">
+                    <img id="bdetail-main-img"
+                         src="${allImages[0] || 'https://placehold.co/1200x600/0B7A69/fff?text=Heritage+Building'}"
+                         alt="${building.name}"
+                         onerror="this.src='https://placehold.co/1200x600/0B7A69/fff?text=Heritage+Building'"
+                         class="bdetail-hero-img">
+                    <div class="bdetail-hero-overlay"></div>
+                </div>
+                <div class="bdetail-hero-meta">
+                    <div class="bdetail-hero-badges">
+                        <span class="bdetail-era-tag">${building.era || 'Colonial'}</span>
+                        <span class="badge badge-${condClass}">${building.condition}</span>
+                        ${has360 ? '<span class="bdetail-360-tag">⟳ 360°</span>' : ''}
+                    </div>
+                    <h1 class="bdetail-hero-title">${building.name}</h1>
+                    <div class="bdetail-hero-stats">
+                        <div class="bdetail-hero-stat">
+                            <span class="bdetail-stat-num">${visits}</span>
+                            <span class="bdetail-stat-label">Total Visits</span>
+                        </div>
+                        <div class="bdetail-hero-stat">
+                            <span class="bdetail-stat-num">★ ${avgRating}</span>
+                            <span class="bdetail-stat-label">Avg. Rating</span>
+                        </div>
+                        <div class="bdetail-hero-stat">
+                            <span class="bdetail-stat-num">${reviews.length}</span>
+                            <span class="bdetail-stat-label">Reviews</span>
+                        </div>
+                        <div class="bdetail-hero-stat">
+                            <span class="bdetail-stat-num">${building.year || '—'}</span>
+                            <span class="bdetail-stat-label">Year Built</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            ${allImages.length > 1 ? `
+            <div class="bdetail-gallery">
+                ${allImages.map((img, i) => `
+                    <div class="bdetail-thumb ${i === 0 ? 'active' : ''}" onclick="switchBDetailImage('${img.replace(/'/g,"\\'")}', this)">
+                        <img src="${img}" alt="Photo ${i+1}" onerror="this.parentElement.style.display='none'">
+                    </div>
+                `).join('')}
+            </div>` : ''}
+
+            <div class="bdetail-content">
+                <div class="bdetail-left">
+
+                    <section class="bdetail-section">
+                        <div class="bdetail-section-header"><h2>About This Building</h2></div>
+                        <p class="bdetail-description">${building.description || 'No description available.'}</p>
+                        ${building.significance ? `
+                        <div class="bdetail-significance">
+                            <div class="bdetail-significance-label">Historical Significance</div>
+                            <p>${building.significance}</p>
+                        </div>` : ''}
+                    </section>
+
+                    <section class="bdetail-section">
+                        <div class="bdetail-section-header"><h2>Building Details</h2></div>
+                        <div class="bdetail-details-grid">
+                            <div class="bdetail-detail-item"><span class="bdetail-detail-label">Architect</span><span class="bdetail-detail-value">${building.architect || 'Unknown'}</span></div>
+                            <div class="bdetail-detail-item"><span class="bdetail-detail-label">Style</span><span class="bdetail-detail-value">${building.style || 'Colonial'}</span></div>
+                            <div class="bdetail-detail-item"><span class="bdetail-detail-label">Ownership</span><span class="bdetail-detail-value">${building.ownership || 'Unknown'}</span></div>
+                            <div class="bdetail-detail-item"><span class="bdetail-detail-label">District</span><span class="bdetail-detail-value">${building.location || 'Dar es Salaam'}</span></div>
+                            <div class="bdetail-detail-item"><span class="bdetail-detail-label">Floor Area</span><span class="bdetail-detail-value">${building.area || '—'}</span></div>
+                            <div class="bdetail-detail-item"><span class="bdetail-detail-label">Last Inspected</span><span class="bdetail-detail-value">${building.inspected || '—'}</span></div>
+                            <div class="bdetail-detail-item"><span class="bdetail-detail-label">Heritage Status</span><span class="bdetail-detail-value">${building.status || 'Listed'}</span></div>
+                            <div class="bdetail-detail-item"><span class="bdetail-detail-label">GPS</span><span class="bdetail-detail-value">${building.lat}, ${building.lng}</span></div>
+                        </div>
+                    </section>
+
+                    <section class="bdetail-section bdetail-tour-section" id="bdetail-tour-section">
+                        <div class="bdetail-section-header">
+                            <h2>⟳ 360° Virtual Tour</h2>
+                            <span style="font-size:13px;color:var(--text-muted)">Drag to look around</span>
+                        </div>
+                        ${panoramaUrl ? `
+                        <div class="bdetail-panorama-wrap">
+                            <div id="bdetail-panorama" class="bdetail-panorama"></div>
+                            <div class="bdetail-panorama-hint">🖱 Click and drag to explore · Scroll to zoom</div>
+                        </div>` : `
+                        <div class="bdetail-tour-coming-soon">
+                            <div class="bdetail-tour-icon">⟳</div>
+                            <h3>Virtual Tour Coming Soon</h3>
+                            <p>Our team is capturing a 360° experience of this building. Check back soon.</p>
+                        </div>`}
+                    </section>
+
+                    <section class="bdetail-section" id="bdetail-reviews">
+                        <div class="bdetail-section-header">
+                            <h2>Community Reviews</h2>
+                            <span class="bdetail-review-count">${reviews.length} review${reviews.length !== 1 ? 's' : ''}</span>
+                        </div>
+                        ${reviews.length > 0 ? `
+                        <div class="bdetail-rating-summary">
+                            <div class="bdetail-rating-big">
+                                <span class="bdetail-rating-number">${avgRating}</span>
+                                <div class="bdetail-rating-stars">${renderStars(parseFloat(avgRating))}</div>
+                                <span class="bdetail-rating-count">${reviews.length} reviews</span>
+                            </div>
+                            <div class="bdetail-rating-bars">
+                                ${[5,4,3,2,1].map(star => {
+                                    const cnt = reviews.filter(r => r.rating === star).length;
+                                    const pct = reviews.length ? Math.round((cnt/reviews.length)*100) : 0;
+                                    return `<div class="bdetail-rating-row">
+                                        <span class="bdetail-bar-label">${star} ★</span>
+                                        <div class="bdetail-bar-track"><div class="bdetail-bar-fill" style="width:${pct}%"></div></div>
+                                        <span class="bdetail-bar-pct">${pct}%</span>
+                                    </div>`;
+                                }).join('')}
+                            </div>
+                        </div>
+                        <div class="bdetail-reviews-list">
+                            ${reviews.map(review => `
+                            <div class="bdetail-review-card">
+                                <div class="bdetail-review-header">
+                                    <div class="bdetail-reviewer-avatar">${review.avatar || (review.user_name||'?').charAt(0).toUpperCase()}</div>
+                                    <div class="bdetail-reviewer-info">
+                                        <div class="bdetail-reviewer-name">${review.user_name}</div>
+                                        <div class="bdetail-review-date">${formatReviewDate(review.created_at)}</div>
+                                    </div>
+                                    <div class="bdetail-review-rating">${renderStars(review.rating)}</div>
+                                </div>
+                                <p class="bdetail-review-body">${review.body}</p>
+                                <div class="bdetail-review-footer">
+                                    <button class="bdetail-helpful-btn" onclick="markHelpful(this, ${review.helpful_count||0})">
+                                        👍 Helpful (${review.helpful_count || 0})
+                                    </button>
+                                </div>
+                            </div>`).join('')}
+                        </div>` : `
+                        <div class="bdetail-no-reviews">
+                            <div class="bdetail-no-reviews-icon">💬</div>
+                            <h3>No reviews yet</h3>
+                            <p>Be the first to share your experience of this heritage building.</p>
+                        </div>`}
+
+                        <div class="bdetail-write-review">
+                            <h3>Write a Review</h3>
+                            <form onsubmit="submitBuildingReview(event, ${building.id})" class="bdetail-review-form">
+                                <div class="bdetail-star-picker">
+                                    ${[1,2,3,4,5].map(s => `<button type="button" class="bdetail-star-btn" onclick="selectStar(${s})" title="${s} stars">★</button>`).join('')}
+                                    <input type="hidden" id="reviewRating" value="0">
+                                </div>
+                                <div class="bdetail-form-row">
+                                    <input type="text" id="reviewName" placeholder="Your name" required class="bdetail-input">
+                                </div>
+                                <div class="bdetail-form-row">
+                                    <textarea id="reviewBody" placeholder="Share your experience visiting or viewing this heritage building..." required rows="4" class="bdetail-textarea"></textarea>
+                                </div>
+                                <button type="submit" class="bdetail-submit-review-btn">Submit Review</button>
+                                <div id="reviewStatus" class="bdetail-review-status"></div>
+                            </form>
+                        </div>
+                    </section>
+                </div>
+
+                <aside class="bdetail-sidebar">
+                    <div class="bdetail-sidebar-card">
+                        <div class="bdetail-sidebar-card-title">📍 Location</div>
+                        <div id="bdetail-mini-map" class="bdetail-mini-map"></div>
+                        <div style="font-size:12px;color:var(--text-muted);margin-top:8px;">${building.location}, Dar es Salaam</div>
+                        <button class="btn-primary" onclick="navigate('/map')" style="width:100%;margin-top:12px;font-size:13px;">Open Full Map</button>
+                    </div>
+                    <div class="bdetail-sidebar-card">
+                        <div class="bdetail-sidebar-card-title">📋 Quick Facts</div>
+                        <ul class="bdetail-facts-list">
+                            <li><span>Built</span><strong>${building.year}</strong></li>
+                            <li><span>Era</span><strong>${building.era}</strong></li>
+                            <li><span>Condition</span><strong>${building.condition}</strong></li>
+                            <li><span>Status</span><strong>${building.status}</strong></li>
+                            <li><span>Total Visits</span><strong>${visits}</strong></li>
+                        </ul>
+                    </div>
+                    ${has360 ? `
+                    <div class="bdetail-sidebar-card bdetail-tour-card" onclick="document.getElementById('bdetail-tour-section').scrollIntoView({behavior:'smooth'})">
+                        <div class="bdetail-tour-card-inner">
+                            <span class="bdetail-tour-card-icon">⟳</span>
+                            <div>
+                                <div class="bdetail-sidebar-card-title" style="margin-bottom:4px;color:#fff;">Virtual 360° Tour</div>
+                                <div style="font-size:12px;color:rgba(255,255,255,0.7);">Interactive panoramic view</div>
+                            </div>
+                        </div>
+                    </div>` : ''}
+                    <button class="bdetail-report-btn" onclick="navigate('/risk')">⚑ Report This Building At Risk</button>
+                </aside>
+            </div>
+        </div>
         `;
         
-        console.log(' Building detail loaded for:', building.name);
+        if (panoramaUrl && typeof pannellum !== 'undefined') {
+            setTimeout(() => {
+                try {
+                    pannellum.viewer('bdetail-panorama', {
+                        type: 'equirectangular', panorama: panoramaUrl,
+                        autoLoad: true, autoRotate: -2, compass: true,
+                        title: building.name, hfov: 100, minHfov: 50, maxHfov: 120
+                    });
+                } catch(e) { console.warn('Pannellum error:', e); }
+            }, 300);
+        }
+        
+        if (building.lat && building.lng && typeof L !== 'undefined') {
+            setTimeout(() => {
+                try {
+                    const miniMap = L.map('bdetail-mini-map', { zoomControl: false, scrollWheelZoom: false })
+                        .setView([building.lat, building.lng], 15);
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(miniMap);
+                    L.circleMarker([building.lat, building.lng], {
+                        radius: 10, fillColor: '#F0B429', color: '#fff', weight: 3, fillOpacity: 1
+                    }).bindPopup(`<strong>${building.name}</strong>`).addTo(miniMap).openPopup();
+                    setTimeout(() => miniMap.invalidateSize(), 200);
+                } catch(e) { console.warn('Mini map error:', e); }
+            }, 400);
+        }
+        
+        console.log('✓ Building detail loaded for:', building.name);
         
     } catch (error) {
         console.error('Error loading building detail:', error);
@@ -392,6 +645,71 @@ async function renderBuildingDetail(container, id) {
         `;
     }
 }
+
+function renderStars(rating) {
+    rating = parseFloat(rating) || 0;
+    const full = Math.floor(rating);
+    const half = rating - full >= 0.5;
+    let html = '';
+    for (let i = 1; i <= 5; i++) {
+        if (i <= full) html += '<span class="bdetail-star filled">★</span>';
+        else if (i === full + 1 && half) html += '<span class="bdetail-star half">★</span>';
+        else html += '<span class="bdetail-star empty">★</span>';
+    }
+    return html;
+}
+
+function formatReviewDate(dateStr) {
+    if (!dateStr) return '';
+    try { return new Date(dateStr).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }); }
+    catch(e) { return dateStr; }
+}
+
+function switchBDetailImage(imgUrl, thumbEl) {
+    const mainImg = document.getElementById('bdetail-main-img');
+    if (mainImg) {
+        mainImg.style.opacity = '0';
+        setTimeout(() => { mainImg.src = imgUrl; mainImg.style.opacity = '1'; }, 180);
+    }
+    document.querySelectorAll('.bdetail-thumb').forEach(t => t.classList.remove('active'));
+    if (thumbEl) thumbEl.classList.add('active');
+}
+
+function selectStar(val) {
+    const input = document.getElementById('reviewRating');
+    if (input) input.value = val;
+    document.querySelectorAll('.bdetail-star-btn').forEach((btn, i) => btn.classList.toggle('selected', i < val));
+}
+
+function markHelpful(btn, currentCount) {
+    if (btn.classList.contains('voted')) return;
+    btn.classList.add('voted');
+    btn.innerHTML = `✓ Helpful (${currentCount + 1})`;
+}
+
+async function submitBuildingReview(e, buildingId) {
+    e.preventDefault();
+    const name = document.getElementById('reviewName').value.trim();
+    const body = document.getElementById('reviewBody').value.trim();
+    const rating = parseInt(document.getElementById('reviewRating').value);
+    const statusEl = document.getElementById('reviewStatus');
+    if (!rating || rating < 1) { statusEl.textContent = 'Please select a star rating.'; statusEl.style.color = 'var(--accent)'; return; }
+    try {
+        if (typeof API !== 'undefined' && API.createReview) {
+            await API.createReview({ building_id: buildingId, user_name: name, body, rating, helpful_count: 0 });
+        }
+        statusEl.textContent = '✓ Your review has been submitted. Thank you!';
+        statusEl.style.color = 'var(--primary)';
+        document.getElementById('reviewName').value = '';
+        document.getElementById('reviewBody').value = '';
+        document.getElementById('reviewRating').value = '0';
+        document.querySelectorAll('.bdetail-star-btn').forEach(b => b.classList.remove('selected'));
+    } catch(err) {
+        statusEl.textContent = 'Could not submit. Please try again later.';
+        statusEl.style.color = 'var(--accent)';
+    }
+}
+
 
 // ========================================
 // LOGIN PAGE
@@ -998,16 +1316,167 @@ function closeCitizenModal() {
     }
 }
 
-function handleCitizenLogin(e) {
+function toggleCitizenModalView(view) {
+    const loginView = document.getElementById('modal-login-view');
+    const signupView = document.getElementById('modal-signup-view');
+    if (view === 'signup') {
+        loginView.style.display = 'none';
+        signupView.style.display = 'block';
+    } else {
+        loginView.style.display = 'block';
+        signupView.style.display = 'none';
+    }
+}
+
+async function handleCitizenLogin(e) {
     e.preventDefault();
-    localStorage.setItem('citizen_auth', 'true');
-    closeCitizenModal();
+    const email = document.getElementById('citizen-login-email').value;
+    const password = document.getElementById('citizen-login-password').value;
+    const msg = document.getElementById('citizen-login-msg');
+    const btn = document.getElementById('citizen-login-btn');
     
-    // Check if we are on risk page, refresh to show form
-    if (window.location.hash.includes('/risk') || window.location.pathname.includes('risk.html')) {
+    msg.textContent = '';
+    msg.style.color = 'var(--text)';
+    btn.disabled = true;
+    btn.textContent = 'Signing In...';
+    
+    try {
+        // API.login now handles storing token & citizen_user
+        const result = await API.login(email, password);
+        
+        if (result.user && result.user.role === 'officer') {
+            window.location.href = 'officer.html';
+            return;
+        }
+        
+        localStorage.setItem('citizen_auth', 'true');
+        
+        closeCitizenModal();
+        updateAuthUI();
+        
+        if (window.location.hash.includes('/risk') || window.location.pathname.includes('risk.html')) {
+            window.location.reload();
+        }
+    } catch (err) {
+        msg.textContent = err.message || 'Login failed. Please check your credentials.';
+        msg.style.color = 'var(--accent)';
+    } finally {
+        btn.disabled = false;
+        btn.textContent = 'Sign In';
+    }
+}
+
+async function handleCitizenSignup(e) {
+    e.preventDefault();
+    const name = document.getElementById('citizen-signup-name').value;
+    const email = document.getElementById('citizen-signup-email').value;
+    const password = document.getElementById('citizen-signup-password').value;
+    const msg = document.getElementById('citizen-signup-msg');
+    const btn = document.getElementById('citizen-signup-btn');
+    
+    msg.textContent = '';
+    msg.style.color = 'var(--text)';
+    btn.disabled = true;
+    btn.textContent = 'Creating Account...';
+    
+    try {
+        // API.register stores token & citizen_user if session is returned immediately
+        const result = await API.register(name, email, password);
+        
+        if (result.token) {
+            // Logged in directly (email confirmation disabled in Supabase)
+            localStorage.setItem('citizen_auth', 'true');
+            closeCitizenModal();
+            updateAuthUI();
+        } else {
+            // Email confirmation required — show message, don't close modal
+            msg.style.color = 'var(--primary)';
+            msg.textContent = '✓ Account created! Please check your email to confirm, then sign in.';
+            btn.textContent = 'Check Your Email';
+            return;
+        }
+        
+        if (window.location.hash.includes('/risk') || window.location.pathname.includes('risk.html')) {
+            window.location.reload();
+        }
+    } catch (err) {
+        msg.textContent = err.message || 'Registration failed.';
+        msg.style.color = 'var(--accent)';
+    } finally {
+        btn.disabled = false;
+        if (btn.textContent !== 'Check Your Email') btn.textContent = 'Create Account';
+    }
+}
+
+function handleCitizenLogout() {
+    localStorage.removeItem('citizen_auth');
+    localStorage.removeItem('citizen_user');
+    updateAuthUI();
+    if (window.location.hash === '#/dashboard') {
+        navigate('/');
+    } else {
         window.location.reload();
     }
 }
+
+function toggleAvatarDropdown() {
+    const dropdown = document.getElementById('avatar-dropdown-menu');
+    if (dropdown) {
+        dropdown.classList.toggle('active');
+    }
+}
+
+function updateAuthUI() {
+    const isAuth = localStorage.getItem('citizen_auth') === 'true';
+    const authContainer = document.getElementById('nav-auth-container');
+    
+    if (authContainer) {
+        if (isAuth) {
+            let userData = { name: 'Citizen' };
+            try {
+                const stored = localStorage.getItem('citizen_user');
+                if (stored) userData = JSON.parse(stored);
+            } catch(e) {}
+            
+            const initial = userData.name.charAt(0).toUpperCase();
+            
+            authContainer.innerHTML = `
+                <div style="position: relative;" id="avatar-container">
+                    <button class="nav-avatar-btn" onclick="toggleAvatarDropdown()" aria-label="User menu">
+                        ${initial}
+                    </button>
+                    <div id="avatar-dropdown-menu" class="avatar-dropdown">
+                        <div style="padding: 12px 16px; border-bottom: 1px solid var(--border); background: var(--muted); margin-bottom: 4px;">
+                            <div style="font-size: 13px; font-weight: 600; color: var(--text);">${userData.name}</div>
+                            <div style="font-size: 11px; color: var(--text-muted); text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">${userData.email || 'citizen@urithi.go.tz'}</div>
+                        </div>
+                        <a href="#/dashboard" onclick="navigate('/dashboard'); toggleAvatarDropdown(); return false;">Dashboard</a>
+                        <a href="#" onclick="handleCitizenLogout(); return false;">Sign Out</a>
+                    </div>
+                </div>
+            `;
+            
+            // Re-attach close dropdown event listener precisely once
+            document.removeEventListener('click', _closeAvatarDropdown);
+            document.addEventListener('click', _closeAvatarDropdown);
+        } else {
+            authContainer.innerHTML = '<a href="#" onclick="showCitizenModal(); return false;" style="font-weight: 600; color: var(--accent) !important;">Sign In</a>';
+        }
+    }
+}
+
+function _closeAvatarDropdown(e) {
+    const container = document.getElementById('avatar-container');
+    if (container && !container.contains(e.target)) {
+        const dropdown = document.getElementById('avatar-dropdown-menu');
+        if (dropdown && dropdown.classList.contains('active')) {
+            dropdown.classList.remove('active');
+        }
+    }
+}
+
+// Ensure auth UI is updated on load
+document.addEventListener('DOMContentLoaded', updateAuthUI);
 
 // ========================================
 // VIDEO LIGHTBOX FUNCTIONS

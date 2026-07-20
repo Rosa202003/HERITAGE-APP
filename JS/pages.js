@@ -80,21 +80,7 @@ async function renderHome(container) {
 // HERO FUNCTIONS
 // ========================================
 
-function handleHeroSearch() {
-    const input = document.getElementById('hero-search-input');
-    const query = input.value.trim();
-    
-    if (query) {
-        navigate(`/search?q=${encodeURIComponent(query)}`);
-    } else {
-        input.style.borderColor = '#ff6b6b';
-        input.placeholder = 'Please enter a search term';
-        setTimeout(() => {
-            input.style.borderColor = '';
-            input.placeholder = 'Search for a building...';
-        }, 2000);
-    }
-}
+
 
 function scrollToFeatured() {
     const featuredSection = document.querySelector('.featured-section');

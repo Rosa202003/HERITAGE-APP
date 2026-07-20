@@ -1,21 +1,23 @@
 const express = require('express');
 const router = express.Router();
 const authMiddleware = require('../middleware/auth');
+const { officerOnly } = require('../middleware/auth');
 const {
     getBuildings,
     getBuilding,
-    createBuilding,   // ← MAKE SURE THIS IS HERE
-    updateBuilding,   // ← MAKE SURE THIS IS HERE
-    deleteBuilding    // ← MAKE SURE THIS IS HERE
+    createBuilding,
+    updateBuilding,
+    deleteBuilding
 } = require('../controllers/buildingController');
 
 // Public routes (no auth required)
 router.get('/', getBuildings);
 router.get('/:id', getBuilding);
 
-// Protected routes (auth required - officers only)
-router.post('/', authMiddleware, createBuilding);
-router.put('/:id', authMiddleware, updateBuilding);
-router.delete('/:id', authMiddleware, deleteBuilding);
+// Protected routes (officers only)
+router.post('/', authMiddleware, officerOnly, createBuilding);
+router.put('/:id', authMiddleware, officerOnly, updateBuilding);
+router.patch('/:id', authMiddleware, officerOnly, updateBuilding);
+router.delete('/:id', authMiddleware, officerOnly, deleteBuilding);
 
-module.exports = router;
+module.exports = router;

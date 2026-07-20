@@ -7,6 +7,7 @@ const buildingRoutes = require("./routes/buildingRoutes");
 const flagRoutes = require("./routes/flagRoutes"); 
 const reviewRoutes = require("./routes/reviewRoutes"); 
 const uploadRoutes = require("./routes/uploadRoutes");
+const officerRoutes = require("./routes/officerRoutes");
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use("/api/buildings", buildingRoutes);
 app.use("/api/flags", flagRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/upload", uploadRoutes);
+app.use("/api/officers", officerRoutes);
 
 // Health check
 app.get("/", (req, res) => {
