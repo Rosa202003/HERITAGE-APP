@@ -3,10 +3,10 @@
 // ========================================
 
 async function renderHome(container) {
-    const buildings = await API.getBuildings();
-    const stats = await API.getStats();
-    
-    const html = `
+  const buildings = await API.getBuildings();
+  const stats = await API.getStats();
+
+  const html = `
         <!-- Hero Section -->
         <section class="hero">
             <div class="hero-content">
@@ -72,51 +72,48 @@ async function renderHome(container) {
         
         <!-- Rest of your page... -->
     `;
-    
-    container.innerHTML = html;
+
+  container.innerHTML = html;
 }
 
 // ========================================
 // HERO FUNCTIONS
 // ========================================
 
-
-
 function scrollToFeatured() {
-    const featuredSection = document.querySelector('.featured-section');
-    if (featuredSection) {
-        featuredSection.scrollIntoView({ behavior: 'smooth' });
-    }
+  const featuredSection = document.querySelector(".featured-section");
+  if (featuredSection) {
+    featuredSection.scrollIntoView({ behavior: "smooth" });
+  }
 }
-
 
 // ========================================
 // RENDER ALL BUILDINGS PAGE
 // ========================================
 
 async function renderAllBuildings(container) {
-    console.log('📋 Loading all buildings...');
+  console.log("📋 Loading all buildings...");
 
-    try {
-        let buildings = [];
-        if (typeof API !== 'undefined' && API.getBuildings) {
-            buildings = await API.getBuildings();
-        } else if (typeof MOCK_BUILDINGS !== 'undefined') {
-            buildings = MOCK_BUILDINGS;
-        }
+  try {
+    let buildings = [];
+    if (typeof API !== "undefined" && API.getBuildings) {
+      buildings = await API.getBuildings();
+    } else if (typeof MOCK_BUILDINGS !== "undefined") {
+      buildings = MOCK_BUILDINGS;
+    }
 
-        if (!buildings || buildings.length === 0) {
-            container.innerHTML = `
+    if (!buildings || buildings.length === 0) {
+      container.innerHTML = `
                 <div style="max-width:800px;margin:40px auto;text-align:center;padding:40px;">
                     <h2 style="font-family:var(--font-display);">📋 No Buildings Found</h2>
                     <p style="color:var(--text-muted);margin:16px 0;">Add some buildings to get started.</p>
                     <button class="btn-primary" onclick="navigate('/')">← Back to Home</button>
                 </div>
             `;
-            return;
-        }
+      return;
+    }
 
-        container.innerHTML = `
+    container.innerHTML = `
             <div class="buildings-page">
                 <!-- Page Header -->
                 <div class="page-header">
@@ -157,22 +154,21 @@ async function renderAllBuildings(container) {
             </div>
         `;
 
-        // Store buildings data globally for filter functions
-        window._buildingsData = buildings;
-        window._currentFilter = 'all';
-        window._currentSearch = '';
+    // Store buildings data globally for filter functions
+    window._buildingsData = buildings;
+    window._currentFilter = "all";
+    window._currentSearch = "";
 
-        // Initial render
-        renderBuildingCards();
-
-    } catch (error) {
-        console.error('❌ Error loading buildings:', error);
-        container.innerHTML = `
+    // Initial render
+    renderBuildingCards();
+  } catch (error) {
+    console.error("❌ Error loading buildings:", error);
+    container.innerHTML = `
             <div style="max-width:800px;margin:40px auto;text-align:center;padding:40px;">
                 <h2 style="font-family:var(--font-display);">❌ Error Loading Buildings</h2>
                 <p style="color:var(--text-muted);margin:16px 0;">Please try again later.</p>
                 <button class="btn-primary" onclick="navigate('/')">← Back to Home</button>
             </div>
         `;
-    }
+  }
 }

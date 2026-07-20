@@ -1,621 +1,896 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Community - Urithi Majengo</title>
-    <meta name="description" content="Share your experiences and reviews of Dar es Salaam's heritage buildings.">
-    
+    <meta
+      name="description"
+      content="Share your experiences and reviews of Dar es Salaam's heritage buildings."
+    />
+
     <!-- ===== FAVICON ===== -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
-    
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>"
+    />
+
     <!-- ===== GOOGLE FONTS ===== -->
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
-    
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono&display=swap"
+      rel="stylesheet"
+    />
+
     <!-- ===== CUSTOM CSS ===== -->
-    <link rel="stylesheet" href="../CSS/style.css" type="text/css">
-    
+    <link rel="stylesheet" href="../CSS/style.css" type="text/css" />
+
     <style>
-        /* ========================================
+      /* ========================================
            COMMUNITY PAGE - SPECIFIC STYLES
            ======================================== */
-        .community-page {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+      .community-page {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 20px;
+      }
 
-        /* ===== PAGE HEADER ===== */
-        .page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            flex-wrap: wrap;
-            gap: 16px;
-            margin-bottom: 24px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid var(--border);
-        }
+      /* ===== PAGE HEADER ===== */
+      .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 16px;
+        margin-bottom: 24px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid var(--border);
+      }
 
-        .page-header h1 {
-            font-family: var(--font-display);
-            font-size: 32px;
-            color: var(--text);
-        }
+      .page-header h1 {
+        font-family: var(--font-display);
+        font-size: 32px;
+        color: var(--text);
+      }
 
-        .page-header .subtitle {
-            color: var(--text-muted);
-            font-size: 14px;
-            margin-top: 4px;
-        }
+      .page-header .subtitle {
+        color: var(--text-muted);
+        font-size: 14px;
+        margin-top: 4px;
+      }
 
-        .page-header .review-count {
-            background: var(--muted);
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--primary);
-            white-space: nowrap;
-        }
+      .page-header .review-count {
+        background: var(--muted);
+        padding: 6px 16px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--primary);
+        white-space: nowrap;
+      }
 
-        /* ===== REVIEW FORM ===== */
-        .review-form-section {
-            background: var(--card);
-            border-radius: var(--radius);
-            border: 1px solid var(--border);
-            padding: 24px 28px;
-            margin-bottom: 32px;
-            box-shadow: var(--shadow);
-        }
+      /* ===== REVIEW FORM ===== */
+      .review-form-section {
+        background: var(--card);
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        padding: 24px 28px;
+        margin-bottom: 32px;
+        box-shadow: var(--shadow);
+      }
 
-        .review-form-section h2 {
-            font-family: var(--font-display);
-            font-size: 22px;
-            color: var(--text);
-            margin-bottom: 4px;
-        }
+      .review-form-section h2 {
+        font-family: var(--font-display);
+        font-size: 22px;
+        color: var(--text);
+        margin-bottom: 4px;
+      }
 
-        .review-form-section .form-subtitle {
-            color: var(--text-muted);
-            font-size: 14px;
-            margin-bottom: 16px;
-        }
+      .review-form-section .form-subtitle {
+        color: var(--text-muted);
+        font-size: 14px;
+        margin-bottom: 16px;
+      }
 
-        .review-form {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
+      .review-form {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
 
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-        }
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
 
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
 
-        .form-group label {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text);
-        }
+      .form-group label {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text);
+      }
 
-        .form-group label .required {
-            color: var(--accent);
-        }
+      .form-group label .required {
+        color: var(--accent);
+      }
 
-        .form-group select,
-        .form-group input,
-        .form-group textarea {
-            padding: 10px 14px;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            font-size: 14px;
-            font-family: var(--font-body);
-            background: var(--bg);
-            color: var(--text);
-            transition: all 0.3s ease;
-        }
+      .form-group select,
+      .form-group input,
+      .form-group textarea {
+        padding: 10px 14px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        font-size: 14px;
+        font-family: var(--font-body);
+        background: var(--bg);
+        color: var(--text);
+        transition: all 0.3s ease;
+      }
 
-        .form-group select:focus,
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(11, 122, 105, 0.1);
-        }
+      .form-group select:focus,
+      .form-group input:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(11, 122, 105, 0.1);
+      }
 
-        .form-group textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
+      .form-group textarea {
+        resize: vertical;
+        min-height: 80px;
+      }
 
-        /* ===== STAR RATING ===== */
-        .star-rating {
-            display: flex;
-            gap: 6px;
-            font-size: 28px;
-            cursor: pointer;
-        }
+      /* ===== STAR RATING ===== */
+      .star-rating {
+        display: flex;
+        gap: 6px;
+        font-size: 28px;
+        cursor: pointer;
+      }
 
-        .star-rating .star {
-            color: #ddd;
-            transition: all 0.2s ease;
-            user-select: none;
-        }
+      .star-rating .star {
+        color: #ddd;
+        transition: all 0.2s ease;
+        user-select: none;
+      }
 
-        .star-rating .star.active {
-            color: var(--gold);
-        }
+      .star-rating .star.active {
+        color: var(--gold);
+      }
 
-        .star-rating .star:hover {
-            transform: scale(1.15);
-        }
+      .star-rating .star:hover {
+        transform: scale(1.15);
+      }
 
-        .form-actions {
-            display: flex;
-            gap: 12px;
-            margin-top: 4px;
-        }
+      .form-actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 4px;
+      }
 
-        .form-actions .btn-primary {
-            padding: 10px 32px;
-        }
+      .form-actions .btn-primary {
+        padding: 10px 32px;
+      }
 
-        /* ===== REVIEWS LIST ===== */
-        .reviews-section {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
+      /* ===== REVIEWS LIST ===== */
+      .reviews-section {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
 
-        .review-card {
-            background: var(--card);
-            border-radius: var(--radius);
-            border: 1px solid var(--border);
-            padding: 20px 24px;
-            transition: all 0.3s ease;
-        }
+      .review-card {
+        background: var(--card);
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        padding: 20px 24px;
+        transition: all 0.3s ease;
+      }
 
-        .review-card:hover {
-            border-color: var(--primary);
-            box-shadow: var(--shadow);
-        }
+      .review-card:hover {
+        border-color: var(--primary);
+        box-shadow: var(--shadow);
+      }
 
-        .review-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-bottom: 8px;
-        }
+      .review-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 8px;
+      }
 
-        .review-user {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+      .review-user {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
 
-        .review-avatar {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background: var(--muted);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 16px;
-            color: var(--primary);
-            flex-shrink: 0;
-        }
+      .review-avatar {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: var(--muted);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 16px;
+        color: var(--primary);
+        flex-shrink: 0;
+      }
 
-        .review-user-info .reviewer-name {
-            font-weight: 600;
-            font-size: 16px;
-            color: var(--text);
-        }
+      .review-user-info .reviewer-name {
+        font-weight: 600;
+        font-size: 16px;
+        color: var(--text);
+      }
 
-        .review-user-info .review-date {
-            font-size: 12px;
-            color: var(--text-muted);
-        }
+      .review-user-info .review-date {
+        font-size: 12px;
+        color: var(--text-muted);
+      }
 
-        .review-building {
-            font-size: 14px;
-            color: var(--primary);
-            font-weight: 500;
-        }
+      .review-building {
+        font-size: 14px;
+        color: var(--primary);
+        font-weight: 500;
+      }
 
-        .review-rating {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            font-size: 18px;
-            color: var(--gold);
-        }
+      .review-rating {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 18px;
+        color: var(--gold);
+      }
 
-        .review-rating .rating-number {
-            font-size: 14px;
-            color: var(--text-muted);
-            margin-left: 4px;
-        }
+      .review-rating .rating-number {
+        font-size: 14px;
+        color: var(--text-muted);
+        margin-left: 4px;
+      }
 
-        .review-content {
-            color: var(--text);
-            line-height: 1.7;
-            margin: 8px 0 12px;
-            padding-left: 4px;
-        }
+      .review-content {
+        color: var(--text);
+        line-height: 1.7;
+        margin: 8px 0 12px;
+        padding-left: 4px;
+      }
 
-        .review-footer {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding-top: 12px;
-            border-top: 1px solid var(--border);
-        }
+      .review-footer {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding-top: 12px;
+        border-top: 1px solid var(--border);
+      }
 
-        .review-helpful {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 13px;
-            color: var(--text-muted);
-            cursor: pointer;
-            padding: 4px 12px;
-            border-radius: 20px;
-            border: 1px solid var(--border);
-            background: transparent;
-            transition: all 0.2s ease;
-            font-family: var(--font-body);
-        }
+      .review-helpful {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 13px;
+        color: var(--text-muted);
+        cursor: pointer;
+        padding: 4px 12px;
+        border-radius: 20px;
+        border: 1px solid var(--border);
+        background: transparent;
+        transition: all 0.2s ease;
+        font-family: var(--font-body);
+      }
 
-        .review-helpful:hover {
-            background: var(--muted);
-            border-color: var(--primary);
-            color: var(--primary);
-        }
+      .review-helpful:hover {
+        background: var(--muted);
+        border-color: var(--primary);
+        color: var(--primary);
+      }
 
-        .review-helpful .helpful-icon {
-            font-size: 14px;
-        }
+      .review-helpful .helpful-icon {
+        font-size: 14px;
+      }
 
-        .review-helpful .helpful-count {
-            font-weight: 600;
-        }
+      .review-helpful .helpful-count {
+        font-weight: 600;
+      }
 
-        /* ===== SIGN IN PROMPT ===== */
-        .sign-in-prompt {
-            background: var(--muted);
-            border-radius: var(--radius-sm);
-            padding: 12px 18px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
+      /* ===== SIGN IN PROMPT ===== */
+      .sign-in-prompt {
+        background: var(--muted);
+        border-radius: var(--radius-sm);
+        padding: 12px 18px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
 
-        .sign-in-prompt .prompt-text {
-            font-size: 13px;
-            color: var(--text-muted);
-        }
+      .sign-in-prompt .prompt-text {
+        font-size: 13px;
+        color: var(--text-muted);
+      }
 
-        .sign-in-prompt .btn-secondary {
-            padding: 6px 20px;
-            font-size: 13px;
-        }
+      .sign-in-prompt .btn-secondary {
+        padding: 6px 20px;
+        font-size: 13px;
+      }
 
-        /* ========================================
+      /* ========================================
            RESPONSIVE
            ======================================== */
 
-        @media (max-width: 768px) {
-            .community-page {
-                padding: 12px;
-            }
-
-            .page-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .page-header h1 {
-                font-size: 26px;
-            }
-
-            .review-form-section {
-                padding: 16px 18px;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-
-            .review-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .review-card {
-                padding: 16px 18px;
-            }
-
-            .form-actions {
-                flex-direction: column;
-            }
-
-            .form-actions button {
-                width: 100%;
-                justify-content: center;
-            }
+      @media (max-width: 768px) {
+        .community-page {
+          padding: 12px;
         }
 
-        @media (max-width: 480px) {
-            .review-form-section h2 {
-                font-size: 19px;
-            }
-
-            .star-rating {
-                font-size: 24px;
-            }
-
-            .review-user {
-                flex-wrap: wrap;
-            }
-
-            .review-footer {
-                flex-wrap: wrap;
-            }
+        .page-header {
+          flex-direction: column;
+          align-items: flex-start;
         }
+
+        .page-header h1 {
+          font-size: 26px;
+        }
+
+        .review-form-section {
+          padding: 16px 18px;
+        }
+
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+
+        .review-header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .review-card {
+          padding: 16px 18px;
+        }
+
+        .form-actions {
+          flex-direction: column;
+        }
+
+        .form-actions button {
+          width: 100%;
+          justify-content: center;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .review-form-section h2 {
+          font-size: 19px;
+        }
+
+        .star-rating {
+          font-size: 24px;
+        }
+
+        .review-user {
+          flex-wrap: wrap;
+        }
+
+        .review-footer {
+          flex-wrap: wrap;
+        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div id="app">
-        <!-- ===== HEADER ===== -->
-        <header class="main-header">
-            <div class="logo">UM</div>
+      <!-- ===== HEADER ===== -->
+      <header class="main-header">
+        <a class="logo" href="index.html" aria-label="Urithi Majengo home">UM</a>
 
-            <!-- Navigation Bar -->
-             <nav class="nav-container" id="nav-menu" role="navigation" aria-label="Main Navigation">
-                <ul class="nav-links">
-                    <li><a href="../HTML/index.html">Map & Records</a></li>
-                    <li><a href="../HTML/buildings.html">All Buildings</a></li>
-                    <li><a href="../HTML/risk.html">Report At-Risk</a></li>
-                    <li><a href="../HTML/community.html">Community</a></li>
-                    <li id="nav-auth-container"><a href="#" onclick="showCitizenModal(); return false;" style="font-weight: 600; color: var(--accent) !important;">Sign In</a></li>
-                </ul>
-            </nav>
+        <!-- Navigation Bar -->
+        <nav
+          class="nav-container"
+          id="nav-menu"
+          role="navigation"
+          aria-label="Main Navigation"
+        >
+          <ul class="nav-links">
+            <li><a href="index.html">Map & Records</a></li>
+            <li><a href="buildings.html">All Buildings</a></li>
+            <li><a href="risk.html">Report At-Risk</a></li>
+            <li><a href="community.html">Community</a></li>
+            <li id="nav-auth-container">
+              <a
+                href="#"
+                onclick="
+                  showCitizenModal();
+                  return false;
+                "
+                style="font-weight: 600; color: var(--accent) !important"
+                >Sign In</a
+              >
+            </li>
+          </ul>
+        </nav>
 
-            <button class="hamburger" id="menu-toggle" aria-label="Toggle navigation">
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-            </button>
-        </header>
+        <button
+          class="hamburger"
+          id="menu-toggle"
+          aria-label="Toggle navigation"
+        >
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </header>
 
-        <!-- ===== MAIN CONTENT ===== -->
-        <main id="main-content">
-            <div class="community-page">
-                <!-- Page Header -->
-                <div class="page-header">
-                    <div>
-                        <h1>Community</h1>
-                        <p class="subtitle">Share your experiences and reviews of Dar es Salaam's heritage buildings.</p>
-                    </div>
-                    <div class="review-count" id="review-count">Loading…</div>
-                </div>
-
-                <!-- ===== REVIEW FORM ===== -->
-                <div class="review-form-section" id="review-form-section">
-                    <h2>Leave Your Review</h2>
-                    <p class="form-subtitle">Share your experience visiting a heritage building.</p>
-
-                    <!-- Sign In Prompt (shown when logged out) -->
-                    <div class="sign-in-prompt" id="sign-in-prompt" style="display:none;">
-                        <span class="prompt-text">Sign in to leave a review</span>
-                        <button class="btn-secondary" onclick="window.location.href='../HTML/login.html'">Sign In</button>
-                    </div>
-
-                    <!-- Review Form (shown when logged in) -->
-                    <form class="review-form" id="review-form" onsubmit="handleReviewSubmit(event)" style="display:none;">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Building <span class="required">*</span></label>
-                                <select id="review-building" required>
-                                    <option value="">Loading buildings…</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Rating <span class="required">*</span></label>
-                                <div class="star-rating" id="star-rating">
-                                    <span class="star" data-value="1">★</span>
-                                    <span class="star" data-value="2">★</span>
-                                    <span class="star" data-value="3">★</span>
-                                    <span class="star" data-value="4">★</span>
-                                    <span class="star" data-value="5">★</span>
-                                </div>
-                                <input type="hidden" id="review-rating" value="0">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Your Experience <span class="required">*</span></label>
-                            <textarea id="review-comment" placeholder="Describe your visit…" required></textarea>
-                        </div>
-                        <!-- Submission feedback -->
-                        <div id="review-msg" style="font-size:13px;padding:8px 12px;border-radius:6px;display:none;"></div>
-                        <div class="form-actions">
-                            <button type="submit" class="btn-primary" id="review-submit-btn">Submit Review</button>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- ===== REVIEWS LIST ===== -->
-                <div class="reviews-section" id="reviews-list">
-                    <p style="color:var(--text-muted);text-align:center;padding:40px 0;">Loading reviews…</p>
-                </div>
+      <!-- ===== MAIN CONTENT ===== -->
+      <main id="main-content">
+        <div class="community-page">
+          <!-- Page Header -->
+          <div class="page-header">
+            <div>
+              <h1>Community</h1>
+              <p class="subtitle">
+                Share your experiences and reviews of Dar es Salaam's heritage
+                buildings.
+              </p>
             </div>
-        </main>
+            <div class="review-count" id="review-count">Loading…</div>
+          </div>
 
-        <!-- ===== FOOTER ===== -->
-        <footer class="main-footer">
-    <div class="footer-content" style="max-width:1200px;margin:0 auto;padding:20px 0;">
-        <!-- Top Row: Brand + Links -->
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:30px;text-align:left;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.06);">
-            
+          <!-- ===== REVIEW FORM ===== -->
+          <div class="review-form-section" id="review-form-section">
+            <h2>Leave Your Review</h2>
+            <p class="form-subtitle">
+              Share your experience visiting a heritage building.
+            </p>
+
+            <!-- Sign In Prompt (shown when logged out) -->
+            <div
+              class="sign-in-prompt"
+              id="sign-in-prompt"
+              style="display: none"
+            >
+              <span class="prompt-text">Sign in to leave a review</span>
+              <button
+                class="btn-secondary"
+                onclick="window.location.href = '../HTML/login.html'"
+              >
+                Sign In
+              </button>
+            </div>
+
+            <!-- Review Form (shown when logged in) -->
+            <form
+              class="review-form"
+              id="review-form"
+              onsubmit="handleReviewSubmit(event)"
+              style="display: none"
+            >
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Building <span class="required">*</span></label>
+                  <select id="review-building" required>
+                    <option value="">Loading buildings…</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Rating <span class="required">*</span></label>
+                  <div class="star-rating" id="star-rating">
+                    <span class="star" data-value="1">★</span>
+                    <span class="star" data-value="2">★</span>
+                    <span class="star" data-value="3">★</span>
+                    <span class="star" data-value="4">★</span>
+                    <span class="star" data-value="5">★</span>
+                  </div>
+                  <input type="hidden" id="review-rating" value="0" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Your Experience <span class="required">*</span></label>
+                <textarea
+                  id="review-comment"
+                  placeholder="Describe your visit…"
+                  required
+                ></textarea>
+              </div>
+              <!-- Submission feedback -->
+              <div
+                id="review-msg"
+                style="
+                  font-size: 13px;
+                  padding: 8px 12px;
+                  border-radius: 6px;
+                  display: none;
+                "
+              ></div>
+              <div class="form-actions">
+                <button
+                  type="submit"
+                  class="btn-primary"
+                  id="review-submit-btn"
+                >
+                  Submit Review
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- ===== REVIEWS LIST ===== -->
+          <div class="reviews-section" id="reviews-list">
+            <p
+              style="
+                color: var(--text-muted);
+                text-align: center;
+                padding: 40px 0;
+              "
+            >
+              Loading reviews…
+            </p>
+          </div>
+        </div>
+      </main>
+
+      <!-- ===== FOOTER ===== -->
+      <footer class="main-footer">
+        <div
+          class="footer-content"
+          style="max-width: 1200px; margin: 0 auto; padding: 20px 0"
+        >
+          <!-- Top Row: Brand + Links -->
+          <div
+            style="
+              display: grid;
+              grid-template-columns: 1fr 1fr 1fr;
+              gap: 30px;
+              text-align: left;
+              padding-bottom: 20px;
+              border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            "
+          >
             <!-- Brand Column -->
             <div>
-                <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
-                    <span style="font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--gold);">Urithi Majengo</span>
-                </div>
-                <p style="color:var(--text-muted);font-size:13px;line-height:1.6;max-width:280px;">
-                    A digital heritage inventory managed by the Antiquities Department of Tanzania.
-                </p>
-                <p style="color:var(--text-muted);font-size:12px;margin-top:8px;opacity:0.6;">
-                    © 2026 Antiquities Department - United Republic of Tanzania
-                </p>
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 12px;
+                  margin-bottom: 8px;
+                "
+              >
+                <span
+                  style="
+                    font-family: var(--font-display);
+                    font-size: 22px;
+                    font-weight: 700;
+                    color: var(--gold);
+                  "
+                  >Urithi Majengo</span
+                >
+              </div>
+              <p
+                style="
+                  color: var(--text-muted);
+                  font-size: 13px;
+                  line-height: 1.6;
+                  max-width: 280px;
+                "
+              >
+                A digital heritage inventory managed by the Antiquities
+                Department of Tanzania.
+              </p>
+              <p
+                style="
+                  color: var(--text-muted);
+                  font-size: 12px;
+                  margin-top: 8px;
+                  opacity: 0.6;
+                "
+              >
+                © 2026 Antiquities Department - United Republic of Tanzania
+              </p>
             </div>
-            
+
             <!-- Explore Column -->
             <div>
-                <h4 style="color:rgba(255,255,255,0.4);font-size:11px;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">Explore</h4>
-                <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:4px;">
-                    <li><a href="index.html" style="color:var(--text-muted);text-decoration:none;font-size:13px;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''">Map & Records</a></li>
-                    <li><a href="buildings.html" style="color:var(--text-muted);text-decoration:none;font-size:13px;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''"> All Buildings</a></li>
-                    <li><a href="community.html" style="color:var(--text-muted);text-decoration:none;font-size:13px;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''"> Community</a></li>
-                    <li><a href="risk.html" style="color:var(--text-muted);text-decoration:none;font-size:13px;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''">Report At-Risk</a></li>
-                </ul>
+              <h4
+                style="
+                  color: rgba(255, 255, 255, 0.4);
+                  font-size: 11px;
+                  text-transform: uppercase;
+                  letter-spacing: 0.08em;
+                  margin-bottom: 8px;
+                "
+              >
+                Explore
+              </h4>
+              <ul
+                style="
+                  list-style: none;
+                  padding: 0;
+                  display: flex;
+                  flex-direction: column;
+                  gap: 4px;
+                "
+              >
+                <li>
+                  <a
+                    href="index.html"
+                    style="
+                      color: var(--text-muted);
+                      text-decoration: none;
+                      font-size: 13px;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--gold)'"
+                    onmouseout="this.style.color = ''"
+                    >Map & Records</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="buildings.html"
+                    style="
+                      color: var(--text-muted);
+                      text-decoration: none;
+                      font-size: 13px;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--gold)'"
+                    onmouseout="this.style.color = ''"
+                  >
+                    All Buildings</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="community.html"
+                    style="
+                      color: var(--text-muted);
+                      text-decoration: none;
+                      font-size: 13px;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--gold)'"
+                    onmouseout="this.style.color = ''"
+                  >
+                    Community</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="risk.html"
+                    style="
+                      color: var(--text-muted);
+                      text-decoration: none;
+                      font-size: 13px;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--gold)'"
+                    onmouseout="this.style.color = ''"
+                    >Report At-Risk</a
+                  >
+                </li>
+              </ul>
             </div>
-            
+
             <!-- Partners Column -->
             <div>
-                <h4 style="color:rgba(255,255,255,0.4);font-size:11px;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">Partners</h4>
-                <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:4px;">
-                    <li style="color:var(--text-muted);font-size:13px;">Antiquities Dept</li>
-                    <li style="color:var(--text-muted);font-size:13px;">DARCH</li>
-                    <li style="color:var(--text-muted);font-size:13px;">ARU Architecture Dept</li>
-                    <li style="color:var(--text-muted);font-size:13px;">Nat'l College Tourism</li>
-                    <li style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06);">
-                        <a href="login.html" style="color:rgba(255,255,255,0.25);text-decoration:none;font-size:11px;letter-spacing:0.04em;transition:color 0.2s;" onmouseover="this.style.color='rgba(255,255,255,0.5)'" onmouseout="this.style.color='rgba(255,255,255,0.25)'">Officer Portal</a>
-                    </li>
-                </ul>
+              <h4
+                style="
+                  color: rgba(255, 255, 255, 0.4);
+                  font-size: 11px;
+                  text-transform: uppercase;
+                  letter-spacing: 0.08em;
+                  margin-bottom: 8px;
+                "
+              >
+                Partners
+              </h4>
+              <ul
+                style="
+                  list-style: none;
+                  padding: 0;
+                  display: flex;
+                  flex-direction: column;
+                  gap: 4px;
+                "
+              >
+                <li style="color: var(--text-muted); font-size: 13px">
+                  Antiquities Dept
+                </li>
+                <li style="color: var(--text-muted); font-size: 13px">DARCH</li>
+                <li style="color: var(--text-muted); font-size: 13px">
+                  ARU Architecture Dept
+                </li>
+                <li style="color: var(--text-muted); font-size: 13px">
+                  Nat'l College Tourism
+                </li>
+                <li
+                  style="
+                    margin-top: 12px;
+                    padding-top: 10px;
+                    border-top: 1px solid rgba(255, 255, 255, 0.06);
+                  "
+                >
+                  <a
+                    href="login.html"
+                    style="
+                      color: rgba(255, 255, 255, 0.25);
+                      text-decoration: none;
+                      font-size: 11px;
+                      letter-spacing: 0.04em;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'rgba(255,255,255,0.5)'"
+                    onmouseout="this.style.color = 'rgba(255,255,255,0.25)'"
+                    >Officer Portal</a
+                  >
+                </li>
+              </ul>
             </div>
-        </div>
-        
-        <!-- Bottom Row -->
-        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;padding-top:16px;">
-            <p style="color:var(--text-muted);font-size:12px;opacity:0.6;margin:0;">
-                © 2026 <span class="gold-text">Urithi Majengo</span>. All rights reserved.
+          </div>
+
+          <!-- Bottom Row -->
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              flex-wrap: wrap;
+              gap: 12px;
+              padding-top: 16px;
+            "
+          >
+            <p
+              style="
+                color: var(--text-muted);
+                font-size: 12px;
+                opacity: 0.6;
+                margin: 0;
+              "
+            >
+              © 2026 <span class="gold-text">Urithi Majengo</span>. All rights
+              reserved.
             </p>
-            <p style="color:var(--text-muted);font-size:11px;opacity:0.4;margin:0;">
-                Built for the Antiquities Department · Tanzania
+            <p
+              style="
+                color: var(--text-muted);
+                font-size: 11px;
+                opacity: 0.4;
+                margin: 0;
+              "
+            >
+              Built for the Antiquities Department · Tanzania
             </p>
+          </div>
         </div>
-    </div>             
-</footer>
+      </footer>
     </div>
 
     <!-- ===== SCRIPTS ===== -->
+    <script src="../JS/data.js"></script>
     <script src="../JS/api.js"></script>
     <script>
-        let selectedRating = 0;
+      let selectedRating = 0;
 
-        // ========================================
-        // STAR RATING UI
-        // ========================================
-        function initStarRating() {
-            const stars = document.querySelectorAll('.star-rating .star');
+      // ========================================
+      // STAR RATING UI
+      // ========================================
+      function initStarRating() {
+        const stars = document.querySelectorAll(".star-rating .star");
 
-            stars.forEach(star => {
-                star.addEventListener('click', function() {
-                    selectedRating = parseInt(this.dataset.value);
-                    document.getElementById('review-rating').value = selectedRating;
-                    updateStars(selectedRating);
-                });
-                star.addEventListener('mouseenter', function() { updateStars(parseInt(this.dataset.value)); });
-                star.addEventListener('mouseleave', function() { updateStars(selectedRating); });
-            });
+        stars.forEach((star) => {
+          star.addEventListener("click", function () {
+            selectedRating = parseInt(this.dataset.value);
+            document.getElementById("review-rating").value = selectedRating;
+            updateStars(selectedRating);
+          });
+          star.addEventListener("mouseenter", function () {
+            updateStars(parseInt(this.dataset.value));
+          });
+          star.addEventListener("mouseleave", function () {
+            updateStars(selectedRating);
+          });
+        });
+      }
+
+      function updateStars(rating) {
+        document.querySelectorAll(".star-rating .star").forEach((star) => {
+          star.classList.toggle(
+            "active",
+            parseInt(star.dataset.value) <= rating,
+          );
+        });
+      }
+
+      // ========================================
+      // LOAD BUILDINGS INTO FORM DROPDOWN
+      // ========================================
+      async function loadBuildingSelect() {
+        const select = document.getElementById("review-building");
+        if (!select) return;
+        try {
+          const buildings = await API.getBuildings();
+          select.innerHTML = '<option value="">Select a building…</option>';
+          buildings.forEach((b) => {
+            const opt = document.createElement("option");
+            opt.value = b.id;
+            opt.textContent = b.name || b.title || `Building #${b.id}`;
+            select.appendChild(opt);
+          });
+        } catch (err) {
+          select.innerHTML =
+            '<option value="">Could not load buildings</option>';
+        }
+      }
+
+      // ========================================
+      // RENDER REVIEW CARDS
+      // ========================================
+      function renderStars(rating) {
+        const n = Math.round(rating);
+        return "★".repeat(n) + "☆".repeat(5 - n);
+      }
+
+      function getInitials(name) {
+        if (!name) return "?";
+        return name
+          .split(" ")
+          .map((w) => w[0])
+          .join("")
+          .toUpperCase()
+          .slice(0, 2);
+      }
+
+      function formatDate(iso) {
+        if (!iso) return "";
+        return new Date(iso).toLocaleDateString("en-GB", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        });
+      }
+
+      function renderReviews(reviews) {
+        const list = document.getElementById("reviews-list");
+        document.getElementById("review-count").textContent =
+          `${reviews.length} review${reviews.length !== 1 ? "s" : ""}`;
+
+        if (!reviews.length) {
+          list.innerHTML =
+            '<p style="color:var(--text-muted);text-align:center;padding:40px 0;">No reviews yet — be the first to share your experience!</p>';
+          return;
         }
 
-        function updateStars(rating) {
-            document.querySelectorAll('.star-rating .star').forEach(star => {
-                star.classList.toggle('active', parseInt(star.dataset.value) <= rating);
-            });
-        }
-
-        // ========================================
-        // LOAD BUILDINGS INTO FORM DROPDOWN
-        // ========================================
-        async function loadBuildingSelect() {
-            const select = document.getElementById('review-building');
-            if (!select) return;
-            try {
-                const buildings = await API.getBuildings();
-                select.innerHTML = '<option value="">Select a building…</option>';
-                buildings.forEach(b => {
-                    const opt = document.createElement('option');
-                    opt.value = b.id;
-                    opt.textContent = b.name || b.title || `Building #${b.id}`;
-                    select.appendChild(opt);
-                });
-            } catch (err) {
-                select.innerHTML = '<option value="">Could not load buildings</option>';
-            }
-        }
-
-        // ========================================
-        // RENDER REVIEW CARDS
-        // ========================================
-        function renderStars(rating) {
-            const n = Math.round(rating);
-            return '★'.repeat(n) + '☆'.repeat(5 - n);
-        }
-
-        function getInitials(name) {
-            if (!name) return '?';
-            return name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
-        }
-
-        function formatDate(iso) {
-            if (!iso) return '';
-            return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
-        }
-
-        function renderReviews(reviews) {
-            const list = document.getElementById('reviews-list');
-            document.getElementById('review-count').textContent = `${reviews.length} review${reviews.length !== 1 ? 's' : ''}`;
-
-            if (!reviews.length) {
-                list.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:40px 0;">No reviews yet — be the first to share your experience!</p>';
-                return;
-            }
-
-            list.innerHTML = reviews.map(r => `
+        list.innerHTML = reviews
+          .map(
+            (r) => `
                 <div class="review-card">
                     <div class="review-header">
                         <div class="review-user">
                             <div class="review-avatar">${getInitials(r.user_name)}</div>
                             <div class="review-user-info">
-                                <div class="reviewer-name">${r.user_name || 'Anonymous'}</div>
+                                <div class="reviewer-name">${r.user_name || "Anonymous"}</div>
                                 <div class="review-date">${formatDate(r.created_at)}</div>
                             </div>
                         </div>
-                        <div class="review-building">${r.building_name || (r.building_id ? `Building #${r.building_id}` : 'General')}</div>
+                        <div class="review-building">${r.building_name || (r.building_id ? `Building #${r.building_id}` : "General")}</div>
                     </div>
                     <div class="review-rating">
                         <span>${renderStars(r.rating)}</span>
                         <span class="rating-number">${parseFloat(r.rating).toFixed(1)}</span>
                     </div>
-                    <div class="review-content">${r.comment || ''}</div>
+                    <div class="review-content">${r.comment || ""}</div>
                     <div class="review-footer">
                         <button class="review-helpful" data-id="${r.id}" onclick="handleUpvote(this)">
                             <span class="helpful-icon">👍</span>
@@ -624,125 +899,148 @@
                         </button>
                     </div>
                 </div>
-            `).join('');
+            `,
+          )
+          .join("");
+      }
+
+      // ========================================
+      // LOAD REVIEWS FROM API
+      // ========================================
+      async function loadReviews() {
+        try {
+          const reviews = await API.getReviews();
+          renderReviews(reviews);
+        } catch (err) {
+          document.getElementById("reviews-list").innerHTML =
+            '<p style="color:var(--text-muted);text-align:center;padding:40px 0;">Could not load reviews. Please try again later.</p>';
+          document.getElementById("review-count").textContent = "0 reviews";
+        }
+      }
+
+      // ========================================
+      // SUBMIT REVIEW
+      // ========================================
+      async function handleReviewSubmit(e) {
+        e.preventDefault();
+
+        const buildingId = document.getElementById("review-building").value;
+        const rating = parseInt(document.getElementById("review-rating").value);
+        const comment = document.getElementById("review-comment").value.trim();
+        const msg = document.getElementById("review-msg");
+        const btn = document.getElementById("review-submit-btn");
+
+        if (!buildingId) {
+          showMsg(msg, "error", "⚠️ Please select a building.");
+          return;
+        }
+        if (!rating) {
+          showMsg(msg, "error", "⚠️ Please select a star rating.");
+          return;
+        }
+        if (!comment) {
+          showMsg(msg, "error", "⚠️ Please write your experience.");
+          return;
         }
 
-        // ========================================
-        // LOAD REVIEWS FROM API
-        // ========================================
-        async function loadReviews() {
-            try {
-                const reviews = await API.getReviews();
-                renderReviews(reviews);
-            } catch (err) {
-                document.getElementById('reviews-list').innerHTML =
-                    '<p style="color:var(--text-muted);text-align:center;padding:40px 0;">Could not load reviews. Please try again later.</p>';
-                document.getElementById('review-count').textContent = '0 reviews';
-            }
+        btn.disabled = true;
+        btn.textContent = "Submitting…";
+
+        try {
+          const result = await API.createReview({
+            building_id: parseInt(buildingId),
+            rating,
+            comment,
+          });
+
+          if (result.review || result.message === "Review posted") {
+            showMsg(msg, "success", "✅ Thank you! Your review was posted.");
+            document.getElementById("review-form").reset();
+            selectedRating = 0;
+            updateStars(0);
+            setTimeout(loadReviews, 1000);
+          } else {
+            showMsg(
+              msg,
+              "error",
+              "❌ " + (result.message || "Could not post review."),
+            );
+          }
+        } catch (err) {
+          showMsg(msg, "error", "❌ Could not reach server.");
+        } finally {
+          btn.disabled = false;
+          btn.textContent = "Submit Review";
+        }
+      }
+
+      function showMsg(el, type, text) {
+        el.style.display = "block";
+        el.style.background = type === "success" ? "#d4edda" : "#f8d7da";
+        el.style.color = type === "success" ? "#155724" : "#721c24";
+        el.style.border =
+          type === "success" ? "1px solid #c3e6cb" : "1px solid #f5c6cb";
+        el.textContent = text;
+      }
+
+      // ========================================
+      // UPVOTE (helpful)
+      // ========================================
+      async function handleUpvote(btn) {
+        const reviewId = btn.dataset.id;
+        const countSpan = btn.querySelector(".helpful-count");
+
+        if (btn.classList.contains("active")) {
+          // Simple optimistic toggle-off (no API remove endpoint)
+          btn.classList.remove("active");
+          countSpan.textContent = Math.max(
+            0,
+            parseInt(countSpan.textContent) - 1,
+          );
+          return;
         }
 
-        // ========================================
-        // SUBMIT REVIEW
-        // ========================================
-        async function handleReviewSubmit(e) {
-            e.preventDefault();
-
-            const buildingId = document.getElementById('review-building').value;
-            const rating     = parseInt(document.getElementById('review-rating').value);
-            const comment    = document.getElementById('review-comment').value.trim();
-            const msg        = document.getElementById('review-msg');
-            const btn        = document.getElementById('review-submit-btn');
-
-            if (!buildingId) { showMsg(msg, 'error', '⚠️ Please select a building.'); return; }
-            if (!rating)     { showMsg(msg, 'error', '⚠️ Please select a star rating.'); return; }
-            if (!comment)    { showMsg(msg, 'error', '⚠️ Please write your experience.'); return; }
-
-            btn.disabled  = true;
-            btn.textContent = 'Submitting…';
-
-            try {
-                const result = await API.createReview({ building_id: parseInt(buildingId), rating, comment });
-
-                if (result.review || result.message === 'Review posted') {
-                    showMsg(msg, 'success', '✅ Thank you! Your review was posted.');
-                    document.getElementById('review-form').reset();
-                    selectedRating = 0;
-                    updateStars(0);
-                    setTimeout(loadReviews, 1000);
-                } else {
-                    showMsg(msg, 'error', '❌ ' + (result.message || 'Could not post review.'));
-                }
-            } catch (err) {
-                showMsg(msg, 'error', '❌ Could not reach server.');
-            } finally {
-                btn.disabled    = false;
-                btn.textContent = 'Submit Review';
-            }
+        btn.disabled = true;
+        try {
+          await API.upvoteReview(reviewId);
+          btn.classList.add("active");
+          countSpan.textContent = parseInt(countSpan.textContent) + 1;
+        } catch (err) {
+          console.error("Upvote failed:", err);
+        } finally {
+          btn.disabled = false;
         }
+      }
 
-        function showMsg(el, type, text) {
-            el.style.display = 'block';
-            el.style.background  = type === 'success' ? '#d4edda' : '#f8d7da';
-            el.style.color       = type === 'success' ? '#155724' : '#721c24';
-            el.style.border      = type === 'success' ? '1px solid #c3e6cb' : '1px solid #f5c6cb';
-            el.textContent = text;
+      // ========================================
+      // AUTH GATE — show form only if logged in
+      // ========================================
+      function checkAuth() {
+        const token = localStorage.getItem("token");
+        const form = document.getElementById("review-form");
+        const prompt = document.getElementById("sign-in-prompt");
+
+        if (token) {
+          form.style.display = "flex";
+          prompt.style.display = "none";
+        } else {
+          form.style.display = "none";
+          prompt.style.display = "flex";
         }
+      }
 
-        // ========================================
-        // UPVOTE (helpful)
-        // ========================================
-        async function handleUpvote(btn) {
-            const reviewId = btn.dataset.id;
-            const countSpan = btn.querySelector('.helpful-count');
+      // ========================================
+      // INIT
+      // ========================================
+      document.addEventListener("DOMContentLoaded", function () {
+        initStarRating();
+        checkAuth();
+        loadBuildingSelect();
+        loadReviews();
+      });
 
-            if (btn.classList.contains('active')) {
-                // Simple optimistic toggle-off (no API remove endpoint)
-                btn.classList.remove('active');
-                countSpan.textContent = Math.max(0, parseInt(countSpan.textContent) - 1);
-                return;
-            }
-
-            btn.disabled = true;
-            try {
-                await API.upvoteReview(reviewId);
-                btn.classList.add('active');
-                countSpan.textContent = parseInt(countSpan.textContent) + 1;
-            } catch (err) {
-                console.error('Upvote failed:', err);
-            } finally {
-                btn.disabled = false;
-            }
-        }
-
-        // ========================================
-        // AUTH GATE — show form only if logged in
-        // ========================================
-        function checkAuth() {
-            const token = localStorage.getItem('token');
-            const form  = document.getElementById('review-form');
-            const prompt = document.getElementById('sign-in-prompt');
-
-            if (token) {
-                form.style.display   = 'flex';
-                prompt.style.display = 'none';
-            } else {
-                form.style.display   = 'none';
-                prompt.style.display = 'flex';
-            }
-        }
-
-        // ========================================
-        // INIT
-        // ========================================
-        document.addEventListener('DOMContentLoaded', function() {
-            initStarRating();
-            checkAuth();
-            loadBuildingSelect();
-            loadReviews();
-        });
-
-        console.log('✅ community.html loaded');
+      console.log("✅ community.html loaded");
     </script>
     <script src="../JS/app.js"></script>
-</body>
+  </body>
 </html>

@@ -3,314 +3,442 @@
 // ========================================
 
 const API = {
-    // Backend URL (change this when deploying)
-    baseUrl: 'http://localhost:5000/api',
+  // Backend URL (change this when deploying)
+  baseUrl: "http://localhost:5000/api",
 
-    // ========================================
-    // HELPERS
-    // ========================================
+  // ========================================
+  // HELPERS
+  // ========================================
 
-    /** Get the JWT token from localStorage */
-    getToken() {
-        return localStorage.getItem('token');
-    },
+  /** Get the JWT token from localStorage */
+  getToken() {
+    return localStorage.getItem("token");
+  },
 
-    /** Build Authorization header if token exists */
-    authHeader() {
-        const token = this.getToken();
-        return token ? { 'Authorization': `Bearer ${token}` } : {};
-    },
+  /** Build Authorization header if token exists */
+  authHeader() {
+    const token = this.getToken();
+    return token ? { Authorization: `Bearer ${token}` } : {};
+  },
 
-    // ========================================
-    // BUILDINGS
-    // ========================================
-
-    async getBuildings() {
-        try {
-            const response = await fetch(`${this.baseUrl}/buildings`, { cache: 'no-store' });
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            return await response.json();
-        } catch (e) {
-            console.warn('API getBuildings failed, using MOCK_BUILDINGS fallback');
-            if (typeof MOCK_BUILDINGS !== 'undefined') return MOCK_BUILDINGS;
-            throw e;
-        }
-    },
-
-    async getBuilding(id) {
-        try {
-            const response = await fetch(`${this.baseUrl}/buildings/${id}`);
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            return await response.json();
-        } catch (e) {
-            console.warn('API getBuilding failed, using MOCK_BUILDINGS fallback');
-            if (typeof MOCK_BUILDINGS !== 'undefined') {
-                const b = MOCK_BUILDINGS.find(b => b.id === parseInt(id));
-                if (b) return b;
-            }
-            throw e;
-        }
-    },
-
-    async createBuilding(data) {
-        const response = await fetch(`${this.baseUrl}/buildings`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                ...this.authHeader()
-            },
-            body: JSON.stringify(data)
-        });
-        const result = await response.json();
-        if (!response.ok) throw new Error(result.message || 'Failed to create building');
-        return result;
-    },
-
-    async updateBuilding(id, data) {
-        const response = await fetch(`${this.baseUrl}/buildings/${id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                ...this.authHeader()
-            },
-            body: JSON.stringify(data)
-        });
-        const result = await response.json();
-        if (!response.ok) throw new Error(result.message || 'Failed to update building');
-        return result;
-    },
-
-    async deleteBuilding(id) {
-        const response = await fetch(`${this.baseUrl}/buildings/${id}`, {
-            method: 'DELETE',
-            headers: { ...this.authHeader() }
-        });
-        const result = await response.json();
-        if (!response.ok) throw new Error(result.message || 'Failed to delete building');
-        return result;
-    },
-
-    // ========================================
-    // AUTHENTICATION
-    // ========================================
-
-    async register(full_name, email, password) {
-        const response = await fetch(`${this.baseUrl}/auth/register`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ full_name, email, password })
-        });
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.message || 'Registration failed');
-        if (data.token) localStorage.setItem('token', data.token);
-        return data;
-    },
-
-    async login(email, password) {
-        const response = await fetch(`${this.baseUrl}/auth/login`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password })
-        });
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.message || 'Login failed');
-        // Store token and full user info
-        if (data.token) localStorage.setItem('token', data.token);
-        if (data.user) localStorage.setItem('user', JSON.stringify(data.user));
-        // Legacy key for other pages
-        if (data.user) localStorage.setItem('citizen_user', JSON.stringify({
-            name: data.user.full_name || email.split('@')[0],
-            email: data.user.email,
-            role: data.user.role
-        }));
-        return data;
-    },
-
-    async getMe() {
-        const response = await fetch(`${this.baseUrl}/auth/me`, {
-            headers: { ...this.authHeader() }
-        });
-        return await response.json();
-    },
-
-    // ========================================
-    // FLAGS (Citizen Reports)
-    // ========================================
-
-    async getFlags(params = {}) {
-        try {
-            const qs = new URLSearchParams(params).toString();
-            const url = qs ? `${this.baseUrl}/flags?${qs}` : `${this.baseUrl}/flags`;
-            const response = await fetch(url, {
-                headers: { ...this.authHeader() },
-                cache: 'no-store'
-            });
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            return await response.json();
-        } catch (e) {
-            console.warn('API getFlags failed, returning mock flags');
-            return [
-                { id: 1, building_id: 5, risk_type: 'structural', status: 'pending', reporter_name: 'Citizen A', created_at: new Date().toISOString() },
-                { id: 2, building_id: 7, risk_type: 'neglect', status: 'reviewing', reporter_name: 'Citizen B', created_at: new Date().toISOString() },
-                { id: 3, building_id: 11, risk_type: 'development', status: 'pending', reporter_name: 'Citizen C', created_at: new Date().toISOString() }
-            ];
-        }
-    },
-
-    async createFlag(data) {
-        const response = await fetch(`${this.baseUrl}/flags`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-        });
-        return await response.json();
-    },
-
-    async updateFlag(id, data) {
-        const response = await fetch(`${this.baseUrl}/flags/${id}`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                ...this.authHeader()
-            },
-            body: JSON.stringify(data)
-        });
-        return await response.json();
-    },
-
-    // ========================================
-    // REVIEWS
-    // ========================================
-
-    async getReviews(params = {}) {
-        try {
-            const qs = new URLSearchParams(params).toString();
-            const url = qs ? `${this.baseUrl}/reviews?${qs}` : `${this.baseUrl}/reviews`;
-            const response = await fetch(url);
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            return await response.json();
-        } catch (e) {
-            console.warn('API getReviews failed, returning empty reviews');
-            return [];
-        }
-    },
-
-    async createReview(data) {
-        const response = await fetch(`${this.baseUrl}/reviews`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                ...this.authHeader()
-            },
-            body: JSON.stringify(data)
-        });
-        return await response.json();
-    },
-
-    async upvoteReview(id) {
-        const response = await fetch(`${this.baseUrl}/reviews/${id}/helpful`, {
-            method: 'POST',
-            headers: { ...this.authHeader() }
-        });
-        return await response.json();
-    },
-
-    // ========================================
-    // OFFICERS (super-officer only)
-    // ========================================
-
-    async getOfficers() {
-        const response = await fetch(`${this.baseUrl}/officers`, {
-            headers: { ...this.authHeader() }
-        });
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.message || 'Failed to load officers');
-        return data;
-    },
-
-    async getCitizens() {
-        const response = await fetch(`${this.baseUrl}/officers/citizens`, {
-            headers: { ...this.authHeader() }
-        });
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.message || 'Failed to load citizens');
-        return data;
-    },
-
-    async inviteOfficer(email) {
-        const response = await fetch(`${this.baseUrl}/officers/invite`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                ...this.authHeader()
-            },
-            body: JSON.stringify({ email })
-        });
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.message || 'Failed to add officer');
-        return data;
-    },
-
-    async removeOfficer(userId) {
-        const response = await fetch(`${this.baseUrl}/officers/${userId}`, {
-            method: 'DELETE',
-            headers: { ...this.authHeader() }
-        });
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.message || 'Failed to remove officer');
-        return data;
-    },
-
-    // ========================================
-    // PHOTO UPLOAD (to backend / Supabase Storage)
-    // ========================================
-
-    async uploadFlagPhoto(file) {
-        const formData = new FormData();
-        formData.append('photo', file);
-
-        const response = await fetch(`${this.baseUrl}/upload/flag-photo`, {
-            method: 'POST',
-            body: formData
-        });
-
-        if (!response.ok) {
-            console.warn('Photo upload failed, continuing without photo.');
-            return null;
-        }
-        const result = await response.json();
-        return result.url || null;
-    },
-
-    // ========================================
-    // STATS (dashboard)
-    // ========================================
-
-    async getStats() {
-        try {
-            const [buildings, flags, reviews] = await Promise.all([
-                this.getBuildings(),
-                this.getFlags(),
-                this.getReviews()
-            ]);
-
-            const pendingFlags = flags.filter(f => f.status === 'pending').length;
-            const listedBuildings = buildings.filter(b =>
-                b.status && b.status.toLowerCase().includes('grade i')
-            ).length;
-
-            return {
-                totalBuildings: buildings.length,
-                pendingFlags: pendingFlags,
-                totalFlags: flags.length,
-                gradeIBuildings: listedBuildings,
-                totalReviews: reviews.length
-            };
-        } catch (err) {
-            console.error('Stats error:', err);
-            return { totalBuildings: 0, pendingFlags: 0, totalFlags: 0, gradeIBuildings: 0, totalReviews: 0 };
-        }
+  /** Handle fetch response, parse JSON, and intercept 401/403 errors */
+  async handleResponse(response) {
+    if (response.status === 401 || response.status === 403) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      if (window.location.pathname.includes("officer.html")) {
+        window.location.href = "login.html?session_expired=true";
+      }
+      throw new Error("Unauthorized or session expired.");
     }
+    
+    // Some responses might not have JSON
+    const contentType = response.headers.get("content-type");
+    if (contentType && contentType.includes("application/json")) {
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message || `HTTP ${response.status}`);
+      }
+      return data;
+    }
+    
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+    return null;
+  },
+
+  // ========================================
+  // BUILDINGS
+  // ========================================
+
+  async getBuildings(params = {}) {
+    const bypassCache = params.bypassCache === true;
+    delete params.bypassCache; // remove so it doesn't go to URL
+    const qs = new URLSearchParams(params).toString();
+    const hasParams = qs.length > 0;
+
+    // Cache check removed for real-time data
+
+    try {
+      const url = hasParams
+        ? `${this.baseUrl}/buildings?${qs}`
+        : `${this.baseUrl}/buildings`;
+      const response = await fetch(url, { cache: "no-store" });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      let data = await response.json();
+      data = Array.isArray(data) ? data : (data.buildings || data.data || []);
+
+      // Cache the response only if no params (cache removed)
+      return data;
+    } catch (e) {
+      console.warn("API getBuildings failed, using MOCK_BUILDINGS fallback");
+      if (typeof MOCK_BUILDINGS !== "undefined") {
+        if (hasParams && params.q) {
+          const q = params.q.toLowerCase();
+          return MOCK_BUILDINGS.filter(
+            (b) =>
+              b.name.toLowerCase().includes(q) ||
+              b.location.toLowerCase().includes(q),
+          );
+        }
+        return MOCK_BUILDINGS;
+      }
+      throw e;
+    }
+  },
+
+  async getBuilding(id) {
+    // Cache check removed for real-time data
+
+    try {
+      const response = await fetch(`${this.baseUrl}/buildings/${id}`);
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const data = await response.json();
+      // Cache the response (cache removed)
+      return data;
+    } catch (e) {
+      console.warn("API getBuilding failed, using MOCK_BUILDINGS fallback");
+      if (typeof MOCK_BUILDINGS !== "undefined") {
+        const b = MOCK_BUILDINGS.find((b) => b.id === parseInt(id));
+        if (b) return b;
+      }
+      throw e;
+    }
+  },
+
+  async createBuilding(data) {
+    const response = await fetch(`${this.baseUrl}/buildings`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...this.authHeader(),
+      },
+      body: JSON.stringify(data),
+    });
+    const result = await response.json();
+    if (!response.ok)
+      throw new Error(result.message || "Failed to create building");
+    // Clear cache on successful creation
+    localStorage.removeItem("cached_buildings");
+    localStorage.removeItem("buildings_cache_time");
+    return result;
+  },
+
+  async updateBuilding(id, data) {
+    const response = await fetch(`${this.baseUrl}/buildings/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        ...this.authHeader(),
+      },
+      body: JSON.stringify(data),
+    });
+    const result = await response.json();
+    if (!response.ok)
+      throw new Error(result.message || "Failed to update building");
+    // Clear cache on successful update
+    localStorage.removeItem("cached_buildings");
+    localStorage.removeItem("buildings_cache_time");
+    localStorage.removeItem(`cached_building_${id}`);
+    localStorage.removeItem(`building_cache_time_${id}`);
+    return result;
+  },
+
+  async deleteBuilding(id) {
+    const response = await fetch(`${this.baseUrl}/buildings/${id}`, {
+      method: "DELETE",
+      headers: { ...this.authHeader() },
+    });
+    const result = await response.json();
+    if (!response.ok)
+      throw new Error(result.message || "Failed to delete building");
+    // Clear cache on successful deletion
+    localStorage.removeItem("cached_buildings");
+    localStorage.removeItem("buildings_cache_time");
+    localStorage.removeItem(`cached_building_${id}`);
+    localStorage.removeItem(`building_cache_time_${id}`);
+    return result;
+  },
+
+  // ========================================
+  // AUTHENTICATION
+  // ========================================
+
+  async register(full_name, email, password) {
+    const response = await fetch(`${this.baseUrl}/auth/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ full_name, email, password }),
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message || "Registration failed");
+    if (data.token) localStorage.setItem("token", data.token);
+    return data;
+  },
+
+  async login(email, password) {
+    // Check cache first - if user is already logged in with same email, return cached data
+    const cachedUser = localStorage.getItem("user");
+    const cachedToken = localStorage.getItem("token");
+    if (cachedUser && cachedToken) {
+      try {
+        const user = JSON.parse(cachedUser);
+        if (user.email === email) {
+          console.log("Using cached login data for:", email);
+          return { token: cachedToken, user, cached: true };
+        }
+      } catch (e) {
+        // Cache invalid, proceed with normal login
+      }
+    }
+
+    const response = await fetch(`${this.baseUrl}/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message || "Login failed");
+    // Store token and full user info
+    if (data.token) localStorage.setItem("token", data.token);
+    if (data.user) localStorage.setItem("user", JSON.stringify(data.user));
+    // Legacy key for other pages
+    if (data.user)
+      localStorage.setItem(
+        "citizen_user",
+        JSON.stringify({
+          name: data.user.full_name || email.split("@")[0],
+          email: data.user.email,
+          role: data.user.role,
+        }),
+      );
+    return data;
+  },
+
+  async getMe() {
+    const response = await fetch(`${this.baseUrl}/auth/me`, {
+      headers: { ...this.authHeader() },
+    });
+    return await response.json();
+  },
+
+  // ========================================
+  // FLAGS (Citizen Reports)
+  // ========================================
+
+  async getFlags(params = {}) {
+    try {
+      const qs = new URLSearchParams(params).toString();
+      const url = qs ? `${this.baseUrl}/flags?${qs}` : `${this.baseUrl}/flags`;
+      const response = await fetch(url, {
+        headers: { ...this.authHeader() },
+        cache: "no-store",
+      });
+      const data = await this.handleResponse(response);
+      return Array.isArray(data) ? data : (data.flags || data.data || []);
+    } catch (e) {
+      console.warn("API getFlags failed, returning mock flags");
+      return typeof MOCK_FLAGS !== "undefined" ? MOCK_FLAGS : [];
+    }
+  },
+
+  async createFlag(data) {
+    try {
+      const response = await fetch(`${this.baseUrl}/flags`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.message || "Failed to submit flag");
+      return result;
+    } catch (e) {
+      console.warn("API createFlag failed, mocking success", e);
+      if (typeof MOCK_FLAGS !== "undefined") {
+        MOCK_FLAGS.push({
+          id: MOCK_FLAGS.length ? Math.max(...MOCK_FLAGS.map(f => f.id)) + 1 : 1,
+          ...data,
+          status: "pending",
+          created_at: new Date().toISOString()
+        });
+      }
+      return { flag: data, message: "Flag report submitted" };
+    }
+  },
+
+  async updateFlag(id, data) {
+    const response = await fetch(`${this.baseUrl}/flags/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        ...this.authHeader(),
+      },
+      body: JSON.stringify(data),
+    });
+    return await response.json();
+  },
+
+  // ========================================
+  // REVIEWS
+  // ========================================
+
+  async getReviews(params = {}) {
+    try {
+      const qs = new URLSearchParams(params).toString();
+      const url = qs
+        ? `${this.baseUrl}/reviews?${qs}`
+        : `${this.baseUrl}/reviews`;
+      const response = await fetch(url);
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      return await response.json();
+    } catch (e) {
+      console.warn("API getReviews failed, returning empty reviews");
+      return [];
+    }
+  },
+
+  async createReview(data) {
+    const response = await fetch(`${this.baseUrl}/reviews`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...this.authHeader(),
+      },
+      body: JSON.stringify(data),
+    });
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.message || "Failed to submit review");
+    return result;
+  },
+
+  async upvoteReview(id) {
+    const response = await fetch(`${this.baseUrl}/reviews/${id}/helpful`, {
+      method: "POST",
+      headers: { ...this.authHeader() },
+    });
+    return await response.json();
+  },
+
+  // ========================================
+  // OFFICERS (super-officer only)
+  // ========================================
+  // OFFICERS (super-officer only)
+  // ========================================
+
+  async getOfficers() {
+    const response = await fetch(`${this.baseUrl}/officers`, {
+      headers: { ...this.authHeader() },
+    });
+    return this.handleResponse(response);
+  },
+
+  async getCitizens() {
+    const response = await fetch(`${this.baseUrl}/officers/citizens`, {
+      headers: { ...this.authHeader() },
+    });
+    return this.handleResponse(response);
+  },
+
+  async inviteOfficer(email) {
+    const response = await fetch(`${this.baseUrl}/officers/invite`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...this.authHeader(),
+      },
+      body: JSON.stringify({ email }),
+    });
+    return this.handleResponse(response);
+  },
+
+  async removeOfficer(userId) {
+    const response = await fetch(`${this.baseUrl}/officers/${userId}`, {
+      method: "DELETE",
+      headers: { ...this.authHeader() },
+    });
+    return this.handleResponse(response);
+  },
+
+  // ========================================
+  // PHOTO UPLOAD (to backend / Supabase Storage)
+  // ========================================
+
+  async uploadFlagPhoto(file) {
+    const formData = new FormData();
+    formData.append("photo", file);
+
+    const response = await fetch(`${this.baseUrl}/upload/flag-photo`, {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!response.ok) {
+      console.warn("Photo upload failed, continuing without photo.");
+      return null;
+    }
+    const result = await response.json();
+    return result.url || null;
+  },
+
+  async uploadBuildingMedia(files) {
+    const formData = new FormData();
+    for (let i = 0; i < files.length; i++) {
+      formData.append("media", files[i]);
+    }
+
+    const response = await fetch(`${this.baseUrl}/upload/building-media`, {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!response.ok) {
+      console.warn("Building media upload failed.");
+      return null;
+    }
+    const result = await response.json();
+    return result.urls || null;
+  },
+
+  // ========================================
+  // STATS (dashboard)
+  // ========================================
+
+  async getStats() {
+    try {
+      const [buildings, flags, reviews] = await Promise.all([
+        this.getBuildings({ bypassCache: true }),
+        this.getFlags(),
+        this.getReviews(),
+      ]);
+
+      const pendingFlags = flags.filter((f) => f.status === "pending").length;
+      const listedBuildings = buildings.filter(
+        (b) => (b.legal && b.legal.toLowerCase().includes("grade i")) || (b.status && b.status.toLowerCase().includes("grade i"))
+      ).length;
+
+      return {
+        totalBuildings: buildings.length,
+        pendingFlags: pendingFlags,
+        totalFlags: flags.length,
+        gradeIBuildings: listedBuildings,
+        totalReviews: reviews.length,
+      };
+    } catch (err) {
+      console.error("Stats error:", err);
+      return {
+        totalBuildings: 0,
+        pendingFlags: 0,
+        totalFlags: 0,
+        gradeIBuildings: 0,
+        totalReviews: 0,
+      };
+    }
+  },
 };
 
-console.log('API connected to backend at:', API.baseUrl);
+console.log("API connected to backend at:", API.baseUrl);
+
+localStorage.removeItem('cached_buildings');
+localStorage.removeItem('buildings_cache_time');
+

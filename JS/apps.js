@@ -8,7 +8,7 @@
 //     grade: "Grade I Listed",
 //     location: "City Centre",
 //     year: 1891,
-//     image: "../ASSETS/images/oldboma.png", 
+//     image: "../ASSETS/images/oldboma.png",
 //     has360: true,
 //     area: "740 m²",
 //     description: "Late German colonial building overseeing the commercial harbour. Raised veranda, louvred shutters, and raised ground floor for coastal flooding.",
@@ -196,7 +196,7 @@
 //   document.getElementById('modalEra').textContent = building.era;
 //   document.getElementById('modalCondition').textContent = building.condition;
 //   document.getElementById('modalHero').style.backgroundImage = `linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.7)), url('${building.image}')`;
-  
+
 //   document.getElementById('modalDistrict').textContent = building.location;
 //   document.getElementById('modalBuilt').textContent = building.year;
 //   document.getElementById('modalArea').textContent = building.area || "N/A";
@@ -214,7 +214,6 @@
 // closeModalBtn.addEventListener('click', () => modal.classList.remove('active'));
 // window.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
 
-
 // const tabs = document.querySelectorAll('.tab-item');
 // const panels = document.querySelectorAll('.modal-panel');
 
@@ -224,7 +223,7 @@
 //     tabs.forEach(t => t.classList.remove('active'));
 //     panels.forEach(p => p.classList.remove('active'));
 //     tab.classList.add('active');
-    
+
 //     panels[index].classList.add('active');
 //   });
 // });
@@ -232,15 +231,15 @@
 // function resetModalTabs() {
 //   tabs.forEach(t => t.classList.remove('active'));
 //   panels.forEach(p => p.classList.remove('active'));
-  
+
 //   if(tabs[0]) tabs[0].classList.add('active');
 //   if(panels[0]) panels[0].classList.add('active');
 // }
 // // Live typing Search implementation
 // searchInput.addEventListener('input', (e) => {
 //   const text = e.target.value.toLowerCase();
-//   const filtered = buildings.filter(b => 
-//     b.title.toLowerCase().includes(text) || 
+//   const filtered = buildings.filter(b =>
+//     b.title.toLowerCase().includes(text) ||
 //     b.location.toLowerCase().includes(text)
 //   );
 //   renderGrid(filtered);

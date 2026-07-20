@@ -3,10 +3,18 @@ const supabase = require("../config/supabase");
 // Get all buildings
 const getBuildings = async (req, res) => {
   try {
-    const { data, error } = await supabase
+    const { q } = req.query;
+    
+    let query = supabase
       .from("buildings")
       .select("*")
       .order("id", { ascending: true });
+
+    if (q) {
+      query = query.or(`name.ilike.%${q}%,location.ilike.%${q}%`);
+    }
+
+    const { data, error } = await query;
 
     if (error) {
       console.error("Supabase error (getBuildings):", error);
@@ -64,7 +72,9 @@ const createBuilding = async (req, res) => {
       significance,
       tags,
       lat,
-      lng
+      lng,
+      mediaUrls,
+      panorama_url
     } = req.body;
 
     // Validate required fields
@@ -72,6 +82,12 @@ const createBuilding = async (req, res) => {
       return res.status(400).json({
         message: "Missing required fields: name, era, year, condition"
       });
+    }
+
+    let finalTags = tags || [];
+    if (mediaUrls && Array.isArray(mediaUrls)) {
+      const mediaTags = mediaUrls.map(url => `MEDIA:${url}`);
+      finalTags = [...finalTags, ...mediaTags];
     }
 
     const { data, error } = await supabase
@@ -93,9 +109,10 @@ const createBuilding = async (req, res) => {
         image: image || "https://via.placeholder.com/600x400/cccccc/666?text=Heritage+Building",
         description: description || "No description available.",
         significance: significance || "Historical significance pending.",
-        tags: tags || [],
+        tags: finalTags,
         lat: lat || 0,
         lng: lng || 0,
+        panorama_url: panorama_url || null,
         created_at: new Date(),
         updated_at: new Date()
       }])
@@ -126,6 +143,13 @@ const updateBuilding = async (req, res) => {
   try {
     const { id } = req.params;
     const updates = req.body;
+
+    if (updates.mediaUrls && Array.isArray(updates.mediaUrls)) {
+      updates.tags = updates.tags || [];
+      const mediaTags = updates.mediaUrls.map(url => `MEDIA:${url}`);
+      updates.tags = [...updates.tags, ...mediaTags];
+      delete updates.mediaUrls;
+    }
 
     const { data, error } = await supabase
       .from("buildings")

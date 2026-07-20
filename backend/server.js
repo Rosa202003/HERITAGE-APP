@@ -15,6 +15,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Serve frontend static files
+const path = require('path');
+app.use(express.static(path.join(__dirname, '../')));
+
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/buildings", buildingRoutes);

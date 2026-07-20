@@ -1,296 +1,458 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign In - Urithi Majengo</title>
-    <meta name="description" content="Sign in to Urithi Majengo — heritage building platform.">
-    
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../CSS/style.css" type="text/css">
-    
+    <meta
+      name="description"
+      content="Sign in to Urithi Majengo — heritage building platform."
+    />
+
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../CSS/style.css" type="text/css" />
+
     <style>
-        .login-page-overlay {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(12, 30, 26, 0.85);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            padding: 20px;
-            animation: overlayFadeIn 0.3s ease-out;
+      .login-page-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(12, 30, 26, 0.85);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        padding: 20px;
+        animation: overlayFadeIn 0.3s ease-out;
+      }
+
+      @keyframes overlayFadeIn {
+        from {
+          opacity: 0;
         }
+        to {
+          opacity: 1;
+        }
+      }
 
-        @keyframes overlayFadeIn { from { opacity: 0; } to { opacity: 1; } }
+      .login-modal {
+        max-width: 420px;
+        width: 100%;
+        background: var(--card);
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        padding: 40px 36px 36px;
+        box-shadow: var(--shadow-lg);
+        animation: modalSlideIn 0.3s ease-out;
+        position: relative;
+        max-height: 90vh;
+        overflow-y: auto;
+      }
 
+      @keyframes modalSlideIn {
+        from {
+          opacity: 0;
+          transform: translateY(30px) scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      .login-modal-close {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        width: 32px;
+        height: 32px;
+        background: var(--bg-hover, #f3f4f6);
+        border: none;
+        border-radius: 50%;
+        font-size: 20px;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .login-modal-close:hover {
+        background: #e5e7eb;
+        color: var(--text);
+        transform: scale(1.1);
+      }
+
+      .login-modal .login-logo {
+        text-align: center;
+        margin-bottom: 24px;
+      }
+
+      .login-modal .login-logo .logo-icon {
+        font-family: var(--font-display);
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--gold);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        border: 2px solid var(--gold);
+        background: transparent;
+        transition: all 0.3s ease;
+      }
+
+      .login-modal .login-logo .logo-icon:hover {
+        background: rgba(240, 180, 41, 0.08);
+        transform: scale(1.05);
+      }
+
+      .login-modal .login-header {
+        text-align: center;
+        margin-bottom: 28px;
+      }
+      .login-modal .login-header h1 {
+        font-family: var(--font-display);
+        font-size: 28px;
+        color: var(--text);
+        margin-bottom: 4px;
+      }
+      .login-modal .login-header p {
+        color: var(--text-muted);
+        font-size: 14px;
+      }
+
+      .login-modal .login-form {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .login-modal .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .login-modal .form-group label {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text);
+      }
+
+      .login-modal .form-group input {
+        padding: 12px 16px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        font-size: 14px;
+        font-family: var(--font-body);
+        background: var(--bg);
+        color: var(--text);
+        transition: all 0.3s ease;
+        width: 100%;
+      }
+
+      .login-modal .form-group input:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(11, 122, 105, 0.1);
+      }
+      .login-modal .form-group input::placeholder {
+        color: var(--text-muted);
+        opacity: 0.6;
+      }
+
+      .login-modal .password-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .login-modal .password-row .forgot-link {
+        font-size: 12px;
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 500;
+      }
+      .login-modal .password-row .forgot-link:hover {
+        text-decoration: underline;
+      }
+
+      .login-modal .btn-submit {
+        background: var(--gold);
+        color: var(--dark);
+        border: none;
+        padding: 14px;
+        border-radius: var(--radius-sm);
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+      }
+
+      .login-modal .btn-submit:hover {
+        background: #dba31f;
+        transform: scale(1.01);
+        box-shadow: 0 4px 20px rgba(240, 180, 41, 0.25);
+      }
+      .login-modal .btn-submit:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .login-modal .login-message {
+        text-align: center;
+        font-size: 13px;
+        margin-top: 12px;
+        padding: 8px 12px;
+        border-radius: var(--radius-sm);
+        display: none;
+      }
+
+      .login-modal .login-message.error {
+        display: block;
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+      .login-modal .login-message.success {
+        display: block;
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+
+      .login-modal .login-footer {
+        text-align: center;
+        margin-top: 20px;
+        padding-top: 16px;
+        border-top: 1px solid var(--border);
+      }
+      .login-modal .login-footer p {
+        font-size: 14px;
+        color: var(--text-muted);
+      }
+      .login-modal .login-footer a {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      .login-modal .login-footer a:hover {
+        text-decoration: underline;
+      }
+
+      @media (max-width: 480px) {
         .login-modal {
-            max-width: 420px;
-            width: 100%;
-            background: var(--card);
-            border-radius: var(--radius);
-            border: 1px solid var(--border);
-            padding: 40px 36px 36px;
-            box-shadow: var(--shadow-lg);
-            animation: modalSlideIn 0.3s ease-out;
-            position: relative;
-            max-height: 90vh;
-            overflow-y: auto;
+          padding: 28px 20px 24px;
+          margin: 10px;
         }
-
-        @keyframes modalSlideIn {
-            from { opacity: 0; transform: translateY(30px) scale(0.95); }
-            to   { opacity: 1; transform: translateY(0) scale(1); }
+        .login-modal .login-header h1 {
+          font-size: 24px;
         }
-
-        .login-modal-close {
-            position: absolute;
-            top: 16px; right: 16px;
-            width: 32px; height: 32px;
-            background: var(--bg-hover, #f3f4f6);
-            border: none;
-            border-radius: 50%;
-            font-size: 20px;
-            color: var(--text-muted);
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .login-modal-close:hover { background: #e5e7eb; color: var(--text); transform: scale(1.1); }
-
-        .login-modal .login-logo { text-align: center; margin-bottom: 24px; }
-
         .login-modal .login-logo .logo-icon {
-            font-family: var(--font-display);
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--gold);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 60px; height: 60px;
-            border-radius: 50%;
-            border: 2px solid var(--gold);
-            background: transparent;
-            transition: all 0.3s ease;
+          width: 50px;
+          height: 50px;
+          font-size: 22px;
         }
-
-        .login-modal .login-logo .logo-icon:hover { background: rgba(240,180,41,0.08); transform: scale(1.05); }
-
-        .login-modal .login-header { text-align: center; margin-bottom: 28px; }
-        .login-modal .login-header h1 { font-family: var(--font-display); font-size: 28px; color: var(--text); margin-bottom: 4px; }
-        .login-modal .login-header p { color: var(--text-muted); font-size: 14px; }
-
-        .login-modal .login-form { display: flex; flex-direction: column; gap: 16px; }
-
-        .login-modal .form-group { display: flex; flex-direction: column; gap: 4px; }
-        .login-modal .form-group label { font-size: 13px; font-weight: 600; color: var(--text); }
-
-        .login-modal .form-group input {
-            padding: 12px 16px;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            font-size: 14px;
-            font-family: var(--font-body);
-            background: var(--bg);
-            color: var(--text);
-            transition: all 0.3s ease;
-            width: 100%;
-        }
-
-        .login-modal .form-group input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(11,122,105,0.1); }
-        .login-modal .form-group input::placeholder { color: var(--text-muted); opacity: 0.6; }
-
-        .login-modal .password-row { display: flex; justify-content: space-between; align-items: center; }
-        .login-modal .password-row .forgot-link { font-size: 12px; color: var(--primary); text-decoration: none; font-weight: 500; }
-        .login-modal .password-row .forgot-link:hover { text-decoration: underline; }
-
-        .login-modal .btn-submit {
-            background: var(--gold);
-            color: var(--dark);
-            border: none;
-            padding: 14px;
-            border-radius: var(--radius-sm);
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            width: 100%;
-        }
-
-        .login-modal .btn-submit:hover { background: #dba31f; transform: scale(1.01); box-shadow: 0 4px 20px rgba(240,180,41,0.25); }
-        .login-modal .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-
-        .login-modal .login-message {
-            text-align: center;
-            font-size: 13px;
-            margin-top: 12px;
-            padding: 8px 12px;
-            border-radius: var(--radius-sm);
-            display: none;
-        }
-
-        .login-modal .login-message.error   { display: block; background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-        .login-modal .login-message.success { display: block; background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-
-        .login-modal .login-footer { text-align: center; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); }
-        .login-modal .login-footer p { font-size: 14px; color: var(--text-muted); }
-        .login-modal .login-footer a { color: var(--primary); text-decoration: none; font-weight: 600; }
-        .login-modal .login-footer a:hover { text-decoration: underline; }
-
-        @media (max-width: 480px) {
-            .login-modal { padding: 28px 20px 24px; margin: 10px; }
-            .login-modal .login-header h1 { font-size: 24px; }
-            .login-modal .login-logo .logo-icon { width: 50px; height: 50px; font-size: 22px; }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="login-page-overlay" id="login-overlay">
-        <div class="login-modal">
-            <button class="login-modal-close" onclick="closeLogin()" aria-label="Close login">✕</button>
+      <div class="login-modal">
+        <button
+          class="login-modal-close"
+          onclick="closeLogin()"
+          aria-label="Close login"
+        >
+          ✕
+        </button>
 
-            <div class="login-logo">
-                <span class="logo-icon" aria-hidden="true">UM</span>
-            </div>
-
-            <div class="login-header">
-                <h1>Officer Portal</h1>
-                <p>Sign in with your Antiquities Department account</p>
-            </div>
-
-            <form class="login-form" id="loginForm" onsubmit="handleLogin(event)" novalidate>
-                <div class="form-group">
-                    <label for="login-email">Email</label>
-                    <input type="email" id="login-email" name="email"
-                        placeholder="you@example.com" required autocomplete="email" aria-required="true">
-                </div>
-
-                <div class="form-group">
-                    <div class="password-row">
-                        <label for="login-password">Password</label>
-                        <a href="#/forgot-password" class="forgot-link">Forgot password?</a>
-                    </div>
-                    <input type="password" id="login-password" name="password"
-                        placeholder="•••••••••" required autocomplete="current-password" aria-required="true">
-                </div>
-
-                <button type="submit" class="btn-submit" id="login-btn">
-                    Sign In <span aria-hidden="true">→</span>
-                </button>
-
-                <div class="login-message" id="login-message" role="alert"></div>
-            </form>
-
-            <div class="login-footer">
-                <p><a href="index.html">Return to Public Site</a></p>
-            </div>
+        <div class="login-logo">
+          <span class="logo-icon" aria-hidden="true">UM</span>
         </div>
+
+        <div class="login-header">
+          <h1>Officer Portal</h1>
+          <p>Sign in with your Antiquities Department account</p>
+        </div>
+
+        <form
+          class="login-form"
+          id="loginForm"
+          onsubmit="handleLogin(event)"
+          novalidate
+        >
+          <div class="form-group">
+            <label for="login-email">Email</label>
+            <input
+              type="email"
+              id="login-email"
+              name="email"
+              placeholder="you@example.com"
+              required
+              autocomplete="email"
+              aria-required="true"
+            />
+          </div>
+
+          <div class="form-group">
+            <div class="password-row">
+              <label for="login-password">Password</label>
+              <a href="#/forgot-password" class="forgot-link"
+                >Forgot password?</a
+              >
+            </div>
+            <input
+              type="password"
+              id="login-password"
+              name="password"
+              placeholder="•••••••••"
+              required
+              autocomplete="current-password"
+              aria-required="true"
+            />
+          </div>
+
+          <button type="submit" class="btn-submit" id="login-btn">
+            Sign In <span aria-hidden="true">→</span>
+          </button>
+
+          <div class="login-message" id="login-message" role="alert"></div>
+        </form>
+
+        <div class="login-footer">
+          <p><a href="index.html">Return to Public Site</a></p>
+        </div>
+      </div>
     </div>
 
+    <script src="../JS/data.js"></script>
     <script src="../JS/api.js"></script>
     <script>
-        // ========================================
-        // AUTO-REDIRECT if already logged in
-        // ========================================
-        (function() {
-            const token = localStorage.getItem('token');
-            const user  = JSON.parse(localStorage.getItem('user') || 'null');
-            if (token && user) {
-                if (user.role === 'officer') {
-                    window.location.href = 'officer.html';
-                }
-                // Removed the else block that was forcing non-officers back to index.html
-            }
-        })();
+      // ========================================
+      // AUTO-REDIRECT if already logged in
+      // ========================================
+      (function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get("session_expired") === "true") {
+          const message = document.getElementById("login-message");
+          if (message) {
+            message.className = "login-message error";
+            message.textContent = "⚠️ Your session has expired. Please log in again.";
+          }
+          return; // Skip auto-redirect
+        }
+        
+        const token = localStorage.getItem("token");
+        const user = JSON.parse(localStorage.getItem("user") || "null");
+        if (token && user) {
+          if (user.role === "officer") {
+            window.location.href = "officer.html";
+          }
+          // Removed the else block that was forcing non-officers back to index.html
+        }
+      })();
 
-        // ========================================
-        // LOGIN HANDLER
-        // ========================================
-        async function handleLogin(e) {
-            e.preventDefault();
+      // ========================================
+      // LOGIN HANDLER
+      // ========================================
+      async function handleLogin(e) {
+        e.preventDefault();
 
-            const email    = document.getElementById('login-email').value.trim();
-            const password = document.getElementById('login-password').value.trim();
-            const message  = document.getElementById('login-message');
-            const btn      = document.getElementById('login-btn');
+        const email = document.getElementById("login-email").value.trim();
+        const password = document.getElementById("login-password").value.trim();
+        const message = document.getElementById("login-message");
+        const btn = document.getElementById("login-btn");
 
-            message.className   = 'login-message';
-            message.textContent = '';
+        message.className = "login-message";
+        message.textContent = "";
 
-            if (!email || !password) {
-                message.className   = 'login-message error';
-                message.textContent = '⚠️ Please fill in all fields.';
-                return;
-            }
-
-            if (!email.includes('@')) {
-                message.className   = 'login-message error';
-                message.textContent = '⚠️ Please enter a valid email address.';
-                return;
-            }
-
-            btn.disabled  = true;
-            btn.innerHTML = 'Signing in…';
-
-            try {
-                const result = await API.login(email, password);
-
-                if (result.token) {
-                    const role = result.user?.role || 'citizen';
-
-                    message.className   = 'login-message success';
-                    message.textContent = role === 'officer'
-                        ? '✅ Welcome, Officer! Redirecting to your portal…'
-                        : '✅ Login successful! Redirecting…';
-
-                    setTimeout(() => {
-                        if (role === 'officer') {
-                            window.location.href = 'officer.html';
-                        } else {
-                            window.location.href = 'index.html';
-                        }
-                    }, 900);
-
-                } else {
-                    message.className   = 'login-message error';
-                    message.textContent = '❌ ' + (result.message || 'Invalid credentials.');
-                    btn.disabled  = false;
-                    btn.innerHTML = 'Sign In <span aria-hidden="true">→</span>';
-                }
-            } catch (err) {
-                message.className   = 'login-message error';
-                message.textContent = '❌ Could not reach server. Is the backend running?';
-                btn.disabled  = false;
-                btn.innerHTML = 'Sign In <span aria-hidden="true">→</span>';
-            }
+        if (!email || !password) {
+          message.className = "login-message error";
+          message.textContent = "⚠️ Please fill in all fields.";
+          return;
         }
 
-        // ========================================
-        // CLOSE
-        // ========================================
-        function closeLogin() {
-            window.location.href = 'index.html';
+        if (!email.includes("@")) {
+          message.className = "login-message error";
+          message.textContent = "⚠️ Please enter a valid email address.";
+          return;
         }
 
-        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLogin(); });
-        document.addEventListener('click', e => {
-            if (e.target.id === 'login-overlay') closeLogin();
-        });
+        btn.disabled = true;
+        btn.innerHTML = "Signing in…";
 
-        console.log('✅ login.html loaded');
+        try {
+          const result = await API.login(email, password);
+
+          if (result.token) {
+            const role = result.user?.role || "citizen";
+
+            message.className = "login-message success";
+            message.textContent =
+              role === "officer"
+                ? "✅ Welcome, Officer! Redirecting to your portal…"
+                : "✅ Login successful! Redirecting…";
+
+            setTimeout(() => {
+              if (role === "officer") {
+                window.location.href = "officer.html";
+              } else {
+                window.location.href = "index.html";
+              }
+            }, 900);
+          } else {
+            message.className = "login-message error";
+            message.textContent =
+              "❌ " + (result.message || "Invalid credentials.");
+            btn.disabled = false;
+            btn.innerHTML = 'Sign In <span aria-hidden="true">→</span>';
+          }
+        } catch (err) {
+          message.className = "login-message error";
+          message.textContent =
+            "❌ Could not reach server. Is the backend running?";
+          btn.disabled = false;
+          btn.innerHTML = 'Sign In <span aria-hidden="true">→</span>';
+        }
+      }
+
+      // ========================================
+      // CLOSE
+      // ========================================
+      function closeLogin() {
+        window.location.href = "index.html";
+      }
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeLogin();
+      });
+      document.addEventListener("click", (e) => {
+        if (e.target.id === "login-overlay") closeLogin();
+      });
+
+      console.log("✅ login.html loaded");
     </script>
-</body>
+  </body>
 </html>

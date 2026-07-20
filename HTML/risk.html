@@ -1,357 +1,716 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Report At-Risk - Urithi Majengo</title>
-    <meta name="description" content="Report a heritage building at risk in Dar es Salaam.">
-    
+    <meta
+      name="description"
+      content="Report a heritage building at risk in Dar es Salaam."
+    />
+
     <!-- ===== FAVICON ===== -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
-    
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>"
+    />
+
     <!-- ===== GOOGLE FONTS ===== -->
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
-    
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono&display=swap"
+      rel="stylesheet"
+    />
+
     <!-- ===== CUSTOM CSS ===== -->
-    <link rel="stylesheet" href="../CSS/style.css" type="text/css">
-</head>
-<body>
+    <link rel="stylesheet" href="../CSS/style.css" type="text/css" />
+
+    <!-- ===== RISK PAGE SCROLL FIX ===== -->
+    <style>
+      /* Force scroll on this page — overrides any global overflow restrictions */
+      html,
+      body {
+        height: auto !important;
+        min-height: 100% !important;
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+      }
+      #app {
+        height: auto !important;
+        min-height: 100vh !important;
+        overflow: visible !important;
+      }
+      .risk-page {
+        padding-bottom: 80px;
+      }
+    </style>
+  </head>
+  <body>
     <div id="app">
-        <!-- ===== HEADER ===== -->
-        <header class="main-header">
-            <div class="logo">UM</div>
-            <nav class="nav-container" id="nav-menu" role="navigation">
-                <ul class="nav-links">
-                    <li><a href="../HTML/index.html">Map & Records</a></li>
-                    <li><a href="../HTML/buildings.html">All Buildings</a></li>
-                    <li><a href="../HTML/risk.html" class="active">Report At-Risk</a></li>
-                    <li><a href="../HTML/community.html">Community</a></li>
-                    <li id="nav-auth-container"><a href="#" onclick="showCitizenModal(); return false;" style="font-weight: 600; color: var(--accent) !important;">Sign In</a></li>
-                </ul>
-            </nav>
-            <button class="hamburger" id="menu-toggle" aria-label="Toggle navigation">
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-            </button>
-        </header>
+      <!--header-->
+      <header class="main-header">
+        <!-- Logo Section-->
+        <a class="logo" href="index.html" aria-label="Urithi Majengo home">UM</a>
 
-        <!-- ===== MAIN CONTENT ===== -->
-        <main id="main-content">
-            <div class="risk-page">
-                <!-- ===== HERO ===== -->
-                <div class="risk-hero">
-                    <span class="risk-badge">⚑ Citizen Reporting</span>
-                    <h1>Report an At-Risk Structure</h1>
-                    <p>Observed a heritage building under threat? Report it to the Antiquities Department for urgent review.</p>
-                </div>
+        <!-- Navigation Bar -->
+        <nav
+          class="nav-container"
+          id="nav-menu"
+          role="navigation"
+          aria-label="Main Navigation"
+        >
+          <ul class="nav-links">
+            <li><a href="index.html">Map & Records</a></li>
+            <li><a href="buildings.html">All Buildings</a></li>
+            <li><a href="risk.html" class="active">Report At-Risk</a></li>
+            <li><a href="community.html">Community</a></li>
+            <li id="nav-auth-container">
+              <a
+                href="#"
+                onclick="
+                  showCitizenModal();
+                  return false;
+                "
+                style="font-weight: 600; color: var(--accent) !important"
+                >Sign In</a
+              >
+            </li>
+          </ul>
+        </nav>
+        <button
+          class="hamburger"
+          id="menu-toggle"
+          aria-label="Toggle navigation"
+        >
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </header>
 
-                <!-- ===== FORM ===== -->
-                <div class="risk-form-card">
-                    <h2 class="form-title"> Submit Flag Report</h2>
-                    <p class="form-subtitle">Fill in the details below to report a building at risk.</p>
+      <!-- ===== MAIN CONTENT ===== -->
+      <main id="main-content">
+        <div class="risk-page">
+          <!-- ===== HERO ===== -->
+          <div class="risk-hero">
+            <span class="risk-badge">⚑ Citizen Reporting</span>
+            <h1>Report an At-Risk Structure</h1>
+            <p>
+              Observed a heritage building under threat? Report it to the
+              Antiquities Department for urgent review.
+            </p>
+          </div>
 
-                    <form class="risk-form" id="risk-form" onsubmit="handleRiskSubmit(event)">
-                        <!-- Building -->
-                        <div class="form-group">
-                            <label>Heritage Building <span class="required">*</span></label>
-                            <select required id="building-select">
-                                <option value="">Select a building...</option>
-                                <option value="1">German Administrative Boma</option>
-                                <option value="2">St. Joseph Metropolitan Cathedral</option>
-                                <option value="3">Azania Front Lutheran Church</option>
-                                <option value="4">Old Harbour Master's Office</option>
-                                <option value="5">Dar es Salaam Railway Station</option>
-                                <option value="6">Dar es Salaam City Hall</option>
-                                <option value="7">Mnazi Mmoja Hospital Original</option>
-                                <option value="8">General Post Office</option>
-                                <option value="other">Other / Not Listed</option>
-                            </select>
-                        </div>
+          <!-- ===== FORM ===== -->
+          <div class="risk-form-card">
+            <h2 class="form-title">Submit Flag Report</h2>
+            <p class="form-subtitle">
+              Fill in the details below to report a building at risk.
+            </p>
 
-                        <!-- Risk Type -->
-                        <div class="form-group">
-                            <label>Nature of Risk <span class="required">*</span></label>
-                            <select required id="risk-type">
-                                <option value="">Select risk type...</option>
-                                <option value="structural">Structural Damage / Collapse Risk</option>
-                                <option value="demolition">Threat of Demolition</option>
-                                <option value="neglect">Neglect / Deterioration</option>
-                                <option value="fire">Fire Damage</option>
-                                <option value="vandalism">Vandalism / Graffiti</option>
-                                <option value="development">Development Pressure</option>
-                                <option value="other">Other</option>
-                            </select>
-                        </div>
+            <form
+              class="risk-form"
+              id="risk-form"
+              onsubmit="handleRiskSubmit(event)"
+            >
+              <!-- Building -->
+              <div class="form-group">
+                <label>Heritage Building <span class="required">*</span></label>
+                <select required id="building-select">
+                  <option value="">Select a building...</option>
+                  <option value="1">German Administrative Boma</option>
+                  <option value="2">St. Joseph Metropolitan Cathedral</option>
+                  <option value="3">Azania Front Lutheran Church</option>
+                  <option value="4">Old Harbour Master's Office</option>
+                  <option value="5">Dar es Salaam Railway Station</option>
+                  <option value="6">Dar es Salaam City Hall</option>
+                  <option value="7">Mnazi Mmoja Hospital Original</option>
+                  <option value="8">General Post Office</option>
+                  <option value="other">Other / Not Listed</option>
+                </select>
+              </div>
 
-                        <!-- Description -->
-                        <div class="form-group">
-                            <label>Description <span class="required">*</span></label>
-                            <textarea 
-                                required 
-                                id="risk-description"
-                                placeholder="Describe what you observed... Include details about the location, current condition, and any immediate threats."
-                            ></textarea>
-                        </div>
+              <!-- Risk Type -->
+              <div class="form-group">
+                <label>Nature of Risk <span class="required">*</span></label>
+                <select required id="risk-type">
+                  <option value="">Select risk type...</option>
+                  <option value="structural">
+                    Structural Damage / Collapse Risk
+                  </option>
+                  <option value="demolition">Threat of Demolition</option>
+                  <option value="neglect">Neglect / Deterioration</option>
+                  <option value="fire">Fire Damage</option>
+                  <option value="vandalism">Vandalism / Graffiti</option>
+                  <option value="development">Development Pressure</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
 
-                        <!-- Name -->
-                        <div class="form-group">
-                            <label>Name *</label>
-                            <input type="text" id="reporter-name" placeholder="Name or organisation" required>
-                        </div>
+              <!-- Description -->
+              <div class="form-group">
+                <label>Description <span class="required">*</span></label>
+                <textarea
+                  required
+                  id="risk-description"
+                  placeholder="Describe what you observed... Include details about the location, current condition, and any immediate threats."
+                ></textarea>
+              </div>
 
-                        <!-- Email -->
-                        <div class="form-group">
-                            <label>Email *</label>
-                            <input type="email" id="reporter-email" placeholder="For follow-up" required>
-                            <span class="helper-text">We'll only use this to contact you about this report.</span>
-                        </div>
+              <!-- Name -->
+              <div class="form-group">
+                <label>Name *</label>
+                <input
+                  type="text"
+                  id="reporter-name"
+                  placeholder="Name or organisation"
+                  required
+                />
+              </div>
 
-                        <!-- Photo -->
-                        <div class="form-group">
-                            <label>Photo (optional)</label>
-                            <input type="file" id="risk-photo" accept="image/*">
-                            <span class="helper-text">Upload a photo of the building or the issue you're reporting.</span>
-                        </div>
+              <!-- Email -->
+              <div class="form-group">
+                <label>Email *</label>
+                <input
+                  type="email"
+                  id="reporter-email"
+                  placeholder="For follow-up"
+                  required
+                />
+                <span class="helper-text"
+                  >We'll only use this to contact you about this report.</span
+                >
+              </div>
 
-                        <!-- Consent -->
-                        <div class="checkbox-group">
-                            <input type="checkbox" id="consent-checkbox" required>
-                            <label for="consent-checkbox">
-                                I confirm this information is accurate and consent to it being reviewed by the Antiquities Department of Tanzania.
-                            </label>
-                        </div>
+              <!-- Photo -->
+              <div class="form-group">
+                <label>Photo (optional)</label>
+                <input type="file" id="risk-photo" accept="image/*" />
+                <span class="helper-text"
+                  >Upload a photo of the building or the issue you're
+                  reporting.</span
+                >
+              </div>
 
-                        <!-- Buttons -->
-                        <div class="submit-row">
-                            <button type="submit" class="btn-accent">
-                                ⚑ Submit Flag Report
-                            </button>
-                            <button type="reset" class="btn-secondary">
-                                Clear Form
-                            </button>
-                        </div>
-                    </form>
-                </div>
+              <!-- Consent -->
+              <div class="checkbox-group">
+                <input type="checkbox" id="consent-checkbox" required />
+                <label for="consent-checkbox">
+                  I confirm this information is accurate and consent to it being
+                  reviewed by the Antiquities Department of Tanzania.
+                </label>
+              </div>
 
-                <!-- ===== SUCCESS ===== -->
-                <div id="success-message" style="display:none;">
-                    <div class="risk-success">
-                        <div class="success-icon">✅</div>
-                        <h3>Report Submitted Successfully</h3>
-                        <p>Thank you for helping preserve Dar es Salaam's heritage. The Antiquities Department will review your report.</p>
-                        <button class="btn-primary" onclick="resetForm()">Submit Another Report</button>
-                    </div>
-                </div>
+              <!-- Buttons -->
+              <div class="submit-row">
+                <button type="submit" class="btn-accent">
+                  ⚑ Submit Flag Report
+                </button>
+                <button type="reset" class="btn-secondary">Clear Form</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- ===== SUCCESS ===== -->
+          <div id="success-message" style="display: none">
+            <div class="risk-success">
+              <div class="success-icon">✅</div>
+              <h3>Report Submitted Successfully</h3>
+              <p>
+                Thank you for helping preserve Dar es Salaam's heritage. The
+                Antiquities Department will review your report.
+              </p>
+              <button class="btn-primary" onclick="resetForm()">
+                Submit Another Report
+              </button>
             </div>
-        </main>
+          </div>
+        </div>
+      </main>
 
-        <!-- ===== FOOTER ===== -->
-       <footer class="main-footer">
-    <div class="footer-content" style="max-width:1200px;margin:0 auto;padding:20px 0;">
-        <!-- Top Row: Brand + Links -->
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:30px;text-align:left;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.06);">
-            
+      <!-- ===== FOOTER ===== -->
+      <footer class="main-footer">
+        <div
+          class="footer-content"
+          style="max-width: 1200px; margin: 0 auto; padding: 20px 0"
+        >
+          <!-- Top Row: Brand + Links -->
+          <div
+            style="
+              display: grid;
+              grid-template-columns: 1fr 1fr 1fr;
+              gap: 30px;
+              text-align: left;
+              padding-bottom: 20px;
+              border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            "
+          >
             <!-- Brand Column -->
             <div>
-                <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
-                    <span style="font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--gold);">Urithi Majengo</span>
-                </div>
-                <p style="color:var(--text-muted);font-size:13px;line-height:1.6;max-width:280px;">
-                    A digital heritage inventory managed by the Antiquities Department of Tanzania.
-                </p>
-                <p style="color:var(--text-muted);font-size:12px;margin-top:8px;opacity:0.6;">
-                    © 2026 Antiquities Department - United Republic of Tanzania
-                </p>
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 12px;
+                  margin-bottom: 8px;
+                "
+              >
+                <span
+                  style="
+                    font-family: var(--font-display);
+                    font-size: 22px;
+                    font-weight: 700;
+                    color: var(--gold);
+                  "
+                  >Urithi Majengo</span
+                >
+              </div>
+              <p
+                style="
+                  color: var(--text-muted);
+                  font-size: 13px;
+                  line-height: 1.6;
+                  max-width: 280px;
+                "
+              >
+                A digital heritage inventory managed by the Antiquities
+                Department of Tanzania.
+              </p>
+              <p
+                style="
+                  color: var(--text-muted);
+                  font-size: 12px;
+                  margin-top: 8px;
+                  opacity: 0.6;
+                "
+              >
+                © 2026 Antiquities Department - United Republic of Tanzania
+              </p>
             </div>
-            
+
             <!-- Explore Column -->
             <div>
-                <h4 style="color:rgba(255,255,255,0.4);font-size:11px;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">Explore</h4>
-                <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:4px;">
-                    <li><a href="index.html" style="color:var(--text-muted);text-decoration:none;font-size:13px;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''">Map & Records</a></li>
-                    <li><a href="buildings.html" style="color:var(--text-muted);text-decoration:none;font-size:13px;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''"> All Buildings</a></li>
-                    <li><a href="community.html" style="color:var(--text-muted);text-decoration:none;font-size:13px;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''"> Community</a></li>
-                    <li><a href="risk.html" style="color:var(--text-muted);text-decoration:none;font-size:13px;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''">Report At-Risk</a></li>
-                </ul>
+              <h4
+                style="
+                  color: rgba(255, 255, 255, 0.4);
+                  font-size: 11px;
+                  text-transform: uppercase;
+                  letter-spacing: 0.08em;
+                  margin-bottom: 8px;
+                "
+              >
+                Explore
+              </h4>
+              <ul
+                style="
+                  list-style: none;
+                  padding: 0;
+                  display: flex;
+                  flex-direction: column;
+                  gap: 4px;
+                "
+              >
+                <li>
+                  <a
+                    href="index.html"
+                    style="
+                      color: var(--text-muted);
+                      text-decoration: none;
+                      font-size: 13px;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--gold)'"
+                    onmouseout="this.style.color = ''"
+                    >Map & Records</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="buildings.html"
+                    style="
+                      color: var(--text-muted);
+                      text-decoration: none;
+                      font-size: 13px;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--gold)'"
+                    onmouseout="this.style.color = ''"
+                  >
+                    All Buildings</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="community.html"
+                    style="
+                      color: var(--text-muted);
+                      text-decoration: none;
+                      font-size: 13px;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--gold)'"
+                    onmouseout="this.style.color = ''"
+                  >
+                    Community</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="risk.html"
+                    style="
+                      color: var(--text-muted);
+                      text-decoration: none;
+                      font-size: 13px;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--gold)'"
+                    onmouseout="this.style.color = ''"
+                    >Report At-Risk</a
+                  >
+                </li>
+              </ul>
             </div>
-            
+
             <!-- Partners Column -->
             <div>
-                <h4 style="color:rgba(255,255,255,0.4);font-size:11px;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">Partners</h4>
-                <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:4px;">
-                    <li style="color:var(--text-muted);font-size:13px;">Antiquities Dept</li>
-                    <li style="color:var(--text-muted);font-size:13px;">DARCH</li>
-                    <li style="color:var(--text-muted);font-size:13px;">ARU Architecture Dept</li>
-                    <li style="color:var(--text-muted);font-size:13px;">Nat'l College Tourism</li>
-                    <li style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06);">
-                        <a href="login.html" style="color:rgba(255,255,255,0.25);text-decoration:none;font-size:11px;letter-spacing:0.04em;transition:color 0.2s;" onmouseover="this.style.color='rgba(255,255,255,0.5)'" onmouseout="this.style.color='rgba(255,255,255,0.25)'">Officer Portal</a>
-                    </li>
-                </ul>
+              <h4
+                style="
+                  color: rgba(255, 255, 255, 0.4);
+                  font-size: 11px;
+                  text-transform: uppercase;
+                  letter-spacing: 0.08em;
+                  margin-bottom: 8px;
+                "
+              >
+                Partners
+              </h4>
+              <ul
+                style="
+                  list-style: none;
+                  padding: 0;
+                  display: flex;
+                  flex-direction: column;
+                  gap: 4px;
+                "
+              >
+                <li style="color: var(--text-muted); font-size: 13px">
+                  Antiquities Dept
+                </li>
+                <li style="color: var(--text-muted); font-size: 13px">DARCH</li>
+                <li style="color: var(--text-muted); font-size: 13px">
+                  ARU Architecture Dept
+                </li>
+                <li style="color: var(--text-muted); font-size: 13px">
+                  Nat'l College Tourism
+                </li>
+                <li
+                  style="
+                    margin-top: 12px;
+                    padding-top: 10px;
+                    border-top: 1px solid rgba(255, 255, 255, 0.06);
+                  "
+                >
+                  <a
+                    href="login.html"
+                    style="
+                      color: rgba(255, 255, 255, 0.25);
+                      text-decoration: none;
+                      font-size: 11px;
+                      letter-spacing: 0.04em;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'rgba(255,255,255,0.5)'"
+                    onmouseout="this.style.color = 'rgba(255,255,255,0.25)'"
+                    >Officer Portal</a
+                  >
+                </li>
+              </ul>
             </div>
-        </div>
-        
-        <!-- Bottom Row -->
-        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;padding-top:16px;">
-            <p style="color:var(--text-muted);font-size:12px;opacity:0.6;margin:0;">
-                © 2026 <span class="gold-text">Urithi Majengo</span>. All rights reserved.
+          </div>
+
+          <!-- Bottom Row -->
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              flex-wrap: wrap;
+              gap: 12px;
+              padding-top: 16px;
+            "
+          >
+            <p
+              style="
+                color: var(--text-muted);
+                font-size: 12px;
+                opacity: 0.6;
+                margin: 0;
+              "
+            >
+              © 2026 <span class="gold-text">Urithi Majengo</span>. All rights
+              reserved.
             </p>
-            <p style="color:var(--text-muted);font-size:11px;opacity:0.4;margin:0;">
-                Built for the Antiquities Department · Tanzania
+            <p
+              style="
+                color: var(--text-muted);
+                font-size: 11px;
+                opacity: 0.4;
+                margin: 0;
+              "
+            >
+              Built for the Antiquities Department · Tanzania
             </p>
+          </div>
         </div>
-    </div>             
-</footer>
+      </footer>
     </div>
 
     <!-- CITIZEN MODAL -->
-    <div id="citizen-modal" class="citizen-modal" style="display:none;">
-        <div class="citizen-modal-content">
-            <button class="citizen-modal-close" onclick="closeCitizenModal()">×</button>
-            <h2 style="font-family:var(--font-display); margin-bottom: 16px;">Citizen Sign In</h2>
-            <p style="color:var(--text-muted); font-size:14px; margin-bottom: 24px;">Please sign in to report at-risk structures or continue viewing virtual tours.</p>
-            <form onsubmit="handleCitizenLogin(event)" style="display:flex;flex-direction:column;gap:16px;">
-                <div>
-                    <label style="display:block;font-weight:500;font-size:13px;margin-bottom:4px;">Email or Phone</label>
-                    <input type="text" required style="width:100%;padding:12px;border:1px solid var(--border);border-radius:var(--radius-sm);">
-                </div>
-                <div>
-                    <label style="display:block;font-weight:500;font-size:13px;margin-bottom:4px;">Password</label>
-                    <input type="password" required style="width:100%;padding:12px;border:1px solid var(--border);border-radius:var(--radius-sm);">
-                </div>
-                <button type="submit" class="btn-primary" style="padding:12px; margin-top: 8px;">Sign In</button>
-            </form>
-        </div>
+    <div id="citizen-modal" class="citizen-modal" style="display: none">
+      <div class="citizen-modal-content">
+        <button class="citizen-modal-close" onclick="closeCitizenModal()">
+          ×
+        </button>
+        <h2 style="font-family: var(--font-display); margin-bottom: 16px">
+          Citizen Sign In
+        </h2>
+        <p
+          style="color: var(--text-muted); font-size: 14px; margin-bottom: 24px"
+        >
+          Please sign in to report at-risk structures or continue viewing
+          virtual tours.
+        </p>
+        <form
+          onsubmit="handleCitizenLogin(event)"
+          style="display: flex; flex-direction: column; gap: 16px"
+        >
+          <div>
+            <label
+              style="
+                display: block;
+                font-weight: 500;
+                font-size: 13px;
+                margin-bottom: 4px;
+              "
+              >Email or Phone</label
+            >
+            <input
+              type="text"
+              required
+              style="
+                width: 100%;
+                padding: 12px;
+                border: 1px solid var(--border);
+                border-radius: var(--radius-sm);
+              "
+            />
+          </div>
+          <div>
+            <label
+              style="
+                display: block;
+                font-weight: 500;
+                font-size: 13px;
+                margin-bottom: 4px;
+              "
+              >Password</label
+            >
+            <input
+              type="password"
+              required
+              style="
+                width: 100%;
+                padding: 12px;
+                border: 1px solid var(--border);
+                border-radius: var(--radius-sm);
+              "
+            />
+          </div>
+          <button
+            type="submit"
+            class="btn-primary"
+            style="padding: 12px; margin-top: 8px"
+          >
+            Sign In
+          </button>
+        </form>
+      </div>
     </div>
 
-    <script src="../JS/api.js"></script>
+    <script src="../JS/data.js?v=2"></script>
+    <script src="../JS/api.js?v=2"></script>
     <script>
-        // ========================================
-        // LOAD BUILDINGS INTO DROPDOWN
-        // ========================================
-        async function loadBuildingsDropdown() {
-            const select = document.getElementById('building-select');
-            try {
-                const buildings = await API.getBuildings();
-                // Clear existing hardcoded options (keep placeholder)
-                select.innerHTML = '<option value="">Select a building…</option>';
+      // ========================================
+      // LOAD BUILDINGS INTO DROPDOWN
+      // ========================================
+      async function loadBuildingsDropdown() {
+        const select = document.getElementById("building-select");
+        try {
+          const buildings = await API.getBuildings();
+          // Clear existing hardcoded options (keep placeholder)
+          select.innerHTML = '<option value="">Select a building…</option>';
 
-                buildings.forEach(b => {
-                    const opt = document.createElement('option');
-                    opt.value = b.id;
-                    opt.textContent = b.name || b.title || `Building #${b.id}`;
-                    select.appendChild(opt);
-                });
+          buildings.forEach((b) => {
+            const opt = document.createElement("option");
+            opt.value = b.id;
+            opt.textContent = b.name || b.title || `Building #${b.id}`;
+            select.appendChild(opt);
+          });
 
-                // Keep "Other / Not Listed" at bottom
-                const other = document.createElement('option');
-                other.value = 'other';
-                other.textContent = 'Other / Not Listed';
-                select.appendChild(other);
-            } catch (err) {
-                console.error('Could not load buildings:', err);
-                // Leave hardcoded fallback options if API fails
-            }
+          // Keep "Other / Not Listed" at bottom
+          const other = document.createElement("option");
+          other.value = "other";
+          other.textContent = "Other / Not Listed";
+          select.appendChild(other);
+        } catch (err) {
+          console.error("Could not load buildings:", err);
+          // Leave hardcoded fallback options if API fails
+        }
+      }
+
+      // ========================================
+      // FORM SUBMISSION — connected to real API
+      // ========================================
+      async function handleRiskSubmit(event) {
+        event.preventDefault();
+
+        const buildingId = document.getElementById("building-select").value;
+        const riskType = document.getElementById("risk-type").value;
+        const description = document
+          .getElementById("risk-description")
+          .value.trim();
+        const consent = document.getElementById("consent-checkbox").checked;
+        const name = document.getElementById("reporter-name").value.trim();
+        const email = document.getElementById("reporter-email").value.trim();
+        const photoFile = document.getElementById("risk-photo").files[0];
+
+        if (
+          !buildingId ||
+          !riskType ||
+          !description ||
+          !consent ||
+          !name ||
+          !email
+        ) {
+          alert(
+            "Please fill in all required fields, including your name and email, and accept the terms.",
+          );
+          return;
         }
 
-        // ========================================
-        // FORM SUBMISSION — connected to real API
-        // ========================================
-        async function handleRiskSubmit(event) {
-            event.preventDefault();
-
-            const buildingId   = document.getElementById('building-select').value;
-            const riskType     = document.getElementById('risk-type').value;
-            const description  = document.getElementById('risk-description').value.trim();
-            const consent      = document.getElementById('consent-checkbox').checked;
-            const name         = document.getElementById('reporter-name').value.trim();
-            const email        = document.getElementById('reporter-email').value.trim();
-            const photoFile    = document.getElementById('risk-photo').files[0];
-
-            if (!buildingId || !riskType || !description || !consent || !name || !email) {
-                alert('Please fill in all required fields, including your name and email, and accept the terms.');
-                return;
-            }
-
-            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                alert('Please enter a valid email address.');
-                return;
-            }
-
-            // Disable submit button during upload
-            const submitBtn = event.target.querySelector('button[type="submit"]');
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Submitting…';
-
-            // Optional: upload photo
-            let photoUrl = null;
-            if (photoFile) {
-                try {
-                    photoUrl = await API.uploadFlagPhoto(photoFile);
-                } catch (err) {
-                    console.warn('Photo upload skipped:', err.message);
-                }
-            }
-
-            // Build payload
-            const payload = {
-                building_id:    buildingId === 'other' ? null : parseInt(buildingId),
-                risk_type:      riskType,
-                description:    description,
-                reporter_name:  name,
-                reporter_email: email,
-                photo_url:      photoUrl
-            };
-
-            try {
-                const result = await API.createFlag(payload);
-
-                if (result.flag || result.message === 'Flag report submitted') {
-                    // Show success state
-                    document.getElementById('risk-form').style.display = 'none';
-                    document.getElementById('success-message').style.display = 'block';
-                    document.getElementById('success-message').scrollIntoView({ behavior: 'smooth', block: 'center' });
-                } else {
-                    alert('❌ ' + (result.message || 'Could not submit report. Please try again.'));
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = '⚑ Submit Flag Report';
-                }
-            } catch (err) {
-                alert('❌ Could not reach server. Is the backend running?');
-                submitBtn.disabled = false;
-                submitBtn.textContent = '⚑ Submit Flag Report';
-            }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          alert("Please enter a valid email address.");
+          return;
         }
 
-        function resetForm() {
-            document.getElementById('risk-form').reset();
-            document.getElementById('risk-form').style.display = 'flex';
-            document.getElementById('success-message').style.display = 'none';
-            document.getElementById('risk-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Disable submit button during upload
+        const submitBtn = event.target.querySelector('button[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Submitting…";
+
+        // Optional: upload photo
+        let photoUrl = null;
+        if (photoFile) {
+          try {
+            photoUrl = await API.uploadFlagPhoto(photoFile);
+          } catch (err) {
+            console.warn("Photo upload skipped:", err.message);
+          }
         }
 
-        // ========================================
-        // INIT
-        // ========================================
-        document.addEventListener('DOMContentLoaded', function() {
-            loadBuildingsDropdown();
+        // Build payload
+        const payload = {
+          building_id: buildingId === "other" ? null : parseInt(buildingId),
+          risk_type: riskType,
+          description: description,
+          reporter_name: name,
+          reporter_email: email,
+          photo_url: photoUrl,
+        };
 
-            const isCitizenAuthenticated = localStorage.getItem('citizen_auth') === 'true';
-            if (!isCitizenAuthenticated) {
-                if (typeof showCitizenModal === 'function') {
-                    showCitizenModal();
-                } else {
-                    setTimeout(() => {
-                        if (typeof showCitizenModal === 'function') showCitizenModal();
-                    }, 500);
-                }
-            }
-        });
+        try {
+          const result = await API.createFlag(payload);
 
-        console.log('✅ risk.html loaded');
+          if (result.flag || result.message === "Flag report submitted") {
+            // Show success state
+            document.getElementById("risk-form").style.display = "none";
+            document.getElementById("success-message").style.display = "block";
+            document
+              .getElementById("success-message")
+              .scrollIntoView({ behavior: "smooth", block: "center" });
+          } else {
+            alert(
+              "❌ " +
+                (result.message ||
+                  "Could not submit report. Please try again."),
+            );
+            submitBtn.disabled = false;
+            submitBtn.textContent = "⚑ Submit Flag Report";
+          }
+        } catch (err) {
+          alert("❌ Could not submit. " + err.message);
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Submit Report";
+        }
+      }
+
+      function resetForm() {
+        document.getElementById("risk-form").reset();
+        document.getElementById("risk-form").style.display = "flex";
+        document.getElementById("success-message").style.display = "none";
+        document
+          .getElementById("risk-form")
+          .scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      // ========================================
+      // LOAD RISK TYPES
+      // ========================================
+      async function loadRiskTypesDropdown() {
+        const select = document.getElementById("risk-type");
+        if (!select) return;
+        try {
+          const flags = await API.getFlags();
+          const riskTypes = new Set();
+          flags.forEach(f => {
+            if (f.risk_type) riskTypes.add(f.risk_type);
+          });
+          if (riskTypes.size > 0) {
+            select.innerHTML = '<option value="">Select risk type…</option>' + 
+              Array.from(riskTypes).map(rt => {
+                const label = rt.charAt(0).toUpperCase() + rt.slice(1).replace(/-/g, ' ');
+                return `<option value="${rt}">${label}</option>`;
+              }).join('');
+          }
+        } catch (err) {
+          console.warn("Failed to dynamically load risk types from DB", err);
+        }
+      }
+
+      // ========================================
+      // INIT
+      // ========================================
+      document.addEventListener("DOMContentLoaded", function () {
+        loadBuildingsDropdown();
+        loadRiskTypesDropdown();
+
+        const isCitizenAuthenticated =
+          localStorage.getItem("citizen_auth") === "true";
+        if (!isCitizenAuthenticated) {
+          if (typeof showCitizenModal === "function") {
+            showCitizenModal();
+          } else {
+            setTimeout(() => {
+              if (typeof showCitizenModal === "function") showCitizenModal();
+            }, 500);
+          }
+        }
+      });
+
+      console.log("✅ risk.html loaded");
     </script>
     <script src="../JS/app.js"></script>
-</body>
+  </body>
 </html>

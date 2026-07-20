@@ -1,1392 +1,2072 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Officer Portal - Urithi Majengo</title>
-    <meta name="description" content="Antiquities Department officer portal for managing heritage buildings.">
-    
+    <meta
+      name="description"
+      content="Antiquities Department officer portal for managing heritage buildings."
+    />
+
     <!-- ===== FAVICON ===== -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
-    
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>"
+    />
+
     <!-- ===== GOOGLE FONTS ===== -->
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
-    
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono&display=swap"
+      rel="stylesheet"
+    />
+
     <!-- ===== CUSTOM CSS ===== -->
-    <link rel="stylesheet" href="../CSS/style.css" type="text/css">
-    
+    <link rel="stylesheet" href="../CSS/style.css" type="text/css" />
+
     <style>
-        /* ========================================
+      /* ========================================
            OFFICER PORTAL - SPECIFIC STYLES
            ======================================== */
-        
-        /* ===== LAYOUT ===== */
-        .officer-layout {
-            display: flex;
-            min-height: calc(100vh - 64px);
-            background: var(--bg);
-        }
 
-        /* ===== SIDEBAR ===== */
-        .officer-sidebar {
-            width: 240px;
-            background: var(--dark);
-            border-right: 1px solid var(--border);
-            padding: 20px 0;
-            flex-shrink: 0;
-            position: sticky;
-            top: 64px;
-            height: calc(100vh - 64px);
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-        }
+      /* ===== LAYOUT ===== */
+      .officer-layout {
+        display: flex;
+        min-height: calc(100vh - 64px);
+        background: var(--bg);
+      }
 
-        .officer-sidebar .sidebar-brand {
-            padding: 0 20px 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.06);
-            margin-bottom: 16px;
-        }
+      /* ===== SIDEBAR ===== */
+      .officer-sidebar {
+        width: 240px;
+        background: var(--dark);
+        border-right: 1px solid var(--border);
+        padding: 20px 0;
+        flex-shrink: 0;
+        position: sticky;
+        top: 64px;
+        height: calc(100vh - 64px);
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+      }
 
-        .officer-sidebar .sidebar-brand h1 {
-            font-family: var(--font-display);
-            font-size: 18px;
-            color: var(--gold);
-            font-weight: 700;
-        }
+      .officer-sidebar .sidebar-brand {
+        padding: 0 20px 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        margin-bottom: 16px;
+      }
 
-        .officer-sidebar .sidebar-brand p {
-            font-size: 12px;
-            color: rgba(255,255,255,0.4);
-        }
+      .officer-sidebar .sidebar-brand h1 {
+        font-family: var(--font-display);
+        font-size: 18px;
+        color: var(--gold);
+        font-weight: 700;
+      }
 
-        .sidebar-nav {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-            padding: 0 12px;
-            flex: 1;
-        }
+      .officer-sidebar .sidebar-brand p {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.4);
+      }
 
-        .sidebar-nav a {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px 16px;
-            border-radius: var(--radius-sm);
-            color: rgba(255,255,255,0.6);
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
+      .sidebar-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        padding: 0 12px;
+        flex: 1;
+      }
 
-        .sidebar-nav a:hover {
-            background: rgba(255,255,255,0.05);
-            color: var(--card);
-        }
+      .sidebar-nav a {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 16px;
+        border-radius: var(--radius-sm);
+        color: rgba(255, 255, 255, 0.6);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
 
-        .sidebar-nav a.active {
-            background: rgba(240, 180, 41, 0.12);
-            color: var(--gold);
-        }
+      .sidebar-nav a:hover {
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--card);
+      }
 
-        .sidebar-nav a .nav-icon {
-            font-size: 18px;
-            width: 24px;
-            text-align: center;
-        }
+      .sidebar-nav a.active {
+        background: rgba(240, 180, 41, 0.12);
+        color: var(--gold);
+      }
 
-        .sidebar-nav a .nav-badge {
-            margin-left: auto;
-            background: var(--accent);
-            color: white;
-            font-size: 11px;
-            padding: 1px 10px;
-            border-radius: 12px;
-            font-weight: 600;
-        }
+      .sidebar-nav a .nav-icon {
+        font-size: 18px;
+        width: 24px;
+        text-align: center;
+      }
 
-        /* ===== SIDEBAR FOOTER ===== */
-        .sidebar-footer {
-            padding: 16px 20px;
-            border-top: 1px solid rgba(255,255,255,0.06);
-            margin-top: auto;
-        }
+      .sidebar-nav a .nav-badge {
+        margin-left: auto;
+        background: var(--accent);
+        color: white;
+        font-size: 11px;
+        padding: 1px 10px;
+        border-radius: 12px;
+        font-weight: 600;
+      }
 
-        .sidebar-footer .user-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+      /* ===== SIDEBAR FOOTER ===== */
+      .sidebar-footer {
+        padding: 16px 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        margin-top: auto;
+      }
 
-        .sidebar-footer .user-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: var(--gold);
-            color: var(--dark);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 14px;
-        }
+      .sidebar-footer .user-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
 
-        .sidebar-footer .user-name {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--card);
-        }
+      .sidebar-footer .user-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: var(--gold);
+        color: var(--dark);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 14px;
+      }
 
-        .sidebar-footer .user-role {
-            font-size: 11px;
-            color: rgba(255,255,255,0.4);
-        }
+      .sidebar-footer .user-name {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--card);
+      }
 
-        .sidebar-footer .logout-btn {
-            margin-top: 8px;
-            padding: 8px;
-            width: 100%;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: var(--radius-sm);
-            color: rgba(255,255,255,0.5);
-            font-size: 13px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
+      .sidebar-footer .user-role {
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.4);
+      }
 
-        .sidebar-footer .logout-btn:hover {
-            background: rgba(245, 97, 29, 0.1);
-            color: var(--accent);
-            border-color: var(--accent);
-        }
+      .sidebar-footer .logout-btn {
+        margin-top: 8px;
+        padding: 8px;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: var(--radius-sm);
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
 
-        /* ===== MAIN CONTENT ===== */
-        .officer-main {
-            flex: 1;
-            padding: 24px 32px;
-            overflow-y: auto;
-        }
+      .sidebar-footer .logout-btn:hover {
+        background: rgba(245, 97, 29, 0.1);
+        color: var(--accent);
+        border-color: var(--accent);
+      }
 
-        .officer-main .page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
+      /* ===== MAIN CONTENT ===== */
+      .officer-main {
+        flex: 1;
+        padding: 24px 32px;
+        overflow-y: auto;
+      }
 
-        .officer-main .page-header h2 {
-            font-family: var(--font-display);
-            font-size: 28px;
-            color: var(--text);
-        }
+      .officer-main .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
 
-        .officer-main .page-header .header-actions {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
+      .officer-main .page-header h2 {
+        font-family: var(--font-display);
+        font-size: 28px;
+        color: var(--text);
+      }
 
-        /* ===== STATS CARDS ===== */
+      .officer-main .page-header .header-actions {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+
+      /* ===== STATS CARDS ===== */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        margin-bottom: 28px;
+      }
+
+      .stat-card {
+        background: var(--card);
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        padding: 20px 24px;
+        box-shadow: var(--shadow);
+        transition: all 0.3s ease;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .stat-card .stat-number {
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--text);
+        font-family: var(--font-display);
+      }
+
+      .stat-card .stat-label {
+        font-size: 13px;
+        color: var(--text-muted);
+      }
+
+      .stat-card.stat-primary .stat-number {
+        color: var(--primary);
+      }
+      .stat-card.stat-gold .stat-number {
+        color: var(--gold);
+      }
+      .stat-card.stat-accent .stat-number {
+        color: var(--accent);
+      }
+      .stat-card.stat-teal .stat-number {
+        color: var(--teal-lt);
+      }
+
+      /* ===== TABLE ===== */
+      .table-container {
+        background: var(--card);
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        margin-bottom: 24px;
+      }
+
+      .table-header {
+        padding: 16px 24px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .table-header h3 {
+        font-family: var(--font-display);
+        font-size: 18px;
+        color: var(--text);
+      }
+
+      .table-header .table-actions {
+        display: flex;
+        gap: 8px;
+      }
+
+      .table-wrapper {
+        overflow-x: auto;
+        padding: 0 4px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+
+      table thead {
+        background: var(--muted);
+      }
+
+      table th {
+        padding: 12px 16px;
+        text-align: left;
+        font-weight: 600;
+        color: var(--text-muted);
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      table td {
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--border);
+        color: var(--text);
+      }
+
+      table tbody tr:hover {
+        background: var(--bg);
+      }
+
+      table .condition-badge {
+        padding: 2px 12px;
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: 600;
+      }
+
+      table .condition-badge.good,
+      table .condition-badge.excellent {
+        background: #d4edda;
+        color: #155724;
+      }
+
+      table .condition-badge.fair {
+        background: #fff3cd;
+        color: #856404;
+      }
+
+      table .condition-badge.poor {
+        background: #f8d7da;
+        color: #721c24;
+      }
+
+      table .status-badge {
+        padding: 2px 12px;
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: 600;
+        background: var(--muted);
+        color: var(--text-muted);
+      }
+
+      table .status-badge.protected {
+        background: rgba(11, 122, 105, 0.12);
+        color: var(--primary);
+      }
+
+      table .era-tag {
+        display: inline-block;
+        padding: 2px 10px;
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: 600;
+        background: var(--muted);
+        color: var(--text-muted);
+      }
+
+      table .era-tag.german {
+        background: #e8e0d0;
+        color: #6b5a3a;
+      }
+      table .era-tag.british {
+        background: #d0d8e8;
+        color: #2a4a7a;
+      }
+      table .era-tag.independence {
+        background: #d0e8d8;
+        color: #1a6a4a;
+      }
+
+      table .action-btn {
+        padding: 4px 12px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-xs);
+        background: transparent;
+        color: var(--text-muted);
+        font-size: 12px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        margin-right: 4px;
+      }
+
+      table .action-btn:hover {
+        background: var(--primary);
+        color: var(--card);
+        border-color: var(--primary);
+      }
+      table .action-btn.danger:hover {
+        background: #dc3545;
+        color: white;
+        border-color: #dc3545;
+      }
+
+      /* ===== FLAG REPORTS ===== */
+      .flag-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .flag-item {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 14px 20px;
+        background: var(--card);
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--border);
+        transition: all 0.3s ease;
+      }
+
+      .flag-item:hover {
+        border-color: var(--primary);
+        box-shadow: var(--shadow);
+      }
+      .flag-item .flag-priority {
+        width: 4px;
+        height: 40px;
+        border-radius: 4px;
+        flex-shrink: 0;
+      }
+      .flag-item .flag-priority.high {
+        background: var(--accent);
+      }
+      .flag-item .flag-priority.medium {
+        background: var(--gold);
+      }
+      .flag-item .flag-priority.low {
+        background: var(--teal-lt);
+      }
+      .flag-item .flag-info {
+        flex: 1;
+      }
+      .flag-item .flag-info .flag-title {
+        font-weight: 600;
+        font-size: 14px;
+        color: var(--text);
+      }
+      .flag-item .flag-info .flag-meta {
+        font-size: 12px;
+        color: var(--text-muted);
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .flag-item .flag-status {
+        padding: 2px 14px;
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: 600;
+      }
+      .flag-item .flag-status.pending {
+        background: #fff3cd;
+        color: #856404;
+      }
+      .flag-item .flag-status.reviewing {
+        background: #cce5ff;
+        color: #004085;
+      }
+      .flag-item .flag-status.resolved {
+        background: #d4edda;
+        color: #155724;
+      }
+
+      /* ===== OFFICERS LIST ===== */
+      .officer-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 16px;
+      }
+
+      .officer-card {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 14px 16px;
+        background: var(--bg);
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--border);
+        transition: all 0.2s ease;
+      }
+
+      .officer-card:hover {
+        border-color: var(--primary);
+      }
+
+      .officer-card .officer-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--gold);
+        color: var(--dark);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 15px;
+        flex-shrink: 0;
+      }
+
+      .officer-card .officer-info {
+        flex: 1;
+      }
+      .officer-card .officer-info .officer-name {
+        font-weight: 600;
+        font-size: 14px;
+        color: var(--text);
+      }
+      .officer-card .officer-info .officer-email {
+        font-size: 12px;
+        color: var(--text-muted);
+      }
+
+      .super-badge {
+        padding: 2px 10px;
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: 600;
+        background: rgba(240, 180, 41, 0.15);
+        color: var(--gold);
+        border: 1px solid rgba(240, 180, 41, 0.3);
+      }
+
+      .remove-officer-btn {
+        padding: 5px 14px;
+        border: 1px solid #dc3545;
+        border-radius: var(--radius-xs);
+        background: transparent;
+        color: #dc3545;
+        font-size: 12px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .remove-officer-btn:hover {
+        background: #dc3545;
+        color: white;
+      }
+
+      /* ===== ADD OFFICER FORM ===== */
+      .add-officer-form {
+        display: flex;
+        gap: 12px;
+        padding: 16px;
+        border-bottom: 1px solid var(--border);
+        flex-wrap: wrap;
+      }
+
+      .add-officer-form input {
+        flex: 1;
+        min-width: 200px;
+        padding: 10px 14px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        font-size: 14px;
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-body);
+      }
+
+      .add-officer-form input:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(11, 122, 105, 0.1);
+      }
+
+      /* ===== MODAL ===== */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(12, 30, 26, 0.8);
+        backdrop-filter: blur(6px);
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        animation: overlayIn 0.2s ease;
+      }
+
+      @keyframes overlayIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      .modal-box {
+        background: var(--card);
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow-lg);
+        width: 100%;
+        max-width: 800px;
+        max-height: 90vh;
+        overflow-y: auto;
+        animation: modalIn 0.25s ease;
+      }
+
+      @keyframes modalIn {
+        from {
+          opacity: 0;
+          transform: translateY(24px) scale(0.97);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+
+      .modal-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 24px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .modal-head h3 {
+        font-family: var(--font-display);
+        font-size: 20px;
+        color: var(--text);
+      }
+
+      .modal-close {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        border: none;
+        background: var(--bg);
+        font-size: 18px;
+        cursor: pointer;
+        color: var(--text-muted);
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .modal-close:hover {
+        background: #f3f4f6;
+        color: var(--text);
+        transform: scale(1.1);
+      }
+
+      .modal-body {
+        padding: 24px;
+      }
+
+      .modal-body .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+
+      .modal-body .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .modal-body .form-group.full-width {
+        grid-column: 1 / -1;
+      }
+
+      .modal-body .form-group label {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text);
+      }
+
+      .modal-body .form-group input,
+      .modal-body .form-group select,
+      .modal-body .form-group textarea {
+        padding: 10px 14px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        font-size: 14px;
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-body);
+        transition: all 0.2s ease;
+      }
+
+      .modal-body .form-group input:focus,
+      .modal-body .form-group select:focus,
+      .modal-body .form-group textarea:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(11, 122, 105, 0.1);
+      }
+
+      .modal-body .form-group textarea {
+        resize: vertical;
+        min-height: 80px;
+      }
+
+      .modal-foot {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+        padding: 16px 24px;
+        border-top: 1px solid var(--border);
+      }
+
+      .modal-foot .btn-cancel {
+        padding: 10px 20px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        background: transparent;
+        color: var(--text-muted);
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .modal-foot .btn-cancel:hover {
+        background: var(--bg);
+        color: var(--text);
+      }
+
+      .modal-foot .btn-save {
+        padding: 10px 24px;
+        border: none;
+        border-radius: var(--radius-sm);
+        background: var(--primary);
+        color: white;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .modal-foot .btn-save:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+      }
+      .modal-foot .btn-save:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      /* Toast notification */
+      .toast {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        padding: 14px 20px;
+        border-radius: var(--radius-sm);
+        font-size: 14px;
+        font-weight: 600;
+        z-index: 99999;
+        animation: toastIn 0.3s ease;
+        box-shadow: var(--shadow-lg);
+      }
+
+      @keyframes toastIn {
+        from {
+          opacity: 0;
+          transform: translateX(30px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      .toast.success {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+      .toast.error {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+      .toast.info {
+        background: #cce5ff;
+        color: #004085;
+        border: 1px solid #b8daff;
+      }
+
+      /* Access denied screen */
+      .access-denied {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 60vh;
+        text-align: center;
+        gap: 16px;
+      }
+
+      .access-denied .icon {
+        font-size: 64px;
+      }
+      .access-denied h2 {
+        font-family: var(--font-display);
+        font-size: 28px;
+        color: var(--text);
+      }
+      .access-denied p {
+        color: var(--text-muted);
+        max-width: 400px;
+      }
+
+      /* ===== RESPONSIVE ===== */
+      @media (max-width: 1024px) {
         .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-            margin-bottom: 28px;
+          grid-template-columns: repeat(2, 1fr);
         }
+      }
 
+      @media (max-width: 768px) {
+        .officer-layout {
+          flex-direction: column;
+        }
+        .officer-sidebar {
+          width: 100%;
+          height: auto;
+          position: relative;
+          top: 0;
+          padding: 12px 0;
+          border-right: none;
+          border-bottom: 1px solid var(--border);
+        }
+        .officer-sidebar .sidebar-brand {
+          padding: 0 16px 12px;
+        }
+        .sidebar-nav {
+          flex-direction: row;
+          overflow-x: auto;
+          padding: 0 12px;
+          gap: 4px;
+        }
+        .sidebar-nav a {
+          padding: 8px 14px;
+          font-size: 13px;
+          white-space: nowrap;
+        }
+        .sidebar-nav a .nav-badge {
+          display: none;
+        }
+        .sidebar-footer {
+          display: none;
+        }
+        .officer-main {
+          padding: 16px;
+        }
+        .officer-main .page-header h2 {
+          font-size: 22px;
+        }
+        .stats-grid {
+          grid-template-columns: 1fr 1fr;
+          gap: 12px;
+        }
         .stat-card {
-            background: var(--card);
-            border-radius: var(--radius);
-            border: 1px solid var(--border);
-            padding: 20px 24px;
-            box-shadow: var(--shadow);
-            transition: all 0.3s ease;
+          padding: 16px;
         }
-
-        .stat-card:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-
         .stat-card .stat-number {
-            font-size: 32px;
-            font-weight: 700;
-            color: var(--text);
-            font-family: var(--font-display);
+          font-size: 24px;
         }
-
-        .stat-card .stat-label {
-            font-size: 13px;
-            color: var(--text-muted);
-        }
-
-        .stat-card.stat-primary .stat-number { color: var(--primary); }
-        .stat-card.stat-gold .stat-number { color: var(--gold); }
-        .stat-card.stat-accent .stat-number { color: var(--accent); }
-        .stat-card.stat-teal .stat-number { color: var(--teal-lt); }
-
-        /* ===== TABLE ===== */
-        .table-container {
-            background: var(--card);
-            border-radius: var(--radius);
-            border: 1px solid var(--border);
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            margin-bottom: 24px;
-        }
-
-        .table-header {
-            padding: 16px 24px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        .table-header h3 {
-            font-family: var(--font-display);
-            font-size: 18px;
-            color: var(--text);
-        }
-
-        .table-header .table-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .table-wrapper {
-            overflow-x: auto;
-            padding: 0 4px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 14px;
-        }
-
-        table thead {
-            background: var(--muted);
-        }
-
-        table th {
-            padding: 12px 16px;
-            text-align: left;
-            font-weight: 600;
-            color: var(--text-muted);
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        table td {
-            padding: 12px 16px;
-            border-bottom: 1px solid var(--border);
-            color: var(--text);
-        }
-
-        table tbody tr:hover {
-            background: var(--bg);
-        }
-
-        table .condition-badge {
-            padding: 2px 12px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 600;
-        }
-
-        table .condition-badge.good, table .condition-badge.excellent {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        table .condition-badge.fair {
-            background: #fff3cd;
-            color: #856404;
-        }
-
-        table .condition-badge.poor {
-            background: #f8d7da;
-            color: #721c24;
-        }
-
-        table .status-badge {
-            padding: 2px 12px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 600;
-            background: var(--muted);
-            color: var(--text-muted);
-        }
-
-        table .status-badge.protected {
-            background: rgba(11,122,105,0.12);
-            color: var(--primary);
-        }
-
-        table .era-tag {
-            display: inline-block;
-            padding: 2px 10px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 600;
-            background: var(--muted);
-            color: var(--text-muted);
-        }
-
-        table .era-tag.german { background: #e8e0d0; color: #6b5a3a; }
-        table .era-tag.british { background: #d0d8e8; color: #2a4a7a; }
-        table .era-tag.independence { background: #d0e8d8; color: #1a6a4a; }
-
-        table .action-btn {
-            padding: 4px 12px;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-xs);
-            background: transparent;
-            color: var(--text-muted);
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            margin-right: 4px;
-        }
-
-        table .action-btn:hover { background: var(--primary); color: var(--card); border-color: var(--primary); }
-        table .action-btn.danger:hover { background: #dc3545; color: white; border-color: #dc3545; }
-
-        /* ===== FLAG REPORTS ===== */
-        .flag-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .flag-item {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 14px 20px;
-            background: var(--card);
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--border);
-            transition: all 0.3s ease;
-        }
-
-        .flag-item:hover { border-color: var(--primary); box-shadow: var(--shadow); }
-        .flag-item .flag-priority { width: 4px; height: 40px; border-radius: 4px; flex-shrink: 0; }
-        .flag-item .flag-priority.high { background: var(--accent); }
-        .flag-item .flag-priority.medium { background: var(--gold); }
-        .flag-item .flag-priority.low { background: var(--teal-lt); }
-        .flag-item .flag-info { flex: 1; }
-        .flag-item .flag-info .flag-title { font-weight: 600; font-size: 14px; color: var(--text); }
-        .flag-item .flag-info .flag-meta { font-size: 12px; color: var(--text-muted); display: flex; gap: 12px; flex-wrap: wrap; }
-        .flag-item .flag-status { padding: 2px 14px; border-radius: 12px; font-size: 11px; font-weight: 600; }
-        .flag-item .flag-status.pending { background: #fff3cd; color: #856404; }
-        .flag-item .flag-status.reviewing { background: #cce5ff; color: #004085; }
-        .flag-item .flag-status.resolved { background: #d4edda; color: #155724; }
-
-        /* ===== OFFICERS LIST ===== */
-        .officer-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            padding: 16px;
-        }
-
-        .officer-card {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 14px 16px;
-            background: var(--bg);
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--border);
-            transition: all 0.2s ease;
-        }
-
-        .officer-card:hover { border-color: var(--primary); }
-
-        .officer-card .officer-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--gold);
-            color: var(--dark);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 15px;
-            flex-shrink: 0;
-        }
-
-        .officer-card .officer-info { flex: 1; }
-        .officer-card .officer-info .officer-name { font-weight: 600; font-size: 14px; color: var(--text); }
-        .officer-card .officer-info .officer-email { font-size: 12px; color: var(--text-muted); }
-
-        .super-badge {
-            padding: 2px 10px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 600;
-            background: rgba(240,180,41,0.15);
-            color: var(--gold);
-            border: 1px solid rgba(240,180,41,0.3);
-        }
-
-        .remove-officer-btn {
-            padding: 5px 14px;
-            border: 1px solid #dc3545;
-            border-radius: var(--radius-xs);
-            background: transparent;
-            color: #dc3545;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .remove-officer-btn:hover { background: #dc3545; color: white; }
-
-        /* ===== ADD OFFICER FORM ===== */
-        .add-officer-form {
-            display: flex;
-            gap: 12px;
-            padding: 16px;
-            border-bottom: 1px solid var(--border);
-            flex-wrap: wrap;
-        }
-
-        .add-officer-form input {
-            flex: 1;
-            min-width: 200px;
-            padding: 10px 14px;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            font-size: 14px;
-            background: var(--bg);
-            color: var(--text);
-            font-family: var(--font-body);
-        }
-
-        .add-officer-form input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(11,122,105,0.1);
-        }
-
-        /* ===== MODAL ===== */
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(12, 30, 26, 0.80);
-            backdrop-filter: blur(6px);
-            z-index: 10000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            animation: overlayIn 0.2s ease;
-        }
-
-        @keyframes overlayIn { from { opacity: 0; } to { opacity: 1; } }
-
-        .modal-box {
-            background: var(--card);
-            border-radius: var(--radius);
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow-lg);
-            width: 100%;
-            max-width: 580px;
-            max-height: 90vh;
-            overflow-y: auto;
-            animation: modalIn 0.25s ease;
-        }
-
-        @keyframes modalIn { from { opacity: 0; transform: translateY(24px) scale(0.97); } to { opacity: 1; transform: none; } }
-
-        .modal-head {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 24px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .modal-head h3 {
-            font-family: var(--font-display);
-            font-size: 20px;
-            color: var(--text);
-        }
-
-        .modal-close {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            border: none;
-            background: var(--bg);
-            font-size: 18px;
-            cursor: pointer;
-            color: var(--text-muted);
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-close:hover { background: #f3f4f6; color: var(--text); transform: scale(1.1); }
-
-        .modal-body {
-            padding: 24px;
-        }
-
         .modal-body .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
+          grid-template-columns: 1fr;
         }
+      }
 
-        .modal-body .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
+      @media (max-width: 480px) {
+        .stats-grid {
+          grid-template-columns: 1fr;
         }
-
-        .modal-body .form-group.full-width {
-            grid-column: 1 / -1;
+        .officer-main {
+          padding: 12px;
         }
-
-        .modal-body .form-group label {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text);
+        .officer-main .page-header {
+          flex-direction: column;
+          align-items: flex-start;
         }
-
-        .modal-body .form-group input,
-        .modal-body .form-group select,
-        .modal-body .form-group textarea {
-            padding: 10px 14px;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            font-size: 14px;
-            background: var(--bg);
-            color: var(--text);
-            font-family: var(--font-body);
-            transition: all 0.2s ease;
-        }
-
-        .modal-body .form-group input:focus,
-        .modal-body .form-group select:focus,
-        .modal-body .form-group textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(11,122,105,0.1);
-        }
-
-        .modal-body .form-group textarea { resize: vertical; min-height: 80px; }
-
-        .modal-foot {
-            display: flex;
-            justify-content: flex-end;
-            gap: 12px;
-            padding: 16px 24px;
-            border-top: 1px solid var(--border);
-        }
-
-        .modal-foot .btn-cancel {
-            padding: 10px 20px;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            background: transparent;
-            color: var(--text-muted);
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .modal-foot .btn-cancel:hover { background: var(--bg); color: var(--text); }
-
-        .modal-foot .btn-save {
-            padding: 10px 24px;
-            border: none;
-            border-radius: var(--radius-sm);
-            background: var(--primary);
-            color: white;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .modal-foot .btn-save:hover { opacity: 0.9; transform: translateY(-1px); }
-        .modal-foot .btn-save:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-
-        /* Toast notification */
-        .toast {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            padding: 14px 20px;
-            border-radius: var(--radius-sm);
-            font-size: 14px;
-            font-weight: 600;
-            z-index: 99999;
-            animation: toastIn 0.3s ease;
-            box-shadow: var(--shadow-lg);
-        }
-
-        @keyframes toastIn { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: none; } }
-        .toast.success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-        .toast.error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-        .toast.info { background: #cce5ff; color: #004085; border: 1px solid #b8daff; }
-
-        /* Access denied screen */
-        .access-denied {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 60vh;
-            text-align: center;
-            gap: 16px;
-        }
-
-        .access-denied .icon { font-size: 64px; }
-        .access-denied h2 { font-family: var(--font-display); font-size: 28px; color: var(--text); }
-        .access-denied p { color: var(--text-muted); max-width: 400px; }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 1024px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
-
-        @media (max-width: 768px) {
-            .officer-layout { flex-direction: column; }
-            .officer-sidebar { width: 100%; height: auto; position: relative; top: 0; padding: 12px 0; border-right: none; border-bottom: 1px solid var(--border); }
-            .officer-sidebar .sidebar-brand { padding: 0 16px 12px; }
-            .sidebar-nav { flex-direction: row; overflow-x: auto; padding: 0 12px; gap: 4px; }
-            .sidebar-nav a { padding: 8px 14px; font-size: 13px; white-space: nowrap; }
-            .sidebar-nav a .nav-badge { display: none; }
-            .sidebar-footer { display: none; }
-            .officer-main { padding: 16px; }
-            .officer-main .page-header h2 { font-size: 22px; }
-            .stats-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
-            .stat-card { padding: 16px; }
-            .stat-card .stat-number { font-size: 24px; }
-            .modal-body .form-grid { grid-template-columns: 1fr; }
-        }
-
-        @media (max-width: 480px) {
-            .stats-grid { grid-template-columns: 1fr; }
-            .officer-main { padding: 12px; }
-            .officer-main .page-header { flex-direction: column; align-items: flex-start; }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div id="app">
-        <!-- ===== HEADER ===== -->
-        <header class="main-header">
-            <div class="logo">UM</div>
-            
-            <nav class="nav-container" id="nav-menu" role="navigation" aria-label="Main Navigation">
-                <ul class="nav-links">
-                    <li><a href="../HTML/index.html">Public Site</a></li>
-                    <li><a href="../HTML/officer.html" class="active">Officer Portal</a></li>
-                </ul>
-            </nav>
+      <!-- ===== HEADER ===== -->
+      <header class="main-header">
+        <a class="logo" href="index.html" aria-label="Urithi Majengo home">UM</a>
 
-            <button class="hamburger" id="menu-toggle" aria-label="Toggle navigation">
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-            </button>
-        </header>
+        <nav
+          class="nav-container"
+          id="nav-menu"
+          role="navigation"
+          aria-label="Main Navigation"
+        >
+          <ul class="nav-links">
+            <li><a href="index.html">Public Site</a></li>
+            <li><a href="officer.html" class="active">Officer Portal</a></li>
+          </ul>
+        </nav>
 
-        <!-- ===== OFFICER LAYOUT ===== -->
-        <div class="officer-layout">
-            <!-- ===== SIDEBAR ===== -->
-            <aside class="officer-sidebar">
-                <div class="sidebar-brand">
-                    <h1>🏛️ Officer Portal</h1>
-                    <p>Antiquities Department · Tanzania</p>
+        <button
+          class="hamburger"
+          id="menu-toggle"
+          aria-label="Toggle navigation"
+        >
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </header>
+
+      <!-- ===== OFFICER LAYOUT ===== -->
+      <div class="officer-layout">
+        <!-- ===== SIDEBAR ===== -->
+        <aside class="officer-sidebar">
+          <div class="sidebar-brand">
+            <h1>🏛️ Officer Portal</h1>
+            <p>Antiquities Department · Tanzania</p>
+          </div>
+
+          <nav class="sidebar-nav" id="sidebar-nav">
+            <a
+              href="#/officer/dashboard"
+              class="active"
+              onclick="showOfficerPage('dashboard')"
+            >
+              <span class="nav-icon">📊</span> Dashboard
+            </a>
+            <a
+              href="#/officer/buildings"
+              onclick="showOfficerPage('buildings')"
+            >
+              <span class="nav-icon">🏛️</span> Buildings
+            </a>
+            <a href="#/officer/flags" onclick="showOfficerPage('flags')">
+              <span class="nav-icon">🚩</span> Flag Reports
+              <span class="nav-badge" id="nav-flag-badge">0</span>
+            </a>
+            <!-- Officers tab — injected by JS only for super-officer -->
+          </nav>
+
+          <div class="sidebar-footer">
+            <div class="user-info">
+              <div class="user-avatar" id="sidebar-initials">??</div>
+              <div>
+                <div class="user-name" id="sidebar-name">Officer</div>
+                <div class="user-role" id="sidebar-role">
+                  Antiquities Officer
                 </div>
-
-                <nav class="sidebar-nav" id="sidebar-nav">
-                    <a href="#/officer/dashboard" class="active" onclick="showOfficerPage('dashboard')">
-                        <span class="nav-icon">📊</span> Dashboard
-                    </a>
-                    <a href="#/officer/buildings" onclick="showOfficerPage('buildings')">
-                        <span class="nav-icon">🏛️</span> Buildings
-                    </a>
-                    <a href="#/officer/flags" onclick="showOfficerPage('flags')">
-                        <span class="nav-icon">🚩</span> Flag Reports
-                        <span class="nav-badge" id="nav-flag-badge">0</span>
-                    </a>
-                    <!-- Officers tab — injected by JS only for super-officer -->
-                </nav>
-
-                <div class="sidebar-footer">
-                    <div class="user-info">
-                        <div class="user-avatar" id="sidebar-initials">??</div>
-                        <div>
-                            <div class="user-name" id="sidebar-name">Officer</div>
-                            <div class="user-role" id="sidebar-role">Antiquities Officer</div>
-                        </div>
-                    </div>
-                    <button class="logout-btn" onclick="logout()">Sign Out</button>
-                </div>
-            </aside>
-
-            <!-- ===== MAIN CONTENT ===== -->
-            <main class="officer-main" id="officer-content">
-
-                <!-- ===== DASHBOARD ===== -->
-                <div id="dashboard-page">
-                    <div class="page-header">
-                        <div>
-                            <h2>Dashboard</h2>
-                            <p style="color:var(--text-muted);font-size:14px;">Overview of the heritage inventory</p>
-                        </div>
-                        <div class="header-actions">
-                            <button class="btn-primary" onclick="openBuildingModal()">+ Add Building</button>
-                        </div>
-                    </div>
-
-                    <!-- Stats -->
-                    <div class="stats-grid">
-                        <div class="stat-card stat-primary">
-                            <div class="stat-number" id="stat-buildings">—</div>
-                            <div class="stat-label">Buildings in inventory</div>
-                        </div>
-                        <div class="stat-card stat-gold">
-                            <div class="stat-number" id="stat-pending-flags">—</div>
-                            <div class="stat-label">Flag reports pending</div>
-                        </div>
-                        <div class="stat-card stat-teal">
-                            <div class="stat-number" id="stat-reviews">—</div>
-                            <div class="stat-label">Community reviews</div>
-                        </div>
-                        <div class="stat-card stat-accent">
-                            <div class="stat-number" id="stat-grade1">—</div>
-                            <div class="stat-label">Nationally listed</div>
-                        </div>
-                    </div>
-
-                    <!-- Active Flags widget -->
-                    <div class="table-container">
-                        <div class="table-header">
-                            <h3>Active Flag Reports</h3>
-                            <a href="#/officer/flags" style="color:var(--primary);font-size:14px;text-decoration:none;" onclick="showOfficerPage('flags')">View all →</a>
-                        </div>
-                        <div class="flag-list" id="dashboard-flags" style="padding:8px 16px 16px;">
-                            <p style="color:var(--text-muted);padding:20px;text-align:center;">Loading…</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ===== BUILDINGS PAGE ===== -->
-                <div id="buildings-page" style="display:none;">
-                    <div class="page-header">
-                        <div>
-                            <h2>Building Records</h2>
-                            <p style="color:var(--text-muted);font-size:14px;">Manage all heritage buildings in the inventory</p>
-                        </div>
-                        <div class="header-actions">
-                            <button class="btn-primary" onclick="openBuildingModal()">+ Add Building</button>
-                        </div>
-                    </div>
-
-                    <div class="table-container">
-                        <div class="table-header">
-                            <h3>All Buildings</h3>
-                            <div class="table-actions">
-                                <input type="text" id="building-search" placeholder="Search buildings…" 
-                                    style="padding:6px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:13px;background:var(--bg);color:var(--text);"
-                                    oninput="filterBuildings(this.value)">
-                            </div>
-                        </div>
-                        <div class="table-wrapper">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Code</th>
-                                        <th>Building</th>
-                                        <th>Era</th>
-                                        <th>Condition</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="buildings-tbody">
-                                    <tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:24px;">Loading…</td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ===== FLAG REPORTS PAGE ===== -->
-                <div id="flags-page" style="display:none;">
-                    <div class="page-header">
-                        <div>
-                            <h2>Flag Reports</h2>
-                            <p style="color:var(--text-muted);font-size:14px;">Review and respond to citizen flag reports</p>
-                        </div>
-                        <div class="header-actions">
-                            <span class="map-badge" id="flags-pending-count">Loading…</span>
-                        </div>
-                    </div>
-
-                    <div class="table-container">
-                        <div class="table-header">
-                            <h3>All Flag Reports</h3>
-                            <div class="table-actions">
-                                <select id="flag-status-filter" onchange="filterFlags()" style="padding:6px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:13px;background:var(--bg);color:var(--text);">
-                                    <option value="">All Status</option>
-                                    <option value="pending">Pending</option>
-                                    <option value="reviewing">Under Review</option>
-                                    <option value="resolved">Resolved</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="flag-list" id="flags-list" style="padding:8px 16px 16px;">
-                            <p style="color:var(--text-muted);padding:20px;text-align:center;">Loading…</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ===== OFFICERS MANAGEMENT PAGE ===== -->
-                <div id="officers-page" style="display:none;">
-                    <div class="page-header">
-                        <div>
-                            <h2>Manage Officers</h2>
-                            <p style="color:var(--text-muted);font-size:14px;">Add or remove officer access (super-officer only)</p>
-                        </div>
-                    </div>
-
-                    <div class="table-container">
-                        <div class="table-header">
-                            <h3>Add New Officer</h3>
-                        </div>
-                        <div class="add-officer-form">
-                            <select id="invite-email" style="flex:1; padding: 12px; border-radius: 8px; border: 1px solid var(--border); font-family: inherit; font-size: 14px;">
-                                <option value="">Select a user to promote...</option>
-                            </select>
-                            <button class="btn-primary" onclick="addOfficer()">+ Add Officer</button>
-                        </div>
-                        <div id="officer-msg" style="padding:0 16px;font-size:13px;display:none;"></div>
-
-                        <div class="table-header" style="border-top:1px solid var(--border);">
-                            <h3>Current Officers</h3>
-                        </div>
-                        <div class="officer-list" id="officers-list">
-                            <p style="color:var(--text-muted);text-align:center;">Loading…</p>
-                        </div>
-                    </div>
-                </div>
-
-            </main>
-        </div>
-
-        <!-- ===== FOOTER ===== -->
-        <footer class="main-footer">
-            <div class="footer-content" style="max-width:1200px;margin:0 auto;padding:20px 0;">
-                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:30px;text-align:left;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.06);">
-                    <div>
-                        <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
-                            <span style="font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--gold);">Urithi Majengo</span>
-                        </div>
-                        <p style="color:var(--text-muted);font-size:13px;line-height:1.6;max-width:280px;">A digital heritage inventory managed by the Antiquities Department of Tanzania.</p>
-                        <p style="color:var(--text-muted);font-size:12px;margin-top:8px;opacity:0.6;">© 2026 Antiquities Department - United Republic of Tanzania</p>
-                    </div>
-                    <div>
-                        <h4 style="color:rgba(255,255,255,0.4);font-size:11px;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">Explore</h4>
-                        <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:4px;">
-                            <li><a href="../HTML/index.html" style="color:var(--text-muted);text-decoration:none;font-size:13px;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''">Map & Records</a></li>
-                            <li><a href="../HTML/buildings.html" style="color:var(--text-muted);text-decoration:none;font-size:13px;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''">All Buildings</a></li>
-                            <li><a href="../HTML/community.html" style="color:var(--text-muted);text-decoration:none;font-size:13px;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''">Community</a></li>
-                            <li><a href="../HTML/risk.html" style="color:var(--text-muted);text-decoration:none;font-size:13px;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''">Report At-Risk</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 style="color:rgba(255,255,255,0.4);font-size:11px;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">Partners</h4>
-                        <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:4px;">
-                            <li style="color:var(--text-muted);font-size:13px;">Antiquities Dept</li>
-                            <li style="color:var(--text-muted);font-size:13px;">DARCH</li>
-                            <li style="color:var(--text-muted);font-size:13px;">ARU Architecture Dept</li>
-                            <li style="color:var(--text-muted);font-size:13px;">Nat'l College Tourism</li>
-                        </ul>
-                    </div>
-                </div>
-                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;padding-top:16px;">
-                    <p style="color:var(--text-muted);font-size:12px;opacity:0.6;margin:0;">© 2026 <span class="gold-text">Urithi Majengo</span>. All rights reserved.</p>
-                    <p style="color:var(--text-muted);font-size:11px;opacity:0.4;margin:0;">Built for the Antiquities Department · Tanzania</p>
-                </div>
+              </div>
             </div>
-        </footer>
+            <button class="logout-btn" onclick="logout()">Sign Out</button>
+          </div>
+        </aside>
+
+        <!-- ===== MAIN CONTENT ===== -->
+        <main class="officer-main" id="officer-content">
+          <!-- ===== DASHBOARD ===== -->
+          <div id="dashboard-page">
+            <div class="page-header">
+              <div>
+                <h2>Dashboard</h2>
+                <p style="color: var(--text-muted); font-size: 14px">
+                  Overview of the heritage inventory
+                </p>
+              </div>
+              <div class="header-actions">
+                <button class="btn-primary" onclick="openBuildingModal()">
+                  + Add Building
+                </button>
+              </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-grid">
+              <div class="stat-card stat-primary">
+                <div class="stat-number" id="stat-buildings">—</div>
+                <div class="stat-label">Buildings in inventory</div>
+              </div>
+              <div class="stat-card stat-gold">
+                <div class="stat-number" id="stat-pending-flags">—</div>
+                <div class="stat-label">Flag reports pending</div>
+              </div>
+              <div class="stat-card stat-teal">
+                <div class="stat-number" id="stat-reviews">—</div>
+                <div class="stat-label">Community reviews</div>
+              </div>
+              <div class="stat-card stat-accent">
+                <div class="stat-number" id="stat-grade1">—</div>
+                <div class="stat-label">Nationally listed</div>
+              </div>
+            </div>
+
+            <!-- Active Flags widget -->
+            <div class="table-container">
+              <div class="table-header">
+                <h3>Active Flag Reports</h3>
+                <a
+                  href="#/officer/flags"
+                  style="
+                    color: var(--primary);
+                    font-size: 14px;
+                    text-decoration: none;
+                  "
+                  onclick="showOfficerPage('flags')"
+                  >View all →</a
+                >
+              </div>
+              <div
+                class="flag-list"
+                id="dashboard-flags"
+                style="padding: 8px 16px 16px"
+              >
+                <p
+                  style="
+                    color: var(--text-muted);
+                    padding: 20px;
+                    text-align: center;
+                  "
+                >
+                  Loading…
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== BUILDINGS PAGE ===== -->
+          <div id="buildings-page" style="display: none">
+            <div class="page-header">
+              <div>
+                <h2>Building Records</h2>
+                <p style="color: var(--text-muted); font-size: 14px">
+                  Manage all heritage buildings in the inventory
+                </p>
+              </div>
+              <div class="header-actions">
+                <button class="btn-primary" onclick="openBuildingModal()">
+                  + Add Building
+                </button>
+              </div>
+            </div>
+
+            <div class="table-container">
+              <div class="table-header">
+                <h3>All Buildings</h3>
+                <div class="table-actions">
+                  <input
+                    type="text"
+                    id="building-search"
+                    placeholder="Search buildings…"
+                    style="
+                      padding: 6px 14px;
+                      border: 1px solid var(--border);
+                      border-radius: var(--radius-sm);
+                      font-size: 13px;
+                      background: var(--bg);
+                      color: var(--text);
+                    "
+                    oninput="filterBuildings(this.value)"
+                  />
+                </div>
+              </div>
+              <div class="table-wrapper">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Code</th>
+                      <th>Building</th>
+                      <th>Era</th>
+                      <th>Condition</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="buildings-tbody">
+                    <tr>
+                      <td
+                        colspan="6"
+                        style="
+                          text-align: center;
+                          color: var(--text-muted);
+                          padding: 24px;
+                        "
+                      >
+                        Loading…
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== FLAG REPORTS PAGE ===== -->
+          <div id="flags-page" style="display: none">
+            <div class="page-header">
+              <div>
+                <h2>Flag Reports</h2>
+                <p style="color: var(--text-muted); font-size: 14px">
+                  Review and respond to citizen flag reports
+                </p>
+              </div>
+              <div class="header-actions">
+                <span class="map-badge" id="flags-pending-count">Loading…</span>
+              </div>
+            </div>
+
+            <div class="table-container">
+              <div class="table-header">
+                <h3>All Flag Reports</h3>
+                <div class="table-actions">
+                  <select
+                    id="flag-status-filter"
+                    onchange="filterFlags()"
+                    style="
+                      padding: 6px 14px;
+                      border: 1px solid var(--border);
+                      border-radius: var(--radius-sm);
+                      font-size: 13px;
+                      background: var(--bg);
+                      color: var(--text);
+                    "
+                  >
+                    <option value="">All Status</option>
+                    <option value="pending">Pending</option>
+                    <option value="reviewing">Under Review</option>
+                    <option value="resolved">Resolved</option>
+                  </select>
+                </div>
+              </div>
+              <div
+                class="flag-list"
+                id="flags-list"
+                style="padding: 8px 16px 16px"
+              >
+                <p
+                  style="
+                    color: var(--text-muted);
+                    padding: 20px;
+                    text-align: center;
+                  "
+                >
+                  Loading…
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== OFFICERS MANAGEMENT PAGE ===== -->
+          <div id="officers-page" style="display: none">
+            <div class="page-header">
+              <div>
+                <h2>Manage Officers</h2>
+                <p style="color: var(--text-muted); font-size: 14px">
+                  Add or remove officer access (super-officer only)
+                </p>
+              </div>
+            </div>
+
+            <div class="table-container">
+              <div class="table-header">
+                <h3>Add New Officer</h3>
+              </div>
+              <div class="add-officer-form">
+                <select
+                  id="invite-email"
+                  style="
+                    flex: 1;
+                    padding: 12px;
+                    border-radius: 8px;
+                    border: 1px solid var(--border);
+                    font-family: inherit;
+                    font-size: 14px;
+                  "
+                >
+                  <option value="">Select a user to promote...</option>
+                </select>
+                <button class="btn-primary" onclick="addOfficer()">
+                  + Add Officer
+                </button>
+              </div>
+              <div
+                id="officer-msg"
+                style="padding: 0 16px; font-size: 13px; display: none"
+              ></div>
+
+              <div
+                class="table-header"
+                style="border-top: 1px solid var(--border)"
+              >
+                <h3>Current Officers</h3>
+              </div>
+              <div class="officer-list" id="officers-list">
+                <p style="color: var(--text-muted); text-align: center">
+                  Loading…
+                </p>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+
+      <!-- ===== FOOTER ===== -->
+      <footer class="main-footer">
+        <div
+          class="footer-content"
+          style="max-width: 1200px; margin: 0 auto; padding: 20px 0"
+        >
+          <div
+            style="
+              display: grid;
+              grid-template-columns: 1fr 1fr 1fr;
+              gap: 30px;
+              text-align: left;
+              padding-bottom: 20px;
+              border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            "
+          >
+            <div>
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 12px;
+                  margin-bottom: 8px;
+                "
+              >
+                <span
+                  style="
+                    font-family: var(--font-display);
+                    font-size: 22px;
+                    font-weight: 700;
+                    color: var(--gold);
+                  "
+                  >Urithi Majengo</span
+                >
+              </div>
+              <p
+                style="
+                  color: var(--text-muted);
+                  font-size: 13px;
+                  line-height: 1.6;
+                  max-width: 280px;
+                "
+              >
+                A digital heritage inventory managed by the Antiquities
+                Department of Tanzania.
+              </p>
+              <p
+                style="
+                  color: var(--text-muted);
+                  font-size: 12px;
+                  margin-top: 8px;
+                  opacity: 0.6;
+                "
+              >
+                © 2026 Antiquities Department - United Republic of Tanzania
+              </p>
+            </div>
+            <div>
+              <h4
+                style="
+                  color: rgba(255, 255, 255, 0.4);
+                  font-size: 11px;
+                  text-transform: uppercase;
+                  letter-spacing: 0.08em;
+                  margin-bottom: 8px;
+                "
+              >
+                Explore
+              </h4>
+              <ul
+                style="
+                  list-style: none;
+                  padding: 0;
+                  display: flex;
+                  flex-direction: column;
+                  gap: 4px;
+                "
+              >
+                <li>
+                  <a
+                    href="index.html"
+                    style="
+                      color: var(--text-muted);
+                      text-decoration: none;
+                      font-size: 13px;
+                    "
+                    onmouseover="this.style.color = 'var(--gold)'"
+                    onmouseout="this.style.color = ''"
+                    >Map & Records</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="buildings.html"
+                    style="
+                      color: var(--text-muted);
+                      text-decoration: none;
+                      font-size: 13px;
+                    "
+                    onmouseover="this.style.color = 'var(--gold)'"
+                    onmouseout="this.style.color = ''"
+                    >All Buildings</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="community.html"
+                    style="
+                      color: var(--text-muted);
+                      text-decoration: none;
+                      font-size: 13px;
+                    "
+                    onmouseover="this.style.color = 'var(--gold)'"
+                    onmouseout="this.style.color = ''"
+                    >Community</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="risk.html"
+                    style="
+                      color: var(--text-muted);
+                      text-decoration: none;
+                      font-size: 13px;
+                    "
+                    onmouseover="this.style.color = 'var(--gold)'"
+                    onmouseout="this.style.color = ''"
+                    >Report At-Risk</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h4
+                style="
+                  color: rgba(255, 255, 255, 0.4);
+                  font-size: 11px;
+                  text-transform: uppercase;
+                  letter-spacing: 0.08em;
+                  margin-bottom: 8px;
+                "
+              >
+                Partners
+              </h4>
+              <ul
+                style="
+                  list-style: none;
+                  padding: 0;
+                  display: flex;
+                  flex-direction: column;
+                  gap: 4px;
+                "
+              >
+                <li style="color: var(--text-muted); font-size: 13px">
+                  Antiquities Dept
+                </li>
+                <li style="color: var(--text-muted); font-size: 13px">DARCH</li>
+                <li style="color: var(--text-muted); font-size: 13px">
+                  ARU Architecture Dept
+                </li>
+                <li style="color: var(--text-muted); font-size: 13px">
+                  Nat'l College Tourism
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              flex-wrap: wrap;
+              gap: 12px;
+              padding-top: 16px;
+            "
+          >
+            <p
+              style="
+                color: var(--text-muted);
+                font-size: 12px;
+                opacity: 0.6;
+                margin: 0;
+              "
+            >
+              © 2026 <span class="gold-text">Urithi Majengo</span>. All rights
+              reserved.
+            </p>
+            <p
+              style="
+                color: var(--text-muted);
+                font-size: 11px;
+                opacity: 0.4;
+                margin: 0;
+              "
+            >
+              Built for the Antiquities Department · Tanzania
+            </p>
+          </div>
+        </div>
+      </footer>
     </div>
 
     <!-- ===== BUILDING MODAL ===== -->
-    <div class="modal-overlay" id="building-modal" style="display:none;" onclick="handleOverlayClick(event,'building-modal')">
-        <div class="modal-box" onclick="event.stopPropagation()">
-            <div class="modal-head">
-                <h3 id="building-modal-title">Add Building</h3>
-                <button class="modal-close" onclick="closeBuildingModal()">✕</button>
-            </div>
-            <div class="modal-body">
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="b-name">Building Name *</label>
-                        <input type="text" id="b-name" placeholder="e.g. Karimjee Hall">
-                    </div>
-                    <div class="form-group">
-                        <label for="b-code">Code</label>
-                        <input type="text" id="b-code" placeholder="e.g. DSH-001">
-                    </div>
-                    <div class="form-group">
-                        <label for="b-era">Era *</label>
-                        <select id="b-era">
-                            <option value="">Select era</option>
-                            <option value="German">German</option>
-                            <option value="British">British</option>
-                            <option value="Independence">Independence</option>
-                            <option value="Pre-colonial">Pre-colonial</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="b-year">Year Built *</label>
-                        <input type="number" id="b-year" placeholder="e.g. 1910" min="1700" max="2000">
-                    </div>
-                    <div class="form-group">
-                        <label for="b-condition">Condition *</label>
-                        <select id="b-condition">
-                            <option value="">Select condition</option>
-                            <option value="Excellent">Excellent</option>
-                            <option value="Good">Good</option>
-                            <option value="Fair">Fair</option>
-                            <option value="Poor">Poor</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="b-status">Status</label>
-                        <select id="b-status">
-                            <option value="Listed">Listed</option>
-                            <option value="Grade I - Protected">Grade I - Protected</option>
-                            <option value="Grade II - Protected">Grade II - Protected</option>
-                            <option value="Under Review">Under Review</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="b-location">Location</label>
-                        <input type="text" id="b-location" placeholder="e.g. Kivukoni, Dar es Salaam">
-                    </div>
-                    <div class="form-group">
-                        <label for="b-architect">Architect</label>
-                        <input type="text" id="b-architect" placeholder="e.g. Unknown">
-                    </div>
-                    <div class="form-group">
-                        <label for="b-lat">Latitude</label>
-                        <input type="number" id="b-lat" placeholder="-6.8" step="0.0001">
-                    </div>
-                    <div class="form-group">
-                        <label for="b-lng">Longitude</label>
-                        <input type="number" id="b-lng" placeholder="39.28" step="0.0001">
-                    </div>
-                    <div class="form-group full-width">
-                        <label for="b-description">Description</label>
-                        <textarea id="b-description" placeholder="Brief historical description…"></textarea>
-                    </div>
-                    <div class="form-group full-width">
-                        <label for="b-significance">Historical Significance</label>
-                        <textarea id="b-significance" placeholder="Why this building matters…"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-foot">
-                <button class="btn-cancel" onclick="closeBuildingModal()">Cancel</button>
-                <button class="btn-save" id="building-save-btn" onclick="saveBuilding()">Save Building</button>
-            </div>
+    <div
+      class="modal-overlay"
+      id="building-modal"
+      style="display: none"
+      onclick="handleOverlayClick(event, 'building-modal')"
+    >
+      <div class="modal-box" onclick="event.stopPropagation()">
+        <div class="modal-head">
+          <h3 id="building-modal-title">Add Building</h3>
+          <button class="modal-close" onclick="closeBuildingModal()">✕</button>
         </div>
+        <div class="modal-body">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="b-name">Building Name *</label>
+              <input type="text" id="b-name" placeholder="e.g. Karimjee Hall" />
+            </div>
+            <div class="form-group">
+              <label for="b-code">Code</label>
+              <input type="text" id="b-code" placeholder="e.g. DSH-001" />
+            </div>
+            <div class="form-group">
+              <label for="b-era">Era *</label>
+              <select id="b-era">
+                <option value="">Select era</option>
+                <option value="German">German</option>
+                <option value="British">British</option>
+                <option value="Independence">Independence</option>
+                <option value="Pre-colonial">Pre-colonial</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="b-year">Year Built *</label>
+              <input
+                type="number"
+                id="b-year"
+                placeholder="e.g. 1910"
+                min="1700"
+                max="2000"
+              />
+            </div>
+            <div class="form-group">
+              <label for="b-condition">Condition *</label>
+              <select id="b-condition">
+                <option value="">Select condition</option>
+                <option value="Excellent">Excellent</option>
+                <option value="Good">Good</option>
+                <option value="Fair">Fair</option>
+                <option value="Poor">Poor</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="b-status">Status</label>
+              <select id="b-status">
+                <option value="Listed">Listed</option>
+                <option value="Grade I - Protected">Grade I - Protected</option>
+                <option value="Grade II - Protected">
+                  Grade II - Protected
+                </option>
+                <option value="Under Review">Under Review</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="b-location">Location <span id="geocode-status" style="font-size: 11px; color: var(--gold); margin-left: 8px;"></span></label>
+              <input
+                type="text"
+                id="b-location"
+                placeholder="e.g. Kivukoni, Dar es Salaam"
+              />
+            </div>
+            <div class="form-group">
+              <label for="b-architect">Architect</label>
+              <input type="text" id="b-architect" placeholder="e.g. Unknown" />
+            </div>
+            <div class="form-group">
+              <label for="b-area">Area</label>
+              <input type="text" id="b-area" placeholder="e.g. 740 m²" />
+            </div>
+            <div class="form-group">
+              <label for="b-ownership">Ownership (Legal)</label>
+              <input type="text" id="b-ownership" placeholder="e.g. Government" />
+            </div>
+            <div class="form-group">
+              <label for="b-style">Architectural Style</label>
+              <input type="text" id="b-style" placeholder="e.g. Swahili" />
+            </div>
+            <div class="form-group">
+              <label for="b-lat">Latitude</label>
+              <input
+                type="number"
+                id="b-lat"
+                placeholder="-6.8"
+                step="0.0001"
+              />
+            </div>
+            <div class="form-group">
+              <label for="b-lng">Longitude</label>
+              <input
+                type="number"
+                id="b-lng"
+                placeholder="39.28"
+                step="0.0001"
+              />
+            </div>
+            <div class="form-group full-width">
+              <label for="b-description">Description</label>
+              <textarea
+                id="b-description"
+                placeholder="Brief historical description…"
+              ></textarea>
+            </div>
+            <div class="form-group full-width">
+              <label for="b-significance">Historical Significance</label>
+              <textarea
+                id="b-significance"
+                placeholder="Why this building matters…"
+              ></textarea>
+            </div>
+            <div class="form-group full-width">
+              <label for="b-media">Building Media (Images/Video)</label>
+              <input type="file" id="b-media" multiple accept="image/*,video/*,application/pdf" />
+              <small style="color: var(--text-muted); display: block; margin-top: 4px;">Upload images, videos, and documents.</small>
+            </div>
+            <div class="form-group full-width">
+              <label for="b-tour-url">360° Tour URL (optional)</label>
+              <input type="text" id="b-tour-url" placeholder="e.g. https://my-360-tour.com/..." />
+            </div>
+          </div>
+        </div>
+        <div class="modal-foot">
+          <button class="btn-cancel" onclick="closeBuildingModal()">
+            Cancel
+          </button>
+          <button
+            class="btn-save"
+            id="building-save-btn"
+            onclick="saveBuilding()"
+          >
+            Save Building
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- ===== SCRIPTS ===== -->
-    <script src="../JS/data.js"></script>
-    <script src="../JS/api.js"></script>
+    <script src="../JS/data.js?v=2"></script>
+    <script src="../JS/api.js?v=2"></script>
+    <script src="../JS/app.js?v=2"></script>
     <script>
-        // ========================================
-        // HAMBURGER MENU
-        // ========================================
-        document.addEventListener('DOMContentLoaded', function() {
-            const menuToggle = document.getElementById('menu-toggle');
-            const menu = document.getElementById('nav-menu');
-            if (menuToggle && menu) {
-                menuToggle.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    menu.classList.toggle('open');
-                    menuToggle.classList.toggle('open');
-                });
+      // ========================================
+      // HAMBURGER MENU
+      // ========================================
+      document.addEventListener("DOMContentLoaded", function () {
+        const menuToggle = document.getElementById("menu-toggle");
+        const menu = document.getElementById("nav-menu");
+        if (menuToggle && menu) {
+          menuToggle.addEventListener("click", function (e) {
+            e.stopPropagation();
+            menu.classList.toggle("open");
+            menuToggle.classList.toggle("open");
+          });
+        }
+        document.addEventListener("click", function (e) {
+          if (menu && menu.classList.contains("open")) {
+            if (!menu.contains(e.target) && !menuToggle.contains(e.target)) {
+              menu.classList.remove("open");
+              menuToggle.classList.remove("open");
             }
-            document.addEventListener('click', function(e) {
-                if (menu && menu.classList.contains('open')) {
-                    if (!menu.contains(e.target) && !menuToggle.contains(e.target)) {
-                        menu.classList.remove('open');
-                        menuToggle.classList.remove('open');
-                    }
-                }
-            });
+          }
         });
+      });
 
-        // ========================================
-        // GLOBAL STATE
-        // ========================================
-        let allFlags     = [];
-        let allBuildings = [];
-        let currentBuildingId = null; // null = add mode, number = edit mode
-        let currentUser  = null;
+      // ========================================
+      // GLOBAL STATE
+      // ========================================
+      let allFlags = [];
+      let allBuildings = [];
+      let currentBuildingId = null; // null = add mode, number = edit mode
+      let currentUser = null;
 
-        // ========================================
-        // AUTH GUARD — verify role server-side
-        // ========================================
-        async function initAuth() {
-            const token = localStorage.getItem('token');
-            const cachedUser = JSON.parse(localStorage.getItem('user') || 'null');
+      // ========================================
+      // AUTH GUARD — verify role server-side
+      // ========================================
+      async function initAuth() {
+        const token = localStorage.getItem("token");
+        const cachedUser = JSON.parse(localStorage.getItem("user") || "null");
 
-            // No token at all → go to login
-            if (!token) {
-                window.location.href = 'login.html';
-                return;
-            }
+        // No token at all → go to login
+        if (!token) {
+          window.location.href = "login.html";
+          return;
+        }
 
-            try {
-                // Verify with server
-                const me = await API.getMe();
+        try {
+          // Verify with server
+          const me = await API.getMe();
 
-                if (!me || !me.id) {
-                    // Token invalid/expired
-                    localStorage.removeItem('token');
-                    localStorage.removeItem('user');
-                    window.location.href = 'login.html';
-                    return;
-                }
+          if (!me || !me.id) {
+            // Token invalid/expired
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+            window.location.href = "login.html";
+            return;
+          }
 
-                if (me.role !== 'officer') {
-                    // Logged in but not an officer
-                    document.getElementById('officer-content').innerHTML = `
+          if (me.role !== "officer") {
+            // Logged in but not an officer
+            document.getElementById("officer-content").innerHTML = `
                         <div class="access-denied">
                             <div class="icon">🔒</div>
                             <h2>Access Denied</h2>
                             <p>This portal is for Antiquities Department officers only. Your account does not have officer access.</p>
-                            <a href="../HTML/index.html" class="btn-primary" style="text-decoration:none;display:inline-block;margin-top:8px;">Return to Public Site</a>
+                            <a href="index.html" class="btn-primary" style="text-decoration:none;display:inline-block;margin-top:8px;">Return to Public Site</a>
                         </div>`;
-                    return;
-                }
+            return;
+          }
 
-                // Save verified user to local state & localStorage
-                currentUser = me;
-                localStorage.setItem('user', JSON.stringify(me));
+          // Save verified user to local state & localStorage
+          currentUser = me;
+          localStorage.setItem("user", JSON.stringify(me));
 
-                // Fill sidebar
-                const name = me.full_name || me.email || 'Officer';
-                const initials = name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
-                document.getElementById('sidebar-initials').textContent = initials;
-                document.getElementById('sidebar-name').textContent     = name;
-                document.getElementById('sidebar-role').textContent     = me.is_super_officer ? 'Super Officer' : 'Antiquities Officer';
+          // Fill sidebar
+          const name = me.full_name || me.email || "Officer";
+          const initials = name
+            .split(" ")
+            .map((w) => w[0])
+            .join("")
+            .toUpperCase()
+            .slice(0, 2);
+          document.getElementById("sidebar-initials").textContent = initials;
+          document.getElementById("sidebar-name").textContent = name;
+          document.getElementById("sidebar-role").textContent =
+            me.is_super_officer ? "Super Officer" : "Antiquities Officer";
 
-                // Show Officers tab only for super-officer
-                if (me.is_super_officer) {
-                    const nav = document.getElementById('sidebar-nav');
-                    const officerLink = document.createElement('a');
-                    officerLink.href = '#/officer/officers';
-                    officerLink.innerHTML = '<span class="nav-icon">👥</span> Manage Officers';
-                    officerLink.onclick = () => showOfficerPage('officers');
-                    nav.appendChild(officerLink);
-                }
+          // Show Officers tab only for super-officer
+          if (me.is_super_officer) {
+            const nav = document.getElementById("sidebar-nav");
+            const officerLink = document.createElement("a");
+            officerLink.href = "#/officer/officers";
+            officerLink.innerHTML =
+              '<span class="nav-icon">👥</span> Manage Officers';
+            officerLink.onclick = () => showOfficerPage("officers");
+            nav.appendChild(officerLink);
+          }
 
-                // Load dashboard
-                loadDashboard();
-
-            } catch (err) {
-                console.error('Auth check failed:', err);
-                // Network error — use cached data if available
-                if (cachedUser && cachedUser.role === 'officer') {
-                    currentUser = cachedUser;
-                    const name = cachedUser.full_name || 'Officer';
-                    const initials = name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
-                    document.getElementById('sidebar-initials').textContent = initials;
-                    document.getElementById('sidebar-name').textContent     = name;
-                    document.getElementById('sidebar-role').textContent     = cachedUser.is_super_officer ? 'Super Officer' : 'Antiquities Officer';
-                    if (cachedUser.is_super_officer) {
-                        const nav = document.getElementById('sidebar-nav');
-                        const officerLink = document.createElement('a');
-                        officerLink.href = '#/officer/officers';
-                        officerLink.innerHTML = '<span class="nav-icon">👥</span> Manage Officers';
-                        officerLink.onclick = () => showOfficerPage('officers');
-                        nav.appendChild(officerLink);
-                    }
-                    loadDashboard();
-                } else {
-                    window.location.href = 'login.html';
-                }
+          // Load dashboard
+          loadDashboard();
+        } catch (err) {
+          console.error("Auth check failed:", err);
+          // Network error — use cached data if available
+          if (cachedUser && cachedUser.role === "officer") {
+            currentUser = cachedUser;
+            const name = cachedUser.full_name || "Officer";
+            const initials = name
+              .split(" ")
+              .map((w) => w[0])
+              .join("")
+              .toUpperCase()
+              .slice(0, 2);
+            document.getElementById("sidebar-initials").textContent = initials;
+            document.getElementById("sidebar-name").textContent = name;
+            document.getElementById("sidebar-role").textContent =
+              cachedUser.is_super_officer
+                ? "Super Officer"
+                : "Antiquities Officer";
+            if (cachedUser.is_super_officer) {
+              const nav = document.getElementById("sidebar-nav");
+              const officerLink = document.createElement("a");
+              officerLink.href = "#/officer/officers";
+              officerLink.innerHTML =
+                '<span class="nav-icon">👥</span> Manage Officers';
+              officerLink.onclick = () => showOfficerPage("officers");
+              nav.appendChild(officerLink);
             }
+            loadDashboard();
+          } else {
+            window.location.href = "login.html";
+          }
         }
+      }
 
-        // ========================================
-        // LOAD DASHBOARD DATA
-        // ========================================
-        async function loadDashboard() {
-            try {
-                const stats = await API.getStats();
-                document.getElementById('stat-buildings').textContent     = stats.totalBuildings;
-                document.getElementById('stat-pending-flags').textContent = stats.pendingFlags;
-                document.getElementById('stat-reviews').textContent       = stats.totalReviews;
-                document.getElementById('stat-grade1').textContent        = stats.gradeIBuildings;
+      // ========================================
+      // LOAD DASHBOARD DATA
+      // ========================================
+      async function loadDashboard() {
+        try {
+          const stats = await API.getStats();
+          document.getElementById("stat-buildings").textContent =
+            stats.totalBuildings;
+          document.getElementById("stat-pending-flags").textContent =
+            stats.pendingFlags;
+          document.getElementById("stat-reviews").textContent =
+            stats.totalReviews;
+          document.getElementById("stat-grade1").textContent =
+            stats.gradeIBuildings;
 
-                // Update sidebar badge
-                const badge = document.getElementById('nav-flag-badge');
-                if (badge) badge.textContent = stats.pendingFlags;
+          // Update sidebar badge
+          const badge = document.getElementById("nav-flag-badge");
+          if (badge) badge.textContent = stats.pendingFlags;
 
-                // Load active flags widget
-                const flags = await API.getFlags();
-                allFlags = flags;
-                renderDashboardFlags(flags.filter(f => f.status === 'pending').slice(0, 3));
-            } catch (err) {
-                console.error('Dashboard load error:', err);
-            }
+          // Load active flags widget
+          const flags = await API.getFlags();
+          allFlags = flags;
+          renderDashboardFlags(
+            flags.filter((f) => f.status === "pending").slice(0, 3),
+          );
+        } catch (err) {
+          console.error("Dashboard load error:", err);
         }
+      }
 
-        // ========================================
-        // BUILDINGS TABLE
-        // ========================================
-        async function loadBuildingsTable() {
-            const tbody = document.getElementById('buildings-tbody');
-            try {
-                const buildings = await API.getBuildings();
-                allBuildings = buildings;
-                renderBuildingsTable(buildings);
-            } catch (err) {
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:24px;">Could not load buildings.</td></tr>';
-            }
+      // ========================================
+      // BUILDINGS TABLE
+      // ========================================
+      async function loadBuildingsTable() {
+        const tbody = document.getElementById("buildings-tbody");
+        try {
+          const buildings = await API.getBuildings();
+          allBuildings = buildings;
+          renderBuildingsTable(buildings);
+        } catch (err) {
+          tbody.innerHTML =
+            '<tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:24px;">Could not load buildings.</td></tr>';
         }
+      }
 
-        function renderBuildingsTable(buildings) {
-            const tbody = document.getElementById('buildings-tbody');
-            if (!buildings.length) {
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:24px;">No buildings found.</td></tr>';
-                return;
-            }
-            tbody.innerHTML = buildings.map(b => `
+      function renderBuildingsTable(buildings) {
+        const tbody = document.getElementById("buildings-tbody");
+        if (!buildings.length) {
+          tbody.innerHTML =
+            '<tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:24px;">No buildings found.</td></tr>';
+          return;
+        }
+        tbody.innerHTML = buildings
+          .map(
+            (b) => `
                 <tr>
                     <td><strong>${b.code || b.id}</strong></td>
-                    <td>${b.name || b.title || 'Unknown'}</td>
-                    <td><span class="era-tag ${(b.era||'').toLowerCase()}">${b.era || '—'}</span></td>
-                    <td><span class="condition-badge ${(b.condition||'').toLowerCase()}">${b.condition || '—'}</span></td>
-                    <td><span class="status-badge">${b.status || '—'}</span></td>
+                    <td>${b.name || b.title || "Unknown"}</td>
+                    <td><span class="era-tag ${(b.era || "").toLowerCase()}">${b.era || "—"}</span></td>
+                    <td><span class="condition-badge ${(b.condition || "").toLowerCase()}">${b.condition || "—"}</span></td>
+                    <td><span class="status-badge">${b.status || "—"}</span></td>
                     <td>
                         <button class="action-btn" onclick="openEditBuildingModal(${b.id})">Edit</button>
-                        <button class="action-btn danger" onclick="deleteBuilding(${b.id}, '${(b.name||'').replace(/'/g, "\\'")}')">Delete</button>
+                        <button class="action-btn danger" onclick="deleteBuilding(${b.id}, '${(b.name || "").replace(/'/g, "\\'")}')">Delete</button>
                     </td>
                 </tr>
-            `).join('');
+            `,
+          )
+          .join("");
+      }
+
+      function filterBuildings(query) {
+        const q = query.toLowerCase();
+        const filtered = allBuildings.filter(
+          (b) =>
+            (b.name || "").toLowerCase().includes(q) ||
+            (b.code || "").toLowerCase().includes(q) ||
+            (b.era || "").toLowerCase().includes(q) ||
+            (b.location || "").toLowerCase().includes(q),
+        );
+        renderBuildingsTable(filtered);
+      }
+
+      // ========================================
+      // BUILDING MODAL — ADD
+      // ========================================
+      function openBuildingModal() {
+        currentBuildingId = null;
+        document.getElementById("building-modal-title").textContent =
+          "Add New Building";
+        document.getElementById("building-save-btn").textContent =
+          "Save Building";
+        // Clear form
+        [
+          "b-name",
+          "b-code",
+          "b-era",
+          "b-year",
+          "b-condition",
+          "b-status",
+          "b-location",
+          "b-architect",
+          "b-lat",
+          "b-lng",
+          "b-area",
+          "b-ownership",
+          "b-style",
+          "b-tour-url",
+          "b-description",
+          "b-significance",
+        ].forEach((id) => {
+          const el = document.getElementById(id);
+          if (el) el.value = "";
+        });
+        
+        // Auto-generate building code based on the last building
+        let nextCode = "DSH-001";
+        if (allBuildings && allBuildings.length > 0) {
+          const codes = allBuildings
+            .map(b => b.code)
+            .filter(c => c && c.startsWith("DSH-"))
+            .map(c => parseInt(c.split("-")[1], 10))
+            .filter(n => !isNaN(n));
+          if (codes.length > 0) {
+            const max = Math.max(...codes);
+            nextCode = `DSH-${String(max + 1).padStart(3, "0")}`;
+          }
         }
+        document.getElementById("b-code").value = nextCode;
 
-        function filterBuildings(query) {
-            const q = query.toLowerCase();
-            const filtered = allBuildings.filter(b =>
-                (b.name||'').toLowerCase().includes(q) ||
-                (b.code||'').toLowerCase().includes(q) ||
-                (b.era||'').toLowerCase().includes(q) ||
-                (b.location||'').toLowerCase().includes(q)
-            );
-            renderBuildingsTable(filtered);
-        }
+        document.getElementById("b-status").value = "Listed";
+        document.getElementById("building-modal").style.display = "flex";
+      }
 
-        // ========================================
-        // BUILDING MODAL — ADD
-        // ========================================
-        function openBuildingModal() {
-            currentBuildingId = null;
-            document.getElementById('building-modal-title').textContent = 'Add New Building';
-            document.getElementById('building-save-btn').textContent = 'Save Building';
-            // Clear form
-            ['b-name','b-code','b-era','b-year','b-condition','b-status','b-location','b-architect','b-lat','b-lng','b-description','b-significance'].forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.value = '';
-            });
-            document.getElementById('b-status').value = 'Listed';
-            document.getElementById('building-modal').style.display = 'flex';
-        }
-
-        // ========================================
-        // BUILDING MODAL — EDIT
-        // ========================================
-        async function openEditBuildingModal(id) {
-            currentBuildingId = id;
-            document.getElementById('building-modal-title').textContent = 'Edit Building';
-            document.getElementById('building-save-btn').textContent = 'Update Building';
-            document.getElementById('building-modal').style.display = 'flex';
-
+      // Add Geocoding listener to Location input
+      document.addEventListener("DOMContentLoaded", function () {
+        const locationInput = document.getElementById("b-location");
+        if (locationInput) {
+          locationInput.addEventListener("blur", async function() {
+            const loc = this.value.trim();
+            if (!loc) return;
+            
+            const statusEl = document.getElementById("geocode-status");
+            if(statusEl) statusEl.textContent = "Fetching coordinates...";
             try {
-                const b = await API.getBuilding(id);
-                document.getElementById('b-name').value        = b.name || '';
-                document.getElementById('b-code').value        = b.code || '';
-                document.getElementById('b-era').value         = b.era || '';
-                document.getElementById('b-year').value        = b.year || '';
-                document.getElementById('b-condition').value   = b.condition || '';
-                document.getElementById('b-status').value      = b.status || 'Listed';
-                document.getElementById('b-location').value    = b.location || '';
-                document.getElementById('b-architect').value   = b.architect || '';
-                document.getElementById('b-lat').value         = b.lat || '';
-                document.getElementById('b-lng').value         = b.lng || '';
-                document.getElementById('b-description').value = b.description || '';
-                document.getElementById('b-significance').value= b.significance || '';
-            } catch (err) {
-                showToast('Could not load building data.', 'error');
-                closeBuildingModal();
+              const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(loc + ", Tanzania")}&format=json&limit=1`);
+              const data = await response.json();
+              if (data && data.length > 0) {
+                document.getElementById("b-lat").value = parseFloat(data[0].lat).toFixed(4);
+                document.getElementById("b-lng").value = parseFloat(data[0].lon).toFixed(4);
+                if(statusEl) statusEl.textContent = "Found!";
+                setTimeout(() => { if(statusEl) statusEl.textContent = ""; }, 3000);
+              } else {
+                if(statusEl) statusEl.textContent = "Not found";
+              }
+            } catch(err) {
+              if(statusEl) statusEl.textContent = "Error fetching";
             }
+          });
+        }
+      });
+
+      // ========================================
+      // BUILDING MODAL — EDIT
+      // ========================================
+      async function openEditBuildingModal(id) {
+        currentBuildingId = id;
+        document.getElementById("building-modal-title").textContent =
+          "Edit Building";
+        document.getElementById("building-save-btn").textContent =
+          "Update Building";
+        document.getElementById("building-modal").style.display = "flex";
+
+        try {
+          const b = await API.getBuilding(id);
+          document.getElementById("b-name").value = b.name || "";
+          document.getElementById("b-code").value = b.code || "";
+          document.getElementById("b-era").value = b.era || "";
+          document.getElementById("b-year").value = b.year || "";
+          document.getElementById("b-condition").value = b.condition || "";
+          document.getElementById("b-status").value = b.status || "Listed";
+          document.getElementById("b-location").value = b.location || "";
+          document.getElementById("b-architect").value = b.architect || "";
+          if (document.getElementById("b-area")) document.getElementById("b-area").value = b.area || "";
+          if (document.getElementById("b-ownership")) document.getElementById("b-ownership").value = b.ownership || "";
+          if (document.getElementById("b-style")) document.getElementById("b-style").value = b.style || "";
+          if (document.getElementById("b-tour-url")) document.getElementById("b-tour-url").value = b.panorama_url || "";
+          document.getElementById("b-lat").value = b.lat || "";
+          document.getElementById("b-lng").value = b.lng || "";
+          document.getElementById("b-description").value = b.description || "";
+          document.getElementById("b-significance").value =
+            b.significance || "";
+        } catch (err) {
+          showToast("Could not load building data.", "error");
+          closeBuildingModal();
+        }
+      }
+
+      function closeBuildingModal() {
+        document.getElementById("building-modal").style.display = "none";
+        currentBuildingId = null;
+      }
+
+      function handleOverlayClick(e, modalId) {
+        if (e.target.id === modalId) {
+          document.getElementById(modalId).style.display = "none";
+        }
+      }
+
+      // ========================================
+      // SAVE BUILDING (create or update)
+      // ========================================
+      async function saveBuilding() {
+        const name = document.getElementById("b-name").value.trim();
+        const era = document.getElementById("b-era").value;
+        const year = document.getElementById("b-year").value;
+        const condition = document.getElementById("b-condition").value;
+
+        if (!name || !era || !year || !condition) {
+          showToast(
+            "Please fill in required fields: Name, Era, Year, Condition.",
+            "error",
+          );
+          return;
         }
 
-        function closeBuildingModal() {
-            document.getElementById('building-modal').style.display = 'none';
-            currentBuildingId = null;
-        }
+        const payload = {
+          name,
+          code: document.getElementById("b-code").value.trim() || undefined,
+          era,
+          year: parseInt(year),
+          condition,
+          status: document.getElementById("b-status").value || "Listed",
+          location:
+            document.getElementById("b-location").value.trim() ||
+            "Dar es Salaam",
+          architect:
+            document.getElementById("b-architect").value.trim() || "Unknown",
+          area: document.getElementById("b-area")?.value.trim() || undefined,
+          ownership: document.getElementById("b-ownership")?.value.trim() || undefined,
+          style: document.getElementById("b-style")?.value.trim() || undefined,
+          panorama_url: document.getElementById("b-tour-url")?.value.trim() || undefined,
+          lat: parseFloat(document.getElementById("b-lat").value) || 0,
+          lng: parseFloat(document.getElementById("b-lng").value) || 0,
+          description: document.getElementById("b-description").value.trim(),
+          significance: document.getElementById("b-significance").value.trim(),
+        };
 
-        function handleOverlayClick(e, modalId) {
-            if (e.target.id === modalId) {
-                document.getElementById(modalId).style.display = 'none';
+        const btn = document.getElementById("building-save-btn");
+        btn.disabled = true;
+        btn.textContent = "Uploading Media...";
+
+        try {
+          const mediaInput = document.getElementById("b-media");
+          if (mediaInput && mediaInput.files.length > 0) {
+            const uploadedUrls = await API.uploadBuildingMedia(mediaInput.files);
+            if (uploadedUrls) {
+              payload.mediaUrls = uploadedUrls;
+            } else {
+              showToast("Failed to upload some media.", "error");
             }
+          }
+
+          btn.textContent = "Saving…";
+          if (currentBuildingId) {
+            await API.updateBuilding(currentBuildingId, payload);
+            showToast("✅ Building updated successfully!", "success");
+          } else {
+            await API.createBuilding(payload);
+            showToast("✅ Building added to the database!", "success");
+          }
+          closeBuildingModal();
+          await loadBuildingsTable();
+          await loadDashboard();
+        } catch (err) {
+          showToast("❌ " + err.message, "error");
+        } finally {
+          btn.disabled = false;
+          btn.textContent = currentBuildingId
+            ? "Update Building"
+            : "Save Building";
         }
+      }
 
-        // ========================================
-        // SAVE BUILDING (create or update)
-        // ========================================
-        async function saveBuilding() {
-            const name      = document.getElementById('b-name').value.trim();
-            const era       = document.getElementById('b-era').value;
-            const year      = document.getElementById('b-year').value;
-            const condition = document.getElementById('b-condition').value;
-
-            if (!name || !era || !year || !condition) {
-                showToast('Please fill in required fields: Name, Era, Year, Condition.', 'error');
-                return;
-            }
-
-            const payload = {
-                name,
-                code:         document.getElementById('b-code').value.trim() || undefined,
-                era,
-                year:         parseInt(year),
-                condition,
-                status:       document.getElementById('b-status').value || 'Listed',
-                location:     document.getElementById('b-location').value.trim() || 'Dar es Salaam',
-                architect:    document.getElementById('b-architect').value.trim() || 'Unknown',
-                lat:          parseFloat(document.getElementById('b-lat').value) || 0,
-                lng:          parseFloat(document.getElementById('b-lng').value) || 0,
-                description:  document.getElementById('b-description').value.trim(),
-                significance: document.getElementById('b-significance').value.trim()
-            };
-
-            const btn = document.getElementById('building-save-btn');
-            btn.disabled = true;
-            btn.textContent = 'Saving…';
-
-            try {
-                if (currentBuildingId) {
-                    await API.updateBuilding(currentBuildingId, payload);
-                    showToast('✅ Building updated successfully!', 'success');
-                } else {
-                    await API.createBuilding(payload);
-                    showToast('✅ Building added to the database!', 'success');
-                }
-                closeBuildingModal();
-                await loadBuildingsTable();
-                await loadDashboard();
-            } catch (err) {
-                showToast('❌ ' + err.message, 'error');
-            } finally {
-                btn.disabled = false;
-                btn.textContent = currentBuildingId ? 'Update Building' : 'Save Building';
-            }
+      // ========================================
+      // DELETE BUILDING
+      // ========================================
+      async function deleteBuilding(id, name) {
+        if (
+          !confirm(
+            `Are you sure you want to delete "${name}"? This cannot be undone.`,
+          )
+        )
+          return;
+        try {
+          await API.deleteBuilding(id);
+          showToast("🗑️ Building deleted.", "info");
+          await loadBuildingsTable();
+          await loadDashboard();
+        } catch (err) {
+          showToast("❌ " + err.message, "error");
         }
+      }
 
-        // ========================================
-        // DELETE BUILDING
-        // ========================================
-        async function deleteBuilding(id, name) {
-            if (!confirm(`Are you sure you want to delete "${name}"? This cannot be undone.`)) return;
-            try {
-                await API.deleteBuilding(id);
-                showToast('🗑️ Building deleted.', 'info');
-                await loadBuildingsTable();
-                await loadDashboard();
-            } catch (err) {
-                showToast('❌ ' + err.message, 'error');
-            }
+      // ========================================
+      // RENDER FLAGS
+      // ========================================
+      function priorityClass(riskType) {
+        const high = ["structural", "demolition", "fire"];
+        const medium = ["neglect", "vandalism", "development"];
+        if (high.includes(riskType)) return "high";
+        if (medium.includes(riskType)) return "medium";
+        return "low";
+      }
+
+      function statusLabel(status) {
+        if (status === "pending")
+          return '<span class="flag-status pending">Pending</span>';
+        if (status === "reviewing")
+          return '<span class="flag-status reviewing">Under Review</span>';
+        if (status === "resolved")
+          return '<span class="flag-status resolved">Resolved</span>';
+        return `<span class="flag-status">${status}</span>`;
+      }
+
+      function formatDate(iso) {
+        if (!iso) return "—";
+        return new Date(iso).toLocaleDateString("en-GB");
+      }
+
+      function renderDashboardFlags(flags) {
+        const container = document.getElementById("dashboard-flags");
+        if (!flags.length) {
+          container.innerHTML =
+            '<p style="color:var(--text-muted);padding:20px;text-align:center;">No active flags. 🎉</p>';
+          return;
         }
-
-        // ========================================
-        // RENDER FLAGS
-        // ========================================
-        function priorityClass(riskType) {
-            const high   = ['structural', 'demolition', 'fire'];
-            const medium = ['neglect', 'vandalism', 'development'];
-            if (high.includes(riskType)) return 'high';
-            if (medium.includes(riskType)) return 'medium';
-            return 'low';
-        }
-
-        function statusLabel(status) {
-            if (status === 'pending')   return '<span class="flag-status pending">Pending</span>';
-            if (status === 'reviewing') return '<span class="flag-status reviewing">Under Review</span>';
-            if (status === 'resolved')  return '<span class="flag-status resolved">Resolved</span>';
-            return `<span class="flag-status">${status}</span>`;
-        }
-
-        function formatDate(iso) {
-            if (!iso) return '—';
-            return new Date(iso).toLocaleDateString('en-GB');
-        }
-
-        function renderDashboardFlags(flags) {
-            const container = document.getElementById('dashboard-flags');
-            if (!flags.length) {
-                container.innerHTML = '<p style="color:var(--text-muted);padding:20px;text-align:center;">No active flags. 🎉</p>';
-                return;
-            }
-            container.innerHTML = flags.map(f => `
+        container.innerHTML = flags
+          .map(
+            (f) => `
                 <div class="flag-item">
                     <div class="flag-priority ${priorityClass(f.risk_type)}"></div>
                     <div class="flag-info">
-                        <div class="flag-title">${f.reporter_name || 'Anonymous'} · ${f.risk_type || 'Unknown risk'}</div>
+                        <div class="flag-title">${f.reporter_name || "Anonymous"} · ${f.risk_type || "Unknown risk"}</div>
                         <div class="flag-meta"><span>${formatDate(f.created_at)}</span></div>
                     </div>
                     ${statusLabel(f.status)}
                 </div>
-            `).join('');
-        }
+            `,
+          )
+          .join("");
+      }
 
-        function renderAllFlags(flags) {
-            const container = document.getElementById('flags-list');
-            if (!flags.length) {
-                container.innerHTML = '<p style="color:var(--text-muted);padding:20px;text-align:center;">No flag reports found.</p>';
-                return;
-            }
-            container.innerHTML = flags.map(f => `
+      function renderAllFlags(flags) {
+        const container = document.getElementById("flags-list");
+        if (!flags.length) {
+          container.innerHTML =
+            '<p style="color:var(--text-muted);padding:20px;text-align:center;">No flag reports found.</p>';
+          return;
+        }
+        container.innerHTML = flags
+          .map(
+            (f) => `
                 <div class="flag-item">
                     <div class="flag-priority ${priorityClass(f.risk_type)}"></div>
                     <div class="flag-info">
-                        <div class="flag-title">FLAG-${f.id} · ${f.risk_type || 'Unknown'}</div>
+                        <div class="flag-title">FLAG-${f.id} · ${f.risk_type || "Unknown"}</div>
                         <div class="flag-meta">
-                            <span>${f.description ? f.description.slice(0, 60) + (f.description.length > 60 ? '…' : '') : '—'}</span>
+                            <span>${f.description ? f.description.slice(0, 60) + (f.description.length > 60 ? "…" : "") : "—"}</span>
                             <span>${formatDate(f.created_at)}</span>
-                            <span>${f.reporter_name || 'Anonymous'}</span>
+                            <span>${f.reporter_name || "Anonymous"}</span>
                         </div>
                     </div>
                     <div style="display:flex;gap:8px;align-items:center;">
@@ -1399,202 +2079,267 @@
                         </select>
                     </div>
                 </div>
-            `).join('');
-        }
+            `,
+          )
+          .join("");
+      }
 
-        async function loadAllFlags() {
-            try {
-                const flags = await API.getFlags();
-                allFlags = flags;
-                const pending = flags.filter(f => f.status === 'pending').length;
-                const countEl = document.getElementById('flags-pending-count');
-                if (countEl) countEl.textContent = `${pending} Pending`;
-                renderAllFlags(flags);
-            } catch (err) {
-                document.getElementById('flags-list').innerHTML =
-                    '<p style="color:var(--text-muted);padding:20px;text-align:center;">Could not load flags.</p>';
-            }
+      async function loadAllFlags() {
+        try {
+          const flags = await API.getFlags();
+          allFlags = flags;
+          const pending = flags.filter((f) => f.status === "pending").length;
+          const countEl = document.getElementById("flags-pending-count");
+          if (countEl) countEl.textContent = `${pending} Pending`;
+          renderAllFlags(flags);
+        } catch (err) {
+          document.getElementById("flags-list").innerHTML =
+            '<p style="color:var(--text-muted);padding:20px;text-align:center;">Could not load flags.</p>';
         }
+      }
 
-        function filterFlags() {
-            const val = document.getElementById('flag-status-filter').value;
-            const filtered = val ? allFlags.filter(f => f.status === val) : allFlags;
-            renderAllFlags(filtered);
+      function filterFlags() {
+        const val = document.getElementById("flag-status-filter").value;
+        const filtered = val
+          ? allFlags.filter((f) => f.status === val)
+          : allFlags;
+        renderAllFlags(filtered);
+      }
+
+      async function updateFlagStatus(id, newStatus) {
+        if (!newStatus) return;
+        try {
+          await API.updateFlag(id, { status: newStatus });
+          showToast("✅ Flag status updated.", "success");
+          await loadAllFlags();
+          await loadDashboard();
+        } catch (err) {
+          showToast("❌ Could not update flag status.", "error");
         }
+      }
 
-        async function updateFlagStatus(id, newStatus) {
-            if (!newStatus) return;
-            try {
-                await API.updateFlag(id, { status: newStatus });
-                showToast('✅ Flag status updated.', 'success');
-                await loadAllFlags();
-                await loadDashboard();
-            } catch (err) {
-                showToast('❌ Could not update flag status.', 'error');
-            }
-        }
-
-        // ========================================
-        // OFFICERS MANAGEMENT
-        // ========================================
-        async function loadOfficers() {
-            const list = document.getElementById('officers-list');
-            try {
-                const officers = await API.getOfficers();
-                if (!officers.length) {
-                    list.innerHTML = '<p style="color:var(--text-muted);text-align:center;">No officers found.</p>';
-                    return;
-                }
-                list.innerHTML = officers.map(o => {
-                    const initials = (o.full_name || o.email).split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
-                    const isSelf   = currentUser && o.id === currentUser.id;
-                    return `
+      // ========================================
+      // OFFICERS MANAGEMENT
+      // ========================================
+      async function loadOfficers() {
+        const list = document.getElementById("officers-list");
+        try {
+          const officers = await API.getOfficers();
+          if (!officers.length) {
+            list.innerHTML =
+              '<p style="color:var(--text-muted);text-align:center;">No officers found.</p>';
+            return;
+          }
+          list.innerHTML = officers
+            .map((o) => {
+              const initials = (o.full_name || o.email)
+                .split(" ")
+                .map((w) => w[0])
+                .join("")
+                .toUpperCase()
+                .slice(0, 2);
+              const isSelf = currentUser && o.id === currentUser.id;
+              return `
                     <div class="officer-card">
                         <div class="officer-avatar">${initials}</div>
                         <div class="officer-info">
-                            <div class="officer-name">${o.full_name || '—'} ${o.is_super_officer ? '<span class="super-badge">⭐ Super Officer</span>' : ''}</div>
+                            <div class="officer-name">${o.full_name || "—"} ${o.is_super_officer ? '<span class="super-badge">⭐ Super Officer</span>' : ""}</div>
                             <div class="officer-email">${o.email}</div>
                         </div>
-                        ${!isSelf && !o.is_super_officer ? `<button class="remove-officer-btn" onclick="removeOfficer('${o.id}', '${(o.email||'').replace(/'/g,"\\'")}')">Remove</button>` : ''}
-                        ${isSelf ? '<span style="font-size:12px;color:var(--text-muted);">(You)</span>' : ''}
+                        ${!isSelf && !o.is_super_officer ? `<button class="remove-officer-btn" onclick="removeOfficer('${o.id}', '${(o.email || "").replace(/'/g, "\\'")}')">Remove</button>` : ""}
+                        ${isSelf ? '<span style="font-size:12px;color:var(--text-muted);">(You)</span>' : ""}
                     </div>`;
-                }).join('');
-            } catch (err) {
-                list.innerHTML = `<p style="color:var(--accent);padding:8px;text-align:center;">${err.message}</p>`;
-            }
+            })
+            .join("");
+        } catch (err) {
+          list.innerHTML = `<p style="color:var(--accent);padding:8px;text-align:center;">${err.message}</p>`;
+        }
+      }
+
+      async function loadCitizens() {
+        const select = document.getElementById("invite-email");
+        try {
+          const citizens = await API.getCitizens();
+          if (!citizens.length) {
+            select.innerHTML =
+              '<option value="">No users available to promote</option>';
+            return;
+          }
+          select.innerHTML =
+            '<option value="">Select a user to promote...</option>' +
+            citizens
+              .map(
+                (c) =>
+                  `<option value="${c.email}">${c.full_name ? c.full_name + " (" + c.email + ")" : c.email}</option>`,
+              )
+              .join("");
+        } catch (err) {
+          select.innerHTML = '<option value="">Error loading users</option>';
+        }
+      }
+
+      async function addOfficer() {
+        const email = document.getElementById("invite-email").value.trim();
+        const msgEl = document.getElementById("officer-msg");
+        msgEl.style.display = "none";
+
+        if (!email) {
+          showMsg(msgEl, "Please enter an email address.", "error");
+          return;
         }
 
-        async function loadCitizens() {
-            const select = document.getElementById('invite-email');
-            try {
-                const citizens = await API.getCitizens();
-                if (!citizens.length) {
-                    select.innerHTML = '<option value="">No users available to promote</option>';
-                    return;
-                }
-                select.innerHTML = '<option value="">Select a user to promote...</option>' + 
-                    citizens.map(c => `<option value="${c.email}">${c.full_name ? c.full_name + ' (' + c.email + ')' : c.email}</option>`).join('');
-            } catch (err) {
-                select.innerHTML = '<option value="">Error loading users</option>';
-            }
+        try {
+          const result = await API.inviteOfficer(email);
+          showMsg(msgEl, "✅ " + result.message, "success");
+          document.getElementById("invite-email").value = "";
+          await loadOfficers();
+          await loadCitizens();
+        } catch (err) {
+          showMsg(msgEl, "❌ " + err.message, "error");
         }
+      }
 
-        async function addOfficer() {
-            const email  = document.getElementById('invite-email').value.trim();
-            const msgEl  = document.getElementById('officer-msg');
-            msgEl.style.display = 'none';
-
-            if (!email) {
-                showMsg(msgEl, 'Please enter an email address.', 'error');
-                return;
-            }
-
-            try {
-                const result = await API.inviteOfficer(email);
-                showMsg(msgEl, '✅ ' + result.message, 'success');
-                document.getElementById('invite-email').value = '';
-                await loadOfficers();
-                await loadCitizens();
-            } catch (err) {
-                showMsg(msgEl, '❌ ' + err.message, 'error');
-            }
+      async function removeOfficer(userId, email) {
+        if (!confirm(`Remove officer access for ${email}?`)) return;
+        try {
+          await API.removeOfficer(userId);
+          showToast("Officer access removed for " + email, "info");
+          await loadOfficers();
+          await loadCitizens();
+        } catch (err) {
+          showToast("❌ " + err.message, "error");
         }
+      }
 
-        async function removeOfficer(userId, email) {
-            if (!confirm(`Remove officer access for ${email}?`)) return;
-            try {
-                await API.removeOfficer(userId);
-                showToast('Officer access removed for ' + email, 'info');
-                await loadOfficers();
-                await loadCitizens();
-            } catch (err) {
-                showToast('❌ ' + err.message, 'error');
-            }
-        }
+      function showMsg(el, text, type) {
+        el.style.display = "block";
+        el.style.padding = "8px 0";
+        el.style.color = type === "error" ? "#721c24" : "#155724";
+        el.textContent = text;
+      }
 
-        function showMsg(el, text, type) {
-            el.style.display = 'block';
-            el.style.padding = '8px 0';
-            el.style.color   = type === 'error' ? '#721c24' : '#155724';
-            el.textContent   = text;
-        }
-
-        // ========================================
-        // PAGE NAVIGATION
-        // ========================================
-        function showOfficerPage(page) {
-            ['dashboard-page','buildings-page','flags-page','officers-page'].forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.style.display = 'none';
-            });
-
-            const target = document.getElementById(page + '-page');
-            if (target) target.style.display = 'block';
-
-            if (page === 'dashboard')  loadDashboard();
-            if (page === 'buildings')  loadBuildingsTable();
-            if (page === 'flags')      loadAllFlags();
-            if (page === 'officers') {
-                loadOfficers();
-                loadCitizens();
-            }
-
-            document.querySelectorAll('.sidebar-nav a').forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') && link.getAttribute('href').includes(page)) {
-                    link.classList.add('active');
-                }
-            });
-        }
-
-        window.addEventListener('hashchange', function() {
-            const hash = window.location.hash;
-            if (hash.startsWith('#/officer/')) {
-                const page = hash.split('#/officer/')[1];
-                if (page) showOfficerPage(page);
-            }
+      // ========================================
+      // PAGE NAVIGATION
+      // ========================================
+      function showOfficerPage(page) {
+        [
+          "dashboard-page",
+          "buildings-page",
+          "flags-page",
+          "officers-page",
+        ].forEach((id) => {
+          const el = document.getElementById(id);
+          if (el) el.style.display = "none";
         });
 
-        function openLoginModal() {
-            window.location.href = 'login.html';
+        const target = document.getElementById(page + "-page");
+        if (target) target.style.display = "block";
+
+        if (page === "dashboard") loadDashboard();
+        if (page === "buildings") loadBuildingsTable();
+        if (page === "flags") loadAllFlags();
+        if (page === "officers") {
+          loadOfficers();
+          loadCitizens();
         }
 
-        function logout() {
-            if (confirm('Are you sure you want to sign out?')) {
-                localStorage.removeItem('token');
-                localStorage.removeItem('user');
-                localStorage.removeItem('citizen_user');
-                window.location.href = 'login.html';
-            }
-        }
-
-        // ========================================
-        // TOAST NOTIFICATION
-        // ========================================
-        function showToast(message, type = 'info') {
-            const existing = document.querySelector('.toast');
-            if (existing) existing.remove();
-
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            toast.textContent = message;
-            document.body.appendChild(toast);
-
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                toast.style.transition = 'opacity 0.4s ease';
-                setTimeout(() => toast.remove(), 400);
-            }, 3500);
-        }
-
-        // ========================================
-        // INIT
-        // ========================================
-        document.addEventListener('DOMContentLoaded', function() {
-            initAuth();
+        document.querySelectorAll(".sidebar-nav a").forEach((link) => {
+          link.classList.remove("active");
+          if (
+            link.getAttribute("href") &&
+            link.getAttribute("href").includes(page)
+          ) {
+            link.classList.add("active");
+          }
         });
+      }
 
-        console.log('✅ officer.html loaded');
+      window.addEventListener("hashchange", function () {
+        const hash = window.location.hash;
+        if (hash.startsWith("#/officer/")) {
+          const page = hash.split("#/officer/")[1];
+          if (page) showOfficerPage(page);
+        }
+      });
+
+      function openLoginModal() {
+        window.location.href = "login.html";
+      }
+
+      function logout() {
+        if (confirm("Are you sure you want to sign out?")) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          localStorage.removeItem("citizen_user");
+          window.location.href = "login.html";
+        }
+      }
+
+      // ========================================
+      // TOAST NOTIFICATION
+      // ========================================
+      function showToast(message, type = "info") {
+        const existing = document.querySelector(".toast");
+        if (existing) existing.remove();
+
+        const toast = document.createElement("div");
+        toast.className = `toast ${type}`;
+        toast.textContent = message;
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+          toast.style.opacity = "0";
+          toast.style.transition = "opacity 0.4s ease";
+          setTimeout(() => toast.remove(), 400);
+        }, 3500);
+      }
+
+      // ========================================
+      // POPULATE DROPDOWNS FROM DB
+      // ========================================
+      async function populateFormDropdowns() {
+        try {
+          const buildings = await API.getBuildings();
+          const eras = new Set();
+          const conditions = new Set();
+          const statuses = new Set();
+
+          buildings.forEach((b) => {
+            if (b.era) eras.add(b.era);
+            if (b.condition) conditions.add(b.condition);
+            if (b.status) statuses.add(b.status);
+          });
+
+          const eraSelect = document.getElementById("b-era");
+          const conditionSelect = document.getElementById("b-condition");
+          const statusSelect = document.getElementById("b-status");
+
+          if (eraSelect) {
+            eraSelect.innerHTML = '<option value="">Select era</option>' + 
+              Array.from(eras).map(e => `<option value="${e}">${e}</option>`).join('');
+          }
+          if (conditionSelect) {
+            conditionSelect.innerHTML = '<option value="">Select condition</option>' + 
+              Array.from(conditions).map(c => `<option value="${c}">${c}</option>`).join('');
+          }
+          if (statusSelect) {
+            statusSelect.innerHTML = '<option value="">Select status</option>' +
+              Array.from(statuses).map(s => `<option value="${s}">${s}</option>`).join('');
+          }
+        } catch (e) {
+          console.error("Failed to populate dropdowns from DB", e);
+        }
+      }
+
+      // ========================================
+      // INIT
+      // ========================================
+      document.addEventListener("DOMContentLoaded", function () {
+        initAuth();
+        populateFormDropdowns();
+      });
+
+      console.log("✅ officer.html loaded");
     </script>
-</body>
+  </body>
 </html>

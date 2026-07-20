@@ -1,712 +1,1404 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Urithi Majengo</title>
-     <meta name="description" content="Digital inventory and virtual-tour system for Dar es Salaam's heritage buildings.">
-     <!-- ===== FAVICON ===== -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
-    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
+    <meta
+      name="description"
+      content="Digital inventory and virtual-tour system for Dar es Salaam's heritage buildings."
+    />
+    <!-- ===== FAVICON ===== -->
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>"
+    />
+    <link
+      rel="apple-touch-icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>"
+    />
 
     <!-- ===== GOOGLE FONTS ===== -->
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet"> 
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono&display=swap"
+      rel="stylesheet"
+    />
     <!-- 2. Leaflet CSS (for the map) -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
 
-   <!-- ===== PANNELLUM CSS ===== -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css" />
+    <!-- ===== PANNELLUM CSS ===== -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"
+    />
 
     <!-- 3. Custom CSS (for styling) -->
-    <link rel="stylesheet" href="../CSS/style.css" type="text/css">
-    <link rel="stylesheet" href="../CSS/grid-view.css" type="text/css">
-</head>
-<body>
+    <link rel="stylesheet" href="../CSS/style.css" type="text/css" />
+    <link rel="stylesheet" href="../CSS/grid-view.css" type="text/css" />
+  </head>
+  <body>
     <div id="app">
-        <!--header-->
-        <header class="main-header">
-            <!-- Logo Section-->
-             <div class="logo">
-                UM
-            </div>
+      <!--header-->
+      <header class="main-header">
+        <!-- Logo Section-->
+        <a class="logo" href="index.html" aria-label="Urithi Majengo home">UM</a>
 
-            <!-- Navigation Bar -->
-             <nav class="nav-container" id="nav-menu" role="navigation" aria-label="Main Navigation">
-                <ul class="nav-links">
-                    <li><a href="index.html">Map & Records</a></li>
-                    <li><a href="buildings.html">All Buildings</a></li>
-                    <li><a href="risk.html">Report At-Risk</a></li>
-                    <li><a href="community.html">Community</a></li>
-                    <li id="nav-auth-container"><a href="#" onclick="showCitizenModal(); return false;" style="font-weight: 600; color: var(--accent) !important;">Sign In</a></li>
-                </ul>
-            </nav>
+        <!-- Navigation Bar -->
+        <nav
+          class="nav-container"
+          id="nav-menu"
+          role="navigation"
+          aria-label="Main Navigation"
+        >
+          <ul class="nav-links">
+            <li><a href="index.html">Map & Records</a></li>
+            <li><a href="buildings.html">All Buildings</a></li>
+            <li><a href="risk.html">Report At-Risk</a></li>
+            <li><a href="community.html">Community</a></li>
+            <li id="nav-auth-container">
+              <a
+                href="#"
+                onclick="
+                  showCitizenModal();
+                  return false;
+                "
+                style="font-weight: 600; color: var(--accent) !important"
+                >Sign In</a
+              >
+            </li>
+          </ul>
+        </nav>
 
-            <!-- Hamburger Menu for Mobile -->
-            <button class="hamburger" id="menu-toggle" aria-label="Toggle navigation">
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-            </button>
-        </header>
+        <!-- Hamburger Menu for Mobile -->
+        <button
+          class="hamburger"
+          id="menu-toggle"
+          aria-label="Toggle navigation"
+        >
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </header>
 
-        <!-- Main Content -->
-        <main id="main-content">
-            <!-- This is the hero section by itself -->
-            <section class="hero">
-                <div class="hero-content">
-              <!-- Left side: Text and search -->
-             <div class="hero-text">
-                  <h1 class="hero-title">
-                     Explore Dar es Salaam's<br>
-                     <span class="hero-highlight">Living Heritage Buildings </span>
-                 </h1>
-                  <p class="hero-subtitle">
-                Discover 48 historic buildings across the city.
-                <br>A georeferenced digital inventory of the city's most significant historic buildings — explore, tour, and help protect them.Preserve Tanzania's architectural legacy.
-                 </p>
-            
-            <!-- Search bar -->
-            <div class="hero-search">
-                <input 
-                    type="text" 
-                    placeholder="Search for a building..." 
-                    class="hero-search-input"
-                    id="hero-search"
-                    onkeypress="if(event.key === 'Enter') handleHeroSearch()"
-                     
+      <!-- Main Content -->
+      <main id="main-content">
+        <!-- This is the hero section by itself -->
+        <section class="hero">
+          <div class="hero-content">
+            <!-- Left side: Text and search -->
+            <div class="hero-text">
+              <h1 class="hero-title">
+                Explore Dar es Salaam's<br />
+                <span class="hero-highlight">Living Heritage Buildings </span>
+              </h1>
+              <p class="hero-subtitle">
+                Discover <span id="hero-stat-subtitle-count">48</span> historic buildings across the city.
+                <br />A georeferenced digital inventory of the city's most
+                significant historic buildings — explore, tour, and help protect
+                them.Preserve Tanzania's architectural legacy.
+              </p>
+
+              <!-- Search bar -->
+              <div class="hero-search">
+                <input
+                  type="text"
+                  placeholder="Search for a building..."
+                  class="hero-search-input"
+                  id="hero-search"
+                  onkeypress="if (event.key === 'Enter') handleHeroSearch();"
+                />
+
+                <button
+                  class="hero-search-btn"
+                  type="button"
+                  onclick="handleHeroSearch()"
                 >
-
-                <button class="hero-search-btn" type="button" onclick="handleHeroSearch()">
-                 Search
+                  Search
                 </button>
-             </div>
-            
-            <!-- Action buttons -->
-            <div class="hero-actions">
-                        <button class="btn-primary hero-btn" type="button" onclick="navigate('/buildings'); return false;">
-                             Explore All
-                        </button>
-                        <button class="btn-secondary hero-btn" type="button" onclick="navigate('/map'); return false;">
-                            View Map
-                        </button>
-                    </div>
-                </div>
+              </div>
 
-   <!-- Stats strip -->
-<div class="hero-stats">
-    <div class="stat-item">
-        <span class="stat-number">48</span>
-        <span class="stat-label">Buildings Documented</span>
-    </div>
-    <div class="stat-item">
-        <span class="stat-number">5</span>
-        <span class="stat-label">360° Virtual Tours</span>
-    </div>
-    <div class="stat-item">
-        <span class="stat-number">6</span>
-        <span class="stat-label">Heritage Districts</span>
-    </div>
-    <div class="stat-item">
-        <span class="stat-number">3</span>
-        <span class="stat-label">Active Risk Alerts</span>
-    </div>
-</div>
-</section>
-
- <!-- DAR ES SALAAM MAP SECTION -->
-<section id="map-section" class="map-section">
-    <div class="section-header">
-        <div class="section-header-left">
-            <h2 class="section-title">Heritage Sites Map</h2>
-        </div>
-        <div class="section-header-right">
-            <span class="map-badge">Interactive</span>
-            <span class="map-badge" id="map-location-count">8 Locations</span>
-        </div>
-    </div>
-    
-    
-    <p class="section-subtitle">
-        Explore heritage buildings across Dar es Salaam. Click on any pin to learn more.
-    </p>
-    
-    <!-- Map + Sidebar Layout -->
-    <div class="map-layout">
-        <!-- LEFT: Map -->
-        <div class="map-wrapper">
-            <div id="heritage-map" class="map-container"></div>
-            <!-- Map View Toggle -->
-            <div class="map-view-toggle">
-                <button class="toggle-btn active" data-view="map" onclick="switchMapView('map')">
-                     Map View
+              <!-- Action buttons -->
+              <div class="hero-actions">
+                <button
+                  class="btn-primary hero-btn"
+                  type="button"
+                  onclick="
+                    navigate('/buildings');
+                    return false;
+                  "
+                >
+                  Explore All
                 </button>
-                <button class="toggle-btn" data-view="grid" onclick="switchMapView('grid')">
-                    Grid View
+                <button
+                  class="btn-secondary hero-btn"
+                  type="button"
+                  onclick="
+                    navigate('/map');
+                    return false;
+                  "
+                >
+                  View Map
                 </button>
+              </div>
             </div>
-            <div class="map-legend">
-                <div class="legend-item">
-                    <span class="legend-dot" style="background: #34D5B8;"></span>
-                    <span class="legend-label">Good Condition</span>
-                </div>
-                <div class="legend-item">
-                    <span class="legend-dot" style="background: #F0B429;"></span>
-                    <span class="legend-label">Fair Condition</span>
-                </div>
-                <div class="legend-item">
-                    <span class="legend-dot" style="background: #F5611D;"></span>
-                    <span class="legend-label">Poor Condition</span>
-                </div>
-                <div class="legend-item">
-                    <span class="legend-dot" style="background: #0B7A69;"></span>
-                    <span class="legend-label">Protected Status</span>
-                </div>
+            <!-- end hero-text -->
+          </div>
+
+          <!-- Stats strip -->
+          <div class="hero-stats">
+            <div class="stat-item">
+              <span class="stat-number" id="hero-stat-buildings">48</span>
+              <span class="stat-label">Buildings Documented</span>
             </div>
-        </div>
-        
-        <!-- RIGHT: Building List Sidebar -->
-        <div class="map-sidebar">
-            <div class="sidebar-header">
+            <div class="stat-item">
+              <span class="stat-number" id="hero-stat-tours">5</span>
+              <span class="stat-label">360° Virtual Tours</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number" id="hero-stat-districts">6</span>
+              <span class="stat-label">Heritage Districts</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number" id="hero-stat-risks">3</span>
+              <span class="stat-label">Active Risk Alerts</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- DAR ES SALAAM MAP SECTION -->
+        <section id="map-section" class="map-section">
+          <div class="section-header">
+            <div class="section-header-left">
+              <h2 class="section-title">Heritage Sites Map</h2>
+            </div>
+            <div class="section-header-right">
+              <span class="map-badge">Interactive</span>
+              <span class="map-badge" id="map-location-count">8 Locations</span>
+            </div>
+          </div>
+
+          <p class="section-subtitle">
+            Explore heritage buildings across Dar es Salaam. Click on any pin to
+            learn more.
+          </p>
+
+          <!-- Map + Sidebar Layout -->
+          <div class="map-layout">
+            <!-- LEFT: Map -->
+            <div class="map-wrapper">
+              <div id="heritage-map" class="map-container"></div>
+              <!-- Map View Toggle -->
+              <div class="map-view-toggle">
+                <button
+                  class="toggle-btn active"
+                  data-view="map"
+                  onclick="switchMapView('map')"
+                >
+                  Map View
+                </button>
+                <button
+                  class="toggle-btn"
+                  data-view="grid"
+                  onclick="switchMapView('grid')"
+                >
+                  Grid View
+                </button>
+              </div>
+              <div class="map-legend">
+                <div class="legend-item">
+                  <span class="legend-dot" style="background: #34d5b8"></span>
+                  <span class="legend-label">Good Condition</span>
+                </div>
+                <div class="legend-item">
+                  <span class="legend-dot" style="background: #f0b429"></span>
+                  <span class="legend-label">Fair Condition</span>
+                </div>
+                <div class="legend-item">
+                  <span class="legend-dot" style="background: #f5611d"></span>
+                  <span class="legend-label">Poor Condition</span>
+                </div>
+                <div class="legend-item">
+                  <span class="legend-dot" style="background: #0b7a69"></span>
+                  <span class="legend-label">Protected Status</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- RIGHT: Building List Sidebar -->
+            <div class="map-sidebar">
+              <div class="sidebar-header">
                 <h3>INVENTORY HIGHLIGHTS</h3>
-                <span class="building-count" id="highlight-building-count">8 Buildings</span>
-            </div>
-            
-            <div class="building-list" id="building-list">
+                <span class="building-count" id="highlight-building-count"
+                  >8 Buildings</span
+                >
+              </div>
+
+              <div class="building-list" id="building-list">
                 <!-- Buildings loaded dynamically by JavaScript -->
                 <div class="building-list-item loading-item">
-                    <div class="building-list-loading"></div>
-                    <p style="color: var(--text-muted); font-size: 13px; text-align: center; padding: 20px;">
-                        Loading buildings...
-                    </p>
+                  <div class="building-list-loading"></div>
+                  <p
+                    style="
+                      color: var(--text-muted);
+                      font-size: 13px;
+                      text-align: center;
+                      padding: 20px;
+                    "
+                  >
+                    Loading buildings...
+                  </p>
                 </div>
+              </div>
             </div>
-        </div>
-    </div>
-     
-    <div class="sidebar-footer">    
-       <div class="map-actions">
-        <button class="btn-primary" onclick="navigate('/map')">
-             Open Full Map
-        </button>
-        <!--In the map-->
-<button onclick="navigate('/buildings?id=${b.id}')" 
-        style="width:100%;margin-top:6px;padding:8px;background:#0B7A69;color:white;border:none;border-radius:6px;cursor:pointer;font-size:13px;font-weight:600;transition:all 0.2s;">
-    View Building Details →
-</button>
-    </div>
-    </div>
-</section>
+          </div>
 
-            <!-- BUILDING OVERVIEW SECTION -->
-            <section id="building-overview" class="building-overview">
-                <div style="max-width:1200px; margin:0 auto; padding: 0 20px;">
-                <div class="section-header">
-                    <div class="section-header-left">
-                        <h2 class="section-title">Featured Buildings</h2>
-                    </div>
-                    <div class="section-header-right">
-                        <a class="view-all-link" href="../HTML/buildings.html" onclick="navigate('/buildings')">View all buildings &rarr;</a>
-                    </div>
+          <div class="sidebar-footer">
+            <div class="map-actions">
+              <button class="btn-primary">Open Full Map</button>
+              <!--In the map-->
+              <button
+                style="
+                  width: 100%;
+                  margin-top: 6px;
+                  padding: 8px;
+                  background: #0b7a69;
+                  color: white;
+                  border: none;
+                  border-radius: 6px;
+                  cursor: pointer;
+                  font-size: 13px;
+                  font-weight: 600;
+                  transition: all 0.2s;
+                "
+              >
+                View Building Details →
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- BUILDING OVERVIEW SECTION -->
+        <section id="building-overview" class="building-overview">
+          <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px">
+            <div class="section-header">
+              <div class="section-header-left">
+                <h2 class="section-title">Featured Buildings</h2>
+              </div>
+              <div class="section-header-right">
+                <a class="view-all-link" href="buildings.html"
+                  >View all buildings &rarr;</a
+                >
+              </div>
+            </div>
+
+            <p class="section-subtitle">
+              A quick snapshot of featured heritage buildings and key stats.
+            </p>
+
+            <div
+              id="building-grid"
+              class="grid-3 building-grid"
+              style="margin-top: 16px"
+            >
+              <!-- Populated by loadFeaturedBuildings() in JS -->
+            </div>
+          </div>
+        </section>
+
+        <!-- FEATURED BUILDINGS SECTION-->
+        <!-- ===== VIDEO LIBRARY SECTION ===== -->
+        <section class="video-library">
+          <div class="video-library-container">
+            <div class="section-header">
+              <div class="section-header-left">
+                <span
+                  style="
+                    font-family: var(--font-mono);
+                    font-size: 10px;
+                    text-transform: uppercase;
+                    letter-spacing: 0.25em;
+                    color: #34d5b8;
+                  "
+                  >Video Library</span
+                >
+                <h2
+                  class="section-title"
+                  style="color: var(--card); margin-top: 4px"
+                >
+                  See the City <em style="font-weight: 400">Come Alive</em>
+                </h2>
+              </div>
+              <a
+                href="#/videos"
+                class="view-all-link"
+                style="color: rgba(255, 255, 255, 0.6)"
+              >
+                View all &rarr;
+              </a>
+            </div>
+
+            <p
+              class="section-subtitle"
+              style="
+                color: rgba(255, 255, 255, 0.5);
+                font-size: 13px;
+                margin-bottom: 20px;
+                max-width: 560px;
+              "
+            >
+              Aerial tours, heritage documentaries, and 360° building previews —
+              Dar es Salaam's history in motion.
+            </p>
+
+            <!-- VIDEO GRID: 4 cards -->
+            <div class="video-grid">
+              <!-- Video 1: Aerial -->
+              <div
+                class="video-card"
+                onclick="
+                  openVideoLightbox(
+                    'v1',
+                    'Dar es Salaam — A City of History',
+                    'https://www.youtube.com/embed/UfYLZV0F9HU',
+                  )
+                "
+              >
+                <div class="video-thumbnail">
+                  <img
+                    src="https://images.unsplash.com/photo-1589177900326-900782f88a55?w=640&h=360&fit=crop&auto=format"
+                    alt="Aerial view of Dar es Salaam"
+                  />
+                  <div class="video-duration">8:24</div>
+                  <div class="video-play-btn">&#9654;</div>
+                  <div class="video-badge" style="background: #f5611d">
+                    Aerial
+                  </div>
                 </div>
-
-                <p class="section-subtitle">A quick snapshot of featured heritage buildings and key stats.</p>
-
-                <div id="building-grid" class="grid-3 building-grid" style="margin-top: 16px;">
-                    <!-- Populated by loadFeaturedBuildings() in JS -->
+                <div class="video-info">
+                  <h3>Dar es Salaam — A City of History</h3>
+                  <p>Aerial Heritage Tour</p>
                 </div>
+              </div>
+
+              <!-- Video 2: Documentary -->
+              <div
+                class="video-card"
+                onclick="
+                  openVideoLightbox(
+                    'v2',
+                    'German Colonial Architecture in East Africa',
+                    'https://www.youtube.com/embed/y24HGzKmD7I',
+                  )
+                "
+              >
+                <div class="video-thumbnail">
+                  <img
+                    src="https://images.unsplash.com/photo-1674334264912-704cb2a24b37?w=640&h=360&fit=crop&auto=format"
+                    alt="German colonial architecture"
+                  />
+                  <div class="video-duration">22:10</div>
+                  <div class="video-play-btn">&#9654;</div>
+                  <div class="video-badge" style="background: #0b7a69">
+                    Documentary
+                  </div>
                 </div>
-            </section>
-
-            <!-- FEATURED BUILDINGS SECTION-->
-            <!-- ===== VIDEO LIBRARY SECTION ===== -->
-<section class="video-library">
-    <div class="video-library-container">
-        <div class="section-header">
-        <div class="section-header-left">
-            <span style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.25em;color:#34D5B8;">Video Library</span>
-             <h2 class="section-title" style="color:var(--card); margin-top:4px;">See the City <em style="font-weight:400;">Come Alive</em>
-             </h2>
-        </div>
-        <a href="#/videos" class="view-all-link" onclick="navigate('/videos')" style="color:rgba(255,255,255,0.6);">
-            View all &rarr;
-        </a>
-    </div>
-    
-    <p class="section-subtitle" style="color:rgba(255,255,255,0.5); font-size:13px; margin-bottom:20px; max-width:560px;">
-        Aerial tours, heritage documentaries, and 360° building previews — Dar es Salaam's history in motion.
-    </p>
-    
-    <!-- VIDEO GRID: 4 cards -->
-    <div class="video-grid">
-        <!-- Video 1: Aerial -->
-        <div class="video-card" onclick="openVideoLightbox('v1', 'Dar es Salaam — A City of History', 'https://www.youtube.com/embed/UfYLZV0F9HU')">
-            <div class="video-thumbnail">
-                <img src="https://images.unsplash.com/photo-1589177900326-900782f88a55?w=640&h=360&fit=crop&auto=format" alt="Aerial view of Dar es Salaam">
-                <div class="video-duration">8:24</div>
-                <div class="video-play-btn">&#9654;</div>
-                <div class="video-badge" style="background:#F5611D;">Aerial</div>
-            </div>
-            <div class="video-info">
-                <h3>Dar es Salaam — A City of History</h3>
-                <p>Aerial Heritage Tour</p>
-            </div>
-        </div>
-
-        <!-- Video 2: Documentary -->
-        <div class="video-card" onclick="openVideoLightbox('v2', 'German Colonial Architecture in East Africa', 'https://www.youtube.com/embed/y24HGzKmD7I')">
-            <div class="video-thumbnail">
-                <img src="https://images.unsplash.com/photo-1674334264912-704cb2a24b37?w=640&h=360&fit=crop&auto=format" alt="German colonial architecture">
-                <div class="video-duration">22:10</div>
-                <div class="video-play-btn">&#9654;</div>
-                <div class="video-badge" style="background:#0B7A69;">Documentary</div>
-            </div>
-            <div class="video-info">
-                <h3>German Colonial Architecture in East Africa</h3>
-                <p>Documentary Feature</p>
-            </div>
-        </div>
-
-        <!-- Video 3: Walking Tour -->
-        <div class="video-card" onclick="openVideoLightbox('v3', 'Walking Tour — Kivukoni Heritage District', 'https://www.youtube.com/embed/v3a1RH-xkFI')">
-            <div class="video-thumbnail">
-                <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=640&h=360&fit=crop&auto=format" alt="Walking tour of heritage district">
-                <div class="video-duration">14:38</div>
-                <div class="video-play-btn">&#9654;</div>
-                <div class="video-badge" style="background:#F0B429;">Walking Tour</div>
-            </div>
-            <div class="video-info">
-                <h3>Walking Tour — Kivukoni Heritage District</h3>
-                <p>Street-Level Exploration</p>
-            </div>
-        </div>
-
-        <!-- Video 4: Virtual Tour -->
-        <div class="video-card" onclick="openVideoLightbox('v4', 'Inside the Railway Station — 360° Preview', 'https://www.youtube.com/embed/Z0qhcFxHw_k')">
-            <div class="video-thumbnail">
-                <img src="https://images.unsplash.com/photo-1464207687429-7505649dae38?w=640&h=360&fit=crop&auto=format" alt="Railway station virtual tour">
-                <div class="video-duration">5:12</div>
-                <div class="video-play-btn">&#9654;</div>
-                <div class="video-badge" style="background:#6366F1;">Virtual Tour</div>
-            </div>
-            <div class="video-info">
-                <h3>Inside the Railway Station — 360° Preview</h3>
-                <p>Virtual Tour Sample</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Video Lightbox Modal -->
-    <div id="video-lightbox" class="video-lightbox">
-        <div class="video-lightbox-content">
-            <button class="video-lightbox-close" onclick="closeVideoLightbox()">&#215;</button>
-            <iframe id="video-lightbox-player" class="video-lightbox-player" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
-    </div>
-</section>
-
-            <!--QUICK STATS / CALL TO ACTION -->
-            <section class="cta-section">
-                <div class="cta-content">
-                    <div class="cta-left">
-                        <h3>Have you visited? Tell us.</h3>
-                        <p>Your feedback helps document living heritage. Sign in and leave a review.</p>
-                        <div class="cta-buttons">
-                            <button class="btn-accent" onclick="navigate('../HTML/risk.html')">⚑ Report At-Risk Building</button>
-                        </div>
-                    </div>
-
-                    <div class="cta-right">
-                        <div class="cta-hero-image">
-                            <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&h=600&fit=crop" alt="Heritage preview">
-                        </div>
-                        <button class="cta-signin" onclick="showCitizenModal()">Sign In to Review</button>
-                    </div>
+                <div class="video-info">
+                  <h3>German Colonial Architecture in East Africa</h3>
+                  <p>Documentary Feature</p>
                 </div>
-            </section>
-        </main>
-   <!-- footer -->
-<footer class="main-footer">
-    <div class="footer-content" style="max-width:1200px;margin:0 auto;padding:20px 0;">
-        <!-- Top Row: Brand + Links -->
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:30px;text-align:left;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.06);">
-            
+              </div>
+
+              <!-- Video 3: Walking Tour -->
+              <div
+                class="video-card"
+                onclick="
+                  openVideoLightbox(
+                    'v3',
+                    'Walking Tour — Kivukoni Heritage District',
+                    'https://www.youtube.com/embed/v3a1RH-xkFI',
+                  )
+                "
+              >
+                <div class="video-thumbnail">
+                  <img
+                    src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=640&h=360&fit=crop&auto=format"
+                    alt="Walking tour of heritage district"
+                  />
+                  <div class="video-duration">14:38</div>
+                  <div class="video-play-btn">&#9654;</div>
+                  <div class="video-badge" style="background: #f0b429">
+                    Walking Tour
+                  </div>
+                </div>
+                <div class="video-info">
+                  <h3>Walking Tour — Kivukoni Heritage District</h3>
+                  <p>Street-Level Exploration</p>
+                </div>
+              </div>
+
+              <!-- Video 4: Virtual Tour -->
+              <div
+                class="video-card"
+                onclick="
+                  openVideoLightbox(
+                    'v4',
+                    'Inside the Railway Station — 360° Preview',
+                    'https://www.youtube.com/embed/Z0qhcFxHw_k',
+                  )
+                "
+              >
+                <div class="video-thumbnail">
+                  <img
+                    src="https://images.unsplash.com/photo-1464207687429-7505649dae38?w=640&h=360&fit=crop&auto=format"
+                    alt="Railway station virtual tour"
+                  />
+                  <div class="video-duration">5:12</div>
+                  <div class="video-play-btn">&#9654;</div>
+                  <div class="video-badge" style="background: #6366f1">
+                    Virtual Tour
+                  </div>
+                </div>
+                <div class="video-info">
+                  <h3>Inside the Railway Station — 360° Preview</h3>
+                  <p>Virtual Tour Sample</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Video Lightbox Modal -->
+            <div id="video-lightbox" class="video-lightbox">
+              <div class="video-lightbox-content">
+                <button
+                  class="video-lightbox-close"
+                  onclick="closeVideoLightbox()"
+                >
+                  &#215;
+                </button>
+                <iframe
+                  id="video-lightbox-player"
+                  class="video-lightbox-player"
+                  src=""
+                  frameborder="0"
+                  allow="
+                    accelerometer;
+                    autoplay;
+                    clipboard-write;
+                    encrypted-media;
+                    gyroscope;
+                    picture-in-picture;
+                  "
+                  allowfullscreen
+                ></iframe>
+              </div>
+            </div>
+          </div>
+          <!-- close video-library-container -->
+        </section>
+
+        <!--QUICK STATS / CALL TO ACTION -->
+        <section class="cta-section">
+          <div class="cta-content">
+            <div class="cta-left">
+              <h3>Have you visited? Tell us.</h3>
+              <p>
+                Your feedback helps document living heritage. Sign in and leave
+                a review.
+              </p>
+              <div class="cta-buttons">
+                <button class="btn-accent">⚑ Report At-Risk Building</button>
+              </div>
+            </div>
+
+            <div class="cta-right">
+              <div class="cta-hero-image">
+                <img
+                  src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&h=600&fit=crop"
+                  alt="Heritage preview"
+                />
+              </div>
+              <button class="cta-signin" onclick="showCitizenModal()">
+                Sign In to Review
+              </button>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- BUILDING MODAL -->
+      <div
+        id="building-modal"
+        class="modal-overlay bm-overlay hidden"
+        onclick="handleOverlayClick(event, 'building-modal')"
+      >
+        <div class="building-modal">
+          <div class="bm-hero">
+            <img id="bm-img" src="" alt="" />
+            <div class="bm-hero-overlay"></div>
+            <button class="bm-close" onclick="closeModal('building-modal')">
+              &#x2715;
+            </button>
+            <div class="bm-title-wrap">
+              <div class="bm-id" id="bm-id"></div>
+              <div class="bm-name" id="bm-name"></div>
+              <div class="bm-badge-row" id="bm-badges"></div>
+            </div>
+          </div>
+          <div class="bm-meta-strip">
+            <div class="bm-meta-cell">
+              <div class="bm-meta-label">District</div>
+              <div class="bm-meta-value" id="bm-district"></div>
+            </div>
+            <div class="bm-meta-cell">
+              <div class="bm-meta-label">Built</div>
+              <div class="bm-meta-value" id="bm-year"></div>
+            </div>
+            <div class="bm-meta-cell">
+              <div class="bm-meta-label">Area</div>
+              <div class="bm-meta-value" id="bm-area"></div>
+            </div>
+            <div class="bm-meta-cell">
+              <div class="bm-meta-label">Legal</div>
+              <div class="bm-meta-value" id="bm-legal"></div>
+            </div>
+          </div>
+          <div class="bm-tabs">
+            <button
+              class="bm-tab active"
+              onclick="switchBMTab('overview', this)"
+            >
+              Overview
+            </button>
+            <button class="bm-tab" onclick="switchBMTab('tour', this)">
+              360&#xB0; Tour
+            </button>
+            <button
+              class="bm-tab"
+              onclick="switchBMTab('reviews', this)"
+              id="reviews-tab-btn"
+            >
+              Reviews
+            </button>
+          </div>
+          <div class="bm-content">
+            <div id="bm-tab-overview"></div>
+            <div id="bm-tab-tour" style="display: none"></div>
+            <div id="bm-tab-reviews" style="display: none"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- footer -->
+      <footer class="main-footer">
+        <div
+          class="footer-content"
+          style="max-width: 1200px; margin: 0 auto; padding: 20px 0"
+        >
+          <!-- Top Row: Brand + Links -->
+          <div
+            style="
+              display: grid;
+              grid-template-columns: 1fr 1fr 1fr;
+              gap: 30px;
+              text-align: left;
+              padding-bottom: 20px;
+              border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            "
+          >
             <!-- Brand Column -->
             <div>
-                <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
-                    <span style="font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--gold);">Urithi Majengo</span>
-                </div>
-                <p style="color:var(--text-muted);font-size:13px;line-height:1.6;max-width:280px;">
-                    A digital heritage inventory managed by the Antiquities Department of Tanzania.
-                </p>
-                <p style="color:var(--text-muted);font-size:12px;margin-top:8px;opacity:0.6;">
-                    © 2026 Antiquities Department - United Republic of Tanzania
-                </p>
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 12px;
+                  margin-bottom: 8px;
+                "
+              >
+                <span
+                  style="
+                    font-family: var(--font-display);
+                    font-size: 22px;
+                    font-weight: 700;
+                    color: var(--gold);
+                  "
+                  >Urithi Majengo</span
+                >
+              </div>
+              <p
+                style="
+                  color: var(--text-muted);
+                  font-size: 13px;
+                  line-height: 1.6;
+                  max-width: 280px;
+                "
+              >
+                A digital heritage inventory managed by the Antiquities
+                Department of Tanzania.
+              </p>
+              <p
+                style="
+                  color: var(--text-muted);
+                  font-size: 12px;
+                  margin-top: 8px;
+                  opacity: 0.6;
+                "
+              >
+                © 2026 Antiquities Department - United Republic of Tanzania
+              </p>
             </div>
-            
+
             <!-- Explore Column -->
             <div>
-                <h4 style="color:rgba(255,255,255,0.4);font-size:11px;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">Explore</h4>
-                <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:4px;">
-                    <li><a href="index.html" style="color:var(--text-muted);text-decoration:none;font-size:13px;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''">Map & Records</a></li>
-                    <li><a href="buildings.html" style="color:var(--text-muted);text-decoration:none;font-size:13px;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''"> All Buildings</a></li>
-                    <li><a href="community.html" style="color:var(--text-muted);text-decoration:none;font-size:13px;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''"> Community</a></li>
-                    <li><a href="risk.html" style="color:var(--text-muted);text-decoration:none;font-size:13px;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''">Report At-Risk</a></li>
-                </ul>
+              <h4
+                style="
+                  color: rgba(255, 255, 255, 0.4);
+                  font-size: 11px;
+                  text-transform: uppercase;
+                  letter-spacing: 0.08em;
+                  margin-bottom: 8px;
+                "
+              >
+                Explore
+              </h4>
+              <ul
+                style="
+                  list-style: none;
+                  padding: 0;
+                  display: flex;
+                  flex-direction: column;
+                  gap: 4px;
+                "
+              >
+                <li>
+                  <a
+                    href="index.html"
+                    style="
+                      color: var(--text-muted);
+                      text-decoration: none;
+                      font-size: 13px;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--gold)'"
+                    onmouseout="this.style.color = ''"
+                    >Map & Records</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="buildings.html"
+                    style="
+                      color: var(--text-muted);
+                      text-decoration: none;
+                      font-size: 13px;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--gold)'"
+                    onmouseout="this.style.color = ''"
+                  >
+                    All Buildings</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="community.html"
+                    style="
+                      color: var(--text-muted);
+                      text-decoration: none;
+                      font-size: 13px;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--gold)'"
+                    onmouseout="this.style.color = ''"
+                  >
+                    Community</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="risk.html"
+                    style="
+                      color: var(--text-muted);
+                      text-decoration: none;
+                      font-size: 13px;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'var(--gold)'"
+                    onmouseout="this.style.color = ''"
+                    >Report At-Risk</a
+                  >
+                </li>
+              </ul>
             </div>
-            
+
             <!-- Partners Column -->
             <div>
-                <h4 style="color:rgba(255,255,255,0.4);font-size:11px;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">Partners</h4>
-                <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:4px;">
-                    <li style="color:var(--text-muted);font-size:13px;">Antiquities Dept</li>
-                    <li style="color:var(--text-muted);font-size:13px;">DARCH</li>
-                    <li style="color:var(--text-muted);font-size:13px;">ARU Architecture Dept</li>
-                    <li style="color:var(--text-muted);font-size:13px;">Nat'l College Tourism</li>
-                    <li style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06);">
-                        <a href="login.html" style="color:rgba(255,255,255,0.25);text-decoration:none;font-size:11px;letter-spacing:0.04em;transition:color 0.2s;" onmouseover="this.style.color='rgba(255,255,255,0.5)'" onmouseout="this.style.color='rgba(255,255,255,0.25)'">Officer Portal</a>
-                    </li>
-                </ul>
+              <h4
+                style="
+                  color: rgba(255, 255, 255, 0.4);
+                  font-size: 11px;
+                  text-transform: uppercase;
+                  letter-spacing: 0.08em;
+                  margin-bottom: 8px;
+                "
+              >
+                Partners
+              </h4>
+              <ul
+                style="
+                  list-style: none;
+                  padding: 0;
+                  display: flex;
+                  flex-direction: column;
+                  gap: 4px;
+                "
+              >
+                <li style="color: var(--text-muted); font-size: 13px">
+                  Antiquities Dept
+                </li>
+                <li style="color: var(--text-muted); font-size: 13px">DARCH</li>
+                <li style="color: var(--text-muted); font-size: 13px">
+                  ARU Architecture Dept
+                </li>
+                <li style="color: var(--text-muted); font-size: 13px">
+                  Nat'l College Tourism
+                </li>
+                <li
+                  style="
+                    margin-top: 12px;
+                    padding-top: 10px;
+                    border-top: 1px solid rgba(255, 255, 255, 0.06);
+                  "
+                >
+                  <a
+                    href="login.html"
+                    style="
+                      color: rgba(255, 255, 255, 0.25);
+                      text-decoration: none;
+                      font-size: 11px;
+                      letter-spacing: 0.04em;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color = 'rgba(255,255,255,0.5)'"
+                    onmouseout="this.style.color = 'rgba(255,255,255,0.25)'"
+                    >Officer Portal</a
+                  >
+                </li>
+              </ul>
             </div>
-        </div>
-        
-        <!-- Bottom Row -->
-        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;padding-top:16px;">
-            <p style="color:var(--text-muted);font-size:12px;opacity:0.6;margin:0;">
-                © 2026 <span class="gold-text">Urithi Majengo</span>. All rights reserved.
+          </div>
+
+          <!-- Bottom Row -->
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              flex-wrap: wrap;
+              gap: 12px;
+              padding-top: 16px;
+            "
+          >
+            <p
+              style="
+                color: var(--text-muted);
+                font-size: 12px;
+                opacity: 0.6;
+                margin: 0;
+              "
+            >
+              © 2026 <span class="gold-text">Urithi Majengo</span>. All rights
+              reserved.
             </p>
-            <p style="color:var(--text-muted);font-size:11px;opacity:0.4;margin:0;">
-                Built for the Antiquities Department · Tanzania
+            <p
+              style="
+                color: var(--text-muted);
+                font-size: 11px;
+                opacity: 0.4;
+                margin: 0;
+              "
+            >
+              Built for the Antiquities Department · Tanzania
             </p>
+          </div>
         </div>
-    </div>             
-</footer>
+      </footer>
     </div>
-      
 
     <!--LIBRARIES -->
-     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
-    
-      <!--OUR JAVASCRIPT -->
+
+    <!--OUR JAVASCRIPT -->
     <script src="../JS/data.js"></script>
     <script src="../JS/api.js"></script>
     <script src="../JS/pages.js"></script>
     <script src="../JS/app.js"></script>
 
     <script>
+      // ========================================
+      // MAP INITIALIZATION
+      // ========================================
 
-  // ========================================
-// MAP INITIALIZATION
-// ========================================
+      function initHeritageMap() {
+        const mapContainer = document.getElementById("heritage-map");
+        if (!mapContainer) return;
 
-function initHeritageMap() {
-    const mapContainer = document.getElementById('heritage-map');
-    if (!mapContainer) return;
-    
-    mapContainer.style.height = '450px';
-    mapContainer.style.minHeight = '450px';
-    mapContainer.style.width = '100%';
-    
-    if (typeof L === 'undefined') {
-        console.log('❌ Leaflet not loaded');
-        return;
-    }
-    
-    console.log('🗺️ Initializing map...');
-    
-    try {
-        const map = L.map(mapContainer).setView([-6.8, 39.28], 13);
-        
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap'
-        }).addTo(map);
-        
-        window._heritageMap = map;
-        
-        // Load buildings from API
-        loadMapBuildings();
-        
-        setTimeout(() => map.invalidateSize(), 400);
-        console.log('✅ Map initialized successfully');
-        
-    } catch (error) {
-        console.error('❌ Map error:', error);
-    }
-}
+        mapContainer.style.height = "450px";
+        mapContainer.style.minHeight = "450px";
+        mapContainer.style.width = "100%";
 
-// ========================================
-// LOAD BUILDINGS FROM API FOR MAP
-// ========================================
+        if (typeof L === "undefined") {
+          console.log("❌ Leaflet not loaded");
+          return;
+        }
 
-async function loadMapBuildings() {
-    try {
-        let buildings = [];
-        if (typeof API !== 'undefined' && API.getBuildings) {
-            buildings = await API.getBuildings();
-            console.log('✅ Loaded buildings from API:', buildings.length);
-        } else {
+        console.log("🗺️ Initializing map...");
+
+        try {
+          const map = L.map(mapContainer).setView([-6.8, 39.28], 13);
+
+          L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            attribution: "© OpenStreetMap",
+          }).addTo(map);
+
+          window._heritageMap = map;
+
+          // Load buildings from API
+          loadMapBuildings();
+
+          setTimeout(() => map.invalidateSize(), 400);
+          console.log("✅ Map initialized successfully");
+        } catch (error) {
+          console.error("❌ Map error:", error);
+        }
+      }
+
+      // ========================================
+      // LOAD BUILDINGS FROM API FOR MAP
+      // ========================================
+
+      async function loadMapBuildings() {
+        try {
+          let buildings = [];
+          if (typeof API !== "undefined" && API.getBuildings) {
+            try {
+              buildings = await API.getBuildings();
+              console.log("✅ Loaded buildings from API:", buildings.length);
+            } catch (apiError) {
+              console.log(
+                "⚠️ API failed for map, falling back:",
+                apiError.message,
+              );
+            }
+          }
+
+          if (!buildings || buildings.length === 0) {
             buildings = MOCK_BUILDINGS || [];
-            console.log('⚠️ Using MOCK_BUILDINGS as fallback');
-        }
-        
-        if (buildings.length === 0) {
-            console.log('No buildings found');
+            console.log("⚠️ Using MOCK_BUILDINGS as fallback");
+          }
+
+          if (buildings.length === 0) {
+            console.log("No buildings found");
             return;
-        }
-        
-        const map = window._heritageMap;
-        if (!map) {
+          }
+
+          const map = window._heritageMap;
+          if (!map) {
             setTimeout(loadMapBuildings, 500);
             return;
-        }
-        
-        buildings.forEach(b => {
-            let color = b.condition === 'Good' ? '#34D5B8' : 
-                       b.condition === 'Fair' ? '#F0B429' : '#F5611D';
-            
-           
-            
-            let statusColor = b.status === 'Grade I Listed' ? '#D4A547' : 
-                              b.status === 'Grade II Listed' ? '#34D5B8' : '#F5611D';
-            
-            L.circleMarker([b.lat, b.lng], {
-                radius: 10,
-                fillColor: color,
-                color: '#fff',
-                weight: 2.5,
-                fillOpacity: 0.9
+          }
+
+          buildings.forEach((b) => {
+            // Safety check for coordinates
+            const lat = parseFloat(b.lat);
+            const lng = parseFloat(b.lng);
+            if (!b || isNaN(lat) || isNaN(lng)) {
+              console.log(
+                "Skipping map pin for building without valid coordinates:",
+                b.name || b.id,
+              );
+              return;
+            }
+
+            let color =
+              b.condition === "Good"
+                ? "#34D5B8"
+                : b.condition === "Fair"
+                  ? "#F0B429"
+                  : "#F5611D";
+
+            let condEmoji =
+              b.condition === "Good" ? "✓" : b.condition === "Fair" ? "⚠" : "✗";
+
+            let statusColor =
+              b.status === "Grade I Listed"
+                ? "#D4A547"
+                : b.status === "Grade II Listed"
+                  ? "#34D5B8"
+                  : "#F5611D";
+
+            L.circleMarker([lat, lng], {
+              radius: 10,
+              fillColor: color,
+              color: "#fff",
+              weight: 2.5,
+              fillOpacity: 0.9,
             })
-            .bindPopup(`
+              .bindPopup(
+                `
                 <div style="min-width:220px;padding:4px 0;font-family:'Plus Jakarta Sans',sans-serif;">
                     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
-                        <strong style="font-size:16px;color:#0C1E1A;">${b.name}</strong>
-                        <span style="font-family:monospace;font-size:11px;color:#577A74;background:#E4F2EF;padding:2px 10px;border-radius:12px;">${b.code || 'DSH-00'+b.id}</span>
+                        <strong style="font-size:16px;color:#0C1E1A;">${b.name || "Unknown"}</strong>
+                        <span style="font-family:monospace;font-size:11px;color:#577A74;background:#E4F2EF;padding:2px 10px;border-radius:12px;">${b.code || "DSH-" + String(b.id).padStart(3, "0")}</span>
                     </div>
                     <div style="font-size:13px;color:#577A74;margin-bottom:6px;">
-                         ${b.era} ·  ${b.year}
+                         ${b.era || ""} ·  ${b.year || ""}
                     </div>
                     <div style="font-size:12px;color:#577A74;margin-bottom:8px;">
-                        ${b.location || 'Dar es Salaam'}
+                        ${b.location || "Dar es Salaam"}
                     </div>
                     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
                         <span style="background:${color};color:#fff;padding:2px 14px;border-radius:12px;font-size:11px;font-weight:600;">
-                            ${condEmoji} ${b.condition}
+                            ${condEmoji} ${b.condition || "Unknown"}
                         </span>
                         <span style="background:${statusColor};color:#fff;padding:2px 14px;border-radius:12px;font-size:11px;font-weight:600;">
-                            ${b.status}
+                            ${b.status || "Listed"}
                         </span>
-                        ${b.tags && b.tags.includes('360°') ? '<span style="background:#6366F1;color:#fff;padding:2px 10px;border-radius:12px;font-size:10px;">🔄 360°</span>' : ''}
-                        ${b.tags && b.tags.includes('At Risk') ? '<span style="background:#F5611D;color:#fff;padding:2px 10px;border-radius:12px;font-size:10px;animation:pulse-risk 1.5s infinite;">⚑ AT RISK</span>' : ''}
+                        ${b.tags && b.tags.includes("360°") ? '<span style="background:#6366F1;color:#fff;padding:2px 10px;border-radius:12px;font-size:10px;">🔄 360°</span>' : ""}
+                        ${b.tags && b.tags.includes("At Risk") ? '<span style="background:#F5611D;color:#fff;padding:2px 10px;border-radius:12px;font-size:10px;animation:pulse-risk 1.5s infinite;">⚑ AT RISK</span>' : ""}
                     </div>
-                    <button onclick="navigate('/buildings?id=${b.id}')" 
+                    <button onclick="openBuildingModal(${JSON.stringify(b).replace(/"/g, "&quot;")})"
                             style="width:100%;margin-top:6px;padding:8px;background:#0B7A69;color:white;border:none;border-radius:6px;cursor:pointer;font-size:13px;font-weight:600;transition:all 0.2s;">
                         View Building Details →
                     </button>
                 </div>
-            `)
-            .addTo(map);
-        });
-        
-        // Update Inventory Highlights List
-        const mapLocationCount = document.getElementById('map-location-count');
-        if (mapLocationCount) mapLocationCount.textContent = `${buildings.length} Locations`;
+            `,
+              )
+              .addTo(map);
+          });
 
-        const highlightBuildingCount = document.getElementById('highlight-building-count');
-        if (highlightBuildingCount) highlightBuildingCount.textContent = `${buildings.length} Buildings`;
+          // Update Inventory Highlights List
+          const mapLocationCount =
+            document.getElementById("map-location-count");
+          if (mapLocationCount)
+            mapLocationCount.textContent = `${buildings.length} Locations`;
 
-        const buildingList = document.getElementById('building-list');
-        if (buildingList) {
-            buildingList.innerHTML = buildings.map(b => {
-                let color = b.condition === 'Good' ? '#34D5B8' : 
-                           b.condition === 'Fair' ? '#F0B429' : '#F5611D';
+          const highlightBuildingCount = document.getElementById(
+            "highlight-building-count",
+          );
+          if (highlightBuildingCount)
+            highlightBuildingCount.textContent = `${buildings.length} Buildings`;
+
+          const buildingList = document.getElementById("building-list");
+          if (buildingList) {
+            buildingList.innerHTML = buildings
+              .map((b) => {
+                let color =
+                  b.condition === "Good"
+                    ? "#34D5B8"
+                    : b.condition === "Fair"
+                      ? "#F0B429"
+                      : "#F5611D";
                 return `
-                <div class="building-list-item" onclick="navigate('/buildings?id=${b.id}')" style="cursor:pointer; padding: 12px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; transition: background 0.2s;">
+                <div class="building-list-item" onclick="openBuildingModal(${JSON.stringify(b).replace(/"/g, "&quot;")})" style="cursor:pointer; padding: 12px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; transition: background 0.2s;">
                     <div style="width: 48px; height: 48px; border-radius: 8px; overflow: hidden; flex-shrink: 0;">
-                        <img src="${b.image || 'https://via.placeholder.com/100'}" alt="${b.name}" style="width: 100%; height: 100%; object-fit: cover;">
+                        <img src="${b.image || "https://via.placeholder.com/100"}" alt="${b.name}" style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                     <div style="flex-grow: 1;">
                         <h4 style="margin: 0; font-size: 14px; color: var(--text);">${b.name}</h4>
-                        <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">📍 ${b.location || 'Dar es Salaam'}</div>
+                        <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">📍 ${b.location || "Dar es Salaam"}</div>
                     </div>
                     <div style="width: 12px; height: 12px; border-radius: 50%; background: ${color}; flex-shrink: 0;"></div>
                 </div>
                 `;
-            }).join('');
+              })
+              .join("");
+          }
+
+          console.log(
+            "Added",
+            buildings.length,
+            "markers to map and updated list",
+          );
+        } catch (error) {
+          console.error("Error loading map buildings:", error);
+        }
+      }
+
+      // ========================================
+      // LOAD FEATURED BUILDINGS
+      // ========================================
+
+      async function loadFeaturedBuildings() {
+        const grid = document.getElementById("building-grid");
+        if (!grid) {
+          console.log("⚠️ building-grid not found");
+          return;
         }
 
-        console.log('Added', buildings.length, 'markers to map and updated list');
-        
-    } catch (error) {
-        console.error('Error loading map buildings:', error);
-    }
-}
+        console.log("🏗️ Loading featured buildings...");
 
-// ========================================
-// LOAD FEATURED BUILDINGS
-// ========================================
+        try {
+          let buildings = [];
 
-async function loadFeaturedBuildings() {
-    const grid = document.getElementById('building-grid');
-    if (!grid) {
-        console.log(' building-grid not found');
-        return;
-    }
-    
-    console.log('Loading featured buildings...');
-    
-    try {
-        let buildings = [];
-        
-        // Try API first
-        if (typeof API !== 'undefined' && API.getBuildings) {
+          // Try API first (with caching)
+          if (typeof API !== "undefined" && API.getBuildings) {
             try {
-                buildings = await API.getBuildings();
-                console.log('Featured from API:', buildings.length);
+              buildings = await API.getBuildings();
+              console.log("✅ Featured from API:", buildings.length);
             } catch (apiError) {
-                console.log('API failed for featured:', apiError.message);
+              console.log("⚠️ API failed for featured:", apiError.message);
             }
-        }
-        
-        // Fallback to MOCK_BUILDINGS
-        if (!buildings || buildings.length === 0) {
-            if (typeof MOCK_BUILDINGS !== 'undefined') {
-                buildings = MOCK_BUILDINGS;
-                console.log('Featured from MOCK_BUILDINGS:', buildings.length);
+          }
+
+          // Fallback to MOCK_BUILDINGS
+          if (!buildings || buildings.length === 0) {
+            if (typeof MOCK_BUILDINGS !== "undefined") {
+              buildings = MOCK_BUILDINGS;
+              console.log("📦 Featured from MOCK_BUILDINGS:", buildings.length);
             }
-        }
-        
-        if (!buildings || buildings.length === 0) {
+          }
+
+          if (!buildings || buildings.length === 0) {
             grid.innerHTML = `<p style="color:var(--text-muted);padding:40px;text-align:center;">No buildings found</p>`;
             return;
-        }
-        
-        const featured = buildings.slice(0, 3);
-        
-        grid.innerHTML = featured.map(b => `
-            <div class="card" onclick="window.location.href='building-detail.html?id=${b.id}'" style="cursor:pointer;overflow:hidden;transition:all 0.3s ease;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);">
-                <img src="${b.image || 'https://via.placeholder.com/600x400/cccccc/666?text=Heritage+Building'}" 
-                     alt="${b.name}" 
+          }
+
+          const featured = buildings.slice(0, 3);
+
+          grid.innerHTML = featured
+            .map(
+              (b) => `
+            <div class="card" onclick="openBuildingModal(${JSON.stringify(b).replace(/"/g, "&quot;")})" style="cursor:pointer;overflow:hidden;transition:all 0.3s ease;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);">
+                <img src="${b.image || "https://via.placeholder.com/600x400/cccccc/666?text=Heritage+Building"}"
+                     alt="${b.name}"
                      style="width:100%;height:200px;object-fit:cover;border-radius:var(--radius) var(--radius) 0 0;transition:transform 0.3s ease;"
                      onerror="this.src='https://via.placeholder.com/600x400/cccccc/666?text=No+Image'">
                 <div style="padding:16px 18px 18px;">
                     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;">
                         <h3 style="font-size:17px;font-weight:600;color:var(--text);margin:0;">${b.name}</h3>
-                        <span style="font-family:monospace;font-size:10px;color:var(--text-muted);background:var(--muted);padding:2px 10px;border-radius:12px;">${b.code || 'DSH-00'+b.id}</span>
+                        <span style="font-family:monospace;font-size:10px;color:var(--text-muted);background:var(--muted);padding:2px 10px;border-radius:12px;">${b.code || "DSH-" + String(b.id).padStart(3, "0")}</span>
                     </div>
                     <div style="display:flex;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--text-muted);margin:4px 0 8px;">
-                    
-                         ${b.location || 'Dar es Salaam'}
+                        ${b.location || "Dar es Salaam"}
                     </div>
                     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
                         <span class="badge badge-${b.condition.toLowerCase()}">${b.condition}</span>
-                        <span style="background:var(--muted);color:var(--text-muted);padding:2px 12px;border-radius:12px;font-size:11px;font-weight:500;">${b.status || 'Listed'}</span>
-                        ${b.tags && b.tags.includes('360°') ? '<span style="background:#6366F1;color:#fff;padding:2px 10px;border-radius:12px;font-size:10px;">🔄 360°</span>' : ''}
-                        ${b.tags && b.tags.includes('At Risk') ? '<span style="background:#F5611D;color:#fff;padding:2px 10px;border-radius:12px;font-size:10px;animation:pulse-risk 1.5s infinite;">⚑ AT RISK</span>' : ''}
+                        <span style="background:var(--muted);color:var(--text-muted);padding:2px 12px;border-radius:12px;font-size:11px;font-weight:500;">${b.status || "Listed"}</span>
+                        ${b.tags && b.tags.includes("360°") ? '<span style="background:#6366F1;color:#fff;padding:2px 10px;border-radius:12px;font-size:10px;">🔄 360°</span>' : ""}
+                        ${b.tags && b.tags.includes("At Risk") ? '<span style="background:#F5611D;color:#fff;padding:2px 10px;border-radius:12px;font-size:10px;animation:pulse-risk 1.5s infinite;">⚑ AT RISK</span>' : ""}
                     </div>
                     <p style="font-size:13px;color:var(--text-muted);margin:6px 0 0;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">
-                        ${b.description || 'A significant heritage building in Dar es Salaam.'}
+                        ${b.description || "A significant heritage building in Dar es Salaam."}
                     </p>
                     <div style="margin-top:10px;font-size:12px;color:var(--primary);font-weight:600;text-align:right;">
                         View Details →
                     </div>
                 </div>
             </div>
-        `).join('');
-        
-        console.log('Featured buildings loaded:', featured.length);
-        
-    } catch (error) {
-        console.error(' Error loading featured buildings:', error);
-        grid.innerHTML = `<p style="color:var(--text-muted);padding:40px;text-align:center;">Error loading buildings</p>`;
-    }
-}
+        `,
+            )
+            .join("");
 
-// ========================================
-// LOAD EVERYTHING ON PAGE LOAD
-// ========================================
+          console.log("✅ Featured buildings loaded:", featured.length);
+        } catch (error) {
+          console.error("❌ Error loading featured buildings:", error);
+          grid.innerHTML = `<p style="color:var(--text-muted);padding:40px;text-align:center;">Error loading buildings</p>`;
+        }
+      }
 
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM fully loaded');
-    
-    // Load featured buildings
-    loadFeaturedBuildings();
-    
-    // Initialize map
-    setTimeout(function() {
-        requestAnimationFrame(function() {
+      // ========================================
+      // LOAD EVERYTHING ON PAGE LOAD
+      // ========================================
+
+      document.addEventListener("DOMContentLoaded", function () {
+        console.log("DOM fully loaded");
+
+        // Load featured buildings
+        loadFeaturedBuildings();
+
+        // Initialize map
+        setTimeout(function () {
+          requestAnimationFrame(function () {
             initHeritageMap();
-        });
-    }, 600);
-});
-
-
-</script>
+          });
+        }, 600);
+      });
+    </script>
 
     <!-- CITIZEN MODAL -->
     <div id="citizen-modal" class="citizen-modal" aria-hidden="true">
-        <div class="citizen-modal-content" style="position: relative; max-width: 420px; width: 100%; background: var(--card); border-radius: var(--radius); padding: 40px 36px 36px; box-shadow: var(--shadow-lg);">
-            <button class="citizen-modal-close" type="button" onclick="closeCitizenModal()" aria-label="Close sign in" style="position:absolute; top:16px; right:16px; border:none; background:transparent; font-size:24px; cursor:pointer; color:var(--text-muted); transition: transform 0.2s ease;">×</button>
-            
-            <!-- Login Form -->
-            <div id="modal-login-view">
-                <h2 style="font-family:var(--font-display); margin-bottom: 16px;">Citizen Sign In</h2>
-                <p style="color:var(--text-muted); font-size:14px; margin-bottom: 24px;">Please sign in to continue viewing virtual tours or to report at-risk structures.</p>
-                <form onsubmit="handleCitizenLogin(event)" style="display:flex;flex-direction:column;gap:16px;">
-                    <div>
-                        <label style="display:block;font-weight:500;font-size:13px;margin-bottom:4px;">Email</label>
-                        <input type="email" id="citizen-login-email" required style="width:100%;padding:12px;border:1px solid var(--border);border-radius:var(--radius-sm);">
-                    </div>
-                    <div>
-                        <label style="display:block;font-weight:500;font-size:13px;margin-bottom:4px;">Password</label>
-                        <input type="password" id="citizen-login-password" required style="width:100%;padding:12px;border:1px solid var(--border);border-radius:var(--radius-sm);">
-                    </div>
-                    <button type="submit" class="btn-primary" id="citizen-login-btn" style="padding:12px; margin-top: 8px;">Sign In</button>
-                    <div id="citizen-login-msg" style="color:var(--accent);font-size:13px;text-align:center;"></div>
-                </form>
-                <div style="text-align:center; margin-top: 20px; font-size: 14px; color: var(--text-muted);">
-                    Don't have an account? <a href="#" onclick="toggleCitizenModalView('signup'); return false;" style="color: var(--primary); font-weight: 600;">Get Started</a>
-                </div>
+      <div
+        class="citizen-modal-content"
+        style="
+          position: relative;
+          max-width: 420px;
+          width: 100%;
+          background: var(--card);
+          border-radius: var(--radius);
+          padding: 40px 36px 36px;
+          box-shadow: var(--shadow-lg);
+        "
+      >
+        <button
+          class="citizen-modal-close"
+          type="button"
+          onclick="closeCitizenModal()"
+          aria-label="Close sign in"
+          style="
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            border: none;
+            background: transparent;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: transform 0.2s ease;
+          "
+        >
+          ×
+        </button>
+
+        <!-- Login Form -->
+        <div id="modal-login-view">
+          <h2 style="font-family: var(--font-display); margin-bottom: 16px">
+            Citizen Sign In
+          </h2>
+          <p
+            style="
+              color: var(--text-muted);
+              font-size: 14px;
+              margin-bottom: 24px;
+            "
+          >
+            Please sign in to continue viewing virtual tours or to report
+            at-risk structures.
+          </p>
+          <form
+            onsubmit="handleCitizenLogin(event)"
+            style="display: flex; flex-direction: column; gap: 16px"
+          >
+            <div>
+              <label
+                style="
+                  display: block;
+                  font-weight: 500;
+                  font-size: 13px;
+                  margin-bottom: 4px;
+                "
+                >Email</label
+              >
+              <input
+                type="email"
+                id="citizen-login-email"
+                required
+                style="
+                  width: 100%;
+                  padding: 12px;
+                  border: 1px solid var(--border);
+                  border-radius: var(--radius-sm);
+                "
+              />
             </div>
-            
-            <!-- Signup Form -->
-            <div id="modal-signup-view" style="display: none;">
-                <h2 style="font-family:var(--font-display); margin-bottom: 16px;">Create Account</h2>
-                <p style="color:var(--text-muted); font-size:14px; margin-bottom: 24px;">Register to save virtual tours, leave reviews, and report issues.</p>
-                <form onsubmit="handleCitizenSignup(event)" style="display:flex;flex-direction:column;gap:16px;">
-                    <div>
-                        <label style="display:block;font-weight:500;font-size:13px;margin-bottom:4px;">Full Name</label>
-                        <input type="text" id="citizen-signup-name" required style="width:100%;padding:12px;border:1px solid var(--border);border-radius:var(--radius-sm);">
-                    </div>
-                    <div>
-                        <label style="display:block;font-weight:500;font-size:13px;margin-bottom:4px;">Email</label>
-                        <input type="email" id="citizen-signup-email" required style="width:100%;padding:12px;border:1px solid var(--border);border-radius:var(--radius-sm);">
-                    </div>
-                    <div>
-                        <label style="display:block;font-weight:500;font-size:13px;margin-bottom:4px;">Password</label>
-                        <input type="password" id="citizen-signup-password" required style="width:100%;padding:12px;border:1px solid var(--border);border-radius:var(--radius-sm);">
-                    </div>
-                    <button type="submit" class="btn-primary" id="citizen-signup-btn" style="padding:12px; margin-top: 8px; background: var(--gold); color: var(--dark);">Create Account</button>
-                    <div id="citizen-signup-msg" style="color:var(--accent);font-size:13px;text-align:center;"></div>
-                </form>
-                <div style="text-align:center; margin-top: 20px; font-size: 14px; color: var(--text-muted);">
-                    Already have an account? <a href="#" onclick="toggleCitizenModalView('login'); return false;" style="color: var(--primary); font-weight: 600;">Sign In</a>
-                </div>
+            <div>
+              <label
+                style="
+                  display: block;
+                  font-weight: 500;
+                  font-size: 13px;
+                  margin-bottom: 4px;
+                "
+                >Password</label
+              >
+              <input
+                type="password"
+                id="citizen-login-password"
+                required
+                style="
+                  width: 100%;
+                  padding: 12px;
+                  border: 1px solid var(--border);
+                  border-radius: var(--radius-sm);
+                "
+              />
             </div>
+            <button
+              type="submit"
+              class="btn-primary"
+              id="citizen-login-btn"
+              style="padding: 12px; margin-top: 8px"
+            >
+              Sign In
+            </button>
+            <div
+              id="citizen-login-msg"
+              style="color: var(--accent); font-size: 13px; text-align: center"
+            ></div>
+          </form>
+          <div
+            style="
+              text-align: center;
+              margin-top: 20px;
+              font-size: 14px;
+              color: var(--text-muted);
+            "
+          >
+            Don't have an account?
+            <a
+              href="#"
+              onclick="
+                toggleCitizenModalView('signup');
+                return false;
+              "
+              style="color: var(--primary); font-weight: 600"
+              >Get Started</a
+            >
+          </div>
         </div>
+
+        <!-- Signup Form -->
+        <div id="modal-signup-view" style="display: none">
+          <h2 style="font-family: var(--font-display); margin-bottom: 16px">
+            Create Account
+          </h2>
+          <p
+            style="
+              color: var(--text-muted);
+              font-size: 14px;
+              margin-bottom: 24px;
+            "
+          >
+            Register to save virtual tours, leave reviews, and report issues.
+          </p>
+          <form
+            onsubmit="handleCitizenSignup(event)"
+            style="display: flex; flex-direction: column; gap: 16px"
+          >
+            <div>
+              <label
+                style="
+                  display: block;
+                  font-weight: 500;
+                  font-size: 13px;
+                  margin-bottom: 4px;
+                "
+                >Full Name</label
+              >
+              <input
+                type="text"
+                id="citizen-signup-name"
+                required
+                style="
+                  width: 100%;
+                  padding: 12px;
+                  border: 1px solid var(--border);
+                  border-radius: var(--radius-sm);
+                "
+              />
+            </div>
+            <div>
+              <label
+                style="
+                  display: block;
+                  font-weight: 500;
+                  font-size: 13px;
+                  margin-bottom: 4px;
+                "
+                >Email</label
+              >
+              <input
+                type="email"
+                id="citizen-signup-email"
+                required
+                style="
+                  width: 100%;
+                  padding: 12px;
+                  border: 1px solid var(--border);
+                  border-radius: var(--radius-sm);
+                "
+              />
+            </div>
+            <div>
+              <label
+                style="
+                  display: block;
+                  font-weight: 500;
+                  font-size: 13px;
+                  margin-bottom: 4px;
+                "
+                >Password</label
+              >
+              <input
+                type="password"
+                id="citizen-signup-password"
+                required
+                style="
+                  width: 100%;
+                  padding: 12px;
+                  border: 1px solid var(--border);
+                  border-radius: var(--radius-sm);
+                "
+              />
+            </div>
+            <button
+              type="submit"
+              class="btn-primary"
+              id="citizen-signup-btn"
+              style="
+                padding: 12px;
+                margin-top: 8px;
+                background: var(--gold);
+                color: var(--dark);
+              "
+            >
+              Create Account
+            </button>
+            <div
+              id="citizen-signup-msg"
+              style="color: var(--accent); font-size: 13px; text-align: center"
+            ></div>
+          </form>
+          <div
+            style="
+              text-align: center;
+              margin-top: 20px;
+              font-size: 14px;
+              color: var(--text-muted);
+            "
+          >
+            Already have an account?
+            <a
+              href="#"
+              onclick="
+                toggleCitizenModalView('login');
+                return false;
+              "
+              style="color: var(--primary); font-weight: 600"
+              >Sign In</a
+            >
+          </div>
+        </div>
+      </div>
     </div>
 
-<style>
-    /* Add hover scale for citizen modal close button to match fix */
-    .citizen-modal-close:hover {
+    <style>
+      /* Add hover scale for citizen modal close button to match fix */
+      .citizen-modal-close:hover {
         transform: scale(1.2);
         color: var(--text);
-    }
-    
-    /* Avatar Dropdown Styles */
-    .nav-avatar-btn {
+      }
+
+      /* Avatar Dropdown Styles */
+      .nav-avatar-btn {
         width: 36px;
         height: 36px;
         border-radius: 50%;
@@ -720,13 +1412,13 @@ document.addEventListener('DOMContentLoaded', function() {
         border: none;
         cursor: pointer;
         position: relative;
-    }
-    
-    .nav-avatar-btn:hover {
+      }
+
+      .nav-avatar-btn:hover {
         transform: scale(1.05);
-    }
-    
-    .avatar-dropdown {
+      }
+
+      .avatar-dropdown {
         position: absolute;
         top: 48px;
         right: 0;
@@ -739,32 +1431,29 @@ document.addEventListener('DOMContentLoaded', function() {
         flex-direction: column;
         z-index: 1001;
         overflow: hidden;
-    }
-    
-    .avatar-dropdown.active {
+      }
+
+      .avatar-dropdown.active {
         display: flex;
-    }
-    
-    .avatar-dropdown a {
+      }
+
+      .avatar-dropdown a {
         padding: 12px 16px;
         color: var(--text) !important;
         text-decoration: none;
         font-size: 14px;
         border-bottom: 1px solid var(--border);
         transition: background 0.2s;
-    }
-    
-    .avatar-dropdown a:hover {
+      }
+
+      .avatar-dropdown a:hover {
         background: var(--muted);
-    }
-    
-    .avatar-dropdown a:last-child {
+      }
+
+      .avatar-dropdown a:last-child {
         border-bottom: none;
         color: var(--accent) !important;
-    }
-</style>
-  
-</body>
+      }
+    </style>
+  </body>
 </html>
-           
-        
