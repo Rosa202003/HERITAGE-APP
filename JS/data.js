@@ -19,7 +19,7 @@ const MOCK_BUILDINGS = [
     inspected: "2024-03-15",
     rating: "4.0",
     image:
-      "https://images.unsplash.com/photo-1674334264912-704cb2a24b37?w=600&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1759837107238-7637c2446e6c?w=600&h=400&fit=crop",
     description:
       "The original German administrative headquarters, constructed from coral stone quarried locally. Features characteristic arched colonnades, pitched terracotta roof tiles imported from Hamburg, and a symmetrical façade expressing imperial authority.",
     significance:
@@ -27,6 +27,7 @@ const MOCK_BUILDINGS = [
     tags: ["Protected", "Grade I", "360°"],
     lat: -6.805,
     lng: 39.288,
+    panorama_url: "https://pannellum.org/images/alma.jpg",
   },
   {
     id: 2,
@@ -44,7 +45,7 @@ const MOCK_BUILDINGS = [
     inspected: "2024-02-10",
     rating: "4.8",
     image:
-      "https://images.unsplash.com/photo-1464207687429-7505649dae38?w=600&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1697399939714-b5adbb642c12?w=600&h=400&fit=crop",
     description:
       "Neo-Gothic Catholic cathedral with twin towers, featuring magnificent stained glass windows and a grand nave. The cathedral is a landmark of German colonial architecture.",
     significance:
@@ -52,6 +53,7 @@ const MOCK_BUILDINGS = [
     tags: ["Protected", "Grade I", "360°"],
     lat: -6.812,
     lng: 39.291,
+    panorama_url: "https://pannellum.org/images/cerro-toco-0.jpg",
   },
   {
     id: 3,
@@ -202,6 +204,7 @@ const MOCK_BUILDINGS = [
     tags: ["Protected", "Grade II", "360°"],
     lat: -6.815,
     lng: 39.279,
+    panorama_url: "https://pannellum.org/images/bma-1.jpg",
   },
   {
     id: 9,
@@ -307,6 +310,16 @@ const MOCK_BUILDINGS = [
 
 console.log("MOCK_BUILDINGS loaded:", MOCK_BUILDINGS.length, "buildings");
 
+let MOCK_FLAGS = [
+  {id: 1, building_id: 5, risk_type: 'structural', status: 'pending', description: 'Deep cracks on the western facade above the second floor windows. Looks very unstable.', reporter_name: 'Resident A', created_at: new Date(Date.now() - 2*86400000).toISOString()}, 
+  {id: 2, building_id: 7, risk_type: 'demolition', status: 'reviewing', description: 'Noticed scaffolding going up and workers removing original coral stone bricks without a permit board.', reporter_name: 'Architect B', created_at: new Date(Date.now() - 5*86400000).toISOString()}, 
+  {id: 3, building_id: 11, risk_type: 'neglect', status: 'pending', description: 'The roof is leaking heavily during the rains and water is damaging the historic timber rafters.', reporter_name: 'Tour Guide C', created_at: new Date(Date.now() - 12*3600000).toISOString()}
+];
 
-let MOCK_FLAGS = [{id: 1, building_id: 5, risk_type: 'structural', status: 'pending', reporter_name: 'Citizen A', created_at: new Date().toISOString()}, {id: 2, building_id: 7, risk_type: 'neglect', status: 'reviewing', reporter_name: 'Citizen B', created_at: new Date().toISOString()}, {id: 3, building_id: 11, risk_type: 'development', status: 'pending', reporter_name: 'Citizen C', created_at: new Date().toISOString()}];
-
+let MOCK_REVIEWS = [
+  {id: 1, building_id: 2, user_name: 'John K.', rating: 5, body: 'The stained glass windows are absolutely breathtaking in the morning light. A must-visit if you appreciate Gothic architecture.', helpful_count: 12, created_at: new Date(Date.now() - 14*86400000).toISOString()},
+  {id: 2, building_id: 2, user_name: 'Amina S.', rating: 4, body: 'Very peaceful place right in the middle of the bustling city. The stonework is remarkably preserved.', helpful_count: 8, created_at: new Date(Date.now() - 3*86400000).toISOString()},
+  {id: 3, building_id: 8, user_name: 'David W.', rating: 5, body: 'It feels like stepping back in time. The original ceramic tiles and the ticketing hall are a living museum. They should offer guided tours here.', helpful_count: 24, created_at: new Date(Date.now() - 60*86400000).toISOString()},
+  {id: 4, building_id: 1, user_name: 'Tourist2024', rating: 4, body: 'Impressive colonial architecture with thick coral walls. It was fascinating to learn about the building\'s history, though some areas need better signage.', helpful_count: 3, created_at: new Date(Date.now() - 2*86400000).toISOString()},
+  {id: 5, building_id: 9, user_name: 'LocalHistorian', rating: 5, body: 'A vital monument that honors the Askari soldiers. The casting is spectacular up close.', helpful_count: 15, created_at: new Date(Date.now() - 100*86400000).toISOString()}
+];

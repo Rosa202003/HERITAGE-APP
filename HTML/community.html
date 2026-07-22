@@ -463,7 +463,7 @@
               <span class="prompt-text">Sign in to leave a review</span>
               <button
                 class="btn-secondary"
-                onclick="window.location.href = '../HTML/login.html'"
+                onclick="if(typeof showCitizenModal === 'function') showCitizenModal(); else window.location.href = 'login.html';"
               >
                 Sign In
               </button>
@@ -1037,10 +1037,14 @@
         checkAuth();
         loadBuildingSelect();
         loadReviews();
+        
+        if (window.location.search.includes("login=true") && localStorage.getItem("citizen_auth") !== "true") {
+           setTimeout(() => { if (typeof showCitizenModal === 'function') showCitizenModal(); }, 500);
+        }
       });
 
       console.log("✅ community.html loaded");
     </script>
-    <script src="../JS/app.js"></script>
+    <script src="../JS/app.js?v=3"></script>
   </body>
 </html>

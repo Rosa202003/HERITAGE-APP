@@ -13,7 +13,7 @@
     <link
       rel="icon"
       type="image/svg+xml"
-      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='10' y='40' width='80' height='55' rx='4' fill='%230B7A69'/><rect x='5' y='40' width='90' height='8' rx='2' fill='%23F0B429'/><polygon points='50,5 5,40 95,40' fill='%230B7A69'/></svg>"
     />
 
     <!-- ===== GOOGLE FONTS ===== -->
@@ -95,7 +95,7 @@
         <div class="risk-page">
           <!-- ===== HERO ===== -->
           <div class="risk-hero">
-            <span class="risk-badge">⚑ Citizen Reporting</span>
+            <span class="risk-badge"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="margin-right:5px;vertical-align:-1px"><path d="M4 2v20h2v-8h14l-3-5 3-5H6V2H4zm2 4h11.47l-2 3.33 2 3.34H6V6z"/></svg>Citizen Reporting</span>
             <h1>Report an At-Risk Structure</h1>
             <p>
               Observed a heritage building under threat? Report it to the
@@ -205,8 +205,8 @@
 
               <!-- Buttons -->
               <div class="submit-row">
-                <button type="submit" class="btn-accent">
-                  ⚑ Submit Flag Report
+                  <button type="submit" class="btn-accent">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="margin-right:6px;vertical-align:-2px"><path d="M4 2v20h2v-8h14l-3-5 3-5H6V2H4zm2 4h11.47l-2 3.33 2 3.34H6V6z"/></svg>Submit Flag Report
                 </button>
                 <button type="reset" class="btn-secondary">Clear Form</button>
               </div>
@@ -214,18 +214,17 @@
           </div>
 
           <!-- ===== SUCCESS ===== -->
-          <div id="success-message" style="display: none">
-            <div class="risk-success">
-              <div class="success-icon">✅</div>
-              <h3>Report Submitted Successfully</h3>
-              <p>
-                Thank you for helping preserve Dar es Salaam's heritage. The
-                Antiquities Department will review your report.
-              </p>
-              <button class="btn-primary" onclick="resetForm()">
-                Submit Another Report
-              </button>
+          <div id="success-message" style="display: none; padding: 60px 20px; text-align: center;">
+            <div style="width: 72px; height: 72px; background: rgba(34, 197, 94, 0.1); color: #22c55e; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
             </div>
+            <h3 style="font-family: var(--font-display); font-size: 32px; color: var(--text); margin-bottom: 16px;">Report Submitted</h3>
+            <p style="color: var(--text-muted); font-size: 16px; margin-bottom: 32px;">
+              Logged as <strong id="success-flag-id">FLAG-2026-000</strong>. An officer will review within 5 business days.
+            </p>
+            <button class="btn-primary" onclick="window.location.href='index.html'" style="padding: 12px 24px; font-size: 16px;">
+              Return to Home
+            </button>
           </div>
         </div>
       </main>
@@ -637,20 +636,21 @@
             // Show success state
             document.getElementById("risk-form").style.display = "none";
             document.getElementById("success-message").style.display = "block";
+            const randomId = Math.floor(100 + Math.random() * 900);
+            document.getElementById("success-flag-id").textContent = `FLAG-2026-${randomId}`;
             document
               .getElementById("success-message")
               .scrollIntoView({ behavior: "smooth", block: "center" });
           } else {
             alert(
-              "❌ " +
-                (result.message ||
-                  "Could not submit report. Please try again."),
+              (result.message ||
+                "Could not submit report. Please try again."),
             );
             submitBtn.disabled = false;
-            submitBtn.textContent = "⚑ Submit Flag Report";
+            submitBtn.textContent = "Submit Flag Report";
           }
         } catch (err) {
-          alert("❌ Could not submit. " + err.message);
+          alert("Could not submit. " + err.message);
           submitBtn.disabled = false;
           submitBtn.textContent = "Submit Report";
         }
@@ -709,8 +709,8 @@
         }
       });
 
-      console.log("✅ risk.html loaded");
+      console.log("risk.html loaded");
     </script>
-    <script src="../JS/app.js"></script>
+    <script src="../JS/app.js?v=3"></script>
   </body>
 </html>

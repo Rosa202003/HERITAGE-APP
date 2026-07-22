@@ -198,7 +198,7 @@ function renderDashboardPage(container) {
                         </div>
                     </div>
                     <div style="display: flex; gap: 12px;">
-                        <img src="https://images.unsplash.com/photo-1464207687429-7505649dae38?w=200&h=150&fit=crop" style="width: 80px; height: 60px; border-radius: 6px; object-fit: cover;">
+                        <img src="https://images.unsplash.com/photo-1759837107238-7637c2446e6c?w=200&h=150&fit=crop" style="width: 80px; height: 60px; border-radius: 6px; object-fit: cover;">
                         <div>
                             <div style="font-weight: 600; font-size: 14px;">Old Boma</div>
                             <div style="font-size: 12px; color: var(--text-muted);">City Centre</div>
@@ -460,7 +460,7 @@ async function renderBuildingDetail(container, id) {
             <div class="bdetail-topbar">
                 <button class="bdetail-back-btn" onclick="navigate('/buildings')">← All Buildings</button>
                 <div class="bdetail-topbar-right">
-                    ${isAtRisk ? '<span class="bdetail-risk-pill">⚑ At Risk</span>' : ""}
+                    ${isAtRisk ? '<span class="bdetail-risk-pill"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="margin-right:4px;vertical-align:-1px"><path d="M4 2v20h2v-8h14l-3-5 3-5H6V2H4zm2 4h11.47l-2 3.33 2 3.34H6V6z"/></svg>At Risk</span>' : ""}
                     <span class="bdetail-code-pill">${building.code || "DSH-000"}</span>
                 </div>
             </div>
@@ -478,7 +478,7 @@ async function renderBuildingDetail(container, id) {
                     <div class="bdetail-hero-badges">
                         <span class="bdetail-era-tag">${building.era || "Colonial"}</span>
                         <span class="badge badge-${condClass}">${building.condition}</span>
-                        ${has360 ? '<span class="bdetail-360-tag">⟳ 360°</span>' : ""}
+                        ${has360 ? '<span class="bdetail-360-tag"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:3px;vertical-align:-2px"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>360°</span>' : ""}
                     </div>
                     <h1 class="bdetail-hero-title">${building.name}</h1>
                     <div class="bdetail-hero-stats">
@@ -552,7 +552,7 @@ async function renderBuildingDetail(container, id) {
 
                     <section class="bdetail-section bdetail-tour-section" id="bdetail-tour-section">
                         <div class="bdetail-section-header">
-                            <h2>⟳ 360° Virtual Tour</h2>
+                            <h2><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;vertical-align:-3px"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>360° Virtual Tour</h2>
                             <span style="font-size:13px;color:var(--text-muted)">Drag to look around</span>
                         </div>
                         ${
@@ -560,11 +560,11 @@ async function renderBuildingDetail(container, id) {
                             ? `
                         <div class="bdetail-panorama-wrap">
                             <div id="bdetail-panorama" class="bdetail-panorama"></div>
-                            <div class="bdetail-panorama-hint">🖱 Click and drag to explore · Scroll to zoom</div>
+                            <div class="bdetail-panorama-hint"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;vertical-align:-2px"><rect x="9" y="2" width="6" height="14" rx="3"/><path d="M12 6v4M4 20c0-4 4-8 8-8s8 4 8 8"/></svg>Click and drag to explore · Scroll to zoom</div>
                         </div>`
                             : `
                         <div class="bdetail-tour-coming-soon">
-                            <div class="bdetail-tour-icon">⟳</div>
+                            <div class="bdetail-tour-icon"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg></div>
                             <h3>Virtual Tour Coming Soon</h3>
                             <p>Our team is capturing a 360° experience of this building. Check back soon.</p>
                         </div>`
@@ -619,7 +619,7 @@ async function renderBuildingDetail(container, id) {
                                 <p class="bdetail-review-body">${review.body}</p>
                                 <div class="bdetail-review-footer">
                                     <button class="bdetail-helpful-btn" onclick="markHelpful(this, ${review.helpful_count || 0})">
-                                        👍 Helpful (${review.helpful_count || 0})
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:5px;vertical-align:-2px"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>Helpful (${review.helpful_count || 0})
                                     </button>
                                 </div>
                             </div>`,
@@ -628,7 +628,7 @@ async function renderBuildingDetail(container, id) {
                         </div>`
                             : `
                         <div class="bdetail-no-reviews">
-                            <div class="bdetail-no-reviews-icon">💬</div>
+                            <div class="bdetail-no-reviews-icon"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
                             <h3>No reviews yet</h3>
                             <p>Be the first to share your experience of this heritage building.</p>
                         </div>`
@@ -656,13 +656,13 @@ async function renderBuildingDetail(container, id) {
 
                 <aside class="bdetail-sidebar">
                     <div class="bdetail-sidebar-card">
-                        <div class="bdetail-sidebar-card-title">📍 Location</div>
+                        <div class="bdetail-sidebar-card-title"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:5px;vertical-align:-2px"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Location</div>
                         <div id="bdetail-mini-map" class="bdetail-mini-map"></div>
                         <div style="font-size:12px;color:var(--text-muted);margin-top:8px;">${building.location}, Dar es Salaam</div>
                         <button class="btn-primary" onclick="navigate('/map')" style="width:100%;margin-top:12px;font-size:13px;">Open Full Map</button>
                     </div>
                     <div class="bdetail-sidebar-card">
-                        <div class="bdetail-sidebar-card-title">📋 Quick Facts</div>
+                        <div class="bdetail-sidebar-card-title"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:5px;vertical-align:-2px"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg>Quick Facts</div>
                         <ul class="bdetail-facts-list">
                             <li><span>Built</span><strong>${building.year}</strong></li>
                             <li><span>Era</span><strong>${building.era}</strong></li>
@@ -676,7 +676,7 @@ async function renderBuildingDetail(container, id) {
                         ? `
                     <div class="bdetail-sidebar-card bdetail-tour-card" onclick="document.getElementById('bdetail-tour-section').scrollIntoView({behavior:'smooth'})">
                         <div class="bdetail-tour-card-inner">
-                            <span class="bdetail-tour-card-icon">⟳</span>
+                            <span class="bdetail-tour-card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg></span>
                             <div>
                                 <div class="bdetail-sidebar-card-title" style="margin-bottom:4px;color:#fff;">Virtual 360° Tour</div>
                                 <div style="font-size:12px;color:rgba(255,255,255,0.7);">Interactive panoramic view</div>
@@ -685,7 +685,7 @@ async function renderBuildingDetail(container, id) {
                     </div>`
                         : ""
                     }
-                    <button class="bdetail-report-btn" onclick="navigate('/risk')">⚑ Report This Building At Risk</button>
+                    <button class="bdetail-report-btn" onclick="navigate('/risk')"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="margin-right:6px;vertical-align:-2px"><path d="M4 2v20h2v-8h14l-3-5 3-5H6V2H4zm2 4h11.47l-2 3.33 2 3.34H6V6z"/></svg>Report This Building At Risk</button>
                 </aside>
             </div>
         </div>
@@ -693,6 +693,9 @@ async function renderBuildingDetail(container, id) {
 
     if (panoramaUrl && typeof pannellum !== "undefined") {
       setTimeout(() => {
+        const panoEl = document.getElementById("bdetail-panorama");
+        if (!panoEl || panoEl.dataset.pannellumInit) return;
+        panoEl.dataset.pannellumInit = "1";
         try {
           pannellum.viewer("bdetail-panorama", {
             type: "equirectangular",
@@ -704,11 +707,12 @@ async function renderBuildingDetail(container, id) {
             hfov: 100,
             minHfov: 50,
             maxHfov: 120,
+            showControls: true,
           });
         } catch (e) {
           console.warn("Pannellum error:", e);
         }
-      }, 300);
+      }, 500);
     }
 
     if (building.lat && building.lng && typeof L !== "undefined") {
@@ -738,7 +742,7 @@ async function renderBuildingDetail(container, id) {
       }, 400);
     }
 
-    console.log("✓ Building detail loaded for:", building.name);
+    console.log("Building detail loaded for:", building.name);
   } catch (error) {
     console.error("Error loading building detail:", error);
     container.innerHTML = `
@@ -804,18 +808,26 @@ function selectStar(val) {
 function markHelpful(btn, currentCount) {
   if (btn.classList.contains("voted")) return;
   btn.classList.add("voted");
-  btn.innerHTML = `✓ Helpful (${currentCount + 1})`;
+  btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:5px;vertical-align:-2px"><polyline points="20 6 9 17 4 12"/></svg>Helpful (${currentCount + 1})`;
 }
 
 async function submitBuildingReview(e, buildingId) {
   e.preventDefault();
-  const name = document.getElementById("reviewName").value.trim();
-  const body = document.getElementById("reviewBody").value.trim();
-  const rating = parseInt(document.getElementById("reviewRating").value);
-  const statusEl = document.getElementById("reviewStatus");
+  const form = e.target;
+  const nameEl = form.querySelector('[id="reviewName"]');
+  const bodyEl = form.querySelector('[id="reviewBody"]');
+  const ratingEl = form.querySelector('[id="reviewRating"]');
+  const statusEl = form.querySelector('[id="reviewStatus"]');
+  
+  const name = nameEl ? nameEl.value.trim() : "";
+  const body = bodyEl ? bodyEl.value.trim() : "";
+  const rating = ratingEl ? parseInt(ratingEl.value) : 0;
+  
   if (!rating || rating < 1) {
-    statusEl.textContent = "Please select a star rating.";
-    statusEl.style.color = "var(--accent)";
+    if (statusEl) {
+      statusEl.textContent = "Please select a star rating or rating value.";
+      statusEl.style.color = "var(--accent)";
+    }
     return;
   }
   try {
@@ -828,17 +840,27 @@ async function submitBuildingReview(e, buildingId) {
         helpful_count: 0,
       });
     }
-    statusEl.textContent = "✓ Your review has been submitted. Thank you!";
-    statusEl.style.color = "var(--primary)";
-    document.getElementById("reviewName").value = "";
-    document.getElementById("reviewBody").value = "";
-    document.getElementById("reviewRating").value = "0";
-    document
-      .querySelectorAll(".bdetail-star-btn")
-      .forEach((b) => b.classList.remove("selected"));
+    
+    // Replace the form container with the success state UI
+    const formContainer = e.target.parentElement;
+    formContainer.innerHTML = `
+      <div style="padding: 40px 20px; text-align: center;">
+        <div style="width: 72px; height: 72px; background: rgba(34, 197, 94, 0.1); color: #22c55e; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+        </div>
+        <h3 style="font-family: var(--font-display); font-size: 28px; color: var(--text); margin-bottom: 16px;">Review Submitted</h3>
+        <p style="color: var(--text-muted); font-size: 15px; margin-bottom: 24px;">
+          Thank you for your feedback! It will be visible to the community shortly.
+        </p>
+      </div>
+    `;
+
   } catch (err) {
-    statusEl.textContent = "Could not submit. Please try again later.";
-    statusEl.style.color = "var(--accent)";
+    const statusEl = e.target.querySelector('[id="reviewStatus"]');
+    if (statusEl) {
+      statusEl.textContent = "Could not submit. Please try again later.";
+      statusEl.style.color = "var(--accent)";
+    }
   }
 }
 
@@ -1005,7 +1027,7 @@ async function renderSearchResults(container, query) {
 function renderReportPage(container) {
   container.innerHTML = `
         <div style="max-width:600px;margin:40px auto;">
-            <h2 style="font-family:var(--font-display);font-size:28px;">⚑ Report At-Risk Building</h2>
+            <h2 style="font-family:var(--font-display);font-size:28px;"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" style="margin-right:8px;vertical-align:-3px"><path d="M4 2v20h2v-8h14l-3-5 3-5H6V2H4zm2 4h11.47l-2 3.33 2 3.34H6V6z"/></svg>Report At-Risk Building</h2>
             <p style="color:var(--text-muted);margin-bottom:20px;">Help us protect Dar es Salaam's heritage by reporting at-risk buildings.</p>
             
             <div class="card" style="padding:24px;">
@@ -1109,7 +1131,7 @@ function renderAboutPage(container) {
                     <p style="color:var(--text-muted);font-size:14px;">Across Dar es Salaam</p>
                 </div>
                 <div class="card">
-                    <h4 style="font-family:var(--font-display);font-size:16px;">⚑ 3 Alerts</h4>
+                    <h4 style="font-family:var(--font-display);font-size:16px;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="margin-right:5px;vertical-align:-2px"><path d="M4 2v20h2v-8h14l-3-5 3-5H6V2H4zm2 4h11.47l-2 3.33 2 3.34H6V6z"/></svg>3 Alerts</h4>
                     <p style="color:var(--text-muted);font-size:14px;">Active risk reports</p>
                 </div>
             </div>
@@ -2019,7 +2041,7 @@ function renderGrid(data) {
                 <img src="${imageSrc}" alt="${building.title}" class="card-image" onerror="this.src='https://via.placeholder.com/600x400/cccccc/666?text=No+Image'">
                 <span class="badge era-badge era-${eraClass}">${building.era || "Unknown"}</span>
                 ${building.has360 ? '<span class="badge badge-360">360°</span>' : ""}
-                ${building.atRisk ? '<span class="badge at-risk-badge">⚑ AT RISK</span>' : ""}
+                ${building.atRisk ? '<span class="badge at-risk-badge"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="currentColor" style="margin-right:3px;vertical-align:-1px"><path d="M4 2v20h2v-8h14l-3-5 3-5H6V2H4zm2 4h11.47l-2 3.33 2 3.34H6V6z"/></svg>AT RISK</span>' : ""}
             </div>
             <div class="card-content">
                 <h3 class="card-title">${building.title || building.name || "Unnamed Building"}</h3>
@@ -2175,7 +2197,7 @@ async function renderBuildingReviewsTab(building) {
   
   if (reviews.length === 0) {
       html += `<div class="bm-reviews-empty" style="text-align:center; padding: 40px; background: var(--bg-alt); border-radius: var(--radius-md);">
-          <div style="font-size:48px;margin-bottom:16px;">💬</div>
+          <div style="font-size:48px;margin-bottom:16px;"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
           <h3>No reviews yet</h3>
           <p>Be the first to share your experience of this heritage building.</p>
       </div>`;
@@ -2270,12 +2292,12 @@ function openBuildingModal(building) {
 
   // 360° badge
   if (tags.includes("360°") || building.panorama_url) {
-    badgesHTML += `<span class="badge" style="background:#6366F1;color:#fff">⟳ 360°</span>`;
+    badgesHTML += `<span class="badge" style="background:#6366F1;color:#fff"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:3px;vertical-align:-1px"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>360°</span>`;
   }
 
   // At Risk badge
   if (tags.includes("At Risk")) {
-    badgesHTML += `<span class="badge" style="background:var(--accent);color:#fff">⚑ AT RISK</span>`;
+    badgesHTML += `<span class="badge" style="background:var(--accent);color:#fff"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="currentColor" style="margin-right:3px;vertical-align:-1px"><path d="M4 2v20h2v-8h14l-3-5 3-5H6V2H4zm2 4h11.47l-2 3.33 2 3.34H6V6z"/></svg>AT RISK</span>`;
   }
 
   badgesContainer.innerHTML = badgesHTML;
@@ -2295,7 +2317,7 @@ function openBuildingModal(building) {
             `
                 : ""
             }
-            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:16px;">
+            <div class="bm-info-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:16px;">
                 <div style="background:var(--muted);padding:12px;border-radius:8px;">
                     <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;">Architect</div>
                     <div style="font-weight:600;">${building.architect || "Unknown"}</div>
@@ -2313,6 +2335,11 @@ function openBuildingModal(building) {
                     <div style="font-weight:600;">${building.inspected || "—"}</div>
                 </div>
             </div>
+            
+            <button class="btn-accent" style="width: 100%; margin-top: 24px; padding: 12px; display: flex; align-items: center; justify-content: center; gap: 8px;" onclick="window.location.href='risk.html'">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M4 2v20h2v-8h14l-3-5 3-5H6V2H4zm2 4h11.47l-2 3.33 2 3.34H6V6z"/></svg>
+                Report This Building At Risk
+            </button>
         </div>
     `;
 
@@ -2320,33 +2347,27 @@ function openBuildingModal(building) {
   const tourContent = document.getElementById("bm-tab-tour");
   if (building.panorama_url) {
     tourContent.innerHTML = `
-            <div id="bm-panorama-container" style="height:400px;border-radius:8px;overflow:hidden;"></div>
-            <div style="text-align:center;color:var(--text-muted);font-size:13px;margin-top:8px;">🖱 Click and drag to explore · Scroll to zoom</div>
+            <div
+              id="bm-panorama-container"
+              data-panorama-url="${building.panorama_url}"
+              data-title="${(building.name || "").replace(/"/g, '&quot;')}"
+              style="height:420px;border-radius:10px;overflow:hidden;background:#111;position:relative;"
+            >
+              <!-- Pannellum lazy-inits here when tab is clicked -->
+              <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:rgba(255,255,255,0.5);font-size:14px;gap:10px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+                <span>Loading 360&deg; tour…</span>
+              </div>
+            </div>
+            <div style="text-align:center;color:var(--text-muted);font-size:12px;margin-top:10px;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;vertical-align:-2px"><rect x="9" y="2" width="6" height="14" rx="3"/><path d="M12 6v4M4 20c0-4 4-8 8-8s8 4 8 8"/></svg>
+              Click &amp; drag to look around &nbsp;&middot;&nbsp; Scroll to zoom &nbsp;&middot;&nbsp; Double-click to reset
+            </div>
         `;
-    // Initialize pannellum if available
-    if (typeof pannellum !== "undefined") {
-      setTimeout(() => {
-        try {
-          pannellum.viewer("bm-panorama-container", {
-            type: "equirectangular",
-            panorama: building.panorama_url,
-            autoLoad: true,
-            autoRotate: -2,
-            compass: true,
-            title: building.name,
-            hfov: 100,
-            minHfov: 50,
-            maxHfov: 120,
-          });
-        } catch (e) {
-          console.warn("Pannellum error:", e);
-        }
-      }, 300);
-    }
   } else {
     tourContent.innerHTML = `
             <div class="bm-tour-placeholder">
-                <div style="font-size:48px;margin-bottom:16px;">⟳</div>
+                <div style="font-size:48px;margin-bottom:16px;"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg></div>
                 <h3>Virtual Tour Coming Soon</h3>
                 <p>Our team is capturing a 360° experience of this building. Check back soon.</p>
             </div>
@@ -2395,4 +2416,32 @@ function switchBMTab(tabName, tabElement) {
     tabName === "tour" ? "block" : "none";
   document.getElementById("bm-tab-reviews").style.display =
     tabName === "reviews" ? "block" : "none";
+
+  // Lazy-init pannellum ONLY when the tour tab becomes visible
+  if (tabName === "tour") {
+    const container = document.getElementById("bm-panorama-container");
+    if (container && !container.dataset.pannellumInit) {
+      const panoUrl = container.dataset.panoramaUrl;
+      const panoTitle = container.dataset.title || "";
+      if (panoUrl && typeof pannellum !== "undefined") {
+        container.dataset.pannellumInit = "1";
+        try {
+          pannellum.viewer(container.id, {
+            type: "equirectangular",
+            panorama: panoUrl,
+            autoLoad: true,
+            autoRotate: -2,
+            compass: true,
+            title: panoTitle,
+            hfov: 100,
+            minHfov: 50,
+            maxHfov: 120,
+            showControls: true,
+          });
+        } catch (e) {
+          console.warn("Pannellum error:", e);
+        }
+      }
+    }
+  }
 }

@@ -92,7 +92,7 @@ function scrollToFeatured() {
 // ========================================
 
 async function renderAllBuildings(container) {
-  console.log("📋 Loading all buildings...");
+  console.log("Loading all buildings...");
 
   try {
     let buildings = [];
@@ -105,7 +105,7 @@ async function renderAllBuildings(container) {
     if (!buildings || buildings.length === 0) {
       container.innerHTML = `
                 <div style="max-width:800px;margin:40px auto;text-align:center;padding:40px;">
-                    <h2 style="font-family:var(--font-display);">📋 No Buildings Found</h2>
+                    <h2 style="font-family:var(--font-display);"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;vertical-align:-3px"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg>No Buildings Found</h2>
                     <p style="color:var(--text-muted);margin:16px 0;">Add some buildings to get started.</p>
                     <button class="btn-primary" onclick="navigate('/')">← Back to Home</button>
                 </div>
@@ -118,7 +118,7 @@ async function renderAllBuildings(container) {
                 <!-- Page Header -->
                 <div class="page-header">
                     <div>
-                        <h1>🏛️ Heritage Building Inventory</h1>
+                        <h1><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:10px;vertical-align:-4px"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>Heritage Building Inventory</h1>
                         <p class="subtitle">Complete georeferenced records of all listed and proposed heritage structures.</p>
                     </div>
                     <div class="results-count" id="results-count">${buildings.length} results</div>
@@ -162,10 +162,10 @@ async function renderAllBuildings(container) {
     // Initial render
     renderBuildingCards();
   } catch (error) {
-    console.error("❌ Error loading buildings:", error);
+    console.error("Error loading buildings:", error);
     container.innerHTML = `
             <div style="max-width:800px;margin:40px auto;text-align:center;padding:40px;">
-                <h2 style="font-family:var(--font-display);">❌ Error Loading Buildings</h2>
+                <h2 style="font-family:var(--font-display);"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;vertical-align:-3px"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>Error Loading Buildings</h2>
                 <p style="color:var(--text-muted);margin:16px 0;">Please try again later.</p>
                 <button class="btn-primary" onclick="navigate('/')">← Back to Home</button>
             </div>

@@ -26,7 +26,7 @@ const buildingRichData = {
       "https://images.unsplash.com/photo-1564121211835-e88c852648ab?w=800&h=500&fit=crop",
       "https://images.unsplash.com/photo-1519913710-14825ec7e6d5?w=800&h=500&fit=crop",
       "https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=800&h=500&fit=crop",
-      "https://images.unsplash.com/photo-1464207687429-7505649dae38?w=800&h=500&fit=crop"
+      "https://images.unsplash.com/photo-1697399939714-b5adbb642c12?w=800&h=500&fit=crop"
     ]
   },
   "Azania Front Lutheran Church": {
@@ -62,7 +62,7 @@ const buildingRichData = {
     images: [
       "https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=800&h=500&fit=crop",
       "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800&h=500&fit=crop",
-      "https://images.unsplash.com/photo-1464207687429-7505649dae38?w=800&h=500&fit=crop"
+      "https://images.unsplash.com/photo-1697399939714-b5adbb642c12?w=800&h=500&fit=crop"
     ]
   },
   "Mnazi Mmoja Hospital Original Block": {

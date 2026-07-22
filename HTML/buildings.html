@@ -13,13 +13,19 @@
     <link
       rel="icon"
       type="image/svg+xml"
-      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='10' y='40' width='80' height='55' rx='4' fill='%230B7A69'/><rect x='5' y='40' width='90' height='8' rx='2' fill='%23F0B429'/><polygon points='50,5 5,40 95,40' fill='%230B7A69'/></svg>"
     />
 
     <!-- ===== GOOGLE FONTS ===== -->
     <link
       href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono&display=swap"
       rel="stylesheet"
+    />
+
+    <!-- ===== PANNELLUM CSS (360° Tour) ===== -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"
     />
 
     <!-- ===== LEAFLET CSS ===== -->
@@ -49,7 +55,7 @@
         >
           <ul class="nav-links">
             <li><a href="index.html">Map & Records</a></li>
-            <li><a href="buildings.html">All Buildings</a></li>
+            <li><a href="buildings.html" class="active">All Buildings</a></li>
             <li><a href="risk.html">Report At-Risk</a></li>
             <li><a href="community.html">Community</a></li>
             <li id="nav-auth-container">
@@ -109,7 +115,7 @@
               color: var(--text-muted);
             "
           >
-            <div style="font-size: 24px; margin-bottom: 16px">⏳</div>
+            <div style="font-size: 24px; margin-bottom: 16px"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg></div>
             <p>Loading buildings...</p>
           </div>
         </div>
@@ -255,14 +261,14 @@
                   <h3>Community Inspections & Reviews</h3>
                   <div class="empty-reviews">
                     <p>No community logs submitted yet for this building.</p>
-                    <button class="btn-review">Write a Review</button>
+                    <button class="btn-review" onclick="window.location.href='community.html?login=true'">Write a Review</button>
                   </div>
                 </div>
               </div>
             </div>
             <button
               class="btn-report-atrisk"
-              onclick="window.location.href = '../HTML/risk.html'"
+              onclick="window.location.href = 'risk.html'"
             >
               Report This Building At Risk
             </button>
@@ -522,7 +528,7 @@
         const countEl = document.getElementById("resultsCount");
         if (!grid) return;
 
-        console.log("🏗️ Loading buildings...");
+        console.log("Loading buildings...");
 
         const urlParams = new URLSearchParams(window.location.search);
         const q = urlParams.get("q");
@@ -541,9 +547,9 @@
           if (typeof API !== "undefined" && API.getBuildings) {
             try {
               buildings = await API.getBuildings(fetchParams);
-              console.log("✅ Loaded from API:", buildings.length, "buildings");
+              console.log("Loaded from API:", buildings.length, "buildings");
             } catch (apiError) {
-              console.log("⚠️ API failed, using fallback:", apiError.message);
+              console.log("API failed, using fallback:", apiError.message);
             }
           }
 
@@ -561,7 +567,7 @@
               } else {
                 buildings = MOCK_BUILDINGS;
               }
-              console.log("📦 Using MOCK_BUILDINGS:", buildings.length);
+              console.log("Using MOCK_BUILDINGS:", buildings.length);
             }
           }
 
@@ -569,7 +575,7 @@
           if (!buildings || buildings.length === 0) {
             grid.innerHTML = `
                     <div style="text-align:center;padding:60px 20px;color:var(--text-muted);grid-column:1/-1;">
-                        <div style="font-size:32px;margin-bottom:16px;">⚠️</div>
+                        <div style="font-size:32px;margin-bottom:16px;"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
                         <p>No buildings found. Make sure the backend is running.</p>
                         <button class="btn-primary" onclick="location.reload()" style="margin-top:16px;">Reload</button>
                     </div>
@@ -581,10 +587,10 @@
           // Render buildings
           renderBuildingCards(buildings);
         } catch (error) {
-          console.error("❌ Error loading buildings:", error);
+          console.error("Error loading buildings:", error);
           grid.innerHTML = `
                 <div style="text-align:center;padding:60px 20px;color:var(--text-muted);grid-column:1/-1;">
-                    <div style="font-size:32px;margin-bottom:16px;">❌</div>
+                    <div style="font-size:32px;margin-bottom:16px;"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></div>
                     <p>Error loading buildings. Please try again.</p>
                     <button class="btn-primary" onclick="location.reload()" style="margin-top:16px;">Reload</button>
                 </div>
@@ -620,8 +626,8 @@
                         <span>${b.location || "Dar es Salaam"}</span>
                     </div>
                     <div class="card-tags">
-                        ${b.tags && b.tags.includes("360°") ? '<span class="tag tag-360">🔄 360°</span>' : ""}
-                        ${b.tags && b.tags.includes("At Risk") ? '<span class="tag tag-at-risk">⚑ AT RISK</span>' : ""}
+                        ${b.tags && b.tags.includes("360°") ? '<span class="tag tag-360"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:3px;vertical-align:-1px"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>360°</span>' : ""}
+                        ${b.tags && b.tags.includes("At Risk") ? '<span class="tag tag-at-risk"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="currentColor" style="margin-right:3px;vertical-align:-1px"><path d="M4 2v20h2v-8h14l-3-5 3-5H6V2H4zm2 4h11.47l-2 3.33 2 3.34H6V6z"/></svg>AT RISK</span>' : ""}
                     </div>
                     <div class="card-footer">
                         <span class="badge badge-${b.condition.toLowerCase()}">${b.condition}</span>
@@ -634,7 +640,7 @@
           )
           .join("");
 
-        console.log("✅ Rendered", buildings.length, "building cards");
+        console.log("Rendered", buildings.length, "building cards");
       }
 
       // Search functionality
@@ -660,12 +666,12 @@
 
       // Load buildings on page load
       document.addEventListener("DOMContentLoaded", function () {
-        console.log("📄 DOM loaded, initializing buildings page");
+        console.log("DOM loaded, initializing buildings page");
         loadBuildings();
       });
     </script>
 
     <!-- Load app.js last -->
-    <script src="../JS/app.js"></script>
+    <script src="../JS/app.js?v=3"></script>
   </body>
 </html>
