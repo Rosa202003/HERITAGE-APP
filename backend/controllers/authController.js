@@ -1,3 +1,4 @@
+const { createClient } = require("@supabase/supabase-js");
 const supabase = require("../config/supabase");
 
 // ========================================
@@ -15,6 +16,10 @@ const register = async (req, res) => {
     let userObj = null;
     let sessionToken = null;
 
+    const authClient = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY || process.env.SUPABASE_SERVICE_KEY, {
+      auth: { persistSession: false }
+    });
+
     try {
       const { data: adminData, error: adminErr } = await supabase.auth.admin.createUser({
         email,
@@ -29,7 +34,7 @@ const register = async (req, res) => {
       if (!adminErr && adminData?.user) {
         userObj = adminData.user;
         // Attempt sign in to generate token
-        const { data: loginData } = await supabase.auth.signInWithPassword({ email, password });
+        const { data: loginData } = await authClient.auth.signInWithPassword({ email, password });
         sessionToken = loginData?.session?.access_token || null;
       }
     } catch (_) {
@@ -37,7 +42,7 @@ const register = async (req, res) => {
     }
 
     if (!userObj) {
-      const { data, error } = await supabase.auth.signUp({
+      const { data, error } = await authClient.auth.signUp({
         email,
         password,
         options: {
@@ -81,7 +86,11 @@ const login = async (req, res) => {
       return res.status(400).json({ message: "Email and password required" });
     }
 
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const authClient = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY || process.env.SUPABASE_SERVICE_KEY, {
+      auth: { persistSession: false }
+    });
+
+    const { data, error } = await authClient.auth.signInWithPassword({
       email,
       password
     });

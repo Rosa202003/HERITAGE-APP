@@ -2282,7 +2282,7 @@ async function renderBuildingReviewsTab(building) {
   reviewsContent.innerHTML = html;
 }
 
-function openBuildingModal(building) {
+function openBuildingModal(building, initialTab = "overview") {
   const modal = document.getElementById("building-modal");
   if (!modal) return;
 
@@ -2393,8 +2393,11 @@ function openBuildingModal(building) {
   modal.dataset.buildingId = building.id;
   renderBuildingReviewsTab(building);
 
-  // Reset tabs to overview
-  switchBMTab("overview", document.querySelector(".bm-tab"));
+  // Set initial tab (overview, tour, or reviews)
+  const targetTab = initialTab === "tour" ? "tour" : initialTab === "reviews" ? "reviews" : "overview";
+  const tabBtns = document.querySelectorAll(".bm-tab");
+  const activeBtn = targetTab === "tour" ? tabBtns[1] : targetTab === "reviews" ? tabBtns[2] : tabBtns[0];
+  switchBMTab(targetTab, activeBtn);
 
   // Show modal
   modal.classList.remove("hidden");

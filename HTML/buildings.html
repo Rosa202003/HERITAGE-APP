@@ -11,6 +11,12 @@
 
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23D4AF37' d='M50 10 L10 40 L90 40 Z M20 40 L20 80 L35 80 L35 40 M45 40 L45 80 L55 80 L55 40 M65 40 L65 80 L80 80 L80 40 M10 80 L90 80 L90 90 L10 90 Z'/%3E%3C/svg%3E" />
 
+    <!-- ===== PANNELLUM 360 CSS ===== -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"
+    />
+
     <!-- ===== LEAFLET CSS ===== -->
     <link
       rel="stylesheet"
@@ -301,6 +307,101 @@
                     <p>Error loading buildings. Please try again.</p>
                     <button class="btn-primary" onclick="location.reload()" style="margin-top:16px;">Reload</button>
                 </div>
+              360° Tour
+            </button>
+            <button
+              class="bm-tab"
+              onclick="switchBMTab('reviews', this)"
+              id="reviews-tab-btn"
+            >
+              Reviews
+            </button>
+          </div>
+          </div>
+        </div>
+      </div>
+      <div id="layout-footer"></div>
+    </div>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
+
+    <!-- Load data and API first -->
+    <script src="../JS/data.js"></script>
+    <script src="../JS/api.js"></script>
+
+    <script>
+      // ========================================
+      // LOAD BUILDINGS - WITH CACHING
+      // ========================================
+
+      async function loadBuildings() {
+        const grid = document.getElementById("buildingGrid");
+        const countEl = document.getElementById("resultsCount");
+        if (!grid) return;
+
+        console.log("Loading buildings...");
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const q = urlParams.get("q");
+        let fetchParams = {};
+
+        if (q) {
+          fetchParams.q = q;
+          const searchInput = document.getElementById("searchInput");
+          if (searchInput) searchInput.value = q;
+        }
+
+        try {
+          let buildings = [];
+
+          if (typeof API !== "undefined" && API.getBuildings) {
+            try {
+              buildings = await API.getBuildings(fetchParams);
+              console.log("Loaded from API:", buildings.length, "buildings");
+            } catch (apiError) {
+              console.log("API failed, using fallback:", apiError.message);
+            }
+          }
+
+          if (!buildings || buildings.length === 0) {
+            if (typeof MOCK_BUILDINGS !== "undefined") {
+              if (q) {
+                const qLower = q.toLowerCase();
+                buildings = MOCK_BUILDINGS.filter(
+                  (b) =>
+                    (b.name || "").toLowerCase().includes(qLower) ||
+                    (b.location || "").toLowerCase().includes(qLower) ||
+                    (b.era || "").toLowerCase().includes(qLower),
+                );
+              } else {
+                buildings = MOCK_BUILDINGS;
+              }
+              console.log("Using MOCK_BUILDINGS:", buildings.length);
+            }
+          }
+
+          if (!buildings || buildings.length === 0) {
+            grid.innerHTML = `
+                    <div style="text-align:center;padding:60px 20px;color:var(--text-muted);grid-column:1/-1;">
+                        <div style="font-size:32px;margin-bottom:16px;"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+                        <p>No buildings found. Make sure the backend is running.</p>
+                        <button class="btn-primary" onclick="location.reload()" style="margin-top:16px;">Reload</button>
+                    </div>
+                `;
+            if (countEl) countEl.textContent = "0 results";
+            return;
+          }
+
+          renderBuildingCards(buildings);
+        } catch (error) {
+          console.error("Error loading buildings:", error);
+          grid.innerHTML = `
+                <div style="text-align:center;padding:60px 20px;color:var(--text-muted);grid-column:1/-1;">
+                    <div style="font-size:32px;margin-bottom:16px;"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></div>
+                    <p>Error loading buildings. Please try again.</p>
+                    <button class="btn-primary" onclick="location.reload()" style="margin-top:16px;">Reload</button>
+                </div>
             `;
           if (countEl) countEl.textContent = "Error";
         }
@@ -328,18 +429,19 @@
                         <span class="card-code">${b.code || "DSH-" + String(b.id).padStart(3, "0")}</span>
                     </div>
                     <div class="card-meta">
-                        <span>${b.era}</span>
-                        <span>${b.year}</span>
+                        <span>${b.era || "Heritage Era"}</span>
+                        <span>${b.year || "Historic"}</span>
                         <span>${b.location || "Dar es Salaam"}</span>
                     </div>
                     <div class="card-tags">
-                        ${b.tags && b.tags.includes("360°") ? '<span class="tag tag-360"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:3px;vertical-align:-1px"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>360°</span>' : ""}
+                        <span class="tag tag-360"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:3px;vertical-align:-1px"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>360° Panorama</span>
                         ${b.tags && b.tags.includes("At Risk") ? '<span class="tag tag-at-risk"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="currentColor" style="margin-right:3px;vertical-align:-1px"><path d="M4 2v20h2v-8h14l-3-5 3-5H6V2H4zm2 4h11.47l-2 3.33 2 3.34H6V6z"/></svg>AT RISK</span>' : ""}
                     </div>
-                    <div class="card-footer">
-                        <span class="badge badge-${b.condition.toLowerCase()}">${b.condition}</span>
-                        <span style="font-size:12px;color:var(--text-muted);">${b.status || "Listed"}</span>
-                        <span class="arrow">→</span>
+                    <div class="card-footer" style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
+                        <span class="badge badge-${b.condition ? b.condition.toLowerCase() : 'good'}">${b.condition || 'Good'}</span>
+                        <button onclick="event.stopPropagation(); openBuildingModal(${JSON.stringify(b).replace(/"/g, "&quot;")}, 'tour')" style="background:var(--gold,#d4af37);color:#111;border:none;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:5px;box-shadow:0 2px 8px rgba(0,0,0,0.3);">
+                          🌐 360° Tour
+                        </button>
                     </div>
                 </div>
             </div>
@@ -380,7 +482,7 @@
 
     <!-- Load app.js last -->
     <script src="../JS/app.js?v=3"></script>
-  <!-- COMPONENTS -->
+    <!-- COMPONENTS -->
     <script src="../JS/components/header.js"></script>
     <script src="../JS/components/footer.js"></script>
     <script src="../JS/layout.js"></script>
