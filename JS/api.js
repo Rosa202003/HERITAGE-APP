@@ -186,21 +186,6 @@ const API = {
   },
 
   async login(email, password) {
-    // Check cache first - if user is already logged in with same email, return cached data
-    const cachedUser = localStorage.getItem("user");
-    const cachedToken = localStorage.getItem("token");
-    if (cachedUser && cachedToken) {
-      try {
-        const user = JSON.parse(cachedUser);
-        if (user.email === email) {
-          console.log("Using cached login data for:", email);
-          return { token: cachedToken, user, cached: true };
-        }
-      } catch (e) {
-        // Cache invalid, proceed with normal login
-      }
-    }
-
     const response = await fetch(`${this.baseUrl}/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },

@@ -304,7 +304,7 @@ function renderMapPage(container) {
     `;
 
   // Initialize map after DOM update
-  setTimeout(() => {
+  setTimeout(async () => {
     const mapContainer = document.getElementById("full-map");
     if (mapContainer && typeof L !== "undefined") {
       const map = L.map(mapContainer).setView([-6.8, 39.28], 13);
@@ -312,25 +312,35 @@ function renderMapPage(container) {
         attribution: "© OpenStreetMap",
       }).addTo(map);
 
-      if (typeof MOCK_BUILDINGS !== "undefined") {
-        MOCK_BUILDINGS.forEach((b) => {
-          let color =
-            b.condition === "Good"
-              ? "#34D5B8"
-              : b.condition === "Fair"
-                ? "#F0B429"
-                : "#F5611D";
-          L.circleMarker([b.lat, b.lng], {
-            radius: 9,
-            fillColor: color,
-            color: "#fff",
-            weight: 2,
-            fillOpacity: 0.85,
-          })
-            .bindPopup(`<strong>${b.name}</strong><br>${b.era}`)
-            .addTo(map);
-        });
+      let buildingsList = [];
+      if (typeof API !== "undefined" && API.getBuildings) {
+        try {
+          buildingsList = await API.getBuildings();
+        } catch (e) {
+          console.warn("Map API error:", e);
+        }
       }
+      if (!buildingsList || buildingsList.length === 0) {
+        buildingsList = typeof MOCK_BUILDINGS !== "undefined" ? MOCK_BUILDINGS : [];
+      }
+
+      buildingsList.forEach((b) => {
+        let color =
+          b.condition === "Good" || b.condition === "Excellent"
+            ? "#34D5B8"
+            : b.condition === "Fair"
+              ? "#F0B429"
+              : "#F5611D";
+        L.circleMarker([b.lat, b.lng], {
+          radius: 9,
+          fillColor: color,
+          color: "#fff",
+          weight: 2,
+          fillOpacity: 0.85,
+        })
+          .bindPopup(`<strong>${b.name}</strong><br>${b.era || ""}`)
+          .addTo(map);
+      });
       setTimeout(() => map.invalidateSize(), 300);
     }
   }, 500);
@@ -1296,9 +1306,21 @@ function createGridView() {
 // ========================================
 // RENDER BUILDING DOTS ON GRID
 // ========================================
-function renderGridDots() {
+async function renderGridDots(customBuildings) {
   const dotsContainer = document.getElementById("dots-container");
-  if (!dotsContainer || !MOCK_BUILDINGS) return;
+  if (!dotsContainer) return;
+
+  let buildingsList = customBuildings;
+  if (!buildingsList) {
+    if (typeof API !== "undefined" && API.getBuildings) {
+      try {
+        buildingsList = await API.getBuildings();
+      } catch (e) {}
+    }
+  }
+  if (!buildingsList || buildingsList.length === 0) {
+    buildingsList = typeof MOCK_BUILDINGS !== "undefined" ? MOCK_BUILDINGS : [];
+  }
 
   // Normalize building coordinates to SVG viewBox (0-800, 0-450)
   const minLat = -6.82,
@@ -1306,7 +1328,9 @@ function renderGridDots() {
     minLng = 39.25,
     maxLng = 39.31;
 
-  MOCK_BUILDINGS.forEach((b) => {
+  dotsContainer.innerHTML = "";
+
+  buildingsList.forEach((b) => {
     // Map lat/lng to SVG coordinates
     const x = ((b.lng - minLng) / (maxLng - minLng)) * 800;
     const y = ((maxLat - b.lat) / (maxLat - minLat)) * 450;
