@@ -28,14 +28,20 @@ const getReviews = async (req, res) => {
       buildingsData.forEach(b => { buildingMap[b.id] = b.name; });
     }
 
-    const mappedData = (data || []).map((r) => ({
-      ...r,
-      user_name: r.user_name || r.reviewer_name || "Community Citizen",
-      reviewer_name: r.reviewer_name || r.user_name || "Community Citizen",
-      comment: r.comment || r.content || "",
-      content: r.content || r.comment || "",
-      building_name: r.building_name || buildingMap[r.building_id] || (r.building_id ? `Building #${r.building_id}` : "General Heritage Site")
-    }));
+    const mappedData = (data || []).map((r) => {
+      const reviewText = r.comment || r.content || r.body || r.review || "";
+      const author = r.user_name || r.reviewer_name || r.name || "Community Citizen";
+      return {
+        ...r,
+        user_name: author,
+        reviewer_name: author,
+        comment: reviewText,
+        content: reviewText,
+        body: reviewText,
+        review: reviewText,
+        building_name: r.building_name || buildingMap[r.building_id] || (r.building_id ? `Building #${r.building_id}` : "General Heritage Site")
+      };
+    });
 
     res.json(mappedData);
   } catch (err) {
@@ -48,10 +54,10 @@ const getReviews = async (req, res) => {
 // ========================================
 const createReview = async (req, res) => {
   try {
-    const { building_id, rating, comment, content } = req.body;
-    const user_id = req.user.id;
-    const reviewer_name = req.user.full_name || req.user.name || "Anonymous";
-    const text = comment || content;
+    const { building_id, rating, comment, content, body, user_name, reviewer_name } = req.body;
+    const user_id = req.user ? req.user.id : null;
+    const authorName = user_name || reviewer_name || (req.user ? (req.user.full_name || req.user.name) : "Community Citizen");
+    const text = comment || content || body;
 
     // Validate inputs
     if (!building_id || !rating || !text) {
@@ -63,35 +69,24 @@ const createReview = async (req, res) => {
       return res.status(400).json({ message: "Rating must be an integer between 1 and 5" });
     }
 
-    let insertObj = {
-      user_id,
-      reviewer_name,
-      building_id: parseInt(building_id),
-      rating: ratingInt,
-      content: text
-    };
+    const attempts = [
+      { reviewer_name: authorName, user_name: authorName, building_id: parseInt(building_id), rating: ratingInt, content: text, comment: text, body: text },
+      { reviewer_name: authorName, building_id: parseInt(building_id), rating: ratingInt, content: text, comment: text },
+      { user_name: authorName, building_id: parseInt(building_id), rating: ratingInt, comment: text },
+      { user_name: authorName, building_id: parseInt(building_id), rating: ratingInt, body: text }
+    ];
 
-    let { data, error } = await supabase
-      .from("reviews")
-      .insert([insertObj])
-      .select();
+    let data = null;
+    let error = null;
 
-    if (error) {
-      // Fallback for different column naming
-      const fallbackObj = {
-        user_id,
-        user_name: reviewer_name,
-        building_id: parseInt(building_id),
-        rating: ratingInt,
-        comment: text
-      };
-      const retryRes = await supabase
-        .from("reviews")
-        .insert([fallbackObj])
-        .select();
-
-      data = retryRes.data;
-      error = retryRes.error;
+    for (const obj of attempts) {
+      const res = await supabase.from("reviews").insert([obj]).select();
+      if (!res.error && res.data && res.data.length > 0) {
+        data = res.data;
+        error = null;
+        break;
+      }
+      error = res.error;
     }
 
     if (error) {
@@ -99,11 +94,30 @@ const createReview = async (req, res) => {
     }
 
     const reviewRecord = data && data[0] ? data[0] : {};
+
+    // Re-calculate average rating for the building in DB
+    try {
+      const { data: bReviews } = await supabase
+        .from("reviews")
+        .select("rating")
+        .eq("building_id", parseInt(building_id));
+
+      if (bReviews && bReviews.length > 0) {
+        const avg = (bReviews.reduce((sum, r) => sum + (parseInt(r.rating) || 0), 0) / bReviews.length).toFixed(1);
+        await supabase
+          .from("buildings")
+          .update({ rating: parseFloat(avg) })
+          .eq("id", parseInt(building_id));
+      }
+    } catch(e) {
+      console.warn("Could not auto-update building rating in DB:", e.message);
+    }
+
     res.status(201).json({
       message: "Review submitted successfully",
       review: {
         ...reviewRecord,
-        comment: reviewRecord.content || reviewRecord.comment || text
+        comment: reviewRecord.content || reviewRecord.comment || reviewRecord.body || text
       }
     });
   } catch (err) {

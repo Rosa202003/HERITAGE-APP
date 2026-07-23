@@ -903,7 +903,7 @@
               class="active"
               onclick="showOfficerPage('dashboard')"
             >
-              <span class="nav-icon">📊</span> Dashboard
+              Dashboard
             </a>
             <a
               href="#/officer/buildings"
@@ -912,7 +912,7 @@
               <span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zm-8 7v8l8 5 8-5V9l-8 5-8-5z"/></svg></span> Buildings
             </a>
             <a href="#/officer/flags" onclick="showOfficerPage('flags')">
-              <span class="nav-icon">🚩</span> Flag Reports
+             Flag Reports
               <span class="nav-badge" id="nav-flag-badge">0</span>
             </a>
             <!-- Officers tab — injected by JS only for super-officer -->
@@ -1767,8 +1767,6 @@
             const uploadedUrls = await API.uploadBuildingMedia(mediaInput.files);
             if (uploadedUrls) {
               payload.mediaUrls = uploadedUrls;
-            } else {
-              showToast("Failed to upload some media.", "error");
             }
           }
 
@@ -1784,7 +1782,7 @@
           await loadBuildingsTable();
           await loadDashboard();
         } catch (err) {
-          showToast(err.message, "error");
+          showToast(err.message || "Failed to save building", "error");
         } finally {
           btn.disabled = false;
           btn.textContent = currentBuildingId
@@ -1814,8 +1812,10 @@
       }
 
       // ========================================
-      // RENDER FLAGS
+      // RENDER FLAGS & FULL REPORT MODAL
       // ========================================
+      let currentActiveFlag = null;
+
       function priorityClass(riskType) {
         const high = ["structural", "demolition", "fire"];
         const medium = ["neglect", "vandalism", "development"];
@@ -1849,13 +1849,16 @@
         container.innerHTML = flags
           .map(
             (f) => `
-                <div class="flag-item">
+                <div class="flag-item" style="cursor:pointer;" onclick="openFlagDetailModal(${f.id})">
                     <div class="flag-priority ${priorityClass(f.risk_type)}"></div>
                     <div class="flag-info">
                         <div class="flag-title">${f.reporter_name || "Anonymous"} · ${f.risk_type || "Unknown risk"}</div>
                         <div class="flag-meta"><span>${formatDate(f.created_at)}</span></div>
                     </div>
-                    ${statusLabel(f.status)}
+                    <div style="display:flex;gap:8px;align-items:center;">
+                      ${statusLabel(f.status)}
+                      <button onclick="event.stopPropagation(); openFlagDetailModal(${f.id})" style="font-size:11px;padding:3px 8px;border-radius:4px;background:var(--gold);color:var(--dark);border:none;cursor:pointer;font-weight:600;">View Report</button>
+                    </div>
                 </div>
             `,
           )
@@ -1872,29 +1875,107 @@
         container.innerHTML = flags
           .map(
             (f) => `
-                <div class="flag-item">
-                    <div class="flag-priority ${priorityClass(f.risk_type)}"></div>
-                    <div class="flag-info">
-                        <div class="flag-title">FLAG-${f.id} · ${f.risk_type || "Unknown"}</div>
-                        <div class="flag-meta">
-                            <span>${f.description ? f.description.slice(0, 60) + (f.description.length > 60 ? "…" : "") : "—"}</span>
-                            <span>${formatDate(f.created_at)}</span>
-                            <span>${f.reporter_name || "Anonymous"}</span>
-                        </div>
+                <div class="flag-item" style="display:flex;justify-content:space-between;align-items:center;padding:16px;">
+                    <div style="display:flex;align-items:center;gap:12px;">
+                      <div class="flag-priority ${priorityClass(f.risk_type)}"></div>
+                      <div class="flag-info">
+                          <div class="flag-title" style="font-weight:600;font-size:15px;color:var(--text);">FLAG-${f.id} · ${f.risk_type || "Unknown"}</div>
+                          <div class="flag-meta" style="font-size:13px;color:var(--text-muted);margin-top:4px;">
+                              <span>${f.description ? f.description.slice(0, 80) + (f.description.length > 80 ? "…" : "") : "No details"}</span>
+                              · <span>${formatDate(f.created_at)}</span>
+                              · <span>${f.reporter_name || "Anonymous"}</span>
+                          </div>
+                      </div>
                     </div>
-                    <div style="display:flex;gap:8px;align-items:center;">
+                    <div style="display:flex;gap:10px;align-items:center;">
                         ${statusLabel(f.status)}
-                        <select onchange="updateFlagStatus(${f.id}, this.value)" style="font-size:11px;padding:2px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg);color:var(--text);">
-                            <option value="">Update…</option>
-                            <option value="pending">Pending</option>
-                            <option value="reviewing">Under Review</option>
-                            <option value="resolved">Resolved</option>
+                        <button onclick="openFlagDetailModal(${f.id})" style="font-size:12px;padding:5px 12px;border-radius:6px;background:var(--gold);color:var(--dark);border:none;cursor:pointer;font-weight:600;display:flex;align-items:center;gap:4px;">
+                           Read Full Report
+                        </button>
+                        <select onchange="updateFlagStatus(${f.id}, this.value)" style="font-size:12px;padding:4px 8px;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--text);">
+                            <option value="">Status…</option>
+                            <option value="pending" ${f.status==='pending'?'selected':''}>Pending</option>
+                            <option value="reviewing" ${f.status==='reviewing'?'selected':''}>Under Review</option>
+                            <option value="resolved" ${f.status==='resolved'?'selected':''}>Resolved</option>
                         </select>
                     </div>
                 </div>
             `,
           )
           .join("");
+      }
+
+      async function openFlagDetailModal(id) {
+        let flag = allFlags.find(f => f.id === parseInt(id));
+        if (!flag) {
+          try {
+            flag = await API.getFlags({ id });
+            if (Array.isArray(flag)) flag = flag[0];
+          } catch(e){}
+        }
+        if (!flag) {
+          showToast("Could not find flag report details.", "error");
+          return;
+        }
+
+        currentActiveFlag = flag;
+        document.getElementById("fd-title").textContent = `Flag Report #${flag.id} — ${flag.risk_type ? flag.risk_type.toUpperCase() : 'ISSUE'}`;
+        document.getElementById("fd-badges").innerHTML = `
+          ${statusLabel(flag.status)}
+          <span style="background:var(--muted);color:var(--text-muted);padding:4px 10px;border-radius:12px;font-size:12px;font-weight:600;">Building ID: ${flag.building_id || 'General Site'}</span>
+        `;
+        document.getElementById("fd-description").textContent = flag.description || "No full description provided by reporter.";
+        document.getElementById("fd-reporter").textContent = flag.reporter_name || "Anonymous";
+        document.getElementById("fd-email").textContent = flag.reporter_email || flag.email || "Not provided";
+        document.getElementById("fd-building").textContent = flag.building_id ? `#${flag.building_id}` : "General Site";
+        document.getElementById("fd-date").textContent = formatDate(flag.created_at);
+
+        const photoContainer = document.getElementById("fd-photo-container");
+        if (flag.photo_url) {
+          photoContainer.style.display = "block";
+          document.getElementById("fd-photo-img").src = flag.photo_url;
+          document.getElementById("fd-photo-link").href = flag.photo_url;
+        } else {
+          photoContainer.style.display = "none";
+        }
+
+        document.getElementById("fd-status-select").value = flag.status || "pending";
+        document.getElementById("fd-notes").value = flag.response_notes || "";
+
+        const modal = document.getElementById("flag-detail-modal");
+        modal.style.display = "flex";
+      }
+
+      function closeFlagDetailModal() {
+        const modal = document.getElementById("flag-detail-modal");
+        if (modal) modal.style.display = "none";
+        currentActiveFlag = null;
+      }
+
+      async function saveFlagDetailStatus() {
+        if (!currentActiveFlag) return;
+        const newStatus = document.getElementById("fd-status-select").value;
+        const notes = document.getElementById("fd-notes").value.trim();
+
+        try {
+          await API.updateFlag(currentActiveFlag.id, { status: newStatus, response_notes: notes });
+          
+          // Update in-memory state for real time UI sync
+          currentActiveFlag.status = newStatus;
+          currentActiveFlag.response_notes = notes;
+          const idx = allFlags.findIndex(f => f.id === currentActiveFlag.id);
+          if (idx !== -1) {
+            allFlags[idx].status = newStatus;
+            allFlags[idx].response_notes = notes;
+          }
+
+          showToast("Flag report status updated & saved in database!", "success");
+          closeFlagDetailModal();
+          await loadAllFlags();
+          await loadDashboard();
+        } catch (err) {
+          showToast(err.message || "Could not update flag status.", "error");
+        }
       }
 
       async function loadAllFlags() {
@@ -1923,11 +2004,16 @@
         if (!newStatus) return;
         try {
           await API.updateFlag(id, { status: newStatus });
-          showToast("Flag status updated.", "success");
+          
+          // Update in-memory state so it persists in real-time
+          const flag = allFlags.find(f => f.id === parseInt(id));
+          if (flag) flag.status = newStatus;
+
+          showToast("Flag status updated permanently.", "success");
           await loadAllFlags();
           await loadDashboard();
         } catch (err) {
-          showToast("Could not update flag status.", "error");
+          showToast(err.message || "Could not update flag status.", "error");
         }
       }
 
@@ -2154,9 +2240,51 @@
 
       console.log("officer.html loaded");
     </script>
-  <!-- COMPONENTS -->
-    <script src="../JS/components/header.js"></script>
-    <script src="../JS/components/footer.js"></script>
-    <script src="../JS/layout.js"></script>
+    <!-- FULL REPORT READER MODAL FOR OFFICERS -->
+    <div id="flag-detail-modal" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.8); z-index:9999; align-items:center; justify-content:center; padding:20px; overflow-y:auto;">
+      <div class="modal-content" style="background:var(--card, #132420); border:1px solid var(--border, rgba(255,255,255,0.15)); border-radius:14px; max-width:640px; width:100%; padding:28px; color:var(--text, #fff); position:relative; box-shadow:0 12px 36px rgba(0,0,0,0.6); margin:auto;">
+        <button onclick="closeFlagDetailModal()" style="position:absolute; top:18px; right:18px; background:transparent; border:none; color:var(--text-muted); font-size:24px; cursor:pointer; line-height:1;">×</button>
+        <h2 style="font-family:var(--font-display); font-size:22px; color:var(--gold, #d4af37); margin-bottom:6px;" id="fd-title">Full Flag Report</h2>
+        <div style="display:flex; gap:10px; align-items:center; margin-bottom:20px;" id="fd-badges"></div>
+        
+        <div style="display:flex; flex-direction:column; gap:16px;">
+          <div style="background:var(--bg, #0a1412); padding:16px; border-radius:8px; border:1px solid var(--border, rgba(255,255,255,0.08));">
+            <h4 style="font-size:12px; color:var(--gold, #d4af37); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px; font-weight:700;">Report Description & Incident Details</h4>
+            <p style="font-size:14px; line-height:1.6; color:var(--text, #eee); white-space:pre-wrap; margin:0;" id="fd-description"></p>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; background:var(--bg, #0a1412); padding:14px; border-radius:8px; font-size:13px; border:1px solid var(--border, rgba(255,255,255,0.06));">
+            <div><strong style="color:var(--text-muted);">Reporter Name:</strong> <span id="fd-reporter" style="color:var(--text); font-weight:600;"></span></div>
+            <div><strong style="color:var(--text-muted);">Contact Email:</strong> <span id="fd-email" style="color:var(--text); font-weight:600;"></span></div>
+            <div><strong style="color:var(--text-muted);">Building ID:</strong> <span id="fd-building" style="color:var(--text); font-weight:600;"></span></div>
+            <div><strong style="color:var(--text-muted);">Submitted Date:</strong> <span id="fd-date" style="color:var(--text); font-weight:600;"></span></div>
+          </div>
+
+          <div id="fd-photo-container" style="display:none; background:var(--bg, #0a1412); padding:14px; border-radius:8px; border:1px solid var(--border, rgba(255,255,255,0.06));">
+            <h4 style="font-size:12px; color:var(--gold, #d4af37); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:10px; font-weight:700;">Uploaded Image Attachment</h4>
+            <a id="fd-photo-link" target="_blank" href="#" title="Click to view full screen">
+              <img id="fd-photo-img" src="" alt="Report Photo" style="max-height:260px; border-radius:8px; border:1px solid var(--border); object-fit:cover; width:100%; cursor:pointer;" />
+            </a>
+          </div>
+
+          <div style="background:var(--bg, #0a1412); padding:16px; border-radius:8px; border:1px solid var(--border);">
+            <h4 style="font-size:12px; color:var(--gold, #d4af37); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:12px; font-weight:700;">Officer Resolution & Action Notes</h4>
+            <div style="display:flex; gap:12px; margin-bottom:12px; align-items:center;">
+              <label style="font-size:13px; font-weight:600;">Status:</label>
+              <select id="fd-status-select" style="padding:6px 12px; border-radius:6px; background:var(--card); border:1px solid var(--border); color:var(--text); font-size:13px;">
+                <option value="pending">Pending</option>
+                <option value="reviewing">Under Review</option>
+                <option value="resolved">Resolved</option>
+              </select>
+            </div>
+            <textarea id="fd-notes" placeholder="Enter officer response notes, findings, or action steps..." style="width:100%; min-height:80px; padding:10px; border-radius:6px; background:var(--card); border:1px solid var(--border); color:var(--text); font-family:var(--font-body); font-size:13px; resize:vertical;"></textarea>
+            <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:12px;">
+              <button onclick="closeFlagDetailModal()" class="btn-secondary" style="padding:8px 18px; font-size:13px;">Cancel</button>
+              <button onclick="saveFlagDetailStatus()" class="btn-primary" style="padding:8px 22px; font-size:13px;">Save & Update Status in Database</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

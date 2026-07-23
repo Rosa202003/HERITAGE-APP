@@ -73,21 +73,36 @@ const updateFlag = async (req, res) => {
     const { id } = req.params;
     const { status, response_notes } = req.body;
 
-    const { data, error } = await supabase
+    const updatePayload = {};
+    if (status !== undefined) updatePayload.status = status;
+    if (response_notes !== undefined) updatePayload.response_notes = response_notes;
+
+    let { data, error } = await supabase
       .from("flags")
-      .update({ status, response_notes, updated_at: new Date() })
-      .eq("id", id)
+      .update({ ...updatePayload, updated_at: new Date() })
+      .eq("id", parseInt(id))
       .select();
+
+    if (error) {
+      // Fallback in case updated_at column is not present
+      const fallback = await supabase
+        .from("flags")
+        .update(updatePayload)
+        .eq("id", parseInt(id))
+        .select();
+      data = fallback.data;
+      error = fallback.error;
+    }
 
     if (error) {
       return res.status(400).json({ message: error.message });
     }
 
-    if (data.length === 0) {
+    if (!data || data.length === 0) {
       return res.status(404).json({ message: "Flag not found" });
     }
 
-    res.json({ message: "Flag updated", flag: data });
+    res.json({ message: "Flag updated", flag: data[0] });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

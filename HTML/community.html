@@ -492,201 +492,6 @@
 
     <!-- ===== SCRIPTS ===== -->
     <script src="../JS/data.js"></script>
-      }
-
-      .sign-in-prompt .prompt-text {
-        font-size: 13px;
-        color: var(--text-muted);
-      }
-
-      .sign-in-prompt .btn-secondary {
-        padding: 6px 20px;
-        font-size: 13px;
-      }
-
-      /* ========================================
-           RESPONSIVE
-           ======================================== */
-
-      @media (max-width: 768px) {
-        .community-page {
-          padding: 12px;
-        }
-
-        .page-header {
-          flex-direction: column;
-          align-items: flex-start;
-        }
-
-        .page-header h1 {
-          font-size: 26px;
-        }
-
-        .review-form-section {
-          padding: 16px 18px;
-        }
-
-        .form-row {
-          grid-template-columns: 1fr;
-        }
-
-        .review-header {
-          flex-direction: column;
-          align-items: flex-start;
-        }
-
-        .review-card {
-          padding: 16px 18px;
-        }
-
-        .form-actions {
-          flex-direction: column;
-        }
-
-        .form-actions button {
-          width: 100%;
-          justify-content: center;
-        }
-      }
-
-      @media (max-width: 480px) {
-        .review-form-section h2 {
-          font-size: 19px;
-        }
-
-        .star-rating {
-          font-size: 24px;
-        }
-
-        .review-user {
-          flex-wrap: wrap;
-        }
-
-        .review-footer {
-          flex-wrap: wrap;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div id="app">
-      <!-- ===== HEADER ===== -->
-      <div id="layout-header"></div>
-
-      <!-- ===== MAIN CONTENT ===== -->
-      <main id="main-content">
-        <div class="community-page">
-          <!-- Page Header -->
-          <div class="page-header">
-            <div>
-              <h1>Community</h1>
-              <p class="subtitle">
-                Share your experiences and reviews of Dar es Salaam's heritage
-                buildings.
-              </p>
-            </div>
-            <div class="review-count" id="review-count">Loading…</div>
-          </div>
-
-          <!-- ===== REVIEW FORM ===== -->
-          <div class="review-form-section" id="review-form-section">
-            <h2>Leave Your Review</h2>
-            <p class="form-subtitle">
-              Share your experience visiting a heritage building.
-            </p>
-
-            <!-- Sign In Prompt (shown when logged out) -->
-            <div
-              class="sign-in-prompt"
-              id="sign-in-prompt"
-              style="display: none"
-            >
-              <span class="prompt-text">Sign in to leave a review</span>
-              <button
-                class="btn-secondary"
-                onclick="if(typeof showCitizenModal === 'function') showCitizenModal(); else window.location.href = 'login.html';"
-              >
-                Sign In
-              </button>
-            </div>
-
-            <!-- Review Form (shown when logged in) -->
-            <form
-              class="review-form"
-              id="review-form"
-              onsubmit="handleReviewSubmit(event)"
-              style="display: none"
-            >
-              <div class="form-row">
-                <div class="form-group">
-                  <label>Building <span class="required">*</span></label>
-                  <select id="review-building" required>
-                    <option value="">Loading buildings…</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label>Rating <span class="required">*</span></label>
-                  <div class="star-rating" id="star-rating">
-                    <span class="star" data-value="1"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></span>
-                    <span class="star" data-value="2"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></span>
-                    <span class="star" data-value="3"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></span>
-                    <span class="star" data-value="4"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></span>
-                    <span class="star" data-value="5"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></span>
-                  </div>
-                  <input type="hidden" id="review-rating" value="0" />
-                </div>
-              </div>
-              <div class="form-group">
-                <label>Your Experience <span class="required">*</span></label>
-                <textarea
-                  id="review-comment"
-                  placeholder="Describe your visit…"
-                  required
-                ></textarea>
-              </div>
-              <!-- Submission feedback -->
-              <div
-                id="review-msg"
-                style="
-                  font-size: 13px;
-                  padding: 8px 12px;
-                  border-radius: 6px;
-                  display: none;
-                "
-              ></div>
-              <div class="form-actions">
-                <button
-                  type="submit"
-                  class="btn-primary"
-                  id="review-submit-btn"
-                >
-                  Submit Review
-                </button>
-              </div>
-            </form>
-          </div>
-
-          <!-- ===== REVIEWS LIST ===== -->
-          <div class="reviews-section" id="reviews-list">
-            <p
-              style="
-                color: var(--text-muted);
-                text-align: center;
-                padding: 40px 0;
-              "
-            >
-              Loading reviews…
-            </p>
-          </div>
-        </div>
-      </main>
-
-      <!-- ===== FOOTER ===== -->
-      <div id="layout-footer"></div>
-    </div>
-
-    <!-- ===== SCRIPTS ===== -->
-    <script src="../JS/data.js"></script>
     <script src="../JS/api.js"></script>
     <script>
       let selectedRating = 0;
@@ -792,7 +597,7 @@
         list.innerHTML = reviews
           .map((r) => {
             const author = r.user_name || r.reviewer_name || "Community Citizen";
-            const text = r.comment || r.content || "";
+            const text = r.comment || r.content || r.body || r.review || "";
             const ratingNum = parseFloat(r.rating || 5).toFixed(1);
             const buildingTag = r.building_name || (r.building_id ? `Building #${r.building_id}` : "General Heritage Site");
 
@@ -806,7 +611,7 @@
                                 <div class="review-date" style="font-size:12px;color:var(--text-muted,#888);">${formatDate(r.created_at)}</div>
                             </div>
                         </div>
-                        <div class="review-building" style="background:var(--muted,rgba(255,255,255,0.08));color:var(--gold,#d4af37);padding:4px 12px;border-radius:20px;font-size:12px;font-weight:500;">${buildingTag}</div>
+                        <a href="${r.building_id ? `buildings.html?id=${r.building_id}` : 'buildings.html'}" class="review-building" style="text-decoration:none;background:var(--muted,rgba(255,255,255,0.08));color:var(--gold,#d4af37);padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;display:inline-flex;align-items:center;gap:4px;transition:all 0.2s ease;">🏛️ ${buildingTag}</a>
                     </div>
                     <div class="review-rating" style="display:flex;align-items:center;gap:8px;margin-bottom:10px;color:var(--gold,#d4af37);">
                         <span>${renderStars(r.rating || 5)}</span>
@@ -815,7 +620,7 @@
                     <div class="review-content" style="font-size:14px;line-height:1.6;color:var(--text,#ddd);margin-bottom:14px;">${text}</div>
                     <div class="review-footer" style="display:flex;justify-content:flex-end;">
                         <button class="review-helpful" data-id="${r.id}" onclick="handleUpvote(this)" style="background:transparent;border:1px solid var(--border);color:var(--text-muted);padding:4px 12px;border-radius:16px;cursor:pointer;font-size:12px;display:flex;align-items:center;gap:6px;">
-                            <span class="helpful-icon">👍</span>
+                            
                             <span class="helpful-count">${r.helpful_count || 0}</span>
                             <span>helpful</span>
                         </button>
@@ -857,15 +662,15 @@
         const btn = document.getElementById("review-submit-btn");
 
         if (!buildingId) {
-          showMsg(msg, "error", "⚠️ Please select a building.");
+          showMsg(msg, "error", " Please select a building.");
           return;
         }
         if (!rating) {
-          showMsg(msg, "error", "⚠️ Please select a star rating.");
+          showMsg(msg, "error", " Please select a star rating.");
           return;
         }
         if (!comment) {
-          showMsg(msg, "error", "⚠️ Please write your experience.");
+          showMsg(msg, "error", " Please write your experience.");
           return;
         }
 
@@ -880,7 +685,7 @@
           });
 
           if (result.review || result.message === "Review posted" || result.message === "Review submitted successfully") {
-            showMsg(msg, "success", "✅ Thank you! Your review was posted.");
+            showMsg(msg, "success", " Thank you! Your review was posted.");
             document.getElementById("review-form").reset();
             selectedRating = 0;
             updateStars(0);
@@ -893,7 +698,7 @@
             );
           }
         } catch (err) {
-          showMsg(msg, "error", "❌ Could not reach server.");
+          showMsg(msg, "error", " Could not reach server.");
         } finally {
           btn.disabled = false;
           btn.textContent = "Submit Review";
@@ -961,17 +766,286 @@
         loadBuildingSelect();
         loadReviews();
         
+        // Polling every 4 seconds for real-time review updates across users
+        setInterval(loadReviews, 4000);
+        
         if (window.location.search.includes("login=true") && localStorage.getItem("citizen_auth") !== "true") {
            setTimeout(() => { if (typeof showCitizenModal === 'function') showCitizenModal(); }, 500);
         }
       });
 
-      console.log("✅ community.html loaded");
+      console.log(" community.html loaded");
     </script>
     <script src="../JS/app.js?v=3"></script>
-  <!-- COMPONENTS -->
+    <!-- COMPONENTS -->
     <script src="../JS/components/header.js"></script>
     <script src="../JS/components/footer.js"></script>
     <script src="../JS/layout.js"></script>
+
+    <!-- CITIZEN SIGN IN MODAL -->
+    <div id="citizen-modal" class="citizen-modal" aria-hidden="true">
+      <div
+        class="citizen-modal-content"
+        style="
+          position: relative;
+          max-width: 420px;
+          width: 100%;
+          background: var(--card);
+          border-radius: var(--radius);
+          padding: 40px 36px 36px;
+          box-shadow: var(--shadow-lg);
+          margin: 40px auto;
+        "
+      >
+        <button
+          class="citizen-modal-close"
+          type="button"
+          onclick="closeCitizenModal()"
+          aria-label="Close sign in"
+          style="
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            border: none;
+            background: transparent;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: transform 0.2s ease;
+          "
+        >
+          ×
+        </button>
+
+        <!-- Login Form -->
+        <div id="modal-login-view">
+          <h2 style="font-family: var(--font-display); margin-bottom: 16px; color: var(--text);">
+            Citizen Sign In
+          </h2>
+          <p
+            style="
+              color: var(--text-muted);
+              font-size: 14px;
+              margin-bottom: 24px;
+            "
+          >
+            Please sign in to share reviews and participate in community discussions.
+          </p>
+          <form
+            onsubmit="handleCitizenLogin(event)"
+            style="display: flex; flex-direction: column; gap: 16px"
+          >
+            <div>
+              <label
+                style="
+                  display: block;
+                  font-weight: 500;
+                  font-size: 13px;
+                  margin-bottom: 4px;
+                  color: var(--text);
+                "
+                >Email</label
+              >
+              <input
+                type="email"
+                id="citizen-login-email"
+                required
+                style="
+                  width: 100%;
+                  padding: 12px;
+                  border: 1px solid var(--border);
+                  border-radius: var(--radius-sm);
+                  background: var(--bg);
+                  color: var(--text);
+                "
+              />
+            </div>
+            <div>
+              <label
+                style="
+                  display: block;
+                  font-weight: 500;
+                  font-size: 13px;
+                  margin-bottom: 4px;
+                  color: var(--text);
+                "
+                >Password</label
+              >
+              <input
+                type="password"
+                id="citizen-login-password"
+                required
+                style="
+                  width: 100%;
+                  padding: 12px;
+                  border: 1px solid var(--border);
+                  border-radius: var(--radius-sm);
+                  background: var(--bg);
+                  color: var(--text);
+                "
+              />
+            </div>
+            <button
+              type="submit"
+              class="btn-primary"
+              id="citizen-login-btn"
+              style="padding: 12px; margin-top: 8px"
+            >
+              Sign In
+            </button>
+            <div
+              id="citizen-login-msg"
+              style="color: var(--accent); font-size: 13px; text-align: center"
+            ></div>
+          </form>
+          <div
+            style="
+              text-align: center;
+              margin-top: 20px;
+              font-size: 14px;
+              color: var(--text-muted);
+            "
+          >
+            Don't have an account?
+            <a
+              href="#"
+              onclick="
+                toggleCitizenModalView('signup');
+                return false;
+              "
+              style="color: var(--primary); font-weight: 600"
+              >Get Started</a
+            >
+          </div>
+        </div>
+
+        <!-- Signup Form -->
+        <div id="modal-signup-view" style="display: none">
+          <h2 style="font-family: var(--font-display); margin-bottom: 16px; color: var(--text);">
+            Create Account
+          </h2>
+          <p
+            style="
+              color: var(--text-muted);
+              font-size: 14px;
+              margin-bottom: 24px;
+            "
+          >
+            Register to post reviews, rate heritage sites, and report issues.
+          </p>
+          <form
+            onsubmit="handleCitizenSignup(event)"
+            style="display: flex; flex-direction: column; gap: 16px"
+          >
+            <div>
+              <label
+                style="
+                  display: block;
+                  font-weight: 500;
+                  font-size: 13px;
+                  margin-bottom: 4px;
+                  color: var(--text);
+                "
+                >Full Name</label
+              >
+              <input
+                type="text"
+                id="citizen-signup-name"
+                required
+                style="
+                  width: 100%;
+                  padding: 12px;
+                  border: 1px solid var(--border);
+                  border-radius: var(--radius-sm);
+                  background: var(--bg);
+                  color: var(--text);
+                "
+              />
+            </div>
+            <div>
+              <label
+                style="
+                  display: block;
+                  font-weight: 500;
+                  font-size: 13px;
+                  margin-bottom: 4px;
+                  color: var(--text);
+                "
+                >Email</label
+              >
+              <input
+                type="email"
+                id="citizen-signup-email"
+                required
+                style="
+                  width: 100%;
+                  padding: 12px;
+                  border: 1px solid var(--border);
+                  border-radius: var(--radius-sm);
+                  background: var(--bg);
+                  color: var(--text);
+                "
+              />
+            </div>
+            <div>
+              <label
+                style="
+                  display: block;
+                  font-weight: 500;
+                  font-size: 13px;
+                  margin-bottom: 4px;
+                  color: var(--text);
+                "
+                >Password</label
+              >
+              <input
+                type="password"
+                id="citizen-signup-password"
+                required
+                style="
+                  width: 100%;
+                  padding: 12px;
+                  border: 1px solid var(--border);
+                  border-radius: var(--radius-sm);
+                  background: var(--bg);
+                  color: var(--text);
+                "
+              />
+            </div>
+            <button
+              type="submit"
+              class="btn-primary"
+              id="citizen-signup-btn"
+              style="padding: 12px; margin-top: 8px"
+            >
+              Create Account
+            </button>
+            <div
+              id="citizen-signup-msg"
+              style="color: var(--accent); font-size: 13px; text-align: center"
+            ></div>
+          </form>
+          <div
+            style="
+              text-align: center;
+              margin-top: 20px;
+              font-size: 14px;
+              color: var(--text-muted);
+            "
+          >
+            Already have an account?
+            <a
+              href="#"
+              onclick="
+                toggleCitizenModalView('login');
+                return false;
+              "
+              style="color: var(--primary); font-weight: 600"
+              >Sign In</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

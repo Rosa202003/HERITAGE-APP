@@ -42,9 +42,9 @@ const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log(`\n==================================================`);
-  console.log(`🚀 Urithi Majengo Server Running on Port ${PORT}`);
-  console.log(`👉 Open App in Browser:    http://localhost:${PORT}/HTML/index.html`);
-  console.log(`👉 Officer Portal:        http://localhost:${PORT}/HTML/officer.html`);
-  console.log(`👉 Live Server Compatible: Port 5500 auto-connects to http://localhost:${PORT}/api`);
+  console.log(` Urithi Majengo Server Running on Port ${PORT}`);
+  console.log(`Open App in Browser:    http://localhost:${PORT}/HTML/index.html`);
+  console.log(` Officer Portal:        http://localhost:${PORT}/HTML/officer.html`);
+  console.log(` Live Server Compatible: Port 5500 auto-connects to http://localhost:${PORT}/api`);
   console.log(`==================================================\n`);
 });

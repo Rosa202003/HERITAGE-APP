@@ -77,6 +77,36 @@ function navigate(path) {
   let cleanPath = path;
   if (cleanPath.startsWith("#")) cleanPath = cleanPath.substring(1);
 
+  // Map Navigation
+  if (cleanPath.startsWith("/map") || cleanPath === "map") {
+    const isIndex = window.location.pathname.includes("index.html") || window.location.pathname === "/" || window.location.pathname.endsWith("/");
+    if (isIndex) {
+      const mapEl = document.getElementById("map-section") || document.getElementById("heritage-map");
+      if (mapEl) {
+        mapEl.scrollIntoView({ behavior: "smooth" });
+        if (typeof switchMapView === "function") switchMapView("map");
+        return;
+      }
+    }
+    window.location.href = "index.html#map-section";
+    return;
+  }
+
+  // Dashboard Navigation
+  if (cleanPath.startsWith("/dashboard") || cleanPath === "dashboard") {
+    const isIndex = window.location.pathname.includes("index.html") || window.location.pathname === "/" || window.location.pathname.endsWith("/");
+    if (isIndex) {
+      const main = document.getElementById("main-content");
+      if (main && typeof renderDashboardPage === "function") {
+        renderDashboardPage(main);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        return;
+      }
+    }
+    window.location.href = "index.html?page=dashboard";
+    return;
+  }
+
   let target = "index.html";
   if (cleanPath.startsWith("/buildings")) target = "buildings.html";
   else if (cleanPath.startsWith("/community")) target = "community.html";
@@ -135,11 +165,14 @@ function renderOfficerPage(container) {
 }
 
 function renderDashboardPage(container) {
-  let userData = { name: "Citizen" };
+  if (!container) return;
+  let userData = { name: "Citizen", email: "citizen@urithi.go.tz" };
   try {
     const stored = localStorage.getItem("citizen_user");
     if (stored) userData = JSON.parse(stored);
   } catch (e) {}
+
+  const initial = (userData.name || "C").charAt(0).toUpperCase();
 
   container.innerHTML = `
         <div style="max-width: 1000px; margin: 40px auto; padding: 0 20px;">
@@ -148,112 +181,66 @@ function renderDashboardPage(container) {
                     <h1 style="font-family: var(--font-display); font-size: 28px; margin: 0 0 8px 0; color: var(--text);">Welcome back, ${userData.name}</h1>
                     <p style="color: var(--text-muted); margin: 0;">Manage your heritage profile, virtual tours, and reports.</p>
                 </div>
-                <div style="      let userName = "Citizen";
-      try {
-        const u = JSON.parse(localStorage.getItem("citizen_user"));
-        if (u && u.name) userName = u.name;
-      } catch (e) {}
-      
-      authContainer.innerHTML = \`
-        <div class="auth-user-menu" style="display:flex; align-items:center; gap:8px; cursor:pointer;" onclick="toggleCitizenDropdown(event)">
-            <div style="font-weight:600; color:var(--text); font-size:14px;">${userName}</div>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"></path></svg>
-        </div>
-        <div id="citizen-dropdown" style="display:none; position:absolute; top:40px; right:0; background:white; border:1px solid var(--border); border-radius:var(--radius-sm); box-shadow:var(--shadow-sm); z-index:100; min-width:150px; padding:8px 0;">
-            <a href="#" onclick="handleCitizenLogout(); return false;" style="display:block; padding:8px 16px; color:var(--accent); text-decoration:none; font-size:14px;">Sign Out</a>
-        </div>
-      \`;
-      
-      // Ensure the dropdown toggling is supported globally
-      if (!window.citizenDropdownHandler) {
-          window.toggleCitizenDropdown = function(e) {
-              e.stopPropagation();
-              const dropdown = document.getElementById('citizen-dropdown');
-              if (dropdown) dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
-          };
-          window.addEventListener('click', function(e) {
-              const dropdown = document.getElementById('citizen-dropdown');
-              if (dropdown && !e.target.closest('.auth-user-menu')) {
-                  dropdown.style.display = 'none';
-              }
-          });
-          window.citizenDropdownHandler = true;
-      } font-size: 28px; font-weight: bold;">
-                    ${userData.name.charAt(0).toUpperCase()}
+                <div style="width: 52px; height: 52px; border-radius: 50%; background: var(--gold, #d4af37); color: #111; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold;">
+                    ${initial}
                 </div>
             </div>
             
-            <div class="grid-2" style="gap: 24px;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
                 <!-- Recommendations -->
-                <div style="background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px;">
-                    <h3 style="margin: 0 0 16px 0; font-size: 16px; border-bottom: 1px solid var(--border); padding-bottom: 8px; display: flex; justify-content: space-between;">
-                        <span>Recommended Places</span>
-                        <span style="font-size: 12px; color: var(--primary); cursor: pointer;" onclick="navigate('/map')">View Map</span>
+                <div style="background: var(--card, #132420); border: 1px solid var(--border, rgba(255,255,255,0.1)); border-radius: var(--radius, 12px); padding: 24px;">
+                    <h3 style="margin: 0 0 16px 0; font-size: 16px; border-bottom: 1px solid var(--border, rgba(255,255,255,0.1)); padding-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
+                        <span style="color: var(--text, #fff);">Recommended Places</span>
+                        <span style="font-size: 12px; color: var(--gold, #d4af37); cursor: pointer; font-weight: 600;" onclick="navigate('/map')">View Map →</span>
                     </h3>
-                    <div style="display: flex; gap: 12px; margin-bottom: 16px;">
-                        <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=200&h=150&fit=crop" style="width: 80px; height: 60px; border-radius: 6px; object-fit: cover;">
+                    <div style="display: flex; gap: 12px; margin-bottom: 16px; align-items: center; cursor: pointer;" onclick="openBuildingModalById(3)">
+                        <img src="../ASSETS/images/azaniafront.png" onerror="this.src='https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=200&h=150&fit=crop'" style="width: 70px; height: 50px; border-radius: 6px; object-fit: cover;">
                         <div>
-                            <div style="font-weight: 600; font-size: 14px;">Azania Front Cathedral</div>
-                            <div style="font-size: 12px; color: var(--text-muted);">Kivukoni District</div>
+                            <div style="font-weight: 600; font-size: 14px; color: var(--text, #fff);">Azania Front Lutheran Church</div>
+                            <div style="font-size: 12px; color: var(--text-muted, #888);">Kivukoni District</div>
                         </div>
                     </div>
-                    <div style="display: flex; gap: 12px;">
-                        <img src="https://images.unsplash.com/photo-1759837107238-7637c2446e6c?w=200&h=150&fit=crop" style="width: 80px; height: 60px; border-radius: 6px; object-fit: cover;">
+                    <div style="display: flex; gap: 12px; align-items: center; cursor: pointer;" onclick="openBuildingModalById(1)">
+                        <img src="../ASSETS/images/oldboma.png" onerror="this.src='https://images.unsplash.com/photo-1759837107238-7637c2446e6c?w=200&h=150&fit=crop'" style="width: 70px; height: 50px; border-radius: 6px; object-fit: cover;">
                         <div>
-                            <div style="font-weight: 600; font-size: 14px;">Old Boma</div>
-                            <div style="font-size: 12px; color: var(--text-muted);">City Centre</div>
+                            <div style="font-weight: 600; font-size: 14px; color: var(--text, #fff);">German Administrative Boma</div>
+                            <div style="font-size: 12px; color: var(--text-muted, #888);">City Centre</div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Subscriptions / Virtual Tours -->
-                <div style="background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px;">
-                    <h3 style="margin: 0 0 16px 0; font-size: 16px; border-bottom: 1px solid var(--border); padding-bottom: 8px; display: flex; justify-content: space-between;">
-                        <span>Virtual Tours History</span>
-                        <span style="font-size: 12px; background: var(--muted); padding: 2px 8px; border-radius: 12px;">Active</span>
+                <div style="background: var(--card, #132420); border: 1px solid var(--border, rgba(255,255,255,0.1)); border-radius: var(--radius, 12px); padding: 24px;">
+                    <h3 style="margin: 0 0 16px 0; font-size: 16px; border-bottom: 1px solid var(--border, rgba(255,255,255,0.1)); padding-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
+                        <span style="color: var(--text, #fff);">Virtual Tours History</span>
+                        <span style="font-size: 11px; background: var(--muted, rgba(255,255,255,0.08)); color: var(--gold, #d4af37); padding: 2px 8px; border-radius: 12px; font-weight: 600;">Active</span>
                     </h3>
-                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
-                        <div style="font-size: 14px; font-weight: 500;">Inside the Railway Station</div>
-                        <div style="font-size: 12px; color: var(--text-muted);">Watched 2 days ago</div>
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; cursor: pointer;" onclick="openBuildingModalById(8, 'tour')">
+                        <div style="font-size: 14px; font-weight: 500; color: var(--text, #fff);">Inside Railway Station 360°</div>
+                        <div style="font-size: 12px; color: var(--text-muted, #888);">Watched 2 days ago</div>
                     </div>
-                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
-                        <div style="font-size: 14px; font-weight: 500;">St. Joseph's Cathedral 360°</div>
-                        <div style="font-size: 12px; color: var(--text-muted);">Watched 1 week ago</div>
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; cursor: pointer;" onclick="openBuildingModalById(2, 'tour')">
+                        <div style="font-size: 14px; font-weight: 500; color: var(--text, #fff);">St. Joseph Cathedral 360°</div>
+                        <div style="font-size: 12px; color: var(--text-muted, #888);">Watched 1 week ago</div>
                     </div>
-                    <button class="btn-secondary" style="width: 100%; padding: 8px; font-size: 13px; margin-top: 8px;" onclick="navigate('/videos')">Explore More Tours</button>
+                    <button class="btn-secondary" style="width: 100%; padding: 10px; font-size: 13px; margin-top: 12px;" onclick="navigate('/buildings')">Explore More Buildings</button>
                 </div>
 
-                <!-- Reviews -->
-                <div style="background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px;">
-                    <h3 style="margin: 0 0 16px 0; font-size: 16px; border-bottom: 1px solid var(--border); padding-bottom: 8px;">My Reviews</h3>
-                    <div style="margin-bottom: 16px;">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                            <span style="font-weight: 600; font-size: 13px;">Askari Monument</span>
-                            <span style="color: var(--gold); font-size: 12px;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></span>
-                        </div>
-                        <div style="font-size: 13px; color: var(--text-muted); line-height: 1.4;">"Beautifully maintained. A great piece of history right in the roundabout."</div>
-                    </div>
-                    <div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                            <span style="font-weight: 600; font-size: 13px;">Ocean Road Hospital</span>
-                            <span style="color: var(--gold); font-size: 12px;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>☆</span>
-                        </div>
-                        <div style="font-size: 13px; color: var(--text-muted); line-height: 1.4;">"Impressive architecture but needs some restoration work on the exterior."</div>
-                    </div>
+                <!-- Community Reviews -->
+                <div style="background: var(--card, #132420); border: 1px solid var(--border, rgba(255,255,255,0.1)); border-radius: var(--radius, 12px); padding: 24px;">
+                    <h3 style="margin: 0 0 16px 0; font-size: 16px; border-bottom: 1px solid var(--border, rgba(255,255,255,0.1)); padding-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
+                        <span style="color: var(--text, #fff);">My Community Activity</span>
+                        <span style="font-size: 12px; color: var(--gold, #d4af37); cursor: pointer; font-weight: 600;" onclick="navigate('/community')">Community →</span>
+                    </h3>
+                    <p style="font-size: 13px; color: var(--text-muted, #888); margin-bottom: 14px;">Share your experiences or read reviews from other citizens in real time.</p>
+                    <button class="btn-primary" style="width: 100%; padding: 10px; font-size: 13px;" onclick="navigate('/community')">Write a Review</button>
                 </div>
 
                 <!-- Risk Reporting -->
-                <div style="background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px;">
-                    <h3 style="margin: 0 0 16px 0; font-size: 16px; border-bottom: 1px solid var(--border); padding-bottom: 8px;">Risk Reporting History</h3>
-                    <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px;">
-                        <div style="width: 8px; height: 8px; border-radius: 50%; background: #F0B429; margin-top: 6px;"></div>
-                        <div>
-                            <div style="font-weight: 600; font-size: 13px;">Water Damage Report</div>
-                            <div style="font-size: 12px; color: var(--text-muted);">Karimjee Hall • Reported Oct 12</div>
-                            <div style="font-size: 11px; background: rgba(240, 180, 41, 0.1); color: #F0B429; padding: 2px 6px; border-radius: 4px; display: inline-block; margin-top: 4px;">Under Review</div>
-                        </div>
-                    </div>
-                    <button class="btn-primary" style="width: 100%; padding: 8px; font-size: 13px; margin-top: 8px;" onclick="navigate('/risk')">Submit New Report</button>
+                <div style="background: var(--card, #132420); border: 1px solid var(--border, rgba(255,255,255,0.1)); border-radius: var(--radius, 12px); padding: 24px;">
+                    <h3 style="margin: 0 0 16px 0; font-size: 16px; border-bottom: 1px solid var(--border, rgba(255,255,255,0.1)); padding-bottom: 8px; color: var(--text, #fff);">Risk Reporting</h3>
+                    <p style="font-size: 13px; color: var(--text-muted, #888); margin-bottom: 14px;">Report at-risk structures or structural damage directly to Antiquities officers.</p>
+                    <button class="btn-primary" style="width: 100%; padding: 10px; font-size: 13px;" onclick="navigate('/risk')">Submit At-Risk Report</button>
                 </div>
             </div>
         </div>
@@ -1493,6 +1480,7 @@ async function handleCitizenLogin(e) {
 
     closeCitizenModal();
     updateAuthUI();
+    if (typeof checkAuth === "function") checkAuth();
 
     if (
       window.location.hash.includes("/risk") ||
@@ -1542,6 +1530,7 @@ async function handleCitizenSignup(e) {
       localStorage.setItem("citizen_auth", "true");
       closeCitizenModal();
       updateAuthUI();
+      if (typeof checkAuth === "function") checkAuth();
     } else {
       // Email confirmation required — show message, don't close modal
       msg.style.color = "var(--primary)";
@@ -2228,18 +2217,21 @@ async function renderBuildingReviewsTab(building) {
   } else {
       html += `<div style="display:flex; flex-direction:column; gap:16px; margin-bottom: 32px;">`;
       reviews.forEach(review => {
-          html += `<div style="padding: 16px; border: 1px solid var(--border); border-radius: var(--radius-md);">
+          const author = review.user_name || review.reviewer_name || "Community Citizen";
+          const bodyText = review.comment || review.content || review.body || "";
+          const rNum = Math.min(5, Math.max(1, parseInt(review.rating) || 5));
+          html += `<div style="padding: 16px; border: 1px solid var(--border); border-radius: var(--radius-md); margin-bottom: 12px; background: var(--card, #132420);">
             <div style="display:flex; align-items:center; gap: 12px; margin-bottom: 8px;">
-                <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: bold;">
-                    ${review.avatar || (review.user_name || '?').charAt(0).toUpperCase()}
+                <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--gold, #d4af37); color: #111; display: flex; align-items: center; justify-content: center; font-weight: bold;">
+                    ${review.avatar || author.charAt(0).toUpperCase()}
                 </div>
                 <div>
-                    <div style="font-weight: 600;">${review.user_name}</div>
-                    <div style="font-size: 12px; color: var(--text-muted);">${new Date(review.created_at).toLocaleDateString()}</div>
+                    <div style="font-weight: 600; color: var(--text, #fff);">${author}</div>
+                    <div style="font-size: 12px; color: var(--text-muted);">${review.created_at ? new Date(review.created_at).toLocaleDateString("en-GB") : "Recently"}</div>
                 </div>
-                <div style="margin-left: auto; color: #F0B429;">${'<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</div>
+                <div style="margin-left: auto; color: #F0B429;">${'<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>'.repeat(rNum)}${'☆'.repeat(5 - rNum)}</div>
             </div>
-            <p style="font-size: 14px; line-height: 1.5; margin:0;">${review.body}</p>
+            <p style="font-size: 14px; line-height: 1.5; margin:0; color: var(--text, #ddd);">${bodyText}</p>
           </div>`;
       });
       html += `</div>`;
@@ -2280,6 +2272,28 @@ async function renderBuildingReviewsTab(building) {
   
   html += `</div>`;
   reviewsContent.innerHTML = html;
+}
+
+function openBuildingModalById(id, tab = "overview") {
+  const bId = parseInt(id);
+  let b = null;
+  if (typeof allBuildings !== "undefined" && Array.isArray(allBuildings)) {
+    b = allBuildings.find(x => parseInt(x.id) === bId);
+  }
+  if (!b && typeof buildings !== "undefined" && Array.isArray(buildings)) {
+    b = buildings.find(x => parseInt(x.id) === bId);
+  }
+  if (!b && typeof MOCK_BUILDINGS !== "undefined" && Array.isArray(MOCK_BUILDINGS)) {
+    b = MOCK_BUILDINGS.find(x => parseInt(x.id) === bId);
+  }
+
+  if (b) {
+    openBuildingModal(b, tab);
+  } else if (typeof API !== "undefined" && API.getBuilding) {
+    API.getBuilding(bId).then(data => {
+      if (data) openBuildingModal(data, tab);
+    }).catch(err => console.error("Could not fetch building:", err));
+  }
 }
 
 function openBuildingModal(building, initialTab = "overview") {

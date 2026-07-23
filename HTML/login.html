@@ -356,7 +356,7 @@
           const message = document.getElementById("login-message");
           if (message) {
             message.className = "login-message error";
-            message.textContent = "⚠️ Your session has expired. Please log in again.";
+            message.textContent = " Your session has expired. Please log in again.";
           }
           return; // Skip auto-redirect
         }
@@ -387,13 +387,13 @@
 
         if (!email || !password) {
           message.className = "login-message error";
-          message.textContent = "⚠️ Please fill in all fields.";
+          message.textContent = " Please fill in all fields.";
           return;
         }
 
         if (!email.includes("@")) {
           message.className = "login-message error";
-          message.textContent = "⚠️ Please enter a valid email address.";
+          message.textContent = " Please enter a valid email address.";
           return;
         }
 
@@ -409,8 +409,8 @@
             message.className = "login-message success";
             message.textContent =
               role === "officer"
-                ? "✅ Welcome, Officer! Redirecting to your portal…"
-                : "✅ Login successful! Redirecting…";
+                ? " Welcome, Officer! Redirecting to your portal…"
+                : "Login successful! Redirecting…";
 
             setTimeout(() => {
               if (role === "officer") {
@@ -422,14 +422,14 @@
           } else {
             message.className = "login-message error";
             message.textContent =
-              "❌ " + (result.message || "Invalid credentials.");
+              (result.message || "Invalid credentials.");
             btn.disabled = false;
             btn.innerHTML = 'Sign In <span aria-hidden="true">→</span>';
           }
         } catch (err) {
           message.className = "login-message error";
           message.textContent =
-            "❌ Could not reach server. Is the backend running?";
+            " Could not reach server. Is the backend running?";
           btn.disabled = false;
           btn.innerHTML = 'Sign In <span aria-hidden="true">→</span>';
         }
@@ -449,7 +449,7 @@
         if (e.target.id === "login-overlay") closeLogin();
       });
 
-      console.log("✅ login.html loaded");
+      console.log(" login.html loaded");
     </script>
   <!-- COMPONENTS -->
     <script src="../JS/components/header.js"></script>
