@@ -229,14 +229,14 @@ function renderDashboardPage(container) {
                     <div style="margin-bottom: 16px;">
                         <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
                             <span style="font-weight: 600; font-size: 13px;">Askari Monument</span>
-                            <span style="color: var(--gold); font-size: 12px;">★★★★★</span>
+                            <span style="color: var(--gold); font-size: 12px;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></span>
                         </div>
                         <div style="font-size: 13px; color: var(--text-muted); line-height: 1.4;">"Beautifully maintained. A great piece of history right in the roundabout."</div>
                     </div>
                     <div>
                         <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
                             <span style="font-weight: 600; font-size: 13px;">Ocean Road Hospital</span>
-                            <span style="color: var(--gold); font-size: 12px;">★★★★☆</span>
+                            <span style="color: var(--gold); font-size: 12px;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>☆</span>
                         </div>
                         <div style="font-size: 13px; color: var(--text-muted); line-height: 1.4;">"Impressive architecture but needs some restoration work on the exterior."</div>
                     </div>
@@ -487,7 +487,7 @@ async function renderBuildingDetail(container, id) {
                             <span class="bdetail-stat-label">Total Visits</span>
                         </div>
                         <div class="bdetail-hero-stat">
-                            <span class="bdetail-stat-num">★ ${avgRating}</span>
+                            <span class="bdetail-stat-num"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg> ${avgRating}</span>
                             <span class="bdetail-stat-label">Avg. Rating</span>
                         </div>
                         <div class="bdetail-hero-stat">
@@ -595,7 +595,7 @@ async function renderBuildingDetail(container, id) {
                                       ? Math.round((cnt / reviews.length) * 100)
                                       : 0;
                                     return `<div class="bdetail-rating-row">
-                                        <span class="bdetail-bar-label">${star} ★</span>
+                                        <span class="bdetail-bar-label">${star} <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></span>
                                         <div class="bdetail-bar-track"><div class="bdetail-bar-fill" style="width:${pct}%"></div></div>
                                         <span class="bdetail-bar-pct">${pct}%</span>
                                     </div>`;
@@ -638,7 +638,7 @@ async function renderBuildingDetail(container, id) {
                             <h3>Write a Review</h3>
                             <form onsubmit="submitBuildingReview(event, ${building.id})" class="bdetail-review-form">
                                 <div class="bdetail-star-picker">
-                                    ${[1, 2, 3, 4, 5].map((s) => `<button type="button" class="bdetail-star-btn" onclick="selectStar(${s})" title="${s} stars">★</button>`).join("")}
+                                    ${[1, 2, 3, 4, 5].map((s) => `<button type="button" class="bdetail-star-btn" onclick="selectStar(${s})" title="${s} stars"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></button>`).join("")}
                                     <input type="hidden" id="reviewRating" value="0">
                                 </div>
                                 <div class="bdetail-form-row">
@@ -761,10 +761,10 @@ function renderStars(rating) {
   const half = rating - full >= 0.5;
   let html = "";
   for (let i = 1; i <= 5; i++) {
-    if (i <= full) html += '<span class="bdetail-star filled">★</span>';
+    if (i <= full) html += '<span class="bdetail-star filled"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></span>';
     else if (i === full + 1 && half)
-      html += '<span class="bdetail-star half">★</span>';
-    else html += '<span class="bdetail-star empty">★</span>';
+      html += '<span class="bdetail-star half"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></span>';
+    else html += '<span class="bdetail-star empty"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></span>';
   }
   return html;
 }
@@ -2213,7 +2213,7 @@ async function renderBuildingReviewsTab(building) {
                     <div style="font-weight: 600;">${review.user_name}</div>
                     <div style="font-size: 12px; color: var(--text-muted);">${new Date(review.created_at).toLocaleDateString()}</div>
                 </div>
-                <div style="margin-left: auto; color: #F0B429;">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</div>
+                <div style="margin-left: auto; color: #F0B429;">${'<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</div>
             </div>
             <p style="font-size: 14px; line-height: 1.5; margin:0;">${review.body}</p>
           </div>`;
@@ -2345,34 +2345,25 @@ function openBuildingModal(building) {
 
   // Populate tour tab
   const tourContent = document.getElementById("bm-tab-tour");
-  if (building.panorama_url) {
-    tourContent.innerHTML = `
-            <div
-              id="bm-panorama-container"
-              data-panorama-url="${building.panorama_url}"
-              data-title="${(building.name || "").replace(/"/g, '&quot;')}"
-              style="height:420px;border-radius:10px;overflow:hidden;background:#111;position:relative;"
-            >
-              <!-- Pannellum lazy-inits here when tab is clicked -->
-              <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:rgba(255,255,255,0.5);font-size:14px;gap:10px;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
-                <span>Loading 360&deg; tour…</span>
-              </div>
+  const panoUrl = building.panorama_url || "https://pannellum.org/images/alma.jpg";
+  tourContent.innerHTML = `
+          <div
+            id="bm-panorama-container"
+            data-panorama-url="${panoUrl}"
+            data-title="${(building.name || "").replace(/"/g, '&quot;')}"
+            style="height:420px;border-radius:10px;overflow:hidden;background:#111;position:relative;"
+          >
+            <!-- Pannellum lazy-inits here when tab is clicked -->
+            <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:rgba(255,255,255,0.5);font-size:14px;gap:10px;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+              <span>Loading 360&deg; tour…</span>
             </div>
-            <div style="text-align:center;color:var(--text-muted);font-size:12px;margin-top:10px;">
-              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;vertical-align:-2px"><rect x="9" y="2" width="6" height="14" rx="3"/><path d="M12 6v4M4 20c0-4 4-8 8-8s8 4 8 8"/></svg>
-              Click &amp; drag to look around &nbsp;&middot;&nbsp; Scroll to zoom &nbsp;&middot;&nbsp; Double-click to reset
-            </div>
-        `;
-  } else {
-    tourContent.innerHTML = `
-            <div class="bm-tour-placeholder">
-                <div style="font-size:48px;margin-bottom:16px;"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg></div>
-                <h3>Virtual Tour Coming Soon</h3>
-                <p>Our team is capturing a 360° experience of this building. Check back soon.</p>
-            </div>
-        `;
-  }
+          </div>
+          <div style="text-align:center;color:var(--text-muted);font-size:12px;margin-top:10px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;vertical-align:-2px"><rect x="9" y="2" width="6" height="14" rx="3"/><path d="M12 6v4M4 20c0-4 4-8 8-8s8 4 8 8"/></svg>
+            Click &amp; drag to look around &nbsp;&middot;&nbsp; Scroll to zoom &nbsp;&middot;&nbsp; Double-click to reset
+          </div>
+      `;
 
   // Populate reviews tab
   modal.dataset.buildingId = building.id;

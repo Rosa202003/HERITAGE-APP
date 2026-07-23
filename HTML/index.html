@@ -10,15 +10,7 @@
       content="Digital inventory and virtual-tour system for Dar es Salaam's heritage buildings."
     />
     <!-- ===== FAVICON ===== -->
-    <link
-      rel="icon"
-      type="image/svg+xml"
-      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>"
-    />
-    <link
-      rel="apple-touch-icon"
-      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>"
-    />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23D4AF37' d='M50 10 L10 40 L90 40 Z M20 40 L20 80 L35 80 L35 40 M45 40 L45 80 L55 80 L55 40 M65 40 L65 80 L80 80 L80 40 M10 80 L90 80 L90 90 L10 90 Z'/%3E%3C/svg%3E" />
 
     <!-- ===== GOOGLE FONTS ===== -->
     <link
@@ -44,49 +36,7 @@
   <body>
     <div id="app">
       <!--header-->
-      <header class="main-header">
-        <!-- Logo Section-->
-        <a class="logo" href="index.html" aria-label="Urithi Majengo home">UM</a>
-
-        <!-- Navigation Bar -->
-        <nav
-          class="nav-container"
-          id="nav-menu"
-          role="navigation"
-          aria-label="Main Navigation"
-        >
-          <ul class="nav-links">
-            <li><a href="index.html">Map & Records</a></li>
-            <li><a href="buildings.html">All Buildings</a></li>
-            <li><a href="risk.html">Report At-Risk</a></li>
-            <li><a href="community.html">Community</a></li>
-            <li id="nav-auth-container">
-              <a
-                href="#"
-                onclick="
-                  showCitizenModal();
-                  return false;
-                "
-                style="font-weight: 600; color: var(--accent) !important"
-                >Sign In</a
-              >
-            </li>
-          </ul>
-        </nav>
-
-        <!-- Hamburger Menu for Mobile -->
-        <button
-          class="hamburger"
-          id="menu-toggle"
-          aria-label="Toggle navigation"
-        >
-          <span class="hamburger-line"></span>
-          <span class="hamburger-line"></span>
-          <span class="hamburger-line"></span>
-          <span class="hamburger-line"></span>
-          <span class="hamburger-line"></span>
-        </button>
-      </header>
+      <div id="layout-header"></div>
 
       <!-- Main Content -->
       <main id="main-content">
@@ -367,7 +317,7 @@
                   openVideoLightbox(
                     'v1',
                     'Dar es Salaam — A City of History',
-                    'https://www.youtube.com/embed/UfYLZV0F9HU',
+                    'https://www.youtube.com/embed/L_LUpnjgPso',
                   )
                 "
               >
@@ -377,7 +327,7 @@
                     alt="Aerial view of Dar es Salaam"
                   />
                   <div class="video-duration">8:24</div>
-                  <div class="video-play-btn">&#9654;</div>
+                  <div class="video-play-btn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-play"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></div>
                   <div class="video-badge" style="background: #f5611d">
                     Aerial
                   </div>
@@ -395,7 +345,7 @@
                   openVideoLightbox(
                     'v2',
                     'German Colonial Architecture in East Africa',
-                    'https://www.youtube.com/embed/y24HGzKmD7I',
+                    'https://www.youtube.com/embed/3JZ_D3ELwOQ',
                   )
                 "
               >
@@ -405,7 +355,7 @@
                     alt="German colonial architecture"
                   />
                   <div class="video-duration">22:10</div>
-                  <div class="video-play-btn">&#9654;</div>
+                  <div class="video-play-btn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-play"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></div>
                   <div class="video-badge" style="background: #0b7a69">
                     Documentary
                   </div>
@@ -423,7 +373,7 @@
                   openVideoLightbox(
                     'v3',
                     'Walking Tour — Kivukoni Heritage District',
-                    'https://www.youtube.com/embed/v3a1RH-xkFI',
+                    'https://www.youtube.com/embed/6_3Wn3kL2Q8',
                   )
                 "
               >
@@ -433,7 +383,7 @@
                     alt="Walking tour of heritage district"
                   />
                   <div class="video-duration">14:38</div>
-                  <div class="video-play-btn">&#9654;</div>
+                  <div class="video-play-btn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-play"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></div>
                   <div class="video-badge" style="background: #f0b429">
                     Walking Tour
                   </div>
@@ -451,7 +401,7 @@
                   openVideoLightbox(
                     'v4',
                     'Inside the Railway Station — 360° Preview',
-                    'https://www.youtube.com/embed/Z0qhcFxHw_k',
+                    'https://www.youtube.com/embed/g8mP4D_R3i4',
                   )
                 "
               >
@@ -461,7 +411,7 @@
                     alt="Railway station virtual tour"
                   />
                   <div class="video-duration">5:12</div>
-                  <div class="video-play-btn">&#9654;</div>
+                  <div class="video-play-btn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-play"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></div>
                   <div class="video-badge" style="background: #6366f1">
                     Virtual Tour
                   </div>
@@ -513,7 +463,7 @@
                 a review.
               </p>
               <div class="cta-buttons">
-                <button class="btn-accent" onclick="window.location.href='risk.html'">⚑ Report At-Risk Building</button>
+                <button class="btn-accent" onclick="window.location.href='risk.html'"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-flag"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg> Report At-Risk Building</button>
               </div>
             </div>
 
@@ -596,245 +546,17 @@
       </div>
 
       <!-- footer -->
-      <footer class="main-footer">
-        <div
-          class="footer-content"
-          style="max-width: 1200px; margin: 0 auto; padding: 20px 0"
-        >
-          <!-- Top Row: Brand + Links -->
-          <div
-            style="
-              display: grid;
-              grid-template-columns: 1fr 1fr 1fr;
-              gap: 30px;
-              text-align: left;
-              padding-bottom: 20px;
-              border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            "
-          >
-            <!-- Brand Column -->
-            <div>
-              <div
-                style="
-                  display: flex;
-                  align-items: center;
-                  gap: 12px;
-                  margin-bottom: 8px;
-                "
-              >
-                <span
-                  style="
-                    font-family: var(--font-display);
-                    font-size: 22px;
-                    font-weight: 700;
-                    color: var(--gold);
-                  "
-                  >Urithi Majengo</span
-                >
-              </div>
-              <p
-                style="
-                  color: var(--text-muted);
-                  font-size: 13px;
-                  line-height: 1.6;
-                  max-width: 280px;
-                "
-              >
-                A digital heritage inventory managed by the Antiquities
-                Department of Tanzania.
-              </p>
-              <p
-                style="
-                  color: var(--text-muted);
-                  font-size: 12px;
-                  margin-top: 8px;
-                  opacity: 0.6;
-                "
-              >
-                © 2026 Antiquities Department - United Republic of Tanzania
-              </p>
-            </div>
-
-            <!-- Explore Column -->
-            <div>
-              <h4
-                style="
-                  color: rgba(255, 255, 255, 0.4);
-                  font-size: 11px;
-                  text-transform: uppercase;
-                  letter-spacing: 0.08em;
-                  margin-bottom: 8px;
-                "
-              >
-                Explore
-              </h4>
-              <ul
-                style="
-                  list-style: none;
-                  padding: 0;
-                  display: flex;
-                  flex-direction: column;
-                  gap: 4px;
-                "
-              >
-                <li>
-                  <a
-                    href="index.html"
-                    style="
-                      color: var(--text-muted);
-                      text-decoration: none;
-                      font-size: 13px;
-                      transition: color 0.2s;
-                    "
-                    onmouseover="this.style.color = 'var(--gold)'"
-                    onmouseout="this.style.color = ''"
-                    >Map & Records</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="buildings.html"
-                    style="
-                      color: var(--text-muted);
-                      text-decoration: none;
-                      font-size: 13px;
-                      transition: color 0.2s;
-                    "
-                    onmouseover="this.style.color = 'var(--gold)'"
-                    onmouseout="this.style.color = ''"
-                  >
-                    All Buildings</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="community.html"
-                    style="
-                      color: var(--text-muted);
-                      text-decoration: none;
-                      font-size: 13px;
-                      transition: color 0.2s;
-                    "
-                    onmouseover="this.style.color = 'var(--gold)'"
-                    onmouseout="this.style.color = ''"
-                  >
-                    Community</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="risk.html"
-                    style="
-                      color: var(--text-muted);
-                      text-decoration: none;
-                      font-size: 13px;
-                      transition: color 0.2s;
-                    "
-                    onmouseover="this.style.color = 'var(--gold)'"
-                    onmouseout="this.style.color = ''"
-                    >Report At-Risk</a
-                  >
-                </li>
-              </ul>
-            </div>
-
-            <!-- Partners Column -->
-            <div>
-              <h4
-                style="
-                  color: rgba(255, 255, 255, 0.4);
-                  font-size: 11px;
-                  text-transform: uppercase;
-                  letter-spacing: 0.08em;
-                  margin-bottom: 8px;
-                "
-              >
-                Partners
-              </h4>
-              <ul
-                style="
-                  list-style: none;
-                  padding: 0;
-                  display: flex;
-                  flex-direction: column;
-                  gap: 4px;
-                "
-              >
-                <li style="color: var(--text-muted); font-size: 13px">
-                  Antiquities Dept
-                </li>
-                <li style="color: var(--text-muted); font-size: 13px">DARCH</li>
-                <li style="color: var(--text-muted); font-size: 13px">
-                  ARU Architecture Dept
-                </li>
-                <li style="color: var(--text-muted); font-size: 13px">
-                  Nat'l College Tourism
-                </li>
-                <li
-                  style="
-                    margin-top: 12px;
-                    padding-top: 10px;
-                    border-top: 1px solid rgba(255, 255, 255, 0.06);
-                  "
-                >
-                  <a
-                    href="login.html"
-                    style="
-                      color: rgba(255, 255, 255, 0.25);
-                      text-decoration: none;
-                      font-size: 11px;
-                      letter-spacing: 0.04em;
-                      transition: color 0.2s;
-                    "
-                    onmouseover="this.style.color = 'rgba(255,255,255,0.5)'"
-                    onmouseout="this.style.color = 'rgba(255,255,255,0.25)'"
-                    >Officer Portal</a
-                  >
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Bottom Row -->
-          <div
-            style="
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              flex-wrap: wrap;
-              gap: 12px;
-              padding-top: 16px;
-            "
-          >
-            <p
-              style="
-                color: var(--text-muted);
-                font-size: 12px;
-                opacity: 0.6;
-                margin: 0;
-              "
-            >
-              © 2026 <span class="gold-text">Urithi Majengo</span>. All rights
-              reserved.
-            </p>
-            <p
-              style="
-                color: var(--text-muted);
-                font-size: 11px;
-                opacity: 0.4;
-                margin: 0;
-              "
-            >
-              Built for the Antiquities Department · Tanzania
-            </p>
-          </div>
-        </div>
-      </footer>
+      <div id="layout-footer"></div>
     </div>
 
     <!--LIBRARIES -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
+
+    <!-- COMPONENTS -->
+    <script src="../JS/components/header.js"></script>
+    <script src="../JS/components/footer.js"></script>
+    <script src="../JS/layout.js"></script>
 
     <!--OUR JAVASCRIPT -->
     <script src="../JS/data.js"></script>
@@ -973,7 +695,7 @@
                             ${b.status || "Listed"}
                         </span>
                         ${b.tags && b.tags.includes("360°") ? '<span style="background:#6366F1;color:#fff;padding:2px 10px;border-radius:12px;font-size:10px;">🔄 360°</span>' : ""}
-                        ${b.tags && b.tags.includes("At Risk") ? '<span style="background:#F5611D;color:#fff;padding:2px 10px;border-radius:12px;font-size:10px;animation:pulse-risk 1.5s infinite;">⚑ AT RISK</span>' : ""}
+                        ${b.tags && b.tags.includes("At Risk") ? '<span style="background:#F5611D;color:#fff;padding:2px 10px;border-radius:12px;font-size:10px;animation:pulse-risk 1.5s infinite;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-flag"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg> AT RISK</span>' : ""}
                     </div>
                     <button onclick="openBuildingModal(${JSON.stringify(b).replace(/"/g, "&quot;")})"
                             style="width:100%;margin-top:6px;padding:8px;background:#0B7A69;color:white;border:none;border-radius:6px;cursor:pointer;font-size:13px;font-weight:600;transition:all 0.2s;">
@@ -1094,7 +816,7 @@
                         <span class="badge badge-${b.condition.toLowerCase()}">${b.condition}</span>
                         <span style="background:var(--muted);color:var(--text-muted);padding:2px 12px;border-radius:12px;font-size:11px;font-weight:500;">${b.status || "Listed"}</span>
                         ${b.tags && b.tags.includes("360°") ? '<span style="background:#6366F1;color:#fff;padding:2px 10px;border-radius:12px;font-size:10px;">🔄 360°</span>' : ""}
-                        ${b.tags && b.tags.includes("At Risk") ? '<span style="background:#F5611D;color:#fff;padding:2px 10px;border-radius:12px;font-size:10px;animation:pulse-risk 1.5s infinite;">⚑ AT RISK</span>' : ""}
+                        ${b.tags && b.tags.includes("At Risk") ? '<span style="background:#F5611D;color:#fff;padding:2px 10px;border-radius:12px;font-size:10px;animation:pulse-risk 1.5s infinite;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-flag"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg> AT RISK</span>' : ""}
                     </div>
                     <p style="font-size:13px;color:var(--text-muted);margin:6px 0 0;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">
                         ${b.description || "A significant heritage building in Dar es Salaam."}

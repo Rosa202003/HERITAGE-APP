@@ -9,22 +9,8 @@
       content="Share your experiences and reviews of Dar es Salaam's heritage buildings."
     />
 
-    <!-- ===== FAVICON ===== -->
-    <link
-      rel="icon"
-      type="image/svg+xml"
-      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>"
-    />
-
-    <!-- ===== GOOGLE FONTS ===== -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono&display=swap"
-      rel="stylesheet"
-    />
-
-    <!-- ===== CUSTOM CSS ===== -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23D4AF37' d='M50 10 L10 40 L90 40 Z M20 40 L20 80 L35 80 L35 40 M45 40 L45 80 L55 80 L55 40 M65 40 L65 80 L80 80 L80 40 M10 80 L90 80 L90 90 L10 90 Z'/%3E%3C/svg%3E" />
     <link rel="stylesheet" href="../CSS/style.css" type="text/css" />
-
     <style>
       /* ========================================
            COMMUNITY PAGE - SPECIFIC STYLES
@@ -390,47 +376,7 @@
   <body>
     <div id="app">
       <!-- ===== HEADER ===== -->
-      <header class="main-header">
-        <a class="logo" href="index.html" aria-label="Urithi Majengo home">UM</a>
-
-        <!-- Navigation Bar -->
-        <nav
-          class="nav-container"
-          id="nav-menu"
-          role="navigation"
-          aria-label="Main Navigation"
-        >
-          <ul class="nav-links">
-            <li><a href="index.html">Map & Records</a></li>
-            <li><a href="buildings.html">All Buildings</a></li>
-            <li><a href="risk.html">Report At-Risk</a></li>
-            <li><a href="community.html">Community</a></li>
-            <li id="nav-auth-container">
-              <a
-                href="#"
-                onclick="
-                  showCitizenModal();
-                  return false;
-                "
-                style="font-weight: 600; color: var(--accent) !important"
-                >Sign In</a
-              >
-            </li>
-          </ul>
-        </nav>
-
-        <button
-          class="hamburger"
-          id="menu-toggle"
-          aria-label="Toggle navigation"
-        >
-          <span class="hamburger-line"></span>
-          <span class="hamburger-line"></span>
-          <span class="hamburger-line"></span>
-          <span class="hamburger-line"></span>
-          <span class="hamburger-line"></span>
-        </button>
-      </header>
+      <div id="layout-header"></div>
 
       <!-- ===== MAIN CONTENT ===== -->
       <main id="main-content">
@@ -486,11 +432,11 @@
                 <div class="form-group">
                   <label>Rating <span class="required">*</span></label>
                   <div class="star-rating" id="star-rating">
-                    <span class="star" data-value="1">★</span>
-                    <span class="star" data-value="2">★</span>
-                    <span class="star" data-value="3">★</span>
-                    <span class="star" data-value="4">★</span>
-                    <span class="star" data-value="5">★</span>
+                    <span class="star" data-value="1"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></span>
+                    <span class="star" data-value="2"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></span>
+                    <span class="star" data-value="3"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></span>
+                    <span class="star" data-value="4"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></span>
+                    <span class="star" data-value="5"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></span>
                   </div>
                   <input type="hidden" id="review-rating" value="0" />
                 </div>
@@ -541,240 +487,7 @@
       </main>
 
       <!-- ===== FOOTER ===== -->
-      <footer class="main-footer">
-        <div
-          class="footer-content"
-          style="max-width: 1200px; margin: 0 auto; padding: 20px 0"
-        >
-          <!-- Top Row: Brand + Links -->
-          <div
-            style="
-              display: grid;
-              grid-template-columns: 1fr 1fr 1fr;
-              gap: 30px;
-              text-align: left;
-              padding-bottom: 20px;
-              border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            "
-          >
-            <!-- Brand Column -->
-            <div>
-              <div
-                style="
-                  display: flex;
-                  align-items: center;
-                  gap: 12px;
-                  margin-bottom: 8px;
-                "
-              >
-                <span
-                  style="
-                    font-family: var(--font-display);
-                    font-size: 22px;
-                    font-weight: 700;
-                    color: var(--gold);
-                  "
-                  >Urithi Majengo</span
-                >
-              </div>
-              <p
-                style="
-                  color: var(--text-muted);
-                  font-size: 13px;
-                  line-height: 1.6;
-                  max-width: 280px;
-                "
-              >
-                A digital heritage inventory managed by the Antiquities
-                Department of Tanzania.
-              </p>
-              <p
-                style="
-                  color: var(--text-muted);
-                  font-size: 12px;
-                  margin-top: 8px;
-                  opacity: 0.6;
-                "
-              >
-                © 2026 Antiquities Department - United Republic of Tanzania
-              </p>
-            </div>
-
-            <!-- Explore Column -->
-            <div>
-              <h4
-                style="
-                  color: rgba(255, 255, 255, 0.4);
-                  font-size: 11px;
-                  text-transform: uppercase;
-                  letter-spacing: 0.08em;
-                  margin-bottom: 8px;
-                "
-              >
-                Explore
-              </h4>
-              <ul
-                style="
-                  list-style: none;
-                  padding: 0;
-                  display: flex;
-                  flex-direction: column;
-                  gap: 4px;
-                "
-              >
-                <li>
-                  <a
-                    href="index.html"
-                    style="
-                      color: var(--text-muted);
-                      text-decoration: none;
-                      font-size: 13px;
-                      transition: color 0.2s;
-                    "
-                    onmouseover="this.style.color = 'var(--gold)'"
-                    onmouseout="this.style.color = ''"
-                    >Map & Records</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="buildings.html"
-                    style="
-                      color: var(--text-muted);
-                      text-decoration: none;
-                      font-size: 13px;
-                      transition: color 0.2s;
-                    "
-                    onmouseover="this.style.color = 'var(--gold)'"
-                    onmouseout="this.style.color = ''"
-                  >
-                    All Buildings</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="community.html"
-                    style="
-                      color: var(--text-muted);
-                      text-decoration: none;
-                      font-size: 13px;
-                      transition: color 0.2s;
-                    "
-                    onmouseover="this.style.color = 'var(--gold)'"
-                    onmouseout="this.style.color = ''"
-                  >
-                    Community</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="risk.html"
-                    style="
-                      color: var(--text-muted);
-                      text-decoration: none;
-                      font-size: 13px;
-                      transition: color 0.2s;
-                    "
-                    onmouseover="this.style.color = 'var(--gold)'"
-                    onmouseout="this.style.color = ''"
-                    >Report At-Risk</a
-                  >
-                </li>
-              </ul>
-            </div>
-
-            <!-- Partners Column -->
-            <div>
-              <h4
-                style="
-                  color: rgba(255, 255, 255, 0.4);
-                  font-size: 11px;
-                  text-transform: uppercase;
-                  letter-spacing: 0.08em;
-                  margin-bottom: 8px;
-                "
-              >
-                Partners
-              </h4>
-              <ul
-                style="
-                  list-style: none;
-                  padding: 0;
-                  display: flex;
-                  flex-direction: column;
-                  gap: 4px;
-                "
-              >
-                <li style="color: var(--text-muted); font-size: 13px">
-                  Antiquities Dept
-                </li>
-                <li style="color: var(--text-muted); font-size: 13px">DARCH</li>
-                <li style="color: var(--text-muted); font-size: 13px">
-                  ARU Architecture Dept
-                </li>
-                <li style="color: var(--text-muted); font-size: 13px">
-                  Nat'l College Tourism
-                </li>
-                <li
-                  style="
-                    margin-top: 12px;
-                    padding-top: 10px;
-                    border-top: 1px solid rgba(255, 255, 255, 0.06);
-                  "
-                >
-                  <a
-                    href="login.html"
-                    style="
-                      color: rgba(255, 255, 255, 0.25);
-                      text-decoration: none;
-                      font-size: 11px;
-                      letter-spacing: 0.04em;
-                      transition: color 0.2s;
-                    "
-                    onmouseover="this.style.color = 'rgba(255,255,255,0.5)'"
-                    onmouseout="this.style.color = 'rgba(255,255,255,0.25)'"
-                    >Officer Portal</a
-                  >
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Bottom Row -->
-          <div
-            style="
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              flex-wrap: wrap;
-              gap: 12px;
-              padding-top: 16px;
-            "
-          >
-            <p
-              style="
-                color: var(--text-muted);
-                font-size: 12px;
-                opacity: 0.6;
-                margin: 0;
-              "
-            >
-              © 2026 <span class="gold-text">Urithi Majengo</span>. All rights
-              reserved.
-            </p>
-            <p
-              style="
-                color: var(--text-muted);
-                font-size: 11px;
-                opacity: 0.4;
-                margin: 0;
-              "
-            >
-              Built for the Antiquities Department · Tanzania
-            </p>
-          </div>
-        </div>
-      </footer>
+      <div id="layout-footer"></div>
     </div>
 
     <!-- ===== SCRIPTS ===== -->
@@ -839,7 +552,7 @@
       // ========================================
       function renderStars(rating) {
         const n = Math.round(rating);
-        return "★".repeat(n) + "☆".repeat(5 - n);
+        return "<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>".repeat(n) + "☆".repeat(5 - n);
       }
 
       function getInitials(name) {
@@ -1046,5 +759,9 @@
       console.log("✅ community.html loaded");
     </script>
     <script src="../JS/app.js?v=3"></script>
+  <!-- COMPONENTS -->
+    <script src="../JS/components/header.js"></script>
+    <script src="../JS/components/footer.js"></script>
+    <script src="../JS/layout.js"></script>
   </body>
 </html>

@@ -29,21 +29,22 @@ app.use("/api/upload", uploadRoutes);
 app.use("/api/officers", officerRoutes);
 app.use("/api/stats", statsRoutes);
 
-// Health check
+// Root redirect to main frontend page
 app.get("/", (req, res) => {
-  res.json({
-    message: "Digital Inventory and Virtual Tour System Backend Running",
-    endpoints: {
-      auth: "/api/auth",
-      buildings: "/api/buildings",
-      flags: "/api/flags",
-      reviews: "/api/reviews"
-    }
-  });
+  res.redirect("/HTML/index.html");
+});
+
+app.get("/officer", (req, res) => {
+  res.redirect("/HTML/officer.html");
 });
 
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`\n==================================================`);
+  console.log(`🚀 Urithi Majengo Server Running on Port ${PORT}`);
+  console.log(`👉 Open App in Browser:    http://localhost:${PORT}/HTML/index.html`);
+  console.log(`👉 Officer Portal:        http://localhost:${PORT}/HTML/officer.html`);
+  console.log(`👉 Live Server Compatible: Port 5500 auto-connects to http://localhost:${PORT}/api`);
+  console.log(`==================================================\n`);
 });

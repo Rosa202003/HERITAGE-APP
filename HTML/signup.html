@@ -10,11 +10,8 @@
     />
 
     <!-- ===== FAVICON ===== -->
-    <link
-      rel="icon"
-      type="image/svg+xml"
-      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='10' y='40' width='80' height='55' rx='4' fill='%230B7A69'/><rect x='5' y='40' width='90' height='8' rx='2' fill='%23F0B429'/><polygon points='50,5 5,40 95,40' fill='%230B7A69'/></svg>"
-    />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23D4AF37' d='M50 10 L10 40 L90 40 Z M20 40 L20 80 L35 80 L35 40 M45 40 L45 80 L55 80 L55 40 M65 40 L65 80 L80 80 L80 40 M10 80 L90 80 L90 90 L10 90 Z'/%3E%3C/svg%3E" />
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23D4AF37' d='M50 10 L10 40 L90 40 Z M20 40 L20 80 L35 80 L35 40 M45 40 L45 80 L55 80 L55 40 M65 40 L65 80 L80 80 L80 40 M10 80 L90 80 L90 90 L10 90 Z'/%3E%3C/svg%3E" />
 
     <!-- ===== GOOGLE FONTS ===== -->
     <link
@@ -26,10 +23,7 @@
     <link rel="stylesheet" href="../CSS/style.css" type="text/css" />
 
     <style>
-      /* ========================================
-           SIGNUP PAGE - SAME AS LOGIN
-           ======================================== */
-
+      /* SIGNUP PAGE STYLES */
       .signup-page-overlay {
         position: fixed;
         top: 0;
@@ -44,16 +38,6 @@
         justify-content: center;
         z-index: 9999;
         padding: 20px;
-        animation: overlayFadeIn 0.3s ease-out;
-      }
-
-      @keyframes overlayFadeIn {
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
       }
 
       .signup-modal {
@@ -64,24 +48,11 @@
         border: 1px solid var(--border);
         padding: 40px 36px 36px;
         box-shadow: var(--shadow-lg);
-        animation: modalSlideIn 0.3s ease-out;
         position: relative;
         max-height: 90vh;
         overflow-y: auto;
       }
 
-      @keyframes modalSlideIn {
-        from {
-          opacity: 0;
-          transform: translateY(30px) scale(0.95);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0) scale(1);
-        }
-      }
-
-      /* Close Button */
       .signup-modal-close {
         position: absolute;
         top: 16px;
@@ -94,17 +65,9 @@
         font-size: 20px;
         color: var(--text-muted);
         cursor: pointer;
-        transition: all 0.2s ease;
         display: flex;
         align-items: center;
         justify-content: center;
-        line-height: 1;
-      }
-
-      .signup-modal-close:hover {
-        background: #e5e7eb;
-        color: var(--text);
-        transform: scale(1.1);
       }
 
       .signup-modal .signup-logo {
@@ -124,13 +87,6 @@
         height: 60px;
         border-radius: 50%;
         border: 2px solid var(--gold);
-        background: transparent;
-        transition: all 0.3s ease;
-      }
-
-      .signup-modal .signup-logo .logo-icon:hover {
-        background: rgba(240, 180, 41, 0.08);
-        transform: scale(1.05);
       }
 
       .signup-modal .signup-header {
@@ -145,80 +101,40 @@
         margin-bottom: 4px;
       }
 
-      .signup-modal .signup-header p {
-        color: var(--text-muted);
-        font-size: 14px;
-      }
-
-      .signup-modal .signup-form {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-      }
-
       .signup-modal .form-group {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
+        margin-bottom: 20px;
       }
 
-      .signup-modal .form-group label {
+      .signup-modal label {
+        display: block;
         font-size: 13px;
         font-weight: 600;
-        color: var(--text);
+        color: var(--text-muted);
+        margin-bottom: 6px;
       }
 
-      .signup-modal .form-group input {
-        padding: 12px 16px;
+      .signup-modal input {
+        width: 100%;
+        padding: 12px 14px;
+        background: var(--bg);
         border: 1px solid var(--border);
         border-radius: var(--radius-sm);
-        font-size: 14px;
-        font-family: var(--font-body);
-        background: var(--bg);
         color: var(--text);
-        transition: all 0.3s ease;
-        width: 100%;
-      }
-
-      .signup-modal .form-group input:focus {
+        font-size: 14px;
         outline: none;
-        border-color: var(--primary);
-        box-shadow: 0 0 0 3px rgba(11, 122, 105, 0.1);
-      }
-
-      .signup-modal .form-group input::placeholder {
-        color: var(--text-muted);
-        opacity: 0.6;
       }
 
       .signup-modal .btn-submit {
+        width: 100%;
+        padding: 14px;
         background: var(--gold);
         color: var(--dark);
         border: none;
-        padding: 14px;
         border-radius: var(--radius-sm);
-        font-size: 16px;
+        font-size: 15px;
         font-weight: 700;
         cursor: pointer;
-        transition: all 0.3s ease;
-        margin-top: 4px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        width: 100%;
-      }
-
-      .signup-modal .btn-submit:hover {
-        background: #dba31f;
-        transform: scale(1.01);
-        box-shadow: 0 4px 20px rgba(240, 180, 41, 0.25);
-      }
-
-      .signup-modal .btn-submit:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-        transform: none;
+        margin-top: 10px;
       }
 
       .signup-modal .signup-message {
@@ -234,14 +150,12 @@
         display: block;
         background: #f8d7da;
         color: #721c24;
-        border: 1px solid #f5c6cb;
       }
 
       .signup-modal .signup-message.success {
         display: block;
         background: #d4edda;
         color: #155724;
-        border: 1px solid #c3e6cb;
       }
 
       .signup-modal .signup-footer {
@@ -251,143 +165,65 @@
         border-top: 1px solid var(--border);
       }
 
-      .signup-modal .signup-footer p {
-        font-size: 14px;
-        color: var(--text-muted);
-      }
-
       .signup-modal .signup-footer a {
         color: var(--primary);
-        text-decoration: none;
         font-weight: 600;
-        transition: color 0.2s ease;
-      }
-
-      .signup-modal .signup-footer a:hover {
-        color: var(--primary-dk);
-        text-decoration: underline;
-      }
-
-      @media (max-width: 480px) {
-        .signup-modal {
-          padding: 28px 20px 24px;
-          margin: 10px;
-        }
-
-        .signup-modal .signup-header h1 {
-          font-size: 24px;
-        }
-
-        .signup-modal .signup-logo .logo-icon {
-          width: 50px;
-          height: 50px;
-          font-size: 22px;
-        }
+        text-decoration: none;
       }
     </style>
   </head>
   <body>
-    <!-- ===== SIGNUP OVERLAY ===== -->
+    <div id="layout-header"></div>
+
     <div class="signup-page-overlay" id="signup-overlay">
       <div class="signup-modal">
-        <!-- Close Button -->
-        <button
-          class="signup-modal-close"
-          onclick="closeSignup()"
-          aria-label="Close signup"
-        >
-          ✕
-        </button>
-
-        <!-- Logo -->
+        <button class="signup-modal-close" onclick="closeSignup()" aria-label="Close signup">✕</button>
         <div class="signup-logo">
-          <span class="logo-icon" aria-hidden="true">UM</span>
+          <span class="logo-icon">UM</span>
         </div>
-
-        <!-- Header -->
         <div class="signup-header">
           <h1>Create Account</h1>
-          <p>Register to leave feedback on heritage buildings</p>
+          <p>Register to participate in community discussions</p>
         </div>
-
-        <!-- Form -->
-        <form
-          class="signup-form"
-          id="signupForm"
-          onsubmit="handleSignup(event)"
-          novalidate
-        >
-          <!-- Full Name -->
+        <form class="signup-form" id="signupForm" onsubmit="handleSignup(event)" novalidate>
           <div class="form-group">
             <label for="signup-name">Full Name</label>
-            <input
-              type="text"
-              id="signup-name"
-              placeholder="Your full name"
-              required
-            />
+            <input type="text" id="signup-name" placeholder="Your full name" required />
           </div>
-
-          <!-- Email -->
           <div class="form-group">
-            <label for="signup-email">Email</label>
-            <input
-              type="email"
-              id="signup-email"
-              placeholder="you@example.com"
-              required
-            />
+            <label for="signup-email">Email Address</label>
+            <input type="email" id="signup-email" placeholder="you@example.com" required />
           </div>
-
-          <!-- Password -->
           <div class="form-group">
             <label for="signup-password">Password</label>
-            <input
-              type="password"
-              id="signup-password"
-              placeholder="•••••••••"
-              required
-            />
+            <input type="password" id="signup-password" placeholder="•••••••••" required />
           </div>
-
-          <!-- Submit -->
-          <button type="submit" class="btn-submit" id="signup-btn">
-            Create Account →
-          </button>
-
-          <!-- Message -->
+          <button type="submit" class="btn-submit" id="signup-btn">Create Account →</button>
           <div class="signup-message" id="signup-message" role="alert"></div>
         </form>
-
-        <!-- Footer -->
         <div class="signup-footer">
           <p>Already have an account? <a href="login.html">Sign In</a></p>
         </div>
       </div>
     </div>
 
-    <!-- ===== SCRIPTS ===== -->
+    <div id="layout-footer"></div>
+
     <script src="../JS/data.js"></script>
     <script src="../JS/api.js"></script>
+    <script src="../JS/components/header.js"></script>
+    <script src="../JS/components/footer.js"></script>
+    <script src="../JS/layout.js"></script>
     <script>
-      // ========================================
-      // CLOSE SIGNUP
-      // ========================================
       function closeSignup() {
-        window.location.href = "../HTML/index.html";
+        window.location.href = "index.html";
       }
 
-      // ========================================
-      // SIGNUP HANDLER — connected to real backend
-      // ========================================
       async function handleSignup(e) {
         e.preventDefault();
-
         const name = document.getElementById("signup-name").value.trim();
         const email = document.getElementById("signup-email").value.trim();
-        const password = document
-          .getElementById("signup-password")
-          .value.trim();
+        const password = document.getElementById("signup-password").value.trim();
         const message = document.getElementById("signup-message");
         const btn = document.getElementById("signup-btn");
 
@@ -413,41 +249,29 @@
         }
 
         btn.disabled = true;
-        btn.innerHTML = "Creating account…";
+        btn.textContent = "Creating account…";
 
         try {
           const result = await API.register(name, email, password);
-
-          if (
-            result.user ||
-            result.message === "User registered successfully"
-          ) {
+          if (result.user || result.token || (result.message && result.message.toLowerCase().includes("success"))) {
             message.className = "signup-message success";
-            message.textContent = "Account created! Redirecting to sign in…";
+            message.textContent = "Account created successfully! Redirecting to sign in…";
             setTimeout(() => {
-              window.location.href = "../HTML/login.html";
+              window.location.href = "login.html";
             }, 1500);
           } else {
             message.className = "signup-message error";
-            message.textContent =
-              (result.message || "Registration failed.");
+            message.textContent = result.message || "Registration failed.";
             btn.disabled = false;
-            btn.innerHTML = "Create Account →";
+            btn.textContent = "Create Account →";
           }
         } catch (err) {
           message.className = "signup-message error";
-          message.textContent =
-            "Could not reach server. Is the backend running?";
+          message.textContent = err.message || "Could not reach server. Is the backend running?";
           btn.disabled = false;
-          btn.innerHTML = "Create Account →";
+          btn.textContent = "Create Account →";
         }
       }
-
-      document.addEventListener("keydown", function (e) {
-        if (e.key === "Escape") closeSignup();
-      });
-
-      console.log("signup.html loaded");
     </script>
   </body>
 </html>

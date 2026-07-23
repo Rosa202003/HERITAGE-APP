@@ -3,8 +3,16 @@
 // ========================================
 
 const API = {
-  // Backend URL (relative so it works on any port the server uses)
-  baseUrl: "/api",
+  // Backend URL (dynamic based on current host)
+  get baseUrl() {
+    if (typeof window !== "undefined" && window.location) {
+      const port = window.location.port;
+      if (port === "5000") {
+        return "/api";
+      }
+    }
+    return "http://localhost:5000/api";
+  },
 
   // ========================================
   // HELPERS
@@ -425,9 +433,10 @@ const API = {
         const data = await response.json();
         return data;
       }
-      throw new Error(`HTTP ${response.status}`);
+      throw new Error(`Stats HTTP ${response.status}`);
     } catch (err) {
-      console.error("API getStats failed:", err);
+      console.error("Stats API error:", err);
+      // Return zeroes if stats fail, instead of downloading everything
       return {
         totalBuildings: 0,
         pendingFlags: 0,

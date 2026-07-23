@@ -9,22 +9,8 @@
       content="Antiquities Department officer portal for managing heritage buildings."
     />
 
-    <!-- ===== FAVICON ===== -->
-    <link
-      rel="icon"
-      type="image/svg+xml"
-      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>"
-    />
-
-    <!-- ===== GOOGLE FONTS ===== -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono&display=swap"
-      rel="stylesheet"
-    />
-
-    <!-- ===== CUSTOM CSS ===== -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23D4AF37' d='M50 10 L10 40 L90 40 Z M20 40 L20 80 L35 80 L35 40 M45 40 L45 80 L55 80 L55 40 M65 40 L65 80 L80 80 L80 40 M10 80 L90 80 L90 90 L10 90 Z'/%3E%3C/svg%3E" />
     <link rel="stylesheet" href="../CSS/style.css" type="text/css" />
-
     <style>
       /* ========================================
            OFFICER PORTAL - SPECIFIC STYLES
@@ -700,6 +686,13 @@
         box-shadow: 0 0 0 3px rgba(11, 122, 105, 0.1);
       }
 
+      .modal-body .form-group select option,
+      select option {
+        background-color: var(--card, #1A2E29);
+        color: var(--text, #FFFFFF);
+        padding: 8px;
+      }
+
       .modal-body .form-group textarea {
         resize: vertical;
         min-height: 80px;
@@ -893,40 +886,14 @@
   <body>
     <div id="app">
       <!-- ===== HEADER ===== -->
-      <header class="main-header">
-        <a class="logo" href="index.html" aria-label="Urithi Majengo home">UM</a>
-
-        <nav
-          class="nav-container"
-          id="nav-menu"
-          role="navigation"
-          aria-label="Main Navigation"
-        >
-          <ul class="nav-links">
-            <li><a href="index.html">Public Site</a></li>
-            <li><a href="officer.html" class="active">Officer Portal</a></li>
-          </ul>
-        </nav>
-
-        <button
-          class="hamburger"
-          id="menu-toggle"
-          aria-label="Toggle navigation"
-        >
-          <span class="hamburger-line"></span>
-          <span class="hamburger-line"></span>
-          <span class="hamburger-line"></span>
-          <span class="hamburger-line"></span>
-          <span class="hamburger-line"></span>
-        </button>
-      </header>
+      <div id="layout-header"></div>
 
       <!-- ===== OFFICER LAYOUT ===== -->
       <div class="officer-layout">
         <!-- ===== SIDEBAR ===== -->
         <aside class="officer-sidebar">
           <div class="sidebar-brand">
-            <h1>🏛️ Officer Portal</h1>
+            <h1><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zm-8 7v8l8 5 8-5V9l-8 5-8-5z"/></svg> Officer Portal</h1>
             <p>Antiquities Department · Tanzania</p>
           </div>
 
@@ -942,7 +909,7 @@
               href="#/officer/buildings"
               onclick="showOfficerPage('buildings')"
             >
-              <span class="nav-icon">🏛️</span> Buildings
+              <span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zm-8 7v8l8 5 8-5V9l-8 5-8-5z"/></svg></span> Buildings
             </a>
             <a href="#/officer/flags" onclick="showOfficerPage('flags')">
               <span class="nav-icon">🚩</span> Flag Reports
@@ -1220,205 +1187,7 @@
       </div>
 
       <!-- ===== FOOTER ===== -->
-      <footer class="main-footer">
-        <div
-          class="footer-content"
-          style="max-width: 1200px; margin: 0 auto; padding: 20px 0"
-        >
-          <div
-            style="
-              display: grid;
-              grid-template-columns: 1fr 1fr 1fr;
-              gap: 30px;
-              text-align: left;
-              padding-bottom: 20px;
-              border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            "
-          >
-            <div>
-              <div
-                style="
-                  display: flex;
-                  align-items: center;
-                  gap: 12px;
-                  margin-bottom: 8px;
-                "
-              >
-                <span
-                  style="
-                    font-family: var(--font-display);
-                    font-size: 22px;
-                    font-weight: 700;
-                    color: var(--gold);
-                  "
-                  >Urithi Majengo</span
-                >
-              </div>
-              <p
-                style="
-                  color: var(--text-muted);
-                  font-size: 13px;
-                  line-height: 1.6;
-                  max-width: 280px;
-                "
-              >
-                A digital heritage inventory managed by the Antiquities
-                Department of Tanzania.
-              </p>
-              <p
-                style="
-                  color: var(--text-muted);
-                  font-size: 12px;
-                  margin-top: 8px;
-                  opacity: 0.6;
-                "
-              >
-                © 2026 Antiquities Department - United Republic of Tanzania
-              </p>
-            </div>
-            <div>
-              <h4
-                style="
-                  color: rgba(255, 255, 255, 0.4);
-                  font-size: 11px;
-                  text-transform: uppercase;
-                  letter-spacing: 0.08em;
-                  margin-bottom: 8px;
-                "
-              >
-                Explore
-              </h4>
-              <ul
-                style="
-                  list-style: none;
-                  padding: 0;
-                  display: flex;
-                  flex-direction: column;
-                  gap: 4px;
-                "
-              >
-                <li>
-                  <a
-                    href="index.html"
-                    style="
-                      color: var(--text-muted);
-                      text-decoration: none;
-                      font-size: 13px;
-                    "
-                    onmouseover="this.style.color = 'var(--gold)'"
-                    onmouseout="this.style.color = ''"
-                    >Map & Records</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="buildings.html"
-                    style="
-                      color: var(--text-muted);
-                      text-decoration: none;
-                      font-size: 13px;
-                    "
-                    onmouseover="this.style.color = 'var(--gold)'"
-                    onmouseout="this.style.color = ''"
-                    >All Buildings</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="community.html"
-                    style="
-                      color: var(--text-muted);
-                      text-decoration: none;
-                      font-size: 13px;
-                    "
-                    onmouseover="this.style.color = 'var(--gold)'"
-                    onmouseout="this.style.color = ''"
-                    >Community</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="risk.html"
-                    style="
-                      color: var(--text-muted);
-                      text-decoration: none;
-                      font-size: 13px;
-                    "
-                    onmouseover="this.style.color = 'var(--gold)'"
-                    onmouseout="this.style.color = ''"
-                    >Report At-Risk</a
-                  >
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4
-                style="
-                  color: rgba(255, 255, 255, 0.4);
-                  font-size: 11px;
-                  text-transform: uppercase;
-                  letter-spacing: 0.08em;
-                  margin-bottom: 8px;
-                "
-              >
-                Partners
-              </h4>
-              <ul
-                style="
-                  list-style: none;
-                  padding: 0;
-                  display: flex;
-                  flex-direction: column;
-                  gap: 4px;
-                "
-              >
-                <li style="color: var(--text-muted); font-size: 13px">
-                  Antiquities Dept
-                </li>
-                <li style="color: var(--text-muted); font-size: 13px">DARCH</li>
-                <li style="color: var(--text-muted); font-size: 13px">
-                  ARU Architecture Dept
-                </li>
-                <li style="color: var(--text-muted); font-size: 13px">
-                  Nat'l College Tourism
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div
-            style="
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              flex-wrap: wrap;
-              gap: 12px;
-              padding-top: 16px;
-            "
-          >
-            <p
-              style="
-                color: var(--text-muted);
-                font-size: 12px;
-                opacity: 0.6;
-                margin: 0;
-              "
-            >
-              © 2026 <span class="gold-text">Urithi Majengo</span>. All rights
-              reserved.
-            </p>
-            <p
-              style="
-                color: var(--text-muted);
-                font-size: 11px;
-                opacity: 0.4;
-                margin: 0;
-              "
-            >
-              Built for the Antiquities Department · Tanzania
-            </p>
-          </div>
-        </div>
-      </footer>
+      <div id="layout-footer"></div>
     </div>
 
     <!-- ===== BUILDING MODAL ===== -->
@@ -1446,11 +1215,15 @@
             <div class="form-group">
               <label for="b-era">Era *</label>
               <select id="b-era">
-                <option value="">Select era</option>
+                <option value="">-- Select Era --</option>
+                <option value="German Colonial">German Colonial</option>
                 <option value="German">German</option>
+                <option value="British Colonial">British Colonial</option>
                 <option value="British">British</option>
+                <option value="Independence Era">Independence Era</option>
                 <option value="Independence">Independence</option>
                 <option value="Pre-colonial">Pre-colonial</option>
+                <option value="Swahili Architecture">Swahili Architecture</option>
               </select>
             </div>
             <div class="form-group">
@@ -1460,27 +1233,29 @@
                 id="b-year"
                 placeholder="e.g. 1910"
                 min="1700"
-                max="2000"
+                max="2030"
               />
             </div>
             <div class="form-group">
               <label for="b-condition">Condition *</label>
               <select id="b-condition">
-                <option value="">Select condition</option>
-                <option value="Excellent">Excellent</option>
+                <option value="">-- Select Condition --</option>
                 <option value="Good">Good</option>
+                <option value="Excellent">Excellent</option>
                 <option value="Fair">Fair</option>
                 <option value="Poor">Poor</option>
+                <option value="At Risk">At Risk</option>
               </select>
             </div>
             <div class="form-group">
               <label for="b-status">Status</label>
               <select id="b-status">
+                <option value="">-- Select Status --</option>
                 <option value="Listed">Listed</option>
+                <option value="Grade I Listed">Grade I Listed</option>
+                <option value="Grade II Listed">Grade II Listed</option>
                 <option value="Grade I - Protected">Grade I - Protected</option>
-                <option value="Grade II - Protected">
-                  Grade II - Protected
-                </option>
+                <option value="Grade II - Protected">Grade II - Protected</option>
                 <option value="Under Review">Under Review</option>
               </select>
             </div>
@@ -1741,9 +1516,9 @@
           console.error("Dashboard load error:", err);
         }
 
-        // Auto-refresh every 30 seconds
+        // Auto-refresh every 5 seconds for real-time dashboard data
         clearTimeout(_dashboardRefreshTimer);
-        _dashboardRefreshTimer = setTimeout(loadDashboard, 30000);
+        _dashboardRefreshTimer = setTimeout(loadDashboard, 5000);
       }
 
       // ========================================
@@ -1799,6 +1574,26 @@
         renderBuildingsTable(filtered);
       }
 
+      function setSelectValue(id, val, defaultVal) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const target = val || defaultVal || "";
+        if (!target) return;
+        el.value = target;
+        if (el.value === target) return;
+        for (let opt of el.options) {
+          if (opt.value.toLowerCase() === target.toLowerCase() || target.toLowerCase().includes(opt.value.toLowerCase())) {
+            el.value = opt.value;
+            return;
+          }
+        }
+        const newOpt = document.createElement("option");
+        newOpt.value = target;
+        newOpt.textContent = target;
+        el.appendChild(newOpt);
+        el.value = target;
+      }
+
       // ========================================
       // BUILDING MODAL — ADD
       // ========================================
@@ -1812,11 +1607,6 @@
         [
           "b-name",
           "b-code",
-          "b-era",
-          "b-year",
-          "b-condition",
-          "b-status",
-          "b-location",
           "b-architect",
           "b-lat",
           "b-lng",
@@ -1830,14 +1620,21 @@
           const el = document.getElementById(id);
           if (el) el.value = "";
         });
+
+        // Reset form inputs
+        document.getElementById("b-year").value = "";
+        document.getElementById("b-location").value = "Dar es Salaam";
+        document.getElementById("b-era").value = "";
+        document.getElementById("b-condition").value = "";
+        document.getElementById("b-status").value = "Listed";
         
         // Auto-generate building code based on the last building
         let nextCode = "DSH-001";
         if (allBuildings && allBuildings.length > 0) {
           const codes = allBuildings
             .map(b => b.code)
-            .filter(c => c && c.startsWith("DSH-"))
-            .map(c => parseInt(c.split("-")[1], 10))
+            .filter(c => c && typeof c === "string" && c.startsWith("DSH-"))
+            .map(c => parseInt(c.replace("DSH-", "").trim(), 10))
             .filter(n => !isNaN(n));
           if (codes.length > 0) {
             const max = Math.max(...codes);
@@ -1846,7 +1643,6 @@
         }
         document.getElementById("b-code").value = nextCode;
 
-        document.getElementById("b-status").value = "Listed";
         document.getElementById("building-modal").style.display = "flex";
       }
 
@@ -1893,10 +1689,10 @@
           const b = await API.getBuilding(id);
           document.getElementById("b-name").value = b.name || "";
           document.getElementById("b-code").value = b.code || "";
-          document.getElementById("b-era").value = b.era || "";
-          document.getElementById("b-year").value = b.year || "";
-          document.getElementById("b-condition").value = b.condition || "";
-          document.getElementById("b-status").value = b.status || "Listed";
+          setSelectValue("b-era", b.era, "German Colonial");
+          document.getElementById("b-year").value = b.year || "1910";
+          setSelectValue("b-condition", b.condition, "Good");
+          setSelectValue("b-status", b.status, "Listed");
           document.getElementById("b-location").value = b.location || "";
           document.getElementById("b-architect").value = b.architect || "";
           if (document.getElementById("b-area")) document.getElementById("b-area").value = b.area || "";
@@ -1930,38 +1726,35 @@
       // ========================================
       async function saveBuilding() {
         const name = document.getElementById("b-name").value.trim();
-        const era = document.getElementById("b-era").value;
-        const year = document.getElementById("b-year").value;
-        const condition = document.getElementById("b-condition").value;
+        const era = document.getElementById("b-era").value || "German Colonial";
+        const yearInput = document.getElementById("b-year").value;
+        const year = parseInt(yearInput) || 1910;
+        const condition = document.getElementById("b-condition").value || "Good";
 
-        if (!name || !era || !year || !condition) {
-          showToast(
-            "Please fill in required fields: Name, Era, Year, Condition.",
-            "error",
-          );
+        if (!name) {
+          showToast("Please enter a Building Name.", "error");
           return;
         }
+
+        const tourUrl = document.getElementById("b-tour-url")?.value.trim();
 
         const payload = {
           name,
           code: document.getElementById("b-code").value.trim() || undefined,
           era,
-          year: parseInt(year),
+          year,
           condition,
           status: document.getElementById("b-status").value || "Listed",
-          location:
-            document.getElementById("b-location").value.trim() ||
-            "Dar es Salaam",
-          architect:
-            document.getElementById("b-architect").value.trim() || "Unknown",
-          area: document.getElementById("b-area")?.value.trim() || undefined,
-          ownership: document.getElementById("b-ownership")?.value.trim() || undefined,
-          style: document.getElementById("b-style")?.value.trim() || undefined,
-          panorama_url: document.getElementById("b-tour-url")?.value.trim() || undefined,
-          lat: parseFloat(document.getElementById("b-lat").value) || 0,
-          lng: parseFloat(document.getElementById("b-lng").value) || 0,
-          description: document.getElementById("b-description").value.trim(),
-          significance: document.getElementById("b-significance").value.trim(),
+          location: document.getElementById("b-location").value.trim() || "Dar es Salaam",
+          architect: document.getElementById("b-architect").value.trim() || "Unknown",
+          area: document.getElementById("b-area")?.value.trim() || "N/A",
+          ownership: document.getElementById("b-ownership")?.value.trim() || "Public",
+          style: document.getElementById("b-style")?.value.trim() || "Colonial",
+          panorama_url: tourUrl ? tourUrl : undefined,
+          lat: parseFloat(document.getElementById("b-lat").value) || -6.8160,
+          lng: parseFloat(document.getElementById("b-lng").value) || 39.2890,
+          description: document.getElementById("b-description").value.trim() || "Historical heritage building in Dar es Salaam.",
+          significance: document.getElementById("b-significance").value.trim() || "Historically listed building under Antiquities Department.",
         };
 
         const btn = document.getElementById("building-save-btn");
@@ -2361,5 +2154,9 @@
 
       console.log("officer.html loaded");
     </script>
+  <!-- COMPONENTS -->
+    <script src="../JS/components/header.js"></script>
+    <script src="../JS/components/footer.js"></script>
+    <script src="../JS/layout.js"></script>
   </body>
 </html>

@@ -11,34 +11,59 @@ const register = async (req, res) => {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    // Sign up via Supabase Auth — appears in Auth > Users in dashboard
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          full_name,
-          role: "citizen"   // Citizens only — officers are assigned manually
-        }
-      }
-    });
+    // Attempt admin user creation first (auto-confirms email so user can log in right away)
+    let userObj = null;
+    let sessionToken = null;
 
-    if (error) {
-      return res.status(400).json({ message: error.message });
+    try {
+      const { data: adminData, error: adminErr } = await supabase.auth.admin.createUser({
+        email,
+        password,
+        email_confirm: true,
+        user_metadata: {
+          full_name,
+          role: "citizen"
+        }
+      });
+
+      if (!adminErr && adminData?.user) {
+        userObj = adminData.user;
+        // Attempt sign in to generate token
+        const { data: loginData } = await supabase.auth.signInWithPassword({ email, password });
+        sessionToken = loginData?.session?.access_token || null;
+      }
+    } catch (_) {
+      // Fallback to standard signUp
     }
 
-    // If Supabase email confirmation is enabled, data.user exists but
-    // data.session may be null until the user confirms their email.
+    if (!userObj) {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            full_name,
+            role: "citizen"
+          }
+        }
+      });
+
+      if (error) {
+        return res.status(400).json({ message: error.message });
+      }
+      userObj = data.user;
+      sessionToken = data.session?.access_token || null;
+    }
+
     return res.status(201).json({
-      message: "Account created successfully. Please check your email to confirm your account if required.",
+      message: "Account created successfully! You can now log in.",
       user: {
-        id: data.user.id,
-        email: data.user.email,
-        full_name: data.user.user_metadata?.full_name || full_name,
-        role: data.user.user_metadata?.role || "citizen"
+        id: userObj.id,
+        email: userObj.email,
+        full_name: userObj.user_metadata?.full_name || full_name,
+        role: userObj.user_metadata?.role || "citizen"
       },
-      // session token — null if email confirmation is required
-      token: data.session?.access_token || null
+      token: sessionToken
     });
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -62,7 +87,7 @@ const login = async (req, res) => {
     });
 
     if (error || !data.user) {
-      return res.status(401).json({ message: "Invalid email or password" });
+      return res.status(401).json({ message: error ? error.message : "Invalid email or password" });
     }
 
     return res.json({
