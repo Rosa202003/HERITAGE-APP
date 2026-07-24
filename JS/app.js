@@ -2415,6 +2415,7 @@ function openBuildingModal(building, initialTab = "overview") {
 
   // Show modal
   modal.classList.remove("hidden");
+  modal.classList.add("active");
   document.body.style.overflow = "hidden";
 }
 
@@ -2422,6 +2423,7 @@ function closeModal(modalId) {
   const modal = document.getElementById(modalId);
   if (modal) {
     modal.classList.add("hidden");
+    modal.classList.remove("active");
     document.body.style.overflow = "";
   }
 }

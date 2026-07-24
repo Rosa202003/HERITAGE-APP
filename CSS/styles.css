@@ -259,29 +259,35 @@
   }
 
   .nav-container {
-    position: absolute;
-    top: 100%;
+    position: fixed;
+    top: 64px;
     left: 0;
     right: 0;
     display: none;
-    background: #fff;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+    background: rgba(12, 30, 26, 0.96);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.7);
     padding: 1rem 1.25rem;
+    z-index: 1000;
+    backdrop-filter: blur(16px);
   }
 
   .nav-container.open {
     display: block;
+    animation: slideDownMenu 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
   .nav-links {
     flex-direction: column;
-    align-items: flex-start;
-    gap: 0.25rem;
+    align-items: stretch;
+    gap: 0.5rem;
   }
 
   .nav-links a {
-    color: var(--text-dark);
+    color: #ffffff;
     width: 100%;
+    padding: 10px 14px;
+    border-radius: 8px;
   }
 
   .main-content {
@@ -478,14 +484,15 @@ Navbar Layout .navbar {
   transform: scale(1.05);
 }
 
-/* Absolute Badges over Cards */
 .badge {
-  position: absolute;
-  padding: 0.25rem 0.6rem;
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  padding: 4px 10px;
   border-radius: 12px;
-  font-size: 0.75rem;
-  font-weight: bold;
-  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
 }
 
 .era-badge {
@@ -811,22 +818,7 @@ Navbar Layout .navbar {
 }
 
 .panorama-preview {
-  width: 100%;
-  height: 100%;
-  background-image: url("https://images.unsplash.com/photo-1548625361-155defe219fa?auto=format&fit=crop&w=1200&q=80");
-  background-size: cover;
-  background-position: center;
-  filter: brightness(0.7) blur(1px);
-}
-
-.panorama-preview::after {
-  content: "🎥 Click to Initialize 360° Panorama";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-  font-weight: bold;
+  display: none;
 }
 
 /* Review layout styles */

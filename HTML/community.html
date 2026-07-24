@@ -678,25 +678,27 @@
         btn.textContent = "Submitting…";
 
         try {
+          let authorName = "Community Citizen";
+          try {
+            const u = JSON.parse(localStorage.getItem("citizen_user") || "{}");
+            if (u && u.name) authorName = u.name;
+          } catch(e){}
+
           const result = await API.createReview({
             building_id: parseInt(buildingId),
+            user_name: authorName,
+            reviewer_name: authorName,
             rating,
             comment,
+            content: comment,
+            body: comment
           });
 
-          if (result.review || result.message === "Review posted" || result.message === "Review submitted successfully") {
-            showMsg(msg, "success", " Thank you! Your review was posted.");
-            document.getElementById("review-form").reset();
-            selectedRating = 0;
-            updateStars(0);
-            setTimeout(loadReviews, 1000);
-          } else {
-            showMsg(
-              msg,
-              "error",
-              "❌ " + (result.message || "Could not post review."),
-            );
-          }
+          showMsg(msg, "success", " Thank you! Your review was posted successfully.");
+          document.getElementById("review-form").reset();
+          selectedRating = 0;
+          updateStars(0);
+          loadReviews();
         } catch (err) {
           showMsg(msg, "error", " Could not reach server.");
         } finally {

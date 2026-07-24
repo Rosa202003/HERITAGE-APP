@@ -17,7 +17,7 @@ const MOCK_BUILDINGS = [
     "ownership": "Government of Tanzania",
     "style": "German Colonial Gothic",
     "inspected": "2024-03-15",
-    "rating": 0,
+    "rating": 4.8,
     "image": "https://images.unsplash.com/photo-1674334264912-704cb2a24b37?w=600&h=400&fit=crop",
     "description": "The original German administrative headquarters, constructed from coral stone quarried locally. Features characteristic arched colonnades, pitched terracotta roof tiles imported from Hamburg, and a symmetrical façade expressing imperial authority.",
     "significance": "Oldest surviving colonial administrative building in Dar es Salaam and the primary symbol of German colonial presence in East Africa.",
@@ -46,7 +46,7 @@ const MOCK_BUILDINGS = [
     "ownership": "Catholic Archdiocese",
     "style": "Neo-Gothic",
     "inspected": "2024-02-10",
-    "rating": 0,
+    "rating": 4.9,
     "image": "https://images.unsplash.com/photo-1464207687429-7505649dae38?w=600&h=400&fit=crop",
     "description": "Neo-Gothic Catholic cathedral with twin towers, featuring magnificent stained glass windows and a grand nave. The cathedral is a landmark of German colonial architecture.",
     "significance": "One of the oldest and most significant religious buildings in Dar es Salaam, representing the spread of Christianity during the colonial period.",
@@ -75,19 +75,20 @@ const MOCK_BUILDINGS = [
     "ownership": "Lutheran Church of Tanzania",
     "style": "Romanesque Revival",
     "inspected": "2024-01-20",
-    "rating": 0,
+    "rating": 5.0,
     "image": "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=600&h=400&fit=crop",
     "description": "Historic Lutheran church with distinctive architecture, featuring a prominent clock tower and beautiful waterfront location.",
     "significance": "An important landmark on the Dar es Salaam waterfront, representing the German missionary presence in East Africa.",
     "tags": [
       "Protected",
-      "Grade II"
+      "Grade II",
+      "360°"
     ],
     "lat": -6.814,
     "lng": 39.292,
     "created_at": "2026-07-15T09:15:10.663121+00:00",
     "updated_at": "2026-07-15T09:15:10.663121+00:00",
-    "panorama_url": null
+    "panorama_url": "https://pannellum.org/images/bovey-house.jpg"
   },
   {
     "id": 4,
@@ -103,19 +104,20 @@ const MOCK_BUILDINGS = [
     "ownership": "Tanzania Ports Authority",
     "style": "Colonial Maritime",
     "inspected": "2024-03-01",
-    "rating": 0,
+    "rating": 4.5,
     "image": "https://images.unsplash.com/photo-1589177900326-900782f88a55?w=600&h=400&fit=crop",
     "description": "Former harbour master office, now part of the port authority. Features distinctive maritime architectural elements and a prime waterfront position.",
     "significance": "Represents the British colonial maritime administration and the development of Dar es Salaam as a major Indian Ocean port.",
     "tags": [
       "Protected",
-      "Grade II"
+      "Grade II",
+      "360°"
     ],
     "lat": -6.816,
     "lng": 39.285,
     "created_at": "2026-07-15T09:15:10.663121+00:00",
     "updated_at": "2026-07-15T09:15:10.663121+00:00",
-    "panorama_url": null
+    "panorama_url": "https://raw.githubusercontent.com/mpetroff/pannellum/master/doc/examples/example-property.jpg"
   },
   {
     "id": 5,
@@ -131,20 +133,21 @@ const MOCK_BUILDINGS = [
     "ownership": "Government of Tanzania",
     "style": "Edwardian Colonial",
     "inspected": "2024-02-28",
-    "rating": 0,
+    "rating": 4.2,
     "image": "https://images.unsplash.com/photo-1577720580479-7d839d829c73?w=600&h=400&fit=crop",
     "description": "Historic post office building in need of restoration. Features classical colonial architectural elements with a prominent clock tower.",
     "significance": "A key example of British colonial public architecture and an important civic building in central Dar es Salaam.",
     "tags": [
       "Protected",
       "Grade II",
-      "At Risk"
+      "At Risk",
+      "360°"
     ],
     "lat": -6.81,
     "lng": 39.29,
     "created_at": "2026-07-15T09:15:10.663121+00:00",
     "updated_at": "2026-07-15T09:15:10.663121+00:00",
-    "panorama_url": null
+    "panorama_url": "https://pannellum.org/images/alma.jpg"
   },
   {
     "id": 6,
@@ -160,19 +163,20 @@ const MOCK_BUILDINGS = [
     "ownership": "Dar es Salaam City Council",
     "style": "Modern Colonial",
     "inspected": "2024-01-05",
-    "rating": 0,
+    "rating": 4.7,
     "image": "https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?w=600&h=400&fit=crop",
     "description": "Historic city hall building with colonial architecture, built just before independence. Features a grand civic façade and large public spaces.",
     "significance": "Represents the transition from colonial to independent governance in Tanzania and remains a symbol of civic administration.",
     "tags": [
       "Protected",
-      "Grade II"
+      "Grade II",
+      "360°"
     ],
     "lat": -6.808,
     "lng": 39.287,
     "created_at": "2026-07-15T09:15:10.663121+00:00",
     "updated_at": "2026-07-15T09:15:10.663121+00:00",
-    "panorama_url": null
+    "panorama_url": "https://pannellum.org/images/cerro-toco-0.jpg"
   },
   {
     "id": 7,
@@ -188,20 +192,21 @@ const MOCK_BUILDINGS = [
     "ownership": "Government of Tanzania",
     "style": "Colonial Medical",
     "inspected": "2024-03-10",
-    "rating": 0,
+    "rating": 4.1,
     "image": "https://images.unsplash.com/photo-1519494086414-2ce6eb4010da?w=600&h=400&fit=crop",
     "description": "Original hospital building currently at risk of demolition. One of the earliest medical facilities in Dar es Salaam.",
     "significance": "Represents the development of healthcare infrastructure in colonial Tanzania and is a rare surviving example of early medical architecture.",
     "tags": [
       "At Risk",
       "Proposed",
-      "Urgent"
+      "Urgent",
+      "360°"
     ],
     "lat": -6.802,
     "lng": 39.28,
     "created_at": "2026-07-15T09:15:10.663121+00:00",
     "updated_at": "2026-07-15T09:15:10.663121+00:00",
-    "panorama_url": null
+    "panorama_url": "https://pannellum.org/images/bovey-house.jpg"
   },
   {
     "id": 8,
@@ -217,7 +222,7 @@ const MOCK_BUILDINGS = [
     "ownership": "Tanzania Railways Corporation",
     "style": "Colonial Railway",
     "inspected": "2024-02-15",
-    "rating": 0,
+    "rating": 4.6,
     "image": "https://images.unsplash.com/photo-1474487548417-781cb71495f3?w=600&h=400&fit=crop",
     "description": "Historic railway station with distinctive colonial architecture. Features a grand concourse, original ceramic tiles, and a Baroque facade.",
     "significance": "A major gateway to Dar es Salaam and a significant example of colonial transport infrastructure in East Africa.",
@@ -230,7 +235,7 @@ const MOCK_BUILDINGS = [
     "lng": 39.279,
     "created_at": "2026-07-15T09:15:10.663121+00:00",
     "updated_at": "2026-07-15T09:15:10.663121+00:00",
-    "panorama_url": null
+    "panorama_url": "https://raw.githubusercontent.com/mpetroff/pannellum/master/doc/examples/example-property.jpg"
   },
   {
     "id": 9,
@@ -246,16 +251,16 @@ const MOCK_BUILDINGS = [
     "ownership": "Ministry of Health",
     "style": "German Colonial",
     "inspected": "2024-01-18",
-    "rating": 0,
+    "rating": 4.8,
     "image": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=600&h=400&fit=crop",
     "description": "Historically the first hospital established in Dar es Salaam by the German colonial administration. Now houses the Cancer Institute.",
     "significance": "A landmark in the history of medicine in East Africa and an excellent example of early colonial architecture.",
-    "tags": [],
+    "tags": ["Protected", "Grade I", "360°"],
     "lat": -6.809,
     "lng": 39.296,
     "created_at": "2026-07-20T15:06:47.595199+00:00",
     "updated_at": "2026-07-20T15:06:47.595199+00:00",
-    "panorama_url": null
+    "panorama_url": "https://pannellum.org/images/alma.jpg"
   },
   {
     "id": 10,
@@ -271,16 +276,16 @@ const MOCK_BUILDINGS = [
     "ownership": "Government of Tanzania",
     "style": "African / Colonial Blend",
     "inspected": "2024-05-01",
-    "rating": 0,
+    "rating": 5.0,
     "image": "https://images.unsplash.com/photo-1628189874457-3f338d172778?w=600&h=400&fit=crop",
     "description": "The official residence and principal workplace of the President of the United Republic of Tanzania. Originally built by the Germans and later reconstructed by the British.",
     "significance": "The seat of executive power and a highly secure, iconic national heritage building.",
-    "tags": [],
+    "tags": ["Protected", "Grade I", "360°"],
     "lat": -6.8095,
     "lng": 39.2925,
     "created_at": "2026-07-20T15:06:47.89182+00:00",
     "updated_at": "2026-07-20T15:06:47.89182+00:00",
-    "panorama_url": null
+    "panorama_url": "https://pannellum.org/images/cerro-toco-0.jpg"
   },
   {
     "id": 11,
@@ -296,16 +301,16 @@ const MOCK_BUILDINGS = [
     "ownership": "Government of Tanzania",
     "style": "Memorial",
     "inspected": "2024-04-10",
-    "rating": 0,
+    "rating": 4.9,
     "image": "https://images.unsplash.com/photo-1549474775-654db4d602cb?w=600&h=400&fit=crop",
     "description": "A bronze statue depicting an Askari soldier, erected to honor the African soldiers who fought in the British Carrier Corps in World War I.",
     "significance": "One of the most famous landmarks in Dar es Salaam, marking the exact center of the city.",
-    "tags": [],
+    "tags": ["Protected", "Grade I", "360°"],
     "lat": -6.8166,
     "lng": 39.2882,
     "created_at": "2026-07-20T15:13:04.303142+00:00",
     "updated_at": "2026-07-20T15:13:04.303142+00:00",
-    "panorama_url": null
+    "panorama_url": "https://pannellum.org/images/bovey-house.jpg"
   },
   {
     "id": 12,

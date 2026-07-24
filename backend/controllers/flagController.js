@@ -73,6 +73,22 @@ const updateFlag = async (req, res) => {
     const { id } = req.params;
     const { status, response_notes } = req.body;
 
+    // Check existing flag status first to prevent revoking finalized work
+    try {
+      const { data: existing } = await supabase
+        .from("flags")
+        .select("status")
+        .eq("id", parseInt(id));
+
+      if (existing && existing[0]) {
+        const currentStatus = (existing[0].status || "").toLowerCase();
+        const nextStatus = (status || "").toLowerCase();
+        if ((currentStatus === "resolved" || currentStatus === "investigating") && nextStatus === "pending") {
+          return res.status(400).json({ message: "Cannot revoke an active or resolved flag status back to pending." });
+        }
+      }
+    } catch(e) {}
+
     const updatePayload = {};
     if (status !== undefined) updatePayload.status = status;
     if (response_notes !== undefined) updatePayload.response_notes = response_notes;
